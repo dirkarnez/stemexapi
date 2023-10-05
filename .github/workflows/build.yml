@@ -1,0 +1,72 @@
+name: golang-build-actions-workflow
+on:
+  push:
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    env:
+      hostName: ubuntu@ec2-43-198-151-195.ap-east-1.compute.amazonaws.com
+      targetFolder: /home/ubuntu
+      targetZip: ${{ github.event.repository.name }}-${{ github.ref_name }}-${{ matrix.os }}.zip
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.17.5' # The Go version to download (if necessary) and use.
+          
+      - run: go get .
+      
+      - run: go build
+
+      - if: ${{ matrix.os == 'ubuntu-latest' }}
+        run: |
+          sudo rm /var/lib/apt/lists/lock && \
+          sudo add-apt-repository universe && \
+          sudo apt-get update -y && \
+          sudo apt-get upgrade -y && \
+          sudo apt-get -y --no-install-recommends install \
+          zip \
+          unzip \
+          putty
+          
+      - if: ${{ matrix.os == 'ubuntu-latest' }}
+        run: plink --version
+      
+      - if: ${{ matrix.os == 'ubuntu-latest' }}
+        run: pscp --version
+
+      - if: ${{ matrix.os == 'ubuntu-latest' }}
+        timeout-minutes: 15
+        run: |
+          echo "${{ secrets.SSH_PPK_KEY_CONTENT }}" > alex.ppk && \
+          ls && \
+          echo y | plink -i alex.ppk -no-antispoof -ssh "${{ env.hostName }}" "sudo pkill stemexapi || rm ${{ env.targetFolder }}/stemexapi || ls" && \
+          echo y | pscp -i alex.ppk "./stemexapi" ${{ env.hostName }}:${{ env.targetFolder }}/ && \
+          echo y | plink -i alex.ppk -no-antispoof -ssh "${{ env.hostName }}" "cd ${{ env.targetFolder }}/ && sudo chmod +x ./stemexapi && ( sudo nohup ./stemexapi > /dev/null 2>&1 & ) && exit"
+
+      - name: Archive Release
+        uses: thedoctor0/zip-release@master
+        with:
+          type: 'zip'
+          path: |
+            public
+            stemexapi*
+            server.key
+            server.crt
+          filename: "${{ env.targetZip }}"
+          
+      - name: Release prebuilt
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "${{ env.targetZip }}"
+          allowUpdates: true
+          token: ${{ secrets.GITHUB_TOKEN }}

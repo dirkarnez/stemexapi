@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <div>
+        backend API sample: "/api/helloworld"
+        <br>
+        <button type="button" id="backend-api">Click me to fetch</button>
+        <button type="button" id="backend-abort">Click me to abort</button>
+    </div>
+
+    <script>
+        // "/api/helloworld"
+        (() => {
+            var abortController = undefined;
+
+            document.getElementById('backend-api').addEventListener('click', () => {
+                abortController = new AbortController();
+
+                var myHeaders = new Headers();
+                myHeaders.append('pragma', 'no-cache');
+                myHeaders.append('Cache-Control', 'no-cache');
+
+                fetch('/api/helloworld', { signal: abortController.signal, headers: myHeaders, cache: "no-cache" })
+                    .then(response => response.json())
+                    .then(json => {
+                        alert(JSON.stringify(json))
+                    })
+                    .catch(e => {
+                        alert('fetch error: ' + e.message);
+                    })
+            });
+
+            document.getElementById('backend-abort').addEventListener("click", () => {
+                if (abortController) {
+                    abortController.abort();
+                    abortController = undefined;
+                    alert('backend api aborted');
+                } else {
+                    alert('nothing to abort');
+                }
+            })
+        })();
+
+    </script>
+</body>
+
+</html>

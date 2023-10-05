@@ -1,0 +1,11 @@
+stemexapi
+stemexapi.exe
+*.exe
+*.xls
+*.xlsx
+*.txt
+*.zip
+
+public/*
+!public/index.original.html
+
