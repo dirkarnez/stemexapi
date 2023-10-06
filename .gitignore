@@ -9,3 +9,4 @@ stemexapi.exe
 public/*
 !public/index.original.html
 
+uploads/*
