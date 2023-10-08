@@ -188,8 +188,8 @@ func main() {
 	// log.Println("!!!!!!done", roles)
 
 	if mode == "reinit" {
-		dbInstance.Migrator().DropTable(&model.User{}, &model.Role{}, &model.UserActivity{})
-		dbInstance.AutoMigrate(&model.User{}, &model.Role{}, &model.UserActivity{})
+		dbInstance.Migrator().DropTable(&model.User{}, &model.Role{}, &model.UserActivity{}, &model.CurriculumEntry{})
+		dbInstance.AutoMigrate(&model.User{}, &model.Role{}, &model.UserActivity{}, &model.CurriculumEntry{})
 
 		var sales = model.Role{Name: "sales"}
 		if err := dbInstance.Create(&sales).Error; err != nil {
@@ -292,6 +292,8 @@ func main() {
 		//party.Post("/users", middlewareAuthorizedAPI, api.CreateUser(factoryInstance.GetUsersBO()))
 
 		party.Get("/roles", middlewareAuthorizedAPI, api.GetAllRoles(dbInstance))
+
+		party.Get("/curriculum", middlewareAuthorizedAPI, api.GetCurriculum(dbInstance))
 
 		party.Get("/prospect-activity", middlewareAuthorizedAPI, api.GetProspectActivities(dbInstance))
 		party.Get("/parent-activity", middlewareAuthorizedAPI, api.GetParentActivities(dbInstance))

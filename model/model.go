@@ -22,7 +22,7 @@ import (
 
 type UUIDEx uuid.UUID
 
-//GormDataType -> sets type to binary(16)
+// GormDataType -> sets type to binary(16)
 func (my UUIDEx) GormDataType() string {
 	return "binary(16)"
 }
@@ -76,4 +76,10 @@ type UserActivity struct {
 
 type File struct {
 	BaseModel
+}
+
+type CurriculumEntry struct {
+	BaseModel
+	Description string  `gorm:"column:description;type:varchar(255);not null"`
+	ParentID    *UUIDEx `gorm:"column:parent_id;type:binary(16)"`
 }
