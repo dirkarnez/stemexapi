@@ -12,7 +12,7 @@ func GetCurriculum(dbInstance *gorm.DB) context.Handler {
 		var curriculumEntryList []model.CurriculumEntry
 		if err := dbInstance.Raw(`
 			WITH RECURSIVE curriculum_entries_nested AS (
-				SELECT id, description, parent_id FROM curriculum_entries WHERE description = 'Microbit'
+				SELECT id, description, parent_id FROM curriculum_entries WHERE description = 'Micro:bits'
 				UNION
 				SELECT curriculum_entries.id, curriculum_entries.description, curriculum_entries.parent_id FROM curriculum_entries JOIN curriculum_entries_nested ON curriculum_entries_nested.id = curriculum_entries.parent_id
 			)
