@@ -14,7 +14,7 @@ INSERT INTO curriculum_entries(`description`) VALUES('Micro:bits');
 INSERT INTO curriculum_entries(`description`) VALUES('AR / VR');
 INSERT INTO curriculum_entries(`description`) VALUES('Smart City'); 
 
--------------------------------------------------------------
+-- 1
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Coding Minecraft Elementary', `id`
 FROM curriculum_entries
@@ -39,7 +39,7 @@ INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Coding Minecraft Master', `id`
 FROM curriculum_entries
 WHERE `description` = 'Coding Minecraft';
------------------------------------------------------------------
+-- 1
 
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Micro:bit Digital Making Introductory', `id`
@@ -52,7 +52,7 @@ FROM curriculum_entries
 WHERE `description` = 'Micro:bits';
 
 
------------------------------------------------------------------
+-- 1
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Coding Roblox Introductory', `id`
 FROM curriculum_entries
@@ -62,7 +62,7 @@ INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Coding Roblox Intermediate', `id`
 FROM curriculum_entries
 WHERE `description` = 'Coding Roblox';
------------------------------------------------------------------
+-- 1
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Coding Python Introductory', `id`
 FROM curriculum_entries
@@ -82,7 +82,7 @@ INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Coding Python Master', `id`
 FROM curriculum_entries
 WHERE `description` = 'Coding Python';
------------------------------------------------------------------
+-- 1
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Coding Scratch Jr', `id`
 FROM curriculum_entries
@@ -97,7 +97,7 @@ INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Coding Scratch Intermediate', `id`
 FROM curriculum_entries
 WHERE `description` = 'Coding Scratch';
------------------------------------------------------------------
+-- 1
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Cyber Virtual Robotics Elementary', `id`
 FROM curriculum_entries
@@ -117,7 +117,7 @@ INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Cyber Virtual Robotics Master', `id`
 FROM curriculum_entries
 WHERE `description` = 'Cyber Virtual Robotics';
------------------------------------------------------------------
+-- 1
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Lego Robotics Elementary - Wedo', `id`
 FROM curriculum_entries
@@ -137,12 +137,12 @@ INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Lego Robotics Advanced - EV3', `id`
 FROM curriculum_entries
 WHERE `description` = 'Lego Robotics';
------------------------------------------------------------------
+-- 1
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'VEX Robotics Introductory', `id`
 FROM curriculum_entries
 WHERE `description` = 'VEX Robotics';
------------------------------------------------------------------
+-- 1
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'AppInventor Introductory', `id`
 FROM curriculum_entries
@@ -157,7 +157,7 @@ INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'AppInventor Advanced', `id`
 FROM curriculum_entries
 WHERE `description` = 'AppInventor Mobile Apps';
------------------------------------------------------------------
+-- 1
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'A.I. & Machine Learning Introductory', `id`
 FROM curriculum_entries
@@ -172,7 +172,7 @@ INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'A.I. & Machine Learning Advanced', `id`
 FROM curriculum_entries
 WHERE `description` = 'A.I. & Machine Learning';
------------------------------------------------------------------
+-- 1
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT '3D Design & Printing Introductory', `id`
 FROM curriculum_entries
@@ -182,7 +182,7 @@ INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT '3D Design & Printing Intermediate', `id`
 FROM curriculum_entries
 WHERE `description` = '3D Design & Printing';
------------------------------------------------------------------
+-- 1
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Micro:bit Digital Making Introductory', `id`
 FROM curriculum_entries
@@ -192,7 +192,7 @@ INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Micro:bit Digital Making Intermediate', `id`
 FROM curriculum_entries
 WHERE `description` = 'Micro:bits';
------------------------------------------------------------------
+-- 1
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'AR / VR Introductory', `id`
 FROM curriculum_entries
@@ -202,7 +202,7 @@ INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'AR / VR Intermediate', `id`
 FROM curriculum_entries
 WHERE `description` = 'AR / VR';
------------------------------------------------------------------
+-- 1
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Smart City Elementary', `id`
 FROM curriculum_entries
@@ -217,4 +217,3 @@ INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Smart City Intermediate', `id`
 FROM curriculum_entries
 WHERE `description` = 'Smart City';
------------------------------------------------------------------
