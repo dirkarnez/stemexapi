@@ -2,6 +2,8 @@ package dto
 
 import (
 	"time"
+
+	"github.com/dirkarnez/stemexapi/model"
 )
 
 type UserActivityResult struct {
@@ -15,3 +17,9 @@ type UserActivityResult struct {
 // 	UserName string    `gorm:"column:user_name" json:"user_name"`
 // 	LoginAt  time.Time `gorm:"column:login_at" json:"login_at"`
 // }
+
+type CurriculumEntry struct {
+	ID          model.UUIDEx  `json:"id"`
+	Description string        `json:"description"`
+	ParentID    *model.UUIDEx `json:"parent_id"`
+}

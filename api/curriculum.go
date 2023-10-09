@@ -1,7 +1,11 @@
 package api
 
 import (
+	"net/http"
+
+	"github.com/dirkarnez/stemexapi/dto"
 	"github.com/dirkarnez/stemexapi/model"
+	"github.com/google/uuid"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/context"
 	"gorm.io/gorm"
@@ -27,7 +31,7 @@ func GetCurriculum(dbInstance *gorm.DB) context.Handler {
 	// }
 
 	return func(ctx iris.Context) {
-		var curriculumEntryList []model.CurriculumEntry
+		var curriculumEntryList []dto.CurriculumEntry
 		if err := dbInstance.
 			Model(&model.CurriculumEntry{}).
 			Where("parent_id IS NULL").
@@ -42,17 +46,20 @@ func GetCurriculum(dbInstance *gorm.DB) context.Handler {
 
 func GetCurriculumCourse(dbInstance *gorm.DB) context.Handler {
 	return func(ctx iris.Context) {
-		type GetCurriculumCourseForm struct {
-			ParentID model.UUIDEx `json:"parent_id"`
+		parentID := ctx.URLParam("parent-id")
+
+		if len(parentID) < 1 {
+			ctx.StopWithStatus(http.StatusForbidden)
+			return
 		}
 
-		var getCurriculumCourseForm GetCurriculumCourseForm
-		/*err := */ ctx.ReadJSON(&getCurriculumCourseForm)
+		parentIDUUID, _ := uuid.Parse(parentID)
+		parentIDUUIDEx := model.UUIDEx(parentIDUUID)
 
-		var curriculumEntryList []model.CurriculumEntry
+		var curriculumEntryList []dto.CurriculumEntry
 		if err := dbInstance.
 			Model(&model.CurriculumEntry{}).
-			Where(&model.CurriculumEntry{ParentID: &getCurriculumCourseForm.ParentID}).
+			Where(&model.CurriculumEntry{ParentID: &parentIDUUIDEx}).
 			Find(&curriculumEntryList).Error; err != nil {
 			ctx.StatusCode(iris.StatusInternalServerError)
 			return
