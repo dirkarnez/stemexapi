@@ -1,4 +1,4 @@
-TRUNCATE TABLE curriculum_entries;
+-- TRUNCATE TABLE curriculum_entries;
 
 INSERT INTO curriculum_entries(`description`) VALUES('Coding Minecraft');
 INSERT INTO curriculum_entries(`description`) VALUES('Coding Roblox');
@@ -62,6 +62,8 @@ INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Coding Roblox Intermediate', `id`
 FROM curriculum_entries
 WHERE `description` = 'Coding Roblox';
+
+
 -- 1
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Coding Python Introductory', `id`

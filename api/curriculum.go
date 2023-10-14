@@ -1,6 +1,7 @@
 package api
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/dirkarnez/stemexapi/dto"
@@ -44,7 +45,7 @@ func GetCurriculum(dbInstance *gorm.DB) context.Handler {
 	}
 }
 
-func GetCurriculumCourse(dbInstance *gorm.DB) context.Handler {
+func GetCurriculumCourses(dbInstance *gorm.DB) context.Handler {
 	return func(ctx iris.Context) {
 		parentID := ctx.URLParam("parent-id")
 
@@ -65,6 +66,60 @@ func GetCurriculumCourse(dbInstance *gorm.DB) context.Handler {
 			return
 		} else {
 			ctx.JSON(curriculumEntryList)
+		}
+	}
+}
+
+func GetCurriculumCourseDetails(dbInstance *gorm.DB) context.Handler {
+	return func(ctx iris.Context) {
+		id := ctx.URLParam("id")
+
+		if len(id) < 1 {
+			ctx.StopWithStatus(http.StatusForbidden)
+			return
+		}
+
+		idUUID, _ := uuid.Parse(id)
+
+		param := model.CurriculumEntry{}
+		param.ID = model.UUIDEx(idUUID)
+
+		entry := model.CurriculumEntry{}
+		err := dbInstance.Transaction(func(tx *gorm.DB) error {
+			// do some database operations in the transaction (use 'tx' from this point, not 'db')
+			if err := tx.
+				Model(&model.CurriculumEntry{}).
+				Where(&param).
+				First(&entry).Error; err != nil {
+				// return any error will rollback
+				return err
+			}
+
+			log.Println("curriculumCourseDetails.ID", entry.ID)
+
+			var curriculumCourseBlogEntries []dto.CurriculumCourseBlogEntries
+			if err := tx.
+				Model(&model.CurriculumCourseBlogEntries{}).
+				Where(&model.CurriculumCourseBlogEntries{EntryID: &entry.ID}).
+				Find(&curriculumCourseBlogEntries).Error; err != nil {
+				// return any error will rollback
+				return err
+			}
+
+			// return nil will commit the whole transaction
+			return nil
+		})
+
+		if err != nil {
+			ctx.StatusCode(iris.StatusInternalServerError)
+		} else {
+			ctx.JSON(dto.CurriculumCourseDetails{
+				ID: entry.ID,
+				Description: entry.Description,
+				BlogEntries: []dto.CurriculumCourseBlogEntries {
+					
+				}
+			})
 		}
 	}
 }

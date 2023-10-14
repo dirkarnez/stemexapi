@@ -83,3 +83,35 @@ type CurriculumEntry struct {
 	Description string  `gorm:"column:description;type:varchar(255);not null"`
 	ParentID    *UUIDEx `gorm:"column:parent_id;type:binary(16)"`
 }
+
+type CurriculumCoursePrerequisites struct {
+	BaseModel
+	Content string           `gorm:"column:content;type:varchar(255);not null"`
+	EntryID *UUIDEx          `gorm:"column:entry_id;type:binary(16)"`
+	Entry   *CurriculumEntry `gorm:"foreignKey:EntryID"`
+}
+
+type CurriculumCourseYouTubeVideos struct {
+	BaseModel
+	URL     string           `gorm:"column:url;type:varchar(500);not null"`
+	EntryID *UUIDEx          `gorm:"column:entry_id;type:binary(16)"`
+	Entry   *CurriculumEntry `gorm:"foreignKey:EntryID"`
+}
+
+type CurriculumCourseBlogEntries struct {
+	BaseModel
+	ExternalURL string           `gorm:"column:external_url;type:varchar(500);not null"`
+	Title       string           `gorm:"column:title;type:varchar(255);not null"`
+	EntryID     *UUIDEx          `gorm:"column:entry_id;type:binary(16)"`
+	Entry       *CurriculumEntry `gorm:"foreignKey:EntryID"`
+}
+
+type CurriculumCourseInformationEntries struct {
+	BaseModel
+
+	ImageSrc string           `gorm:"column:image_src;type:varchar(255);not null"`
+	Title    string           `gorm:"column:title;type:varchar(255);not null"`
+	Content  string           `gorm:"column:content;type:varchar(255);not null"`
+	EntryID  *UUIDEx          `gorm:"column:entry_id;type:binary(16)"`
+	Entry    *CurriculumEntry `gorm:"foreignKey:EntryID"`
+}
