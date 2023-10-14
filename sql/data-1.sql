@@ -11,7 +11,7 @@ INSERT INTO curriculum_entries(`description`) VALUES('AppInventor Mobile Apps');
 INSERT INTO curriculum_entries(`description`) VALUES('A.I. & Machine Learning');
 INSERT INTO curriculum_entries(`description`) VALUES('3D Design & Printing');
 INSERT INTO curriculum_entries(`description`) VALUES('Micro:bits');
-INSERT INTO curriculum_entries(`description`) VALUES('AR / VR');
+INSERT INTO curriculum_entries(`description`) VALUES('AR/VR');
 INSERT INTO curriculum_entries(`description`) VALUES('Smart City'); 
 
 -- 1
@@ -146,17 +146,17 @@ FROM curriculum_entries
 WHERE `description` = 'VEX Robotics';
 -- 1
 INSERT INTO curriculum_entries (`description`, `parent_id`)
-SELECT 'AppInventor Introductory', `id`
+SELECT 'AppInventor Mobile Apps Development Introductory', `id`
 FROM curriculum_entries
 WHERE `description` = 'AppInventor Mobile Apps';
 
 INSERT INTO curriculum_entries (`description`, `parent_id`)
-SELECT 'AppInventor Intermediate', `id`
+SELECT 'AppInventor Mobile Apps Development Intermediate', `id`
 FROM curriculum_entries
 WHERE `description` = 'AppInventor Mobile Apps';
 
 INSERT INTO curriculum_entries (`description`, `parent_id`)
-SELECT 'AppInventor Advanced', `id`
+SELECT 'AppInventor Mobile Apps Development Advanced', `id`
 FROM curriculum_entries
 WHERE `description` = 'AppInventor Mobile Apps';
 -- 1
@@ -196,14 +196,14 @@ FROM curriculum_entries
 WHERE `description` = 'Micro:bits';
 -- 1
 INSERT INTO curriculum_entries (`description`, `parent_id`)
-SELECT 'AR / VR Introductory', `id`
+SELECT 'AR/VR Introductory', `id`
 FROM curriculum_entries
-WHERE `description` = 'AR / VR';
+WHERE `description` = 'AR/VR';
 
 INSERT INTO curriculum_entries (`description`, `parent_id`)
-SELECT 'AR / VR Intermediate', `id`
+SELECT 'AR/VR Intermediate', `id`
 FROM curriculum_entries
-WHERE `description` = 'AR / VR';
+WHERE `description` = 'AR/VR';
 -- 1
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Smart City Elementary', `id`
