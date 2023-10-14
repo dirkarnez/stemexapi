@@ -214,7 +214,7 @@ WHERE `description` = 'Lego Robotics Advanced - EV3';
 INSERT INTO curriculum_course_blog_entries (`external_url`, `title`, `entry_id`)
 SELECT 'https://hk.stemex.org/%e5%be%9e-lego%e5%88%b0vex-%e5%ad%a9%e5%ad%90%e5%ad%b8%e5%88%b0%e4%ba%86%e4%bb%80%e9%ba%bc/', '從 LEGO到VEX 孩子學到了什麼', `id`
 FROM curriculum_entries
-WHERE `description` = 'VEX Robotics';
+WHERE `description` = 'VEX Robotics Introductory';
 
 -- AppInventor Mobile Apps Development
 INSERT INTO curriculum_course_blog_entries (`external_url`, `title`, `entry_id`)

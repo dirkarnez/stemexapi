@@ -1,7 +1,6 @@
 package api
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/dirkarnez/stemexapi/dto"
@@ -85,6 +84,8 @@ func GetCurriculumCourseDetails(dbInstance *gorm.DB) context.Handler {
 		param.ID = model.UUIDEx(idUUID)
 
 		entry := model.CurriculumEntry{}
+		curriculumCourseBlogEntries := []dto.CurriculumCourseBlogEntries{}
+
 		err := dbInstance.Transaction(func(tx *gorm.DB) error {
 			// do some database operations in the transaction (use 'tx' from this point, not 'db')
 			if err := tx.
@@ -95,9 +96,6 @@ func GetCurriculumCourseDetails(dbInstance *gorm.DB) context.Handler {
 				return err
 			}
 
-			log.Println("curriculumCourseDetails.ID", entry.ID)
-
-			var curriculumCourseBlogEntries []dto.CurriculumCourseBlogEntries
 			if err := tx.
 				Model(&model.CurriculumCourseBlogEntries{}).
 				Where(&model.CurriculumCourseBlogEntries{EntryID: &entry.ID}).
@@ -114,11 +112,12 @@ func GetCurriculumCourseDetails(dbInstance *gorm.DB) context.Handler {
 			ctx.StatusCode(iris.StatusInternalServerError)
 		} else {
 			ctx.JSON(dto.CurriculumCourseDetails{
-				ID: entry.ID,
+				ID:          entry.ID,
 				Description: entry.Description,
-				BlogEntries: []dto.CurriculumCourseBlogEntries {
-					
-				}
+				//Prerequisites: []string
+				// YoutubeVideoURLs: []string
+				// InformationEntries []CurriculumCourseInformationEntries
+				BlogEntries: curriculumCourseBlogEntries,
 			})
 		}
 	}
