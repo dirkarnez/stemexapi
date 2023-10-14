@@ -194,7 +194,7 @@ func main() {
 			&model.UserActivity{},
 			&model.CurriculumEntry{},
 			&model.CurriculumCoursePrerequisites{},
-			&model.CurriculumCourseYouTubeVideos{},
+			&model.CurriculumCourseYoutubeVideoEntries{},
 			&model.CurriculumCourseBlogEntries{},
 			&model.CurriculumCourseInformationEntries{},
 		}
