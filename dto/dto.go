@@ -24,6 +24,11 @@ type CurriculumEntry struct {
 	ParentID    *model.UUIDEx `json:"parent_id"`
 }
 
+type CurriculumCourseYoutubeVideoEntries struct {
+	URL   string `json:"url"`
+	Title string `json:"title"`
+}
+
 type CurriculumCourseBlogEntries struct {
 	ExternalURL string `json:"external_url"`
 	Title       string `json:"title"`
@@ -36,10 +41,10 @@ type CurriculumCourseInformationEntries struct {
 }
 
 type CurriculumCourseDetails struct {
-	ID                 model.UUIDEx                         `json:"id"`
-	Description        string                               `json:"description"`
-	Prerequisites      []string                             `json:"prerequisites"`
-	YoutubeVideoURLs   []string                             `json:"youtube_video_urls"`
-	BlogEntries        []CurriculumCourseBlogEntries        `json:"blog_entries"`
-	InformationEntries []CurriculumCourseInformationEntries `json:"information_entries"`
+	ID                 model.UUIDEx                          `json:"id"`
+	Description        string                                `json:"description"`
+	Prerequisites      []string                              `json:"prerequisites"`
+	YoutubeVideoURLs   []CurriculumCourseYoutubeVideoEntries `json:"youtube_video_entries"`
+	BlogEntries        []CurriculumCourseBlogEntries         `json:"blog_entries"`
+	InformationEntries []CurriculumCourseInformationEntries  `json:"information_entries"`
 }

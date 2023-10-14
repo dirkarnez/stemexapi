@@ -85,6 +85,8 @@ func GetCurriculumCourseDetails(dbInstance *gorm.DB) context.Handler {
 
 		entry := model.CurriculumEntry{}
 		curriculumCourseBlogEntries := []dto.CurriculumCourseBlogEntries{}
+		curriculumCourseInformationEntries := []dto.CurriculumCourseInformationEntries{}
+		curriculumCourseYoutubeVideoEntries := []dto.CurriculumCourseYoutubeVideoEntries{}
 
 		err := dbInstance.Transaction(func(tx *gorm.DB) error {
 			// do some database operations in the transaction (use 'tx' from this point, not 'db')
@@ -104,6 +106,22 @@ func GetCurriculumCourseDetails(dbInstance *gorm.DB) context.Handler {
 				return err
 			}
 
+			if err := tx.
+				Model(&model.CurriculumCourseInformationEntries{}).
+				Where(&model.CurriculumCourseInformationEntries{EntryID: &entry.ID}).
+				Find(&curriculumCourseInformationEntries).Error; err != nil {
+				// return any error will rollback
+				return err
+			}
+
+			if err := tx.
+				Model(&model.CurriculumCourseYoutubeVideoEntries{}).
+				Where(&model.CurriculumCourseYoutubeVideoEntries{EntryID: &entry.ID}).
+				Find(&curriculumCourseYoutubeVideoEntries).Error; err != nil {
+				// return any error will rollback
+				return err
+			}
+
 			// return nil will commit the whole transaction
 			return nil
 		})
@@ -115,9 +133,9 @@ func GetCurriculumCourseDetails(dbInstance *gorm.DB) context.Handler {
 				ID:          entry.ID,
 				Description: entry.Description,
 				//Prerequisites: []string
-				// YoutubeVideoURLs: []string
-				// InformationEntries []CurriculumCourseInformationEntries
-				BlogEntries: curriculumCourseBlogEntries,
+				YoutubeVideoURLs:   curriculumCourseYoutubeVideoEntries,
+				InformationEntries: curriculumCourseInformationEntries,
+				BlogEntries:        curriculumCourseBlogEntries,
 			})
 		}
 	}
