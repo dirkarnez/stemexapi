@@ -1,10 +1,13 @@
 package api
 
 import (
-	"log"
+	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 
+	"github.com/dirkarnez/stemexapi/model"
+	"github.com/google/uuid"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/context"
 	"gorm.io/gorm"
@@ -12,22 +15,30 @@ import (
 
 func GetResourceByID(dbInstance *gorm.DB) context.Handler {
 	return func(ctx iris.Context) {
-		log.Println("*****GetResourceByID")
+		ex, _ := os.Getwd() //use os.Executable() in the future
 
-		ex, err := os.Getwd() //use os.Executable() in the future
-		log.Println(ex)
-
-		if err != nil {
-			log.Println(">>>>>>>ERR")
+		id := ctx.URLParam("id")
+		if len(id) < 1 {
+			ctx.StopWithStatus(http.StatusNotFound)
+			return
 		}
 
-		// id := ctx.URLParam("id")
-		// if len(id) < 1 {
-		// 	ctx.StopWithStatus(http.StatusForbidden)
-		// 	return
-		// }filepath.Join(exPath, ""), "client.zip")
-		//users.Get("/{id:int}/profile", userProfileHandler)
-		log.Println("!!!!!!!!!!!!!GetResourceByID")
-		ctx.ServeFile(filepath.Join(ex, "uploads", "upcoming-schedule", "appInventorMobileApps.png"))
+		idUUID, _ := uuid.Parse(id)
+
+		param := model.File{}
+		param.ID = model.UUIDEx(idUUID)
+
+		file := model.File{}
+		if err := dbInstance.
+			Model(&model.File{}).
+			Where(&param).
+			First(&file).Error; err != nil {
+			ctx.StopWithStatus(http.StatusNotFound)
+			return
+		}
+
+		path := []string{ex, "uploads"}
+		path = append(path, strings.Split(file.PhysicalFileName, "/")...)
+		ctx.ServeFile(filepath.Join(path...))
 	}
 }

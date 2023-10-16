@@ -191,6 +191,7 @@ func main() {
 		managedTables := []interface{}{
 			&model.User{},
 			&model.Role{},
+			&model.File{},
 			&model.UserActivity{},
 			&model.CurriculumEntry{},
 			&model.CurriculumCoursePrerequisites{},

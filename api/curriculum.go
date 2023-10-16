@@ -132,6 +132,7 @@ func GetCurriculumCourseDetails(dbInstance *gorm.DB) context.Handler {
 			ctx.JSON(dto.CurriculumCourseDetails{
 				ID:          entry.ID,
 				Description: entry.Description,
+				IconID:      entry.IconID,
 				//Prerequisites: []string
 				YoutubeVideoURLs:   curriculumCourseYoutubeVideoEntries,
 				InformationEntries: curriculumCourseInformationEntries,
