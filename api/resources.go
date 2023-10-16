@@ -13,7 +13,8 @@ import (
 func GetResourceByID(dbInstance *gorm.DB) context.Handler {
 	return func(ctx iris.Context) {
 		log.Println("*****GetResourceByID")
-		ex, err := os.Executable()
+
+		ex, err := os.Getwd() //use os.Executable() in the future
 		log.Println(ex)
 
 		if err != nil {
@@ -27,6 +28,6 @@ func GetResourceByID(dbInstance *gorm.DB) context.Handler {
 		// }filepath.Join(exPath, ""), "client.zip")
 		//users.Get("/{id:int}/profile", userProfileHandler)
 		log.Println("!!!!!!!!!!!!!GetResourceByID")
-		ctx.ServeFile(filepath.Join(filepath.Dir(ex), "uploads/upcoming-schedule/appInventorMobileApps.png"))
+		ctx.ServeFile(filepath.Join(ex, "uploads", "upcoming-schedule", "appInventorMobileApps.png"))
 	}
 }
