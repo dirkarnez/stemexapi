@@ -88,25 +88,46 @@ SELECT 'Coding Minecraft Elementary', `id`
 FROM curriculum_entries
 WHERE `description` = 'Coding Minecraft';
 
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = 'upcoming-schedule/codingMinecraft/Level 2-Elementary-min.png')
+WHERE `description` = 'Coding Minecraft Elementary';
+
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Coding Minecraft Introductory', `id`
 FROM curriculum_entries
 WHERE `description` = 'Coding Minecraft';
+
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = 'upcoming-schedule/codingMinecraft/')
+WHERE `description` = 'Coding Minecraft Introductory';
 
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Coding Minecraft Intermediate', `id`
 FROM curriculum_entries
 WHERE `description` = 'Coding Minecraft';
 
+
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
+
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Coding Minecraft Advance', `id`
 FROM curriculum_entries
 WHERE `description` = 'Coding Minecraft';
 
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
+
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Coding Minecraft Master', `id`
 FROM curriculum_entries
 WHERE `description` = 'Coding Minecraft';
+
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
 -- 1
 
 INSERT INTO curriculum_entries (`description`, `parent_id`)
@@ -114,10 +135,18 @@ SELECT 'Micro:bit Digital Making Introductory', `id`
 FROM curriculum_entries
 WHERE `description` = 'Micro:bits';
 
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
+
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Micro:bit Digital Making Intermediate', `id`
 FROM curriculum_entries
 WHERE `description` = 'Micro:bits';
+
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
 
 
 -- 1
@@ -126,10 +155,18 @@ SELECT 'Coding Roblox Introductory', `id`
 FROM curriculum_entries
 WHERE `description` = 'Coding Roblox';
 
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
+
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Coding Roblox Intermediate', `id`
 FROM curriculum_entries
 WHERE `description` = 'Coding Roblox';
+
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
 
 
 -- 1
@@ -138,152 +175,276 @@ SELECT 'Coding Python Introductory', `id`
 FROM curriculum_entries
 WHERE `description` = 'Coding Python';
 
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
+
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Coding Python Intermediate', `id`
 FROM curriculum_entries
 WHERE `description` = 'Coding Python';
+
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
 
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Coding Python Advanced', `id`
 FROM curriculum_entries
 WHERE `description` = 'Coding Python';
 
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
+
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Coding Python Master', `id`
 FROM curriculum_entries
 WHERE `description` = 'Coding Python';
+
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
 -- 1
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Coding Scratch Jr', `id`
 FROM curriculum_entries
 WHERE `description` = 'Coding Scratch';
 
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
+
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Coding Scratch Introductory', `id`
 FROM curriculum_entries
 WHERE `description` = 'Coding Scratch';
 
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
+
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Coding Scratch Intermediate', `id`
 FROM curriculum_entries
 WHERE `description` = 'Coding Scratch';
+
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
 -- 1
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Cyber Virtual Robotics Elementary', `id`
 FROM curriculum_entries
 WHERE `description` = 'Cyber Virtual Robotics';
 
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
+
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Cyber Virtual Robotics Introductory', `id`
 FROM curriculum_entries
 WHERE `description` = 'Cyber Virtual Robotics';
+
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
 
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Cyber Virtual Robotics Intermediate', `id`
 FROM curriculum_entries
 WHERE `description` = 'Cyber Virtual Robotics';
 
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
+
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Cyber Virtual Robotics Master', `id`
 FROM curriculum_entries
 WHERE `description` = 'Cyber Virtual Robotics';
+
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
 -- 1
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Lego Robotics Elementary - Wedo', `id`
 FROM curriculum_entries
 WHERE `description` = 'Lego Robotics';
 
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
+
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Lego Robotics Introductory - EV3', `id`
 FROM curriculum_entries
 WHERE `description` = 'Lego Robotics';
+
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
 
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Lego Robotics Intermediate - EV3', `id`
 FROM curriculum_entries
 WHERE `description` = 'Lego Robotics';
 
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
+
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Lego Robotics Advanced - EV3', `id`
 FROM curriculum_entries
 WHERE `description` = 'Lego Robotics';
+
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
 -- 1
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'VEX Robotics Introductory', `id`
 FROM curriculum_entries
 WHERE `description` = 'VEX Robotics';
+
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
 -- 1
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'AppInventor Mobile Apps Development Introductory', `id`
 FROM curriculum_entries
 WHERE `description` = 'AppInventor Mobile Apps';
 
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
+
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'AppInventor Mobile Apps Development Intermediate', `id`
 FROM curriculum_entries
 WHERE `description` = 'AppInventor Mobile Apps';
 
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
+
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'AppInventor Mobile Apps Development Advanced', `id`
 FROM curriculum_entries
 WHERE `description` = 'AppInventor Mobile Apps';
+
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
 -- 1
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'A.I. & Machine Learning Introductory', `id`
 FROM curriculum_entries
 WHERE `description` = 'A.I. & Machine Learning';
 
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
+
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'A.I. & Machine Learning Intermediate', `id`
 FROM curriculum_entries
 WHERE `description` = 'A.I. & Machine Learning';
 
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
+
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'A.I. & Machine Learning Advanced', `id`
 FROM curriculum_entries
 WHERE `description` = 'A.I. & Machine Learning';
+
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
 -- 1
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT '3D Design & Printing Introductory', `id`
 FROM curriculum_entries
 WHERE `description` = '3D Design & Printing';
 
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
+
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT '3D Design & Printing Intermediate', `id`
 FROM curriculum_entries
 WHERE `description` = '3D Design & Printing';
+
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
 -- 1
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Micro:bit Digital Making Introductory', `id`
 FROM curriculum_entries
 WHERE `description` = 'Micro:bits';
 
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
+
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Micro:bit Digital Making Intermediate', `id`
 FROM curriculum_entries
 WHERE `description` = 'Micro:bits';
+
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
 -- 1
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'AR/VR Introductory', `id`
 FROM curriculum_entries
 WHERE `description` = 'AR/VR';
 
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
+
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'AR/VR Intermediate', `id`
 FROM curriculum_entries
 WHERE `description` = 'AR/VR';
+
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
 -- 1
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Smart City Elementary', `id`
 FROM curriculum_entries
 WHERE `description` = 'Smart City';
 
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
+
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Smart City Introductory', `id`
 FROM curriculum_entries
 WHERE `description` = 'Smart City';
 
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
+
 INSERT INTO curriculum_entries (`description`, `parent_id`)
 SELECT 'Smart City Intermediate', `id`
 FROM curriculum_entries
 WHERE `description` = 'Smart City';
+
+UPDATE curriculum_entries SET `icon_id` = 
+(SELECT `id` from files WHERE files.`physical_file_name` = '')
+WHERE `description` = '';
