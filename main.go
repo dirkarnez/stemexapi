@@ -311,6 +311,7 @@ func main() {
 		party.Get("/prospect-activity", middlewareAuthorizedAPI, api.GetProspectActivities(dbInstance))
 		party.Get("/parent-activity", middlewareAuthorizedAPI, api.GetParentActivities(dbInstance))
 		party.Get("/internal-user-activity", middlewareAuthorizedAPI, api.GetInternalUserActivities(dbInstance))
+		party.Get("/resourses", middlewareAuthorizedAPI, api.GetResourceByID(dbInstance))
 
 		party.Get("/files", middlewareAuthorizedAPI, func(ctx iris.Context) {
 			files, err := ioutil.ReadDir("./uploads")
