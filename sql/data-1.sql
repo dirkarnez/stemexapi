@@ -40,8 +40,6 @@ INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/LEGO_Robotics/
 INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/LEGO_Robotics/Level 2-Intermediate-min.png');
 INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/LEGO_Robotics/Level 2-Advance-min.png');
 
-INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/Vex Robotics/Level 1-min.png');
-
 INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/AppInventor Mobile Apps/Level 2-Introductory-min.png');
 INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/AppInventor Mobile Apps/Level 2-Intermediate-min.png');
 INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/AppInventor Mobile Apps/Level 2-Advance-min.png');
@@ -85,7 +83,7 @@ INSERT INTO curriculum_entries (`description`, `parent_id`, `icon_id`)
 SELECT 'Coding Minecraft Elementary', curriculum_entries.`id`, files.`id`
 FROM curriculum_entries, files 
 WHERE curriculum_entries.`description` = 'Coding Minecraft'
-AND files.`physical_file_name` = 'upcoming-schedule/codingMinecraft/Level 2-Elementary-min.png'
+AND files.`physical_file_name` = 'upcoming-schedule/codingMinecraft/Level 2-Elementary-min.png';
 
 INSERT INTO curriculum_entries (`description`, `parent_id`, `icon_id`)
 SELECT 'Coding Minecraft Introductory', curriculum_entries.`id`, files.`id`
