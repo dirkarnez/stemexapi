@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"mime"
 	"net/http"
@@ -315,19 +314,24 @@ func main() {
 		party.Get("/resourses", middlewareAuthorizedAPI, api.GetResourceByID(dbInstance))
 
 		party.Get("/files", middlewareAuthorizedAPI, func(ctx iris.Context) {
-			files, err := ioutil.ReadDir("./uploads")
-			if err != nil {
-				log.Fatal(err)
-			}
+			// files, err := ioutil.ReadDir("./uploads")
+			// if err != nil {
+			// 	log.Fatal(err)
+			// }
 
-			var fileNames []string
-			for _, file := range files {
-				if !file.IsDir() {
-					fileNames = append(fileNames, file.Name())
-				}
+			// var fileNames []string
+			// for _, file := range files {
+			// 	if !file.IsDir() {
+			// 		fileNames = append(fileNames, file.Name())
+			// 	}
+			// }
+			var files []model.File
+			if err := dbInstance.Model(&model.File{}).Find(&files).Error; err != nil {
+				ctx.StatusCode(iris.StatusInternalServerError)
+				return
+			} else {
+				ctx.JSON(files)
 			}
-
-			ctx.JSON(fileNames)
 		})
 		party.Post("/upload", middlewareAuthorizedAPI, func(ctx iris.Context) {
 			ctx.UploadFormFiles("./uploads")
