@@ -15,7 +15,7 @@ INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/Smart City/Lev
 INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/codingMinecraft/Level 2-Elementary-min.png');
 INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/codingMinecraft/Level 2-Introductory-min.png'); 
 INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/codingMinecraft/Level 2-Intermediate-min.png'); 
-INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/codingMinecraft/Level 2-Advance-min.png'); 
+INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/codingMinecraft/Level 2-Advanced-min.png'); 
 INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/codingMinecraft/Level 2-Master-min.png'); 
 
 INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/codingRoblox/Level 2- Introductory-min.png');
@@ -23,7 +23,7 @@ INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/codingRoblox/L
 
 INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/Coding_Python/Level 2-Introductory-min.png');
 INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/Coding_Python/Level 2-Intermediate-min.png');
-INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/Coding_Python/Level 2-Advance-min.png');
+INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/Coding_Python/Level 2-Advanced-min.png');
 INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/Coding_Python/Level 2-Master-min.png');
 
 INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/Coding_Scratch/Level 2-Scratch Jr-min.png');
@@ -38,15 +38,15 @@ INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/cyberVirtualRo
 INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/LEGO_Robotics/Level 2-Elementary-min.png');
 INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/LEGO_Robotics/Level 2-Introductory-min.png');
 INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/LEGO_Robotics/Level 2-Intermediate-min.png');
-INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/LEGO_Robotics/Level 2-Advance-min.png');
+INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/LEGO_Robotics/Level 2-Advanced-min.png');
 
 INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/AppInventor Mobile Apps/Level 2-Introductory-min.png');
 INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/AppInventor Mobile Apps/Level 2-Intermediate-min.png');
-INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/AppInventor Mobile Apps/Level 2-Advance-min.png');
+INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/AppInventor Mobile Apps/Level 2-Advanced-min.png');
 
 INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/A.I. _ Machine Learning/Level 2-Introductory-min.png');
 INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/A.I. _ Machine Learning/Level 2-Intermediate-min.png');
-INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/A.I. _ Machine Learning/Level 2-Advance-min.png');
+INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/A.I. _ Machine Learning/Level 2-Advanced-min.png');
 
 INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/3D_Design_Printing/Level 2-Introductory-min.jpg');
 INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/3D_Design_Printing/Level 2-Intermediate-min.jpg');

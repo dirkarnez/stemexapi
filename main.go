@@ -16,6 +16,7 @@ import (
 	casbinModel "github.com/casbin/casbin/v2/model"
 	gormadapter "github.com/casbin/gorm-adapter/v3"
 	"github.com/dirkarnez/stemexapi/api"
+	"github.com/dirkarnez/stemexapi/dto"
 	"github.com/dirkarnez/stemexapi/model"
 	"github.com/dirkarnez/stemexapi/utils"
 	"github.com/gorilla/securecookie"
@@ -325,13 +326,30 @@ func main() {
 			// 		fileNames = append(fileNames, file.Name())
 			// 	}
 			// }
-			var files []model.File
-			if err := dbInstance.Model(&model.File{}).Find(&files).Error; err != nil {
+
+			var files []dto.File
+			var count int64
+			if err := dbInstance.
+				Model(&model.File{}).
+				Where("`seq_no` BETWEEN ? AND ?", 0, 20).
+				Find(&files).Error; err != nil {
 				ctx.StatusCode(iris.StatusInternalServerError)
 				return
-			} else {
-				ctx.JSON(files)
 			}
+
+			if err := dbInstance.
+				Model(&model.File{}).
+				Count(&count).Error; err != nil {
+				ctx.StatusCode(iris.StatusInternalServerError)
+				return
+			}
+
+			ctx.JSON(dto.FileManagement{
+				Files:              files,
+				FromSeqNoInclusive: 0,
+				ToSeqNoExclusive:   20,
+				TotalCount:         count,
+			})
 		})
 		party.Post("/upload", middlewareAuthorizedAPI, func(ctx iris.Context) {
 			ctx.UploadFormFiles("./uploads")

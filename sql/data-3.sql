@@ -56,13 +56,13 @@ WHERE `description` = 'Coding Minecraft Intermediate'
 AND files.`physical_file_name` = 'upcoming-schedule/codingMinecraft/Level 3-Intermediate C-min.jpg';
 
 INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
-SELECT files.`id`, 'D-Rise Of The Werebunnies', 'Create a multiplayer fight for survival, complete with exploding eggs! Beware! The moon is full and the werebunnies are out…This course shows you how to split players into different teams and add a scoring system. This course uses loops and conditionals to split players into different teams with different characteristics, then gives players scores when they defeat their enemy.', curriculum_entries.`id`
+SELECT files.`id`, 'D - Rise Of The Werebunnies', 'Create a multiplayer fight for survival, complete with exploding eggs! Beware! The moon is full and the werebunnies are out…This course shows you how to split players into different teams and add a scoring system. This course uses loops and conditionals to split players into different teams with different characteristics, then gives players scores when they defeat their enemy.', curriculum_entries.`id`
 FROM curriculum_entries, files 
 WHERE `description` = 'Coding Minecraft Intermediate'
 AND files.`physical_file_name` = 'upcoming-schedule/codingMinecraft/Level 3-Intermediate D-min.jpg';
 
 INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
-SELECT files.`id`, 'E-Hungary Games', 'Build your own hungry games style server to make the game how you want it to be!', curriculum_entries.`id`
+SELECT files.`id`, 'E - Hungary Games', 'Build your own hungry games style server to make the game how you want it to be!', curriculum_entries.`id`
 FROM curriculum_entries, files 
 WHERE `description` = 'Coding Minecraft Intermediate'
 AND files.`physical_file_name` = 'upcoming-schedule/codingMinecraft/Level 3-Intermediate E-min.png';
@@ -134,13 +134,13 @@ WHERE `description` = 'Coding Roblox Intermediate'
 AND files.`physical_file_name` = 'upcoming-schedule/codingRoblox/Level 3-Intermediate C-min.jpg';
 
 INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
-SELECT files.`id`, 'D-Riddle Ruin', 'Crack the codes inside the pyramid to set yourself free!', curriculum_entries.`id`
+SELECT files.`id`, 'D - Riddle Ruin', 'Crack the codes inside the pyramid to set yourself free!', curriculum_entries.`id`
 FROM curriculum_entries, files 
 WHERE `description` = 'Coding Roblox Intermediate'
 AND files.`physical_file_name` = 'upcoming-schedule/codingRoblox/Level 3-Intermediate D-min.jpg';
 
 INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
-SELECT files.`id`, 'E-Platform Game Design', 'Avoid red obstacles and collect coins in this 2D platform Roblox game.', curriculum_entries.`id`
+SELECT files.`id`, 'E - Platform Game Design', 'Avoid red obstacles and collect coins in this 2D platform Roblox game.', curriculum_entries.`id`
 FROM curriculum_entries, files 
 WHERE `description` = 'Coding Roblox Intermediate'
 AND files.`physical_file_name` = 'upcoming-schedule/codingRoblox/Level 3-Intermediate E-min.jpg';
@@ -188,7 +188,7 @@ WHERE `description` = 'Coding Python Intermediate'
 AND files.`physical_file_name` = 'upcoming-schedule/Coding_Python/Level 3-Intermediate C-min.png';
 
 INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
-SELECT files.`id`, 'D-Python Hangman and Pacman', 'In this course, students learn complicated interaction in game design. They are going to apply knowledge in python to solve geninue challenges and stunning geometric dancing figures. At the end they simulate the classic game of life revealing speical patterns from simple rules.', curriculum_entries.`id`
+SELECT files.`id`, 'D - Python Hangman and Pacman', 'In this course, students learn complicated interaction in game design. They are going to apply knowledge in python to solve geninue challenges and stunning geometric dancing figures. At the end they simulate the classic game of life revealing speical patterns from simple rules.', curriculum_entries.`id`
 FROM curriculum_entries, files 
 WHERE `description` = 'Coding Python Intermediate'
 AND files.`physical_file_name` = 'upcoming-schedule/Coding_Python/Level 3-Intermediate D-min.png';
@@ -218,7 +218,7 @@ WHERE `description` = 'Coding Python Advanced'
 AND files.`physical_file_name` = 'upcoming-schedule/Coding_Python/Level 3-Advanced C-min.png';
 
 INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
-SELECT files.`id`, 'D-Python Machine Learning', 'Students will learn how to use tensflow and the use of the module keraus. They are going to learn how to build up a machine learning module to identify different clothing from thousands of images.', curriculum_entries.`id`
+SELECT files.`id`, 'D - Python Machine Learning', 'Students will learn how to use tensflow and the use of the module keraus. They are going to learn how to build up a machine learning module to identify different clothing from thousands of images.', curriculum_entries.`id`
 FROM curriculum_entries, files 
 WHERE `description` = 'Coding Python Advanced'
 AND files.`physical_file_name` = 'upcoming-schedule/Coding_Python/Level 3-Advanced D-min.png';
@@ -245,7 +245,7 @@ WHERE `description` = 'Coding Python Master'
 AND files.`physical_file_name` = 'upcoming-schedule/Coding_Python/Level 1-min.png';
 
 INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
-SELECT files.`id`, 'D-Photo Editing App', 'We will learn about the pillow library which is used for image processing, we will learn about how we can edit images using python.', curriculum_entries.`id`
+SELECT files.`id`, 'D - Photo Editing App', 'We will learn about the pillow library which is used for image processing, we will learn about how we can edit images using python.', curriculum_entries.`id`
 FROM curriculum_entries, files 
 WHERE `description` = 'Coding Python Master'
 AND files.`physical_file_name` = 'upcoming-schedule/Coding_Python/Level 1-min.png';
@@ -301,7 +301,7 @@ WHERE `description` = 'Coding Scratch Intermediate'
 AND files.`physical_file_name` = 'upcoming-schedule/Coding_Scratch/Level 3-Intermediate C-min.png';
 
 INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
-SELECT files.`id`, 'D-Dance Party / Pong Starter', 'With Scratch, you can program your own interactive stories, games, and animations — and share your creations with others in the online community. Use wait, loop and conditional statement to create your own sprites with different costumes and music played for sprites to dance.', curriculum_entries.`id`
+SELECT files.`id`, 'D - Dance Party / Pong Starter', 'With Scratch, you can program your own interactive stories, games, and animations — and share your creations with others in the online community. Use wait, loop and conditional statement to create your own sprites with different costumes and music played for sprites to dance.', curriculum_entries.`id`
 FROM curriculum_entries, files 
 WHERE `description` = 'Coding Scratch Intermediate'
 AND files.`physical_file_name` = 'upcoming-schedule/Coding_Scratch/Level 3-Intermediate D-min.png';
@@ -374,7 +374,7 @@ WHERE `description` = 'Cyber Virtual Robotics Master'
 AND files.`physical_file_name` = 'upcoming-schedule/cyberVirtualRobotics/Level 3-Master C.png';
 
 INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
-SELECT files.`id`, 'D-CVR Python Gym – Code Intelligent Robot', 'Ruby is getting more and more intelligent. In this course, students will use a number of sensors and other their previous coding skills to code a self driving Ruby without hitting obstacles. They will find it very challenging as the problem will get harder and more complex.', curriculum_entries.`id`
+SELECT files.`id`, 'D - CVR Python Gym – Code Intelligent Robot', 'Ruby is getting more and more intelligent. In this course, students will use a number of sensors and other their previous coding skills to code a self driving Ruby without hitting obstacles. They will find it very challenging as the problem will get harder and more complex.', curriculum_entries.`id`
 FROM curriculum_entries, files 
 WHERE `description` = 'Cyber Virtual Robotics Master'
 AND files.`physical_file_name` = 'upcoming-schedule/cyberVirtualRobotics/Level 3-Master D.png';
@@ -556,7 +556,7 @@ WHERE `description` = 'A.I. & Machine Learning Intermediate'
 AND files.`physical_file_name` = 'upcoming-schedule/A.I. _ Machine Learning/Level 3-Inermediate C-min.png';
 
 INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
-SELECT files.`id`, 'D- Laser Eyes', 'In this project you will make voice-powered laser eyes! This is a game where you will see laser beams shoot from your eyes in your computer’s webcam. You will use these to shoot at bottles. Your laser eyes will be voice-activated, so you will have to shout “laser eyes” to make them shoot. You will be using two kinds of machine learning model. Speech recognition to activate the lasers and face detection to aim them!', curriculum_entries.`id`
+SELECT files.`id`, 'D -  Laser Eyes', 'In this project you will make voice-powered laser eyes! This is a game where you will see laser beams shoot from your eyes in your computer’s webcam. You will use these to shoot at bottles. Your laser eyes will be voice-activated, so you will have to shout “laser eyes” to make them shoot. You will be using two kinds of machine learning model. Speech recognition to activate the lasers and face detection to aim them!', curriculum_entries.`id`
 FROM curriculum_entries, files 
 WHERE `description` = 'A.I. & Machine Learning Intermediate'
 AND files.`physical_file_name` = 'upcoming-schedule/A.I. _ Machine Learning/Level 3-Intermediate D-min.png';

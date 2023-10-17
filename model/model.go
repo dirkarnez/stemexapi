@@ -76,6 +76,7 @@ type UserActivity struct {
 
 type File struct {
 	BaseModel
+	SeqNo            uint64 `gorm:"column:seq_no;unique;not null;autoIncrement"`
 	PhysicalFileName string `gorm:"column:physical_file_name;type:varchar(500);unique;not null"`
 	//ContentHash      string `gorm:"column:content_hash;type:varchar(500);unique;not null"`
 }

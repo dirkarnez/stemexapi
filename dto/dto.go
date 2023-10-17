@@ -50,3 +50,16 @@ type CurriculumCourseDetails struct {
 	BlogEntries        []CurriculumCourseBlogEntries         `json:"blog_entries"`
 	InformationEntries []CurriculumCourseInformationEntries  `json:"information_entries"`
 }
+
+type File struct {
+	ID    model.UUIDEx `json:"id"`
+	SeqNo uint64       `json:"seq_no"`
+	//ContentHash      string `gorm:"column:content_hash;type:varchar(500);unique;not null"`
+}
+
+type FileManagement struct {
+	Files              []File `json:"files"`
+	FromSeqNoInclusive int64  `json:"from_seq_no_inclusive"`
+	ToSeqNoExclusive   int64  `json:"to_seq_no_exclusive"`
+	TotalCount         int64  `json:"total_count"`
+}

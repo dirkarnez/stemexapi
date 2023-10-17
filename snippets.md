@@ -38,3 +38,8 @@ GROUP BY d
 	// 	}
 	// }
 ```
+
+```sql
+INSERT INTO testing.files (id,created_at,updated_at,deleted_at,physical_file_name) VALUES
+	 (0x0AF749296CF211EE9AA006C3BC34E27E,NULL,NULL,NULL,'upcoming-schedule/Coding_Python/Level 3-Introductory B-min.png'),
+```
