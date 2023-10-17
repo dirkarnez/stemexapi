@@ -225,7 +225,6 @@ AND files.`physical_file_name` = 'upcoming-schedule/Coding_Python/Level 3-Advanc
 
 
 INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/Coding_Python/Level 3-Master-min.png');
-INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/Coding_Python/Level 1-min.png');
 
 INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
 SELECT files.`id`, 'A - Yolo', 'We will learn how to use the yolov3 model to detect objects present in an image. It will help differentiate different objects.', curriculum_entries.`id`
@@ -523,13 +522,13 @@ INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`
 SELECT files.`id`, 'A - Chameleon', 'In this project kids will make a chameleon that changes color to match its background using a webcam to take pictures of different colors, then use machine learning with those examples to train the chameleon to recognize colors.', curriculum_entries.`id`
 FROM curriculum_entries, files 
 WHERE `description` = 'A.I. & Machine Learning Introductory'
-AND files.`physical_file_name` = '';
+AND files.`physical_file_name` = 'upcoming-schedule/A.I. _ Machine Learning/Level 3-Introductory A-min.png';
 
 INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
 SELECT files.`id`, 'B - Shoot your goal', 'In this project you will train a computer to play a simple arcade game. The game is based on shooting balls at a target. You can’t aim at the target directly because there is a wall in the way, so you need to bounce the ball off a wall to do it. You will teach the computer to be able to play this game by collecting examples of shots that hit and miss, so that it can learn to make predictions about the shots it can take.', curriculum_entries.`id`
 FROM curriculum_entries, files 
 WHERE `description` = 'A.I. & Machine Learning Introductory'
-AND files.`physical_file_name` = '';
+AND files.`physical_file_name` = 'upcoming-schedule/A.I. _ Machine Learning/Level 3-Introductory B-min.png';
 
 
 
