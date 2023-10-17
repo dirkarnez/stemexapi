@@ -1,9 +1,35 @@
-
 INSERT INTO files(`physical_file_name`) VALUES('schedule-details/codingMineCraftElementry/elementry1.png');
 INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/codingMinecraft/Level 3-Elementary B.png');
 INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/codingMinecraft/Level 3-Elementary C.png');
 
+-- Coding Minecraft
+INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
+SELECT files.`id`, 'A - Medieval Machinations Redstone', 'This course will introduce students to use Redstone, electrical circuitry, in a Medieval Theme. Students make mine carts to gather resources, collaborate to build their kingdom and to defend their castle. They are going to experience a lot of creation, adventure and exploration.', curriculum_entries.`id`
+FROM curriculum_entries, files 
+WHERE curriculum_entries.`description` = 'Coding Minecraft Elementary'
+AND files.`physical_file_name` = 'schedule-details/codingMineCraftElementry/elementry1.png';
+
+INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
+SELECT files.`id`, 'B - Theme Park', 'Everyone loves amusement theme parks. Students will have to navigate a number of engineering and teamwork challenges. They draft blueprints and plan for their parks build and create it collaboratively. They will play around and make it as much like the process of designing a real amusement park.', curriculum_entries.`id`
+FROM curriculum_entries, files 
+WHERE `description` = 'Coding Minecraft Elementary'
+AND files.`physical_file_name` = 'upcoming-schedule/codingMinecraft/Level 3-Elementary B.png';
+
+INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
+SELECT files.`id`, 'C - Travelling Into the Future', 'Minecraft is a versatile and fantasy game in which players are immersed in a world made up of various kinds of blocks. In order to use blocks, players must gather resources from the world they are in and can use them to craft new materials, tools or potions. In this lesson, students will be introduced to Minecraft in a future world that will teach them the basics of playing Minecraft and will teach them to work as a team to overcome obstacles and build a survival area in a new area.', curriculum_entries.`id`
+FROM curriculum_entries, files 
+WHERE `description` = 'Coding Minecraft Elementary'
+AND files.`physical_file_name` = 'upcoming-schedule/codingMinecraft/Level 3-Elementary C.png';
+
+
 INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/codingMinecraft/Level 3-Introductory-min.jpg');
+
+INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
+SELECT files.`id`, 'A - Sheep City', 'Changing arrow’s explosive power, bounciness of golden block, game mode and difficulties…from basic programming components to more complex changes, students will have fun changing/programming the Minecraft worlds to their like.', curriculum_entries.`id`
+FROM curriculum_entries, files 
+WHERE `description` = 'Coding Minecraft Introductory'
+AND files.`physical_file_name` = 'upcoming-schedule/codingMinecraft/Level 3-Introductory-min.jpg';
+
 
 INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/codingMinecraft/Level 3-Intermediate A.jpg');
 INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/codingMinecraft/Level 3-Intermediate B-min.jpg');
@@ -11,97 +37,67 @@ INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/codingMinecraf
 INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/codingMinecraft/Level 3-Intermediate D-min.jpg');
 INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/codingMinecraft/Level 3-Intermediate E-min.png');
 
-INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/codingMinecraft/Level 3-Advance A-min.png');
-INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/codingMinecraft/Level 3-Advance B-min.png');
+INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
+SELECT files.`id`, 'A - Heist and Seek', 'Be the player to mine the most blocks in this timed hunt for stolen goods! Watch out, there’s a bank robber in town and they’ve hidden their stolen goods all over the map! It’s your job to go head to head against the other players and find the most boxes to win! Use loops, conditionals, and timers to add players into different teams and add different rounds into a treasure hunt game.', curriculum_entries.`id`
+FROM curriculum_entries, files 
+WHERE `description` = 'Coding Minecraft Intermediate'
+AND files.`physical_file_name` = 'upcoming-schedule/codingMinecraft/Level 3-Intermediate A.jpg';
+
+INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
+SELECT files.`id`, 'B - Spartan School', 'Build an infinite mob arena game, to fight alone or with friends! Oh, and did we mention you’ll be fighting blazes whilst you do it? Want to be the greatest Minecraft Spartan warrior of all time? Learn programming basics while creating wave after wave of mobs to fight in a Spartan training arena. Learn programming basics such as loops, methods and variables to create this mob fighting mini-game. Battle increasingly harder waves of enemies that multiply every round.', curriculum_entries.`id`
+FROM curriculum_entries, files 
+WHERE `description` = 'Coding Minecraft Intermediate'
+AND files.`physical_file_name` = 'upcoming-schedule/codingMinecraft/Level 3-Intermediate B-min.jpg';
+
+INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
+SELECT files.`id`, 'C - EggWars', 'Battle your friends to have the last egg still intact and become champion of the server! Details to tend to include notification on eggs being placed and eggs being broken, signals on game start, building base for eggs, etc. This course will allow you to expand your knowledge of adding rules to a PVP game, as well as learn more about structure generation and for loops', curriculum_entries.`id`
+FROM curriculum_entries, files 
+WHERE `description` = 'Coding Minecraft Intermediate'
+AND files.`physical_file_name` = 'upcoming-schedule/codingMinecraft/Level 3-Intermediate C-min.jpg';
+
+INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
+SELECT files.`id`, 'D-Rise Of The Werebunnies', 'Create a multiplayer fight for survival, complete with exploding eggs! Beware! The moon is full and the werebunnies are out…This course shows you how to split players into different teams and add a scoring system. This course uses loops and conditionals to split players into different teams with different characteristics, then gives players scores when they defeat their enemy.', curriculum_entries.`id`
+FROM curriculum_entries, files 
+WHERE `description` = 'Coding Minecraft Intermediate'
+AND files.`physical_file_name` = 'upcoming-schedule/codingMinecraft/Level 3-Intermediate D-min.jpg';
+
+INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
+SELECT files.`id`, 'E-Hungary Games', 'Build your own hungry games style server to make the game how you want it to be!', curriculum_entries.`id`
+FROM curriculum_entries, files 
+WHERE `description` = 'Coding Minecraft Intermediate'
+AND files.`physical_file_name` = 'upcoming-schedule/codingMinecraft/Level 3-Intermediate E-min.png';
+
+
+INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/codingMinecraft/Level 3-Advanced A-min.png');
+INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/codingMinecraft/Level 3-Advanced B-min.png');
+
+INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
+SELECT files.`id`, 'A - Haunted Mansion', 'Troll your friend with three spooky mode to scare them in a haunted house!', curriculum_entries.`id`
+FROM curriculum_entries, files 
+WHERE `description` = 'Coding Minecraft Advanced'
+AND files.`physical_file_name` = 'upcoming-schedule/codingMinecraft/Level 3-Advanced A-min.png';
+
+INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
+SELECT files.`id`, 'B - Flappy Block', 'Rack up a high score and try not touch the lava in our 3D version of Floppy Bird in Minecraft.', curriculum_entries.`id`
+FROM curriculum_entries, files 
+WHERE `description` = 'Coding Minecraft Advanced'
+AND files.`physical_file_name` = 'upcoming-schedule/codingMinecraft/Level 3-Advanced B-min.png';
+
 
 INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/codingMinecraft/Level 3-Master A-min.png');
 INSERT INTO files(`physical_file_name`) VALUES('upcoming-schedule/codingMinecraft/Level 3-Master B-min.png');
 
-
--- Coding Minecraft
 INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
-SELECT files.`id`, 'A - Medieval Machinations Redstone', 'This course will introduce students to use Redstone, electrical circuitry, in a Medieval Theme. Students make mine carts to gather resources, collaborate to build their kingdom and to defend their castle. They are going to experience a lot of creation, adventure and exploration.', `id`
-FROM curriculum_entries, files 
-WHERE curriculum_entries.`description` = 'Coding Minecraft Elementary'
-AND files.`physical_file_name` = 'schedule-details/codingMineCraftElementry/elementry1.png';
-
-INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
-SELECT files.`id`, 'B - Theme Park', 'Everyone loves amusement theme parks. Students will have to navigate a number of engineering and teamwork challenges. They draft blueprints and plan for their parks build and create it collaboratively. They will play around and make it as much like the process of designing a real amusement park.', `id`
-FROM curriculum_entries, files 
-WHERE `description` = 'Coding Minecraft Elementary'
-AND files.`physical_file_name` = '';
-
-INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
-SELECT files.`id`, 'C - Travelling Into the Future', 'Minecraft is a versatile and fantasy game in which players are immersed in a world made up of various kinds of blocks. In order to use blocks, players must gather resources from the world they are in and can use them to craft new materials, tools or potions. In this lesson, students will be introduced to Minecraft in a future world that will teach them the basics of playing Minecraft and will teach them to work as a team to overcome obstacles and build a survival area in a new area.', `id`
-FROM curriculum_entries, files 
-WHERE `description` = 'Coding Minecraft Elementary'
-AND files.`physical_file_name` = '';
-
-
-
-INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
-SELECT files.`id`, 'A - Sheep City', 'Changing arrow’s explosive power, bounciness of golden block, game mode and difficulties…from basic programming components to more complex changes, students will have fun changing/programming the Minecraft worlds to their like.', `id`
-FROM curriculum_entries, files 
-WHERE `description` = 'Coding Minecraft Introductory'
-AND files.`physical_file_name` = '';
-
-
-INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
-SELECT files.`id`, 'A - Heist and Seek', 'Be the player to mine the most blocks in this timed hunt for stolen goods! Watch out, there’s a bank robber in town and they’ve hidden their stolen goods all over the map! It’s your job to go head to head against the other players and find the most boxes to win! Use loops, conditionals, and timers to add players into different teams and add different rounds into a treasure hunt game.', `id`
-FROM curriculum_entries, files 
-WHERE `description` = 'Coding Minecraft Intermediate'
-AND files.`physical_file_name` = '';
-
-INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
-SELECT files.`id`, 'B - Spartan School', 'Build an infinite mob arena game, to fight alone or with friends! Oh, and did we mention you’ll be fighting blazes whilst you do it? Want to be the greatest Minecraft Spartan warrior of all time? Learn programming basics while creating wave after wave of mobs to fight in a Spartan training arena. Learn programming basics such as loops, methods and variables to create this mob fighting mini-game. Battle increasingly harder waves of enemies that multiply every round.', `id`
-FROM curriculum_entries, files 
-WHERE `description` = 'Coding Minecraft Intermediate'
-AND files.`physical_file_name` = '';
-
-INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
-SELECT files.`id`, 'C - EggWars', 'Battle your friends to have the last egg still intact and become champion of the server! Details to tend to include notification on eggs being placed and eggs being broken, signals on game start, building base for eggs, etc. This course will allow you to expand your knowledge of adding rules to a PVP game, as well as learn more about structure generation and for loops', `id`
-FROM curriculum_entries, files 
-WHERE `description` = 'Coding Minecraft Intermediate'
-AND files.`physical_file_name` = '';
-
-INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
-SELECT files.`id`, 'D-Rise Of The Werebunnies', 'Create a multiplayer fight for survival, complete with exploding eggs! Beware! The moon is full and the werebunnies are out…This course shows you how to split players into different teams and add a scoring system. This course uses loops and conditionals to split players into different teams with different characteristics, then gives players scores when they defeat their enemy.', `id`
-FROM curriculum_entries, files 
-WHERE `description` = 'Coding Minecraft Intermediate'
-AND files.`physical_file_name` = '';
-
-INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
-SELECT files.`id`, 'E-Hungary Games', 'Build your own hungry games style server to make the game how you want it to be!', `id`
-FROM curriculum_entries, files 
-WHERE `description` = 'Coding Minecraft Intermediate'
-AND files.`physical_file_name` = '';
-
-
-
-INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
-SELECT files.`id`, 'A - Haunted Mansion', 'Troll your friend with three spooky mode to scare them in a haunted house!', `id`
-FROM curriculum_entries, files 
-WHERE `description` = 'Coding Minecraft Advanced'
-AND files.`physical_file_name` = '';
-
-INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
-SELECT files.`id`, 'B - Flappy Block', 'Rack up a high score and try not touch the lava in our 3D version of Floppy Bird in Minecraft.', `id`
-FROM curriculum_entries, files 
-WHERE `description` = 'Coding Minecraft Advanced'
-AND files.`physical_file_name` = '';
-
-
-INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
-SELECT files.`id`, 'A - Dances to the Moosic', 'Create a cow themed nightclub where your players have to dance in time to the moo-sic!', `id`
+SELECT files.`id`, 'A - Dances to the Moosic', 'Create a cow themed nightclub where your players have to dance in time to the moo-sic!', curriculum_entries.`id`
 FROM curriculum_entries, files 
 WHERE `description` = 'Coding Minecraft Master'
-AND files.`physical_file_name` = '';
+AND files.`physical_file_name` = 'upcoming-schedule/codingMinecraft/Level 3-Master A-min.png';
 
 INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
-SELECT files.`id`, 'B - Swoop De Loop', 'Learn how to create rings using mathematical knowledge which give players a superboost when gliding.', `id`
+SELECT files.`id`, 'B - Swoop De Loop', 'Learn how to create rings using mathematical knowledge which give players a superboost when gliding.', curriculum_entries.`id`
 FROM curriculum_entries, files 
 WHERE `description` = 'Coding Minecraft Master'
-AND files.`physical_file_name` = '';
+AND files.`physical_file_name` = 'upcoming-schedule/codingMinecraft/Level 3-Master B-min.png';
 
 -- Coding Roblox
 
