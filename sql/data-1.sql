@@ -98,7 +98,7 @@ WHERE curriculum_entries.`description` = 'Coding Minecraft'
 AND files.`physical_file_name` = 'upcoming-schedule/codingMinecraft/Level 2-Intermediate-min.png';
 
 INSERT INTO curriculum_entries (`description`, `parent_id`, `icon_id`)
-SELECT 'Coding Minecraft Advance', curriculum_entries.`id`, files.`id`
+SELECT 'Coding Minecraft Advanced', curriculum_entries.`id`, files.`id`
 FROM curriculum_entries, files 
 WHERE curriculum_entries.`description` = 'Coding Minecraft'
 AND files.`physical_file_name` = 'upcoming-schedule/codingMinecraft/Level 2-Advanced-min.png';
