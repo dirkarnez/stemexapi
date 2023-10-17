@@ -84,7 +84,7 @@ type CurriculumEntry struct {
 	BaseModel
 	IconID      *UUIDEx `gorm:"column:icon_id;type:binary(16)"`
 	Icon        *File   `gorm:"foreignKey:IconID"`
-	Description string  `gorm:"column:description;type:varchar(255);not null"`
+	Description string  `gorm:"column:description;type:varchar(255);unique;not null"`
 	ParentID    *UUIDEx `gorm:"column:parent_id;type:binary(16)"`
 }
 
