@@ -36,9 +36,9 @@ type CurriculumCourseBlogEntries struct {
 }
 
 type CurriculumCourseInformationEntries struct {
-	ImageSrc string `json:"image_src"`
-	Title    string `json:"title"`
-	Content  string `json:"content"`
+	IconID  *model.UUIDEx `json:"icon_id"`
+	Title   string        `json:"title"`
+	Content string        `json:"content"`
 }
 
 type CurriculumCourseDetails struct {

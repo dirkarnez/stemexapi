@@ -113,10 +113,10 @@ type CurriculumCourseBlogEntries struct {
 
 type CurriculumCourseInformationEntries struct {
 	BaseModel
-
-	ImageSrc string           `gorm:"column:image_src;type:varchar(500);not null"`
-	Title    string           `gorm:"column:title;type:varchar(255);not null"`
-	Content  string           `gorm:"column:content;type:varchar(1000);not null"`
-	EntryID  *UUIDEx          `gorm:"column:entry_id;type:binary(16)"`
-	Entry    *CurriculumEntry `gorm:"foreignKey:EntryID"`
+	IconID  *UUIDEx          `gorm:"column:icon_id;type:binary(16)"`
+	Icon    *File            `gorm:"foreignKey:IconID"`
+	Title   string           `gorm:"column:title;type:varchar(255);not null"`
+	Content string           `gorm:"column:content;type:varchar(1000);not null"`
+	EntryID *UUIDEx          `gorm:"column:entry_id;type:binary(16)"`
+	Entry   *CurriculumEntry `gorm:"foreignKey:EntryID"`
 }
