@@ -83,7 +83,7 @@ type File struct {
 type CurriculumEntry struct {
 	BaseModel
 	IconID      *UUIDEx `gorm:"column:icon_id;type:binary(16)"`
-	Icon        *File   `gorm:"foreignKey:IconID;constraint:OnDelete:SET NULL;"`
+	Icon        *File   `gorm:"foreignKey:IconID"` //constraint:OnDelete:SET NULL
 	Description string  `gorm:"column:description;type:varchar(255);unique;not null"`
 	ParentID    *UUIDEx `gorm:"column:parent_id;type:binary(16)"`
 }
@@ -114,7 +114,7 @@ type CurriculumCourseBlogEntries struct {
 type CurriculumCourseInformationEntries struct {
 	BaseModel
 	IconID  *UUIDEx          `gorm:"column:icon_id;type:binary(16)"`
-	Icon    *File            `gorm:"foreignKey:IconID;constraint:OnDelete:SET NULL;"`
+	Icon    *File            `gorm:"foreignKey:IconID"` //constraint:OnDelete:SET NULL
 	Title   string           `gorm:"column:title;type:varchar(255);not null"`
 	Content string           `gorm:"column:content;type:varchar(1000);not null"`
 	EntryID *UUIDEx          `gorm:"column:entry_id;type:binary(16)"`
