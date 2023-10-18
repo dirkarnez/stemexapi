@@ -80,3 +80,7 @@ curl \
 
 ### TODOs
 - [ ] do not create parent table, but create a mapping table for hubsapot key
+- [ ] [dirkarnez/queueserver](https://github.com/dirkarnez/queueserver)
+- [ ] oauth?
+- [ ] no server side redirects
+- [ ] [dirkarnez/go-json-customized-marshall](https://github.com/dirkarnez/go-json-customized-marshall)
