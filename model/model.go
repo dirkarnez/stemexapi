@@ -1,10 +1,8 @@
 package model
 
 import (
-	"database/sql/driver"
 	"time"
 
-	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -19,30 +17,6 @@ import (
 //    ,continue_id VARCHAR(60)
 //    ,
 //  );
-
-type UUIDEx uuid.UUID
-
-// GormDataType -> sets type to binary(16)
-func (my UUIDEx) GormDataType() string {
-	return "binary(16)"
-}
-
-// Scan --> From DB
-func (my *UUIDEx) Scan(value interface{}) error {
-	bytes, _ := value.([]byte)
-	parseByte, err := uuid.FromBytes(bytes)
-	*my = UUIDEx(parseByte)
-	return err
-}
-
-// Value -> TO DB
-func (my UUIDEx) Value() (driver.Value, error) {
-	return uuid.UUID(my).MarshalBinary()
-}
-
-// func NewUUIDEx() UUIDEx {
-// 	return UUIDEx(uuid.UUID{})
-// }
 
 type BaseModel struct {
 	ID        UUIDEx         `gorm:"column:id;type:binary(16);primaryKey;default:UNHEX(REPLACE(UUID(), '-', ''))"`
