@@ -85,3 +85,4 @@ curl \
 - [ ] no server side redirects
 - [ ] [dirkarnez/go-json-customized-marshall](https://github.com/dirkarnez/go-json-customized-marshall)
 - [ ] [dirkarnez/stemexfaker](https://github.com/dirkarnez/stemexfaker)
+- [ ] Build variant
