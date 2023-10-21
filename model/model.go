@@ -57,10 +57,11 @@ type File struct {
 
 type CurriculumEntry struct {
 	BaseModel
-	IconID      *UUIDEx `gorm:"column:icon_id;type:binary(16)"`
-	Icon        *File   `gorm:"foreignKey:IconID"` //constraint:OnDelete:SET NULL
-	Description string  `gorm:"column:description;type:varchar(255);unique;not null"`
-	ParentID    *UUIDEx `gorm:"column:parent_id;type:binary(16)"`
+	IconID         *UUIDEx `gorm:"column:icon_id;type:binary(16)"`
+	Icon           *File   `gorm:"foreignKey:IconID"` //constraint:OnDelete:SET NULL
+	Description    string  `gorm:"column:description;type:varchar(255);unique;not null"`
+	ParentID       *UUIDEx `gorm:"column:parent_id;type:binary(16);uniqueIndex:idx_seq_no_same_level"`
+	SeqNoSameLevel uint64  `gorm:"column:seq_no_same_level;not null;default:0;uniqueIndex:idx_seq_no_same_level"`
 }
 
 type CurriculumCoursePrerequisites struct {
