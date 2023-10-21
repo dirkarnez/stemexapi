@@ -31,11 +31,28 @@ func GetCurriculum(dbInstance *gorm.DB) context.Handler {
 	// }
 
 	return func(ctx iris.Context) {
+		id := ctx.URLParam("id")
+		var IDUUID model.UUIDEx
+		var err error
 		var curriculumEntryList []dto.CurriculumEntry
-		if err := dbInstance.
-			Model(&model.CurriculumEntry{}).
-			Where("parent_id IS NULL").
-			Find(&curriculumEntryList).Error; err != nil {
+		if len(id) != 0 {
+			IDUUID, err = model.UUIDExFromIDString(id)
+			if err != nil {
+				ctx.StopWithStatus(http.StatusNotFound)
+				return
+			}
+			err = dbInstance.
+				Model(&model.CurriculumEntry{}).
+				Where("parent_id IS NULL AND `id` = ?", IDUUID).
+				Find(&curriculumEntryList).Error
+		} else {
+			err = dbInstance.
+				Model(&model.CurriculumEntry{}).
+				Where("parent_id IS NULL").
+				Find(&curriculumEntryList).Error
+		}
+
+		if err != nil {
 			ctx.StatusCode(iris.StatusInternalServerError)
 			return
 		} else {

@@ -38,3 +38,11 @@ func (my UUIDEx) Value() (driver.Value, error) {
 func NewUUIDEx() UUIDEx {
 	return UUIDEx(uuid.New())
 }
+
+func UUIDExFromIDString(id string) (UUIDEx, error) {
+	uuidParsed, err := uuid.Parse(id)
+	if err != nil {
+		return NewUUIDEx(), err
+	}
+	return UUIDEx(uuidParsed), nil
+}
