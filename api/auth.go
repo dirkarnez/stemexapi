@@ -35,11 +35,12 @@ func Login(dbInstance *gorm.DB) context.Handler {
 				}
 
 				if len(users) > 1 {
-					return fmt.Errorf("Internal error")
+					return fmt.Errorf("internal error")
 				}
 
+				userID := users[0].ID
 				if len(users) == 1 {
-					if err := tx.Create(&model.UserActivity{User: &users[0]}).Error; err != nil {
+					if err := tx.Create(&model.UserActivity{UserID: &userID}).Error; err != nil {
 						return err
 					}
 				}
