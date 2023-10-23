@@ -307,7 +307,7 @@ func main() {
 
 		party.Get("/curriculum", middlewareAuthorizedAPI, api.GetCurriculum(dbInstance))
 		party.Get("/curriculum-courses", middlewareAuthorizedAPI, api.GetCurriculumCourses(dbInstance))
-		party.Get("/curriculum-course-details", middlewareAuthorizedAPI, api.GetCurriculumCourseDetails(dbInstance))
+		//party.Get("/curriculum-course-details", middlewareAuthorizedAPI, api.GetCurriculumCourseDetails(dbInstance))
 
 		party.Get("/prospect-activity", middlewareAuthorizedAPI, api.GetProspectActivities(dbInstance))
 		party.Get("/parent-activity", middlewareAuthorizedAPI, api.GetParentActivities(dbInstance))

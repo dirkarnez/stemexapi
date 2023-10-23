@@ -32,32 +32,76 @@ func GetCurriculum(dbInstance *gorm.DB) context.Handler {
 
 	return func(ctx iris.Context) {
 		id := ctx.URLParam("id")
+		topLevel := ctx.URLParamBoolDefault("top-level", false)
+
+		initSession := dbInstance.Model(&model.CurriculumEntry{})
+
+		if topLevel {
+			initSession = initSession.Where("parent_id IS NULL")
+		}
+
 		var IDUUID model.UUIDEx
 		var err error
-		var curriculumEntryList []dto.CurriculumEntry
+
 		if len(id) != 0 {
 			IDUUID, err = model.UUIDExFromIDString(id)
 			if err != nil {
 				ctx.StopWithStatus(http.StatusNotFound)
 				return
 			}
-			err = dbInstance.
-				Model(&model.CurriculumEntry{}).
-				Where("parent_id IS NULL AND `id` = ?", IDUUID).
-				Find(&curriculumEntryList).Error
+			curriculumEntry := model.CurriculumEntry{}
+			curriculumCourseBlogEntries := []dto.CurriculumCourseBlogEntries{}
+			curriculumCourseInformationEntries := []dto.CurriculumCourseInformationEntries{}
+			curriculumCourseYoutubeVideoEntries := []dto.CurriculumCourseYoutubeVideoEntries{}
+
+			// err = initSession.Where("`curriculum_entries`.`id` = ?", IDUUID).
+			// Joins("left join `curriculum_course_blog_entries` on `curriculum_course_blog_entries`.`entry_id` = `curriculum_entries`.`id`").
+			// Joins("left join `curriculum_course_information_entries` on `curriculum_course_information_entries`.`entry_id` = `curriculum_entries`.`id`").
+			// Joins("left join `curriculum_course_youtube_video_entries` on `curriculum_course_youtube_video_entries`.`entry_id` = `curriculum_entries`.`id`").
+			// First(&details).Error
+
+			err = initSession.Where("`id` = ?", IDUUID).First(&curriculumEntry).Error
+
+			_ = dbInstance.
+				Model(&model.CurriculumCourseBlogEntries{}).
+				Where(&model.CurriculumCourseBlogEntries{EntryID: &curriculumEntry.ID}).
+				Find(&curriculumCourseBlogEntries).Error
+
+			_ = dbInstance.
+				Model(&model.CurriculumCourseInformationEntries{}).
+				Where(&model.CurriculumCourseInformationEntries{EntryID: &curriculumEntry.ID}).
+				Find(&curriculumCourseInformationEntries).Error
+
+			_ = dbInstance.
+				Model(&model.CurriculumCourseYoutubeVideoEntries{}).
+				Where(&model.CurriculumCourseYoutubeVideoEntries{EntryID: &curriculumEntry.ID}).
+				Find(&curriculumCourseYoutubeVideoEntries).Error
+
+			if err != nil {
+				ctx.StatusCode(iris.StatusInternalServerError)
+				return
+			} else {
+				ctx.JSON(dto.CurriculumCourseDetails{
+					ID:          curriculumEntry.ID,
+					Description: curriculumEntry.Description,
+					IconID:      curriculumEntry.IconID,
+					//Prerequisites: []string
+					YoutubeVideoURLs:   curriculumCourseYoutubeVideoEntries,
+					InformationEntries: curriculumCourseInformationEntries,
+					BlogEntries:        curriculumCourseBlogEntries,
+				})
+			}
 		} else {
-			err = dbInstance.
-				Model(&model.CurriculumEntry{}).
-				Where("parent_id IS NULL").
-				Find(&curriculumEntryList).Error
+			var curriculumEntryList []dto.CurriculumEntry
+			err = initSession.Find(&curriculumEntryList).Error
+			if err != nil {
+				ctx.StatusCode(iris.StatusInternalServerError)
+				return
+			} else {
+				ctx.JSON(curriculumEntryList)
+			}
 		}
 
-		if err != nil {
-			ctx.StatusCode(iris.StatusInternalServerError)
-			return
-		} else {
-			ctx.JSON(curriculumEntryList)
-		}
 	}
 }
 
@@ -82,79 +126,6 @@ func GetCurriculumCourses(dbInstance *gorm.DB) context.Handler {
 			return
 		} else {
 			ctx.JSON(curriculumEntryList)
-		}
-	}
-}
-
-func GetCurriculumCourseDetails(dbInstance *gorm.DB) context.Handler {
-	return func(ctx iris.Context) {
-		id := ctx.URLParam("id")
-
-		if len(id) < 1 {
-			ctx.StopWithStatus(http.StatusForbidden)
-			return
-		}
-
-		idUUID, _ := uuid.Parse(id)
-
-		param := model.CurriculumEntry{}
-		param.ID = model.UUIDEx(idUUID)
-
-		entry := model.CurriculumEntry{}
-		curriculumCourseBlogEntries := []dto.CurriculumCourseBlogEntries{}
-		curriculumCourseInformationEntries := []dto.CurriculumCourseInformationEntries{}
-		curriculumCourseYoutubeVideoEntries := []dto.CurriculumCourseYoutubeVideoEntries{}
-
-		err := dbInstance.Transaction(func(tx *gorm.DB) error {
-			// do some database operations in the transaction (use 'tx' from this point, not 'db')
-			if err := tx.
-				Model(&model.CurriculumEntry{}).
-				Where(&param).
-				First(&entry).Error; err != nil {
-				// return any error will rollback
-				return err
-			}
-
-			if err := tx.
-				Model(&model.CurriculumCourseBlogEntries{}).
-				Where(&model.CurriculumCourseBlogEntries{EntryID: &entry.ID}).
-				Find(&curriculumCourseBlogEntries).Error; err != nil {
-				// return any error will rollback
-				return err
-			}
-
-			if err := tx.
-				Model(&model.CurriculumCourseInformationEntries{}).
-				Where(&model.CurriculumCourseInformationEntries{EntryID: &entry.ID}).
-				Find(&curriculumCourseInformationEntries).Error; err != nil {
-				// return any error will rollback
-				return err
-			}
-
-			if err := tx.
-				Model(&model.CurriculumCourseYoutubeVideoEntries{}).
-				Where(&model.CurriculumCourseYoutubeVideoEntries{EntryID: &entry.ID}).
-				Find(&curriculumCourseYoutubeVideoEntries).Error; err != nil {
-				// return any error will rollback
-				return err
-			}
-
-			// return nil will commit the whole transaction
-			return nil
-		})
-
-		if err != nil {
-			ctx.StatusCode(iris.StatusInternalServerError)
-		} else {
-			ctx.JSON(dto.CurriculumCourseDetails{
-				ID:          entry.ID,
-				Description: entry.Description,
-				IconID:      entry.IconID,
-				//Prerequisites: []string
-				YoutubeVideoURLs:   curriculumCourseYoutubeVideoEntries,
-				InformationEntries: curriculumCourseInformationEntries,
-				BlogEntries:        curriculumCourseBlogEntries,
-			})
 		}
 	}
 }
