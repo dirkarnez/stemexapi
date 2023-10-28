@@ -50,8 +50,9 @@ type UserActivity struct {
 
 type File struct {
 	BaseModel
-	SeqNo            uint64 `gorm:"column:seq_no;unique;not null;autoIncrement"`
-	PhysicalFileName string `gorm:"column:physical_file_name;type:varchar(500);unique;not null"`
+	SeqNo                    uint64 `gorm:"column:seq_no;unique;not null;autoIncrement"`
+	OriginalPhysicalFileName string `gorm:"column:original_physical_file_name;type:varchar(500);not null"`
+	ServerPhysicalFileName   string `gorm:"column:server_physical_file_name;type:varchar(500);not null"`
 	//ContentHash      string `gorm:"column:content_hash;type:varchar(500);unique;not null"`
 }
 
@@ -59,8 +60,8 @@ type CurriculumEntry struct {
 	BaseModel
 	IconID         *UUIDEx `gorm:"column:icon_id;type:binary(16);not null"`
 	Icon           *File   `gorm:"foreignKey:IconID"` //constraint:OnDelete:SET NULL
-	Description    string  `gorm:"column:description;type:varchar(255);unique;not null"`
-	ParentID       *UUIDEx `gorm:"column:parent_id;type:binary(16);uniqueIndex:idx_seq_no_same_level"`
+	Description    string  `gorm:"column:description;type:varchar(255);not null;uniqueIndex:idx_description_same_level"`
+	ParentID       *UUIDEx `gorm:"column:parent_id;type:binary(16);uniqueIndex:idx_seq_no_same_level;uniqueIndex:idx_description_same_level"`
 	SeqNoSameLevel uint64  `gorm:"column:seq_no_same_level;not null;default:0;uniqueIndex:idx_seq_no_same_level"`
 }
 

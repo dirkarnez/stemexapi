@@ -38,7 +38,7 @@ func GetResourceByID(dbInstance *gorm.DB) context.Handler {
 		}
 
 		path := []string{ex, "uploads"}
-		path = append(path, strings.Split(file.PhysicalFileName, "/")...)
+		path = append(path, strings.Split(file.ServerPhysicalFileName, "/")...)
 		ctx.ServeFile(filepath.Join(path...))
 	}
 }

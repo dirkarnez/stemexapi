@@ -1,7 +1,9 @@
 package api
 
 import (
+	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/dirkarnez/stemexapi/dto"
 	"github.com/dirkarnez/stemexapi/model"
@@ -102,7 +104,6 @@ func GetCurriculum(dbInstance *gorm.DB) context.Handler {
 				ctx.JSON(curriculumEntryList)
 			}
 		}
-
 	}
 }
 
@@ -180,14 +181,14 @@ func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 			// Access the uploaded file
 			_, header, err := ctx.Request().FormFile("icon_file")
 			if err == nil {
-				// Save the uploaded file
-				_, err = ctx.SaveFormFile(header, "./uploads/"+header.Filename)
+				serverPhysicalFileName := fmt.Sprintf("%d", time.Now().UnixNano())
+				_, err = ctx.SaveFormFile(header, fmt.Sprintf("./%s/%s", "uploads", serverPhysicalFileName))
 				if err != nil {
 					ctx.WriteString("Failed to save file: " + header.Filename)
 					return err
 				}
 
-				file := model.File{PhysicalFileName: header.Filename}
+				file := model.File{OriginalPhysicalFileName: header.Filename, ServerPhysicalFileName: serverPhysicalFileName}
 				if err := tx.
 					Create(&file).Error; err != nil {
 					return err
@@ -216,12 +217,12 @@ func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 					Where("`parent_id` = ?", *entryToSave.ParentID).
 					Group("`parent_id`").
 					Scan(&entryToSave.SeqNoSameLevel)
+				entryToSave.SeqNoSameLevel = entryToSave.SeqNoSameLevel + 1
 			}
 
 			// // return nil will commit the whole transaction
 			return tx.Save(&entryToSave).Error
 		})
-
 		// var createOrUpdateCurriculumEntryForm CreateOrUpdateCurriculumEntryForm
 		// err := ctx.ReadJSON(&createOrUpdateCurriculumEntryForm)
 
