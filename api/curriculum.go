@@ -167,22 +167,19 @@ func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 				if err != nil {
 					return err
 				}
-			} else {
-				// Get the max post value size passed via iris.WithPostMaxMemory.
-				maxSize := ctx.Application().ConfigurationReadOnly().GetPostMaxMemory()
+			}
 
-				err := ctx.Request().ParseMultipartForm(maxSize)
-				if err != nil {
-					return err
-				}
+			// Get the max post value size passed via iris.WithPostMaxMemory.
+			maxSize := ctx.Application().ConfigurationReadOnly().GetPostMaxMemory()
 
-				// Access the uploaded file
-				_, header, err := ctx.Request().FormFile("icon_file")
-				if err != nil {
-					ctx.WriteString("No file uploaded or multiple files uploaded")
-					return err
-				}
+			err := ctx.Request().ParseMultipartForm(maxSize)
+			if err != nil {
+				return err
+			}
 
+			// Access the uploaded file
+			_, header, err := ctx.Request().FormFile("icon_file")
+			if err == nil {
 				// Save the uploaded file
 				_, err = ctx.SaveFormFile(header, "./uploads/"+header.Filename)
 				if err != nil {
@@ -197,6 +194,11 @@ func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 				}
 
 				entryToSave.IconID = &file.ID
+			}
+
+			if entryToSave.IconID == nil {
+				ctx.WriteString("No icon uploaded")
+				return err
 			}
 
 			entryToSave.Description = ctx.Request().FormValue("description")
