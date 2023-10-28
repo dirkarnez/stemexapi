@@ -1,9 +1,11 @@
 module github.com/dirkarnez/stemexapi
 
-go 1.17
+go 1.21
 
 require (
 	github.com/antchfx/jsonquery v1.3.2
+	github.com/casbin/casbin/v2 v2.73.1
+	github.com/casbin/gorm-adapter/v3 v3.18.1
 	github.com/google/uuid v1.3.0
 	github.com/gorilla/securecookie v1.1.1
 	github.com/iris-contrib/middleware/cors v0.0.0-20230531125531-980d3a09a458
@@ -23,8 +25,6 @@ require (
 	github.com/andybalholm/brotli v1.0.5 // indirect
 	github.com/antchfx/xpath v1.2.3 // indirect
 	github.com/aymerick/douceur v0.2.0 // indirect
-	github.com/casbin/casbin/v2 v2.73.1 // indirect
-	github.com/casbin/gorm-adapter/v3 v3.18.1 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/eknkc/amber v0.0.0-20171010120322-cdade1c07385 // indirect
 	github.com/fatih/structs v1.1.0 // indirect
@@ -58,7 +58,7 @@ require (
 	github.com/mailgun/raymond/v2 v2.0.48 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/mattn/go-isatty v0.0.17 // indirect
-	github.com/microcosm-cc/bluemonday v1.0.25 // indirect
+	github.com/microcosm-cc/bluemonday v1.0.26 // indirect
 	github.com/microsoft/go-mssqldb v0.17.0 // indirect
 	github.com/remyoudompheng/bigfft v0.0.0-20230126093431-47fa9a501578 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
@@ -73,10 +73,10 @@ require (
 	github.com/vmihailenco/msgpack/v5 v5.3.5 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/yosssi/ace v0.0.5 // indirect
-	golang.org/x/crypto v0.11.0 // indirect
-	golang.org/x/net v0.12.0 // indirect
-	golang.org/x/sys v0.10.0 // indirect
-	golang.org/x/text v0.11.0 // indirect
+	golang.org/x/crypto v0.14.0 // indirect
+	golang.org/x/net v0.17.0 // indirect
+	golang.org/x/sys v0.13.0 // indirect
+	golang.org/x/text v0.13.0 // indirect
 	golang.org/x/time v0.3.0 // indirect
 	google.golang.org/protobuf v1.29.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect

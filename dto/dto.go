@@ -43,6 +43,7 @@ type CurriculumCourseInformationEntries struct {
 
 type CurriculumCourseDetails struct {
 	ID                 model.UUIDEx                          `json:"id"`
+	ParentID           *model.UUIDEx                         `json:"parent_id"`
 	Description        string                                `json:"description"`
 	IconID             *model.UUIDEx                         `json:"icon_id"`
 	Prerequisites      []string                              `json:"prerequisites"`

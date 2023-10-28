@@ -305,6 +305,7 @@ func main() {
 
 		party.Get("/roles", middlewareAuthorizedAPI, api.GetAllRoles(dbInstance))
 
+		party.Post("/curriculum-entry", middlewareAuthorizedAPI, api.CreateOrUpdateCurriculumEntry(dbInstance))
 		party.Get("/curriculum", middlewareAuthorizedAPI, api.GetCurriculum(dbInstance))
 		party.Get("/curriculum-courses", middlewareAuthorizedAPI, api.GetCurriculumCourses(dbInstance))
 		//party.Get("/curriculum-course-details", middlewareAuthorizedAPI, api.GetCurriculumCourseDetails(dbInstance))
@@ -456,6 +457,7 @@ func main() {
 		iris.TLS(fmt.Sprintf(":%d", port), "server.crt", "server.key"),
 		// skip err server closed when CTRL/CMD+C pressed:
 		iris.WithoutServerError(iris.ErrServerClosed),
+		iris.WithPostMaxMemory(32<<20 /* same as 32 * iris.MB */),
 		// enables faster json serialization and more:
 		iris.WithOptimizations,
 	)

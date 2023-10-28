@@ -85,6 +85,7 @@ func GetCurriculum(dbInstance *gorm.DB) context.Handler {
 					ID:          curriculumEntry.ID,
 					Description: curriculumEntry.Description,
 					IconID:      curriculumEntry.IconID,
+					ParentID:    curriculumEntry.ParentID,
 					//Prerequisites: []string
 					YoutubeVideoURLs:   curriculumCourseYoutubeVideoEntries,
 					InformationEntries: curriculumCourseInformationEntries,
@@ -126,6 +127,110 @@ func GetCurriculumCourses(dbInstance *gorm.DB) context.Handler {
 			return
 		} else {
 			ctx.JSON(curriculumEntryList)
+		}
+	}
+}
+
+func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
+	return func(ctx iris.Context) {
+		// type CreateOrUpdateCurriculumEntryForm struct {
+		// 	ID          string `json:"id`
+		// 	Description string `json:"description"`
+		// 	IconID      string `json:"icon_id"`
+		// 	IconFile    string `json:"icon_file`
+		// }
+
+		// type CurriculumEntry struct {
+		// 	BaseModel
+		// 	IconID         *UUIDEx `gorm:"column:icon_id;type:binary(16)"`
+		// 	Icon           *File   `gorm:"foreignKey:IconID"` //constraint:OnDelete:SET NULL
+		// 	Description    string  `gorm:"column:description;type:varchar(255);unique;not null"`
+		// 	ParentID       *UUIDEx `gorm:"column:parent_id;type:binary(16);uniqueIndex:idx_seq_no_same_level"`
+		// 	SeqNoSameLevel uint64  `gorm:"column:seq_no_same_level;not null;default:0;uniqueIndex:idx_seq_no_same_level"`
+		// }
+
+		err := dbInstance.Transaction(func(tx *gorm.DB) error {
+			var entryToSave = model.CurriculumEntry{}
+			IDString := ctx.Request().FormValue("id")
+			if len(IDString) > 1 {
+				IDUUID, err := model.UUIDExFromIDString(IDString)
+				if err != nil {
+					return err
+				}
+				tx.First(&entryToSave, "`id` = ?", IDUUID)
+			}
+
+			iconIDString := ctx.Request().FormValue("icon_id")
+			if len(iconIDString) > 1 {
+				IconIDUUID, err := model.UUIDExFromIDString(iconIDString)
+				entryToSave.IconID = &IconIDUUID
+				if err != nil {
+					return err
+				}
+			} else {
+				// Get the max post value size passed via iris.WithPostMaxMemory.
+				maxSize := ctx.Application().ConfigurationReadOnly().GetPostMaxMemory()
+
+				err := ctx.Request().ParseMultipartForm(maxSize)
+				if err != nil {
+					return err
+				}
+
+				// Access the uploaded file
+				_, header, err := ctx.Request().FormFile("icon_file")
+				if err != nil {
+					ctx.WriteString("No file uploaded or multiple files uploaded")
+					return err
+				}
+
+				// Save the uploaded file
+				_, err = ctx.SaveFormFile(header, "./uploads/"+header.Filename)
+				if err != nil {
+					ctx.WriteString("Failed to save file: " + header.Filename)
+					return err
+				}
+
+				file := model.File{PhysicalFileName: header.Filename}
+				if err := tx.
+					Create(&file).Error; err != nil {
+					return err
+				}
+
+				entryToSave.IconID = &file.ID
+			}
+
+			entryToSave.Description = ctx.Request().FormValue("description")
+
+			parentIDString := ctx.Request().FormValue("parent_id")
+			if len(parentIDString) > 1 && parentIDString != "null" {
+				parentIDUUID, err := model.UUIDExFromIDString(parentIDString)
+				if err != nil {
+					return err
+				}
+				entryToSave.ParentID = &parentIDUUID
+
+				tx.Model(&model.CurriculumEntry{}).
+					Select("MAX(`seq_no_same_level`)").
+					Where("`parent_id` = ?", *entryToSave.ParentID).
+					Group("`parent_id`").
+					Scan(&entryToSave.SeqNoSameLevel)
+			}
+
+			// // return nil will commit the whole transaction
+			return tx.Save(&entryToSave).Error
+		})
+
+		// var createOrUpdateCurriculumEntryForm CreateOrUpdateCurriculumEntryForm
+		// err := ctx.ReadJSON(&createOrUpdateCurriculumEntryForm)
+
+		// db.Model(&user).Updates(User{Name: "hello", Age: 18, Active: false})
+		// err := ctx.ReadJSON(&loginForm)
+		if err != nil {
+			ctx.StopWithError(iris.StatusInternalServerError, err)
+		} else {
+			ctx.JSON(iris.Map{
+				"status": 200,
+			})
 		}
 	}
 }
