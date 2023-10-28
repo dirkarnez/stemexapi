@@ -223,11 +223,7 @@ func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 			// // return nil will commit the whole transaction
 			return tx.Save(&entryToSave).Error
 		})
-		// var createOrUpdateCurriculumEntryForm CreateOrUpdateCurriculumEntryForm
-		// err := ctx.ReadJSON(&createOrUpdateCurriculumEntryForm)
 
-		// db.Model(&user).Updates(User{Name: "hello", Age: 18, Active: false})
-		// err := ctx.ReadJSON(&loginForm)
 		if err != nil {
 			ctx.StopWithError(iris.StatusInternalServerError, err)
 		} else {
