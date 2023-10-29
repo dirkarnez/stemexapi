@@ -36,10 +36,10 @@ func GetCurriculum(dbInstance *gorm.DB) context.Handler {
 		id := ctx.URLParam("id")
 		topLevel := ctx.URLParamBoolDefault("top-level", false)
 
-		initSession := dbInstance.Model(&model.CurriculumEntry{})
+		initSession := dbInstance.Table("curriculum_entries `ce`")
 
 		if topLevel {
-			initSession = initSession.Where("parent_id IS NULL")
+			initSession = initSession.Where("`parent_id` IS NULL")
 		}
 
 		var IDUUID model.UUIDEx
@@ -62,7 +62,12 @@ func GetCurriculum(dbInstance *gorm.DB) context.Handler {
 			// Joins("left join `curriculum_course_youtube_video_entries` on `curriculum_course_youtube_video_entries`.`entry_id` = `curriculum_entries`.`id`").
 			// First(&details).Error
 
-			err = initSession.Where("`id` = ?", IDUUID).First(&curriculumEntry).Error
+			err = initSession.
+				Select("`ce`.*, CASE WHEN count(`entry_id`) > 0 THEN true ELSE false END AS `is_course`").
+				Joins("LEFT JOIN `curriculum_course_information_entries` `ccie` ON `ccie`.`entry_id` = `ce`.`id`").
+				Where("`id` = ?", IDUUID).
+				Group("`ce`.`id`").
+				First(&curriculumEntry).Error
 
 			_ = dbInstance.
 				Model(&model.CurriculumCourseBlogEntries{}).
@@ -96,7 +101,11 @@ func GetCurriculum(dbInstance *gorm.DB) context.Handler {
 			}
 		} else {
 			var curriculumEntryList []dto.CurriculumEntry
-			err = initSession.Find(&curriculumEntryList).Error
+			err = initSession.
+				Select("`ce`.*, CASE WHEN count(`entry_id`) > 0 THEN true ELSE false END AS `is_course`").
+				Joins("LEFT JOIN `curriculum_course_information_entries` `ccie` ON `ccie`.`entry_id` = `ce`.`id`").
+				Group("`ce`.`id`").
+				Scan(&curriculumEntryList).Error
 			if err != nil {
 				ctx.StatusCode(iris.StatusInternalServerError)
 				return
@@ -120,12 +129,18 @@ func GetCurriculumCourses(dbInstance *gorm.DB) context.Handler {
 		parentIDUUIDEx := model.UUIDEx(parentIDUUID)
 
 		var curriculumEntryList []dto.CurriculumEntry
-		if err := dbInstance.
-			Model(&model.CurriculumEntry{}).
-			Where(&model.CurriculumEntry{ParentID: &parentIDUUIDEx}).
-			Find(&curriculumEntryList).Error; err != nil {
+
+		err := dbInstance.Transaction(func(tx *gorm.DB) error {
+			return tx.Table("curriculum_entries `ce`").
+				Select("`ce`.*, CASE WHEN count(`entry_id`) > 0 THEN true ELSE false END AS `is_course`").
+				Joins("LEFT JOIN `curriculum_course_information_entries` `ccie` ON `ccie`.`entry_id` = `ce`.`id`").
+				Where("`ce`.`parent_id` = ?", &parentIDUUIDEx).
+				Group("`ce`.`id`").
+				Scan(&curriculumEntryList).Error
+		})
+
+		if err != nil {
 			ctx.StatusCode(iris.StatusInternalServerError)
-			return
 		} else {
 			ctx.JSON(curriculumEntryList)
 		}
@@ -233,3 +248,12 @@ func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 		}
 	}
 }
+
+// func isCurrentLayerForClasses() {
+// 	/*
+// 		SELECT count(id) from curriculum_course_information_entries ccie where entry_id in
+// 		(select id from curriculum_entries ce WHERE parent_id = 0x2B0FE76E764111EE9AA006C3BC34E27E)
+// 	*/
+
+// 	db.Model(&User{}).Where("name = ?", "jinzhu").Count(&count)
+// }
