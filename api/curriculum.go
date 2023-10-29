@@ -250,11 +250,38 @@ func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 	}
 }
 
-// func isCurrentLayerForClasses() {
-// 	/*
-// 		SELECT count(id) from curriculum_course_information_entries ccie where entry_id in
-// 		(select id from curriculum_entries ce WHERE parent_id = 0x2B0FE76E764111EE9AA006C3BC34E27E)
-// 	*/
+func ShouldBeACourse(dbInstance *gorm.DB) context.Handler {
+	return func(ctx iris.Context) {
+		// SELECT CASE WHEN count(id) > 0 THEN true ELSE false END AS `should_be_a_course` from curriculum_course_information_entries ccie where entry_id in (
+		// 	select id from curriculum_entries WHERE parent_id = (
+		// 		SELECT parent_id from curriculum_entries where id = 0x7ba94959764011ee9aa006c3bc34e27e
+		// 	)
+		// )
 
-// 	db.Model(&User{}).Where("name = ?", "jinzhu").Count(&count)
-// }
+		parentID := ctx.URLParam("parent-id")
+
+		if len(parentID) < 1 {
+			ctx.StopWithStatus(http.StatusForbidden)
+			return
+		}
+
+		parentIDUUIDEx, err := model.UUIDExFromIDString(parentID)
+		if err != nil {
+			ctx.StopWithStatus(http.StatusNotFound)
+			return
+		}
+
+		itShouldBeACourse := false
+
+		dbInstance.Table("`curriculum_course_information_entries`").
+			Select("CASE WHEN count(`id`) > 0 THEN true ELSE false END AS `should_be_a_course`").
+			Where("`entry_id` IN (?)", dbInstance.Table("`curriculum_entries`").
+				Select("`id`").
+				Where("`parent_id` = ?", parentIDUUIDEx)).
+			Pluck("`should_be_a_course`", &itShouldBeACourse)
+
+		ctx.JSON(iris.Map{
+			"it_should_be_a_course": itShouldBeACourse,
+		})
+	}
+}
