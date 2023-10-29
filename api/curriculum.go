@@ -36,7 +36,7 @@ func GetCurriculum(dbInstance *gorm.DB) context.Handler {
 		id := ctx.URLParam("id")
 		topLevel := ctx.URLParamBoolDefault("top-level", false)
 
-		initSession := dbInstance.Table("curriculum_entries `ce`")
+		initSession := dbInstance.Table("`curriculum_entries` `ce`")
 
 		if topLevel {
 			initSession = initSession.Where("`parent_id` IS NULL")
@@ -51,7 +51,7 @@ func GetCurriculum(dbInstance *gorm.DB) context.Handler {
 				ctx.StopWithStatus(http.StatusNotFound)
 				return
 			}
-			curriculumEntry := model.CurriculumEntry{}
+			curriculumEntry := dto.CurriculumEntry{}
 			curriculumCourseBlogEntries := []dto.CurriculumCourseBlogEntries{}
 			curriculumCourseInformationEntries := []dto.CurriculumCourseInformationEntries{}
 			curriculumCourseYoutubeVideoEntries := []dto.CurriculumCourseYoutubeVideoEntries{}
@@ -67,7 +67,8 @@ func GetCurriculum(dbInstance *gorm.DB) context.Handler {
 				Joins("LEFT JOIN `curriculum_course_information_entries` `ccie` ON `ccie`.`entry_id` = `ce`.`id`").
 				Where("`ce`.`id` = ?", IDUUID).
 				Group("`ce`.`id`").
-				First(&curriculumEntry).Error
+				Limit(1).
+				Scan(&curriculumEntry).Error
 
 			_ = dbInstance.
 				Model(&model.CurriculumCourseBlogEntries{}).
@@ -131,7 +132,7 @@ func GetCurriculumCourses(dbInstance *gorm.DB) context.Handler {
 		var curriculumEntryList []dto.CurriculumEntry
 
 		err := dbInstance.Transaction(func(tx *gorm.DB) error {
-			return tx.Table("curriculum_entries `ce`").
+			return tx.Table("`curriculum_entries` `ce`").
 				Select("`ce`.*, CASE WHEN count(`entry_id`) > 0 THEN true ELSE false END AS `is_course`").
 				Joins("LEFT JOIN `curriculum_course_information_entries` `ccie` ON `ccie`.`entry_id` = `ce`.`id`").
 				Where("`ce`.`parent_id` = ?", &parentIDUUIDEx).
