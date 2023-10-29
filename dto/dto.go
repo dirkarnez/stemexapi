@@ -55,6 +55,7 @@ type CurriculumCourseDetails struct {
 type File struct {
 	ID    model.UUIDEx `json:"id"`
 	SeqNo uint64       `json:"seq_no"`
+	OriginalPhysicalFileName string `json:"original_physical_file_name"`
 	//ContentHash      string `gorm:"column:content_hash;type:varchar(500);unique;not null"`
 }
 
