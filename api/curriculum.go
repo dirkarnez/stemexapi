@@ -103,8 +103,10 @@ func GetCurriculum(dbInstance *gorm.DB) context.Handler {
 		} else {
 			var curriculumEntryList []dto.CurriculumEntry
 			err = initSession.
-				Select("`ce`.*, CASE WHEN count(`entry_id`) > 0 THEN true ELSE false END AS `is_course`").
+				Select("`ce`.*, CASE WHEN count(`ccie`.`entry_id`) > 0 OR count(`ccytve`.`entry_id`) > 0 OR count(`ccbe`.`entry_id`) > 0 THEN true ELSE false END AS `is_course`").
 				Joins("LEFT JOIN `curriculum_course_information_entries` `ccie` ON `ccie`.`entry_id` = `ce`.`id`").
+				Joins("LEFT JOIN `curriculum_course_youtube_video_entries` `ccytve` ON `ccytve`.`entry_id` = `ce`.`id`").
+				Joins("LEFT JOIN `curriculum_course_blog_entries` `ccbe` ON `ccbe`.`entry_id` = `ce`.`id`").
 				Group("`ce`.`id`").
 				Scan(&curriculumEntryList).Error
 			if err != nil {
@@ -116,6 +118,7 @@ func GetCurriculum(dbInstance *gorm.DB) context.Handler {
 		}
 	}
 }
+
 
 func GetCurriculumCourses(dbInstance *gorm.DB) context.Handler {
 	return func(ctx iris.Context) {
@@ -148,24 +151,36 @@ func GetCurriculumCourses(dbInstance *gorm.DB) context.Handler {
 	}
 }
 
+
+/*
+{
+  "icon_file": {},
+  "description": "34",
+  "icon_id": "",
+  "parent_id": "",
+  "youtube_video_entries": [
+    {
+      "title": "324",
+      "url": "324"
+    }
+  ],
+  "blog_entries": [
+    {
+      "external_url": "324",
+      "title": "324"
+    }
+  ],
+  "information_entries": [
+    {
+      "icon_id": "",
+      "title": "534",
+      "content": "345"
+    }
+  ]
+}
+*/
 func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 	return func(ctx iris.Context) {
-		// type CreateOrUpdateCurriculumEntryForm struct {
-		// 	ID          string `json:"id`
-		// 	Description string `json:"description"`
-		// 	IconID      string `json:"icon_id"`
-		// 	IconFile    string `json:"icon_file`
-		// }
-
-		// type CurriculumEntry struct {
-		// 	BaseModel
-		// 	IconID         *UUIDEx `gorm:"column:icon_id;type:binary(16)"`
-		// 	Icon           *File   `gorm:"foreignKey:IconID"` //constraint:OnDelete:SET NULL
-		// 	Description    string  `gorm:"column:description;type:varchar(255);unique;not null"`
-		// 	ParentID       *UUIDEx `gorm:"column:parent_id;type:binary(16);uniqueIndex:idx_seq_no_same_level"`
-		// 	SeqNoSameLevel uint64  `gorm:"column:seq_no_same_level;not null;default:0;uniqueIndex:idx_seq_no_same_level"`
-		// }
-
 		err := dbInstance.Transaction(func(tx *gorm.DB) error {
 			var entryToSave = model.CurriculumEntry{}
 			IDString := ctx.Request().FormValue("id")
