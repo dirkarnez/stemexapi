@@ -10,7 +10,6 @@ import (
 	"github.com/google/uuid"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/context"
-	"github.com/kataras/iris/v12/multipart"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
@@ -156,16 +155,16 @@ func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 	return func(ctx iris.Context) {
 		err := dbInstance.Transaction(func(tx *gorm.DB) error {
 			type InformationEntry struct {
-				IconID   string                `form:"icon_id"`
-				IconFile *multipart.FileHeader `form:"icon_file"`
-				Title    string                `form:"title"`
-				Content  string                `form:"content"`
+				IconID string `form:"icon_id"`
+				//IconFile []byte/**multipart.FileHeader*/ `form:"icon_file"`
+				Title   string `form:"title"`
+				Content string `form:"content"`
 			}
 
 			type Form struct {
-				ID                  string                                    `form:"id"`
-				IconID              string                                    `form:"icon_id"`
-				IconFile            *multipart.FileHeader                     `form:"icon_file"`
+				ID     string `form:"id"`
+				IconID string `form:"icon_id"`
+				//IconFile/**multipart.FileHeader */ []byte                                           `form:"icon_file"`
 				Description         string                                    `form:"description"`
 				ParentID            string                                    `form:"parent_id"`
 				InformationEntries  []InformationEntry                        `form:"information_entries"`
@@ -199,16 +198,16 @@ func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 			}
 
 			// // Get the max post value size passed via iris.WithPostMaxMemory.
-			// maxSize := ctx.Application().ConfigurationReadOnly().GetPostMaxMemory()
+			maxSize := ctx.Application().ConfigurationReadOnly().GetPostMaxMemory()
 
-			// err = ctx.Request().ParseMultipartForm(maxSize)
-			// if err != nil {
-			// 	return err
-			// }
+			err = ctx.Request().ParseMultipartForm(maxSize)
+			if err != nil {
+				return err
+			}
 
-			// Access the uploaded file
-			if form.IconFile != nil {
-				file, err := utils.SaveUpload(form.IconFile, tx, ctx)
+			_, iconFileHeader, err := ctx.Request().FormFile("icon_file")
+			if err == nil {
+				file, err := utils.SaveUpload(iconFileHeader, tx, ctx)
 				if err != nil {
 					return err
 				}
@@ -234,6 +233,7 @@ func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 				entryToSave.SeqNoSameLevel = entryToSave.SeqNoSameLevel + 1
 			}
 
+			retainedIDs := []model.UUIDEx{}
 			if form.BlogEntries != nil {
 				for _, blogEntry := range form.BlogEntries {
 					blogEntryModel := model.CurriculumCourseBlogEntries{}
@@ -242,23 +242,31 @@ func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 					blogEntryModel.Title = blogEntry.Title
 					blogEntryModel.EntryID = &entryToSave.ID
 
-					tx.Clauses(clause.OnConflict{
+					if err := tx.Clauses(clause.OnConflict{
 						Columns:   []clause.Column{{Name: "id"}},
 						DoUpdates: clause.AssignmentColumns([]string{"external_url", "title", "entry_id"}),
-					}).Create(&blogEntryModel)
+					}).Create(&blogEntryModel).Error; err != nil {
+						return err
+					}
 
-					if err := tx.Delete(&model.CurriculumCourseBlogEntries{}, "`id` NOT IN ?", &form.BlogEntries).Error; err != nil {
+					retainedIDs = append(retainedIDs, blogEntryModel.ID)
+
+					if err := tx.Delete(&model.CurriculumCourseBlogEntries{}, "`id` NOT IN ?", &retainedIDs).Error; err != nil {
 						return err
 					}
 				}
 			}
 
 			if form.InformationEntries != nil {
-				for _, informationEntry := range form.InformationEntries {
+				retainedIDs = []model.UUIDEx{}
+
+				for i, informationEntry := range form.InformationEntries {
 					informationEntryModel := model.CurriculumCourseInformationEntries{}
 					informationEntryModel.Title = informationEntry.Title
 					informationEntryModel.Content = informationEntry.Content
 					informationEntryModel.EntryID = &entryToSave.ID
+
+					retainedIDs = append(retainedIDs, informationEntryModel.ID)
 
 					if len(informationEntry.IconID) > 1 {
 						IconIDUUID, err := model.ValidUUIDExFromIDString(informationEntry.IconID)
@@ -268,8 +276,9 @@ func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 						}
 					}
 
-					if informationEntry.IconFile != nil {
-						file, err := utils.SaveUpload(informationEntry.IconFile, tx, ctx)
+					_, iconFileHeader, err := ctx.Request().FormFile(fmt.Sprintf("information_entries[%d].icon_file", i))
+					if err == nil {
+						file, err := utils.SaveUpload(iconFileHeader, tx, ctx)
 						if err != nil {
 							return err
 						}
@@ -280,18 +289,22 @@ func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 						return fmt.Errorf("no icon id")
 					}
 
-					tx.Clauses(clause.OnConflict{
+					if err := tx.Clauses(clause.OnConflict{
 						Columns:   []clause.Column{{Name: "id"}},
 						DoUpdates: clause.AssignmentColumns([]string{"icon_id", "title", "content", "entry_id"}),
-					}).Create(&informationEntryModel)
+					}).Create(&informationEntryModel).Error; err != nil {
+						return err
+					}
 
-					if err := tx.Delete(&model.CurriculumCourseInformationEntries{}, "`id` NOT IN ?", &form.InformationEntries).Error; err != nil {
+					if err := tx.Delete(&model.CurriculumCourseInformationEntries{}, "`id` NOT IN ?", &retainedIDs).Error; err != nil {
 						return err
 					}
 				}
 			}
 
 			if form.YoutubeVideoEntries != nil {
+				retainedIDs = []model.UUIDEx{}
+
 				for _, youtubeVideoEntry := range form.YoutubeVideoEntries {
 					youtubeVideoEntryModel := model.CurriculumCourseYoutubeVideoEntries{}
 					youtubeVideoEntryModel.ID = youtubeVideoEntry.ID
@@ -299,13 +312,17 @@ func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 					youtubeVideoEntryModel.Title = youtubeVideoEntry.Title
 					youtubeVideoEntryModel.EntryID = &entryToSave.ID
 
-					tx.Clauses(clause.OnConflict{
+					retainedIDs = append(retainedIDs, youtubeVideoEntryModel.ID)
+
+					if err := tx.Clauses(clause.OnConflict{
 						Columns:   []clause.Column{{Name: "id"}},
 						DoUpdates: clause.AssignmentColumns([]string{"url", "title", "entry_id"}),
-					}).Create(&youtubeVideoEntryModel)
+					}).Create(&youtubeVideoEntryModel).Error; err != nil {
+						return err
+					}
 				}
 
-				if err := tx.Delete(&model.CurriculumCourseYoutubeVideoEntries{}, "`id` NOT IN ?", &form.YoutubeVideoEntries).Error; err != nil {
+				if err := tx.Delete(&model.CurriculumCourseYoutubeVideoEntries{}, "`id` NOT IN ?", &retainedIDs).Error; err != nil {
 					return err
 				}
 			}
