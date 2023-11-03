@@ -1,13 +1,11 @@
 package api
 
 import (
-	"fmt"
-	"mime/multipart"
 	"net/http"
-	"time"
 
 	"github.com/dirkarnez/stemexapi/dto"
 	"github.com/dirkarnez/stemexapi/model"
+	"github.com/dirkarnez/stemexapi/utils"
 	"github.com/google/uuid"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/context"
@@ -153,32 +151,6 @@ func GetCurriculumCourses(dbInstance *gorm.DB) context.Handler {
 	}
 }
 
-/*
-	{
-	  // "icon_file": {},
-	  // "description": "34",
-	  // "icon_id": "",
-	  // "parent_id": "",
-	  "youtube_video_entries": [
-	    {
-
-	    }
-	  ],
-	  "blog_entries": [
-	    {
-	      "external_url": "324",
-	      "title": "324"
-	    }
-	  ],
-	  "information_entries": [
-	    {
-	      "icon_id": "",
-	      "title": "534",
-	      "content": "345"
-	    }
-	  ]
-	}
-*/
 func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 	return func(ctx iris.Context) {
 		err := dbInstance.Transaction(func(tx *gorm.DB) error {
@@ -222,29 +194,17 @@ func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 				}
 			}
 
-			// Get the max post value size passed via iris.WithPostMaxMemory.
-			maxSize := ctx.Application().ConfigurationReadOnly().GetPostMaxMemory()
+			// // Get the max post value size passed via iris.WithPostMaxMemory.
+			// maxSize := ctx.Application().ConfigurationReadOnly().GetPostMaxMemory()
 
-			err = ctx.Request().ParseMultipartForm(maxSize)
-			if err != nil {
-				return err
-			}
+			// err = ctx.Request().ParseMultipartForm(maxSize)
+			// if err != nil {
+			// 	return err
+			// }
 
 			// Access the uploaded file
 			if form.IconFile != nil {
-				serverPhysicalFileName := fmt.Sprintf("%d", time.Now().UnixNano())
-				_, err = ctx.SaveFormFile(form.IconFile, fmt.Sprintf("./%s/%s", "uploads", serverPhysicalFileName))
-				if err != nil {
-					ctx.WriteString("Failed to save file: " + form.IconFile.Filename)
-					return err
-				}
-
-				file := model.File{OriginalPhysicalFileName: form.IconFile.Filename, ServerPhysicalFileName: serverPhysicalFileName}
-				if err := tx.
-					Create(&file).Error; err != nil {
-					return err
-				}
-
+				utils.SaveUpload()
 				entryToSave.IconID = &file.ID
 			}
 
