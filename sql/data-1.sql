@@ -60,6 +60,7 @@ INSERT INTO files(`original_physical_file_name`, `server_physical_file_name`) VA
 INSERT INTO files(`original_physical_file_name`, `server_physical_file_name`) VALUES('upcoming-schedule/Smart City/Level 2-Elementary-min.png', 'upcoming-schedule/Smart City/Level 2-Elementary-min.png'); 
 INSERT INTO files(`original_physical_file_name`, `server_physical_file_name`) VALUES('upcoming-schedule/Smart City/Level 2-Introductory-min.png', 'upcoming-schedule/Smart City/Level 2-Introductory-min.png'); 
 INSERT INTO files(`original_physical_file_name`, `server_physical_file_name`) VALUES('upcoming-schedule/Smart City/Level 2-Intermediate-min.png', 'upcoming-schedule/Smart City/Level 2-Intermediate-min.png'); 
+INSERT INTO files(`original_physical_file_name`, `server_physical_file_name`) VALUES('pexels-monstera-production-5063450.jpg', 'pexels-monstera-production-5063450.jpg'); 
 
 -- TRUNCATE TABLE curriculum_entries;
 

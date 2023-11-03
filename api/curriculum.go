@@ -237,7 +237,18 @@ func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 				return err
 			}
 
-			retainedIDs := []model.UUIDEx{}
+			if err := tx.Delete(&model.CurriculumCourseBlogEntries{}, "`entry_id` = ?", entryToSave.ID).Error; err != nil {
+				return err
+			}
+
+			if err := tx.Delete(&model.CurriculumCourseInformationEntries{}, "`entry_id` = ?", entryToSave.ID).Error; err != nil {
+				return err
+			}
+
+			if err := tx.Delete(&model.CurriculumCourseYoutubeVideoEntries{}, "`entry_id` = ?", entryToSave.ID).Error; err != nil {
+				return err
+			}
+
 			if form.BlogEntries != nil {
 				for _, blogEntry := range form.BlogEntries {
 					blogEntryModel := model.CurriculumCourseBlogEntries{}
@@ -252,25 +263,15 @@ func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 					}).Create(&blogEntryModel).Error; err != nil {
 						return err
 					}
-
-					retainedIDs = append(retainedIDs, blogEntryModel.ID)
-
-					if err := tx.Delete(&model.CurriculumCourseBlogEntries{}, "`id` NOT IN ?", retainedIDs).Error; err != nil {
-						return err
-					}
 				}
 			}
 
 			if form.InformationEntries != nil {
-				retainedIDs = []model.UUIDEx{}
-
 				for i, informationEntry := range form.InformationEntries {
 					informationEntryModel := model.CurriculumCourseInformationEntries{}
 					informationEntryModel.Title = informationEntry.Title
 					informationEntryModel.Content = informationEntry.Content
 					informationEntryModel.EntryID = &entryToSave.ID
-
-					retainedIDs = append(retainedIDs, informationEntryModel.ID)
 
 					if len(informationEntry.IconID) > 1 {
 						IconIDUUID, err := model.ValidUUIDExFromIDString(informationEntry.IconID)
@@ -299,16 +300,10 @@ func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 					}).Create(&informationEntryModel).Error; err != nil {
 						return err
 					}
-
-					if err := tx.Delete(&model.CurriculumCourseInformationEntries{}, "`id` NOT IN ?", retainedIDs).Error; err != nil {
-						return err
-					}
 				}
 			}
 
 			if form.YoutubeVideoEntries != nil {
-				retainedIDs = []model.UUIDEx{}
-
 				for _, youtubeVideoEntry := range form.YoutubeVideoEntries {
 					youtubeVideoEntryModel := model.CurriculumCourseYoutubeVideoEntries{}
 					youtubeVideoEntryModel.ID = youtubeVideoEntry.ID
@@ -316,18 +311,12 @@ func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 					youtubeVideoEntryModel.Title = youtubeVideoEntry.Title
 					youtubeVideoEntryModel.EntryID = &entryToSave.ID
 
-					retainedIDs = append(retainedIDs, youtubeVideoEntryModel.ID)
-
 					if err := tx.Clauses(clause.OnConflict{
 						Columns:   []clause.Column{{Name: "id"}},
 						DoUpdates: clause.AssignmentColumns([]string{"url", "title", "entry_id"}),
 					}).Create(&youtubeVideoEntryModel).Error; err != nil {
 						return err
 					}
-				}
-
-				if err := tx.Delete(&model.CurriculumCourseYoutubeVideoEntries{}, "`id` NOT IN ?", retainedIDs).Error; err != nil {
-					return err
 				}
 			}
 

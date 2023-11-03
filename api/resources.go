@@ -1,13 +1,11 @@
 package api
 
 import (
-	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
 
 	"github.com/dirkarnez/stemexapi/model"
-	"github.com/google/uuid"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/context"
 	"gorm.io/gorm"
@@ -18,24 +16,41 @@ func GetResourceByID(dbInstance *gorm.DB) context.Handler {
 		ex, _ := os.Getwd() //use os.Executable() in the future
 
 		id := ctx.URLParam("id")
-		if len(id) < 1 {
-			ctx.StopWithStatus(http.StatusNotFound)
-			return
+
+		var file = model.File{}
+		if len(id) > 0 {
+			idUUIDex, err := model.ValidUUIDExFromIDString(id)
+			if err != nil {
+				ctx.StopWithError(iris.StatusInternalServerError, err)
+				return
+			}
+			if err := dbInstance.First(&file, "`id` = ?", idUUIDex).Error; err != nil {
+				ctx.StopWithError(iris.StatusInternalServerError, err)
+				return
+			}
 		}
 
-		idUUID, _ := uuid.Parse(id)
+		// var idUUIDex model.UUIDEx
 
-		param := model.File{}
-		param.ID = model.UUIDEx(idUUID)
+		// 	, err : model.ValidUUIDExFromIDString(id)
+		// 	if err != nil {
+		// 		return err
+		// 	}
+		// }
 
-		file := model.File{}
-		if err := dbInstance.
-			Model(&model.File{}).
-			Where(&param).
-			First(&file).Error; err != nil {
-			ctx.StopWithStatus(http.StatusNotFound)
-			return
-		}
+		// idUUID, _ := uuid.Parse(id)
+
+		// param := model.File{}
+		// param.ID = idUUIDex
+
+		// file := model.File{}
+		// if err := dbInstance.
+		// 	Model(&model.File{}).
+		// 	Where(&param).
+		// 	First(&file).Error; err != nil {
+		// 	ctx.StopWithStatus(http.StatusNotFound)
+		// 	return
+		// }
 
 		path := []string{ex, "uploads"}
 		path = append(path, strings.Split(file.ServerPhysicalFileName, "/")...)
