@@ -2,6 +2,7 @@ package api
 
 import (
 	"fmt"
+	"mime/multipart"
 	"net/http"
 	"time"
 
@@ -10,7 +11,9 @@ import (
 	"github.com/google/uuid"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/context"
+	"github.com/kataras/iris/v12/multipart"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 func GetCurriculum(dbInstance *gorm.DB) context.Handler {
@@ -46,7 +49,7 @@ func GetCurriculum(dbInstance *gorm.DB) context.Handler {
 		var err error
 
 		if len(id) != 0 {
-			IDUUID, err = model.UUIDExFromIDString(id)
+			IDUUID, err = model.ValidUUIDExFromIDString(id)
 			if err != nil {
 				ctx.StopWithStatus(http.StatusNotFound)
 				return
@@ -119,7 +122,6 @@ func GetCurriculum(dbInstance *gorm.DB) context.Handler {
 	}
 }
 
-
 func GetCurriculumCourses(dbInstance *gorm.DB) context.Handler {
 	return func(ctx iris.Context) {
 		parentID := ctx.URLParam("parent-id")
@@ -151,50 +153,69 @@ func GetCurriculumCourses(dbInstance *gorm.DB) context.Handler {
 	}
 }
 
-
 /*
-{
-  "icon_file": {},
-  "description": "34",
-  "icon_id": "",
-  "parent_id": "",
-  "youtube_video_entries": [
-    {
-      "title": "324",
-      "url": "324"
-    }
-  ],
-  "blog_entries": [
-    {
-      "external_url": "324",
-      "title": "324"
-    }
-  ],
-  "information_entries": [
-    {
-      "icon_id": "",
-      "title": "534",
-      "content": "345"
-    }
-  ]
-}
+	{
+	  // "icon_file": {},
+	  // "description": "34",
+	  // "icon_id": "",
+	  // "parent_id": "",
+	  "youtube_video_entries": [
+	    {
+
+	    }
+	  ],
+	  "blog_entries": [
+	    {
+	      "external_url": "324",
+	      "title": "324"
+	    }
+	  ],
+	  "information_entries": [
+	    {
+	      "icon_id": "",
+	      "title": "534",
+	      "content": "345"
+	    }
+	  ]
+	}
 */
 func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 	return func(ctx iris.Context) {
 		err := dbInstance.Transaction(func(tx *gorm.DB) error {
+			type InformationEntry struct {
+				IconID   string                `form:"icon_id"`
+				IconFile *multipart.FileHeader `form:"icon_file"`
+				Title    string                `form:"title"`
+				Content  string                `form:"content"`
+			}
+
+			type Form struct {
+				ID                  string                                    `form:"id"`
+				IconID              string                                    `form:"icon_id"`
+				IconFile            *multipart.FileHeader                     `form:"icon_file"`
+				Description         string                                    `form:"description"`
+				ParentID            string                                    `form:"parent_id"`
+				InformationEntries  []InformationEntry                        `form:"information_entries"`
+				BlogEntries         []dto.CurriculumCourseBlogEntries         `form:"blog_entries"`
+				YoutubeVideoEntries []dto.CurriculumCourseYoutubeVideoEntries `form:"youtube_video_entries"`
+			}
+
+			var form Form
+			err := ctx.ReadForm(&form)
+
 			var entryToSave = model.CurriculumEntry{}
-			IDString := ctx.Request().FormValue("id")
-			if len(IDString) > 1 {
-				IDUUID, err := model.UUIDExFromIDString(IDString)
+			entryToSave.Description = form.Description
+
+			if len(form.ID) > 1 {
+				IDUUID, err := model.ValidUUIDExFromIDString(form.ID)
 				if err != nil {
 					return err
 				}
 				tx.First(&entryToSave, "`id` = ?", IDUUID)
 			}
 
-			iconIDString := ctx.Request().FormValue("icon_id")
-			if len(iconIDString) > 1 {
-				IconIDUUID, err := model.UUIDExFromIDString(iconIDString)
+			if len(form.IconID) > 1 {
+				IconIDUUID, err := model.ValidUUIDExFromIDString(form.IconID)
 				entryToSave.IconID = &IconIDUUID
 				if err != nil {
 					return err
@@ -204,22 +225,21 @@ func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 			// Get the max post value size passed via iris.WithPostMaxMemory.
 			maxSize := ctx.Application().ConfigurationReadOnly().GetPostMaxMemory()
 
-			err := ctx.Request().ParseMultipartForm(maxSize)
+			err = ctx.Request().ParseMultipartForm(maxSize)
 			if err != nil {
 				return err
 			}
 
 			// Access the uploaded file
-			_, header, err := ctx.Request().FormFile("icon_file")
-			if err == nil {
+			if form.IconFile != nil {
 				serverPhysicalFileName := fmt.Sprintf("%d", time.Now().UnixNano())
-				_, err = ctx.SaveFormFile(header, fmt.Sprintf("./%s/%s", "uploads", serverPhysicalFileName))
+				_, err = ctx.SaveFormFile(form.IconFile, fmt.Sprintf("./%s/%s", "uploads", serverPhysicalFileName))
 				if err != nil {
-					ctx.WriteString("Failed to save file: " + header.Filename)
+					ctx.WriteString("Failed to save file: " + form.IconFile.Filename)
 					return err
 				}
 
-				file := model.File{OriginalPhysicalFileName: header.Filename, ServerPhysicalFileName: serverPhysicalFileName}
+				file := model.File{OriginalPhysicalFileName: form.IconFile.Filename, ServerPhysicalFileName: serverPhysicalFileName}
 				if err := tx.
 					Create(&file).Error; err != nil {
 					return err
@@ -229,15 +249,12 @@ func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 			}
 
 			if entryToSave.IconID == nil {
-				ctx.WriteString("No icon uploaded")
+				ctx.WriteString("	loaded")
 				return err
 			}
 
-			entryToSave.Description = ctx.Request().FormValue("description")
-
-			parentIDString := ctx.Request().FormValue("parent_id")
-			if len(parentIDString) > 1 && parentIDString != "null" {
-				parentIDUUID, err := model.UUIDExFromIDString(parentIDString)
+			if len(form.ParentID) > 1 && form.ParentID != "null" {
+				parentIDUUID, err := model.ValidUUIDExFromIDString(form.ParentID)
 				if err != nil {
 					return err
 				}
@@ -249,6 +266,42 @@ func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 					Group("`parent_id`").
 					Scan(&entryToSave.SeqNoSameLevel)
 				entryToSave.SeqNoSameLevel = entryToSave.SeqNoSameLevel + 1
+			}
+
+			if form.BlogEntries != nil {
+				for _, blogEntry := range form.BlogEntries {
+					blogEntryModel := model.CurriculumCourseBlogEntries{}
+					blogEntryModel.ID = blogEntry.ID
+					blogEntryModel.ExternalURL = blogEntry.ExternalURL
+					blogEntryModel.Title = blogEntry.Title
+					blogEntryModel.EntryID = &entryToSave.ID
+
+					tx.Clauses(clause.OnConflict{
+						Columns:   []clause.Column{{Name: "id"}},
+						DoUpdates: clause.AssignmentColumns([]string{"external_url", "title", "entry_id"}),
+					}).Create(&blogEntryModel)
+				}
+			}
+
+			if form.InformationEntries != nil {
+				for _, entry := range form.InformationEntries {
+
+				}
+			}
+
+			if form.YoutubeVideoEntries != nil {
+				for _, youtubeVideoEntry := range form.YoutubeVideoEntries {
+					youtubeVideoEntryModel := model.CurriculumCourseYoutubeVideoEntries{}
+					youtubeVideoEntryModel.ID = youtubeVideoEntry.ID
+					youtubeVideoEntryModel.URL = youtubeVideoEntry.URL
+					youtubeVideoEntryModel.Title = youtubeVideoEntry.Title
+					youtubeVideoEntryModel.EntryID = &entryToSave.ID
+
+					tx.Clauses(clause.OnConflict{
+						Columns:   []clause.Column{{Name: "id"}},
+						DoUpdates: clause.AssignmentColumns([]string{"url", "title", "entry_id"}),
+					}).Create(&youtubeVideoEntryModel)
+				}
 			}
 
 			// // return nil will commit the whole transaction
@@ -280,7 +333,7 @@ func ShouldBeACourse(dbInstance *gorm.DB) context.Handler {
 			return
 		}
 
-		parentIDUUIDEx, err := model.UUIDExFromIDString(parentID)
+		parentIDUUIDEx, err := model.ValidUUIDExFromIDString(parentID)
 		if err != nil {
 			ctx.StopWithStatus(http.StatusNotFound)
 			return

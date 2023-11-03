@@ -27,16 +27,19 @@ type CurriculumEntry struct {
 }
 
 type CurriculumCourseYoutubeVideoEntries struct {
-	URL   string `json:"url"`
-	Title string `json:"title"`
+	ID    model.UUIDEx `json:"id" form:"id"`
+	URL   string       `json:"url" form:"url"`
+	Title string       `json:"title"`
 }
 
 type CurriculumCourseBlogEntries struct {
-	ExternalURL string `json:"external_url"`
-	Title       string `json:"title"`
+	ID          model.UUIDEx `json:"id" form:"id"`
+	ExternalURL string       `json:"external_url" form:"external_url"`
+	Title       string       `json:"title" form:"title"`
 }
 
 type CurriculumCourseInformationEntries struct {
+	ID      model.UUIDEx  `json:"id"`
 	IconID  *model.UUIDEx `json:"icon_id"`
 	Title   string        `json:"title"`
 	Content string        `json:"content"`

@@ -39,7 +39,7 @@ func NewUUIDEx() UUIDEx {
 	return UUIDEx(uuid.New())
 }
 
-func UUIDExFromIDString(id string) (UUIDEx, error) {
+func ValidUUIDExFromIDString(id string) (UUIDEx, error) {
 	uuidParsed, err := uuid.Parse(id)
 	if err != nil {
 		return NewUUIDEx(), err
