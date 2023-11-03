@@ -7,20 +7,26 @@ import (
 	"time"
 
 	"github.com/dirkarnez/stemexapi/model"
+	"github.com/kataras/iris/v12"
+	"gorm.io/gorm"
 )
 
-func SaveUpload(fileHeader *multipart.FileHeader) (model.File, error) {
+func SaveUpload(fileHeader *multipart.FileHeader, db *gorm.DB, ctx iris.Context) (*model.File, error) {
+	if fileHeader == nil {
+		return nil, fmt.Errorf("nil fileHeader")
+	}
 	extension := filepath.Ext(fileHeader.Filename)
 	serverPhysicalFileName := fmt.Sprintf("%d.%s", time.Now().UnixNano(), extension)
-	_, err = ctx.SaveFormFile(form.IconFile, fmt.Sprintf("./%s/%s", "uploads", serverPhysicalFileName))
+	_, err := ctx.SaveFormFile(fileHeader, fmt.Sprintf("./%s/%s", "uploads", serverPhysicalFileName))
 	if err != nil {
-		ctx.WriteString("Failed to save file: " + form.IconFile.Filename)
-		return err
+		return nil, err
 	}
 
-	file := model.File{OriginalPhysicalFileName: form.IconFile.Filename, ServerPhysicalFileName: serverPhysicalFileName}
-	if err := tx.
+	file := model.File{OriginalPhysicalFileName: fileHeader.Filename, ServerPhysicalFileName: serverPhysicalFileName}
+	if err := db.
 		Create(&file).Error; err != nil {
-		return err
+		return nil, err
+	} else {
+		return &file, nil
 	}
 }

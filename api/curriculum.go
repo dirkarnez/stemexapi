@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/dirkarnez/stemexapi/dto"
@@ -174,6 +175,9 @@ func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 
 			var form Form
 			err := ctx.ReadForm(&form)
+			if err != nil {
+				return err
+			}
 
 			var entryToSave = model.CurriculumEntry{}
 			entryToSave.Description = form.Description
@@ -204,13 +208,15 @@ func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 
 			// Access the uploaded file
 			if form.IconFile != nil {
-				utils.SaveUpload()
+				file, err := utils.SaveUpload(form.IconFile, tx, ctx)
+				if err != nil {
+					return err
+				}
 				entryToSave.IconID = &file.ID
 			}
 
 			if entryToSave.IconID == nil {
-				ctx.WriteString("	loaded")
-				return err
+				return fmt.Errorf("no icon id")
 			}
 
 			if len(form.ParentID) > 1 && form.ParentID != "null" {
@@ -240,12 +246,48 @@ func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 						Columns:   []clause.Column{{Name: "id"}},
 						DoUpdates: clause.AssignmentColumns([]string{"external_url", "title", "entry_id"}),
 					}).Create(&blogEntryModel)
+
+					if err := tx.Delete(&model.CurriculumCourseBlogEntries{}, "`id` NOT IN ?", &form.BlogEntries).Error; err != nil {
+						return err
+					}
 				}
 			}
 
 			if form.InformationEntries != nil {
-				for _, entry := range form.InformationEntries {
+				for _, informationEntry := range form.InformationEntries {
+					informationEntryModel := model.CurriculumCourseInformationEntries{}
+					informationEntryModel.Title = informationEntry.Title
+					informationEntryModel.Content = informationEntry.Content
+					informationEntryModel.EntryID = &entryToSave.ID
 
+					if len(informationEntry.IconID) > 1 {
+						IconIDUUID, err := model.ValidUUIDExFromIDString(informationEntry.IconID)
+						informationEntryModel.IconID = &IconIDUUID
+						if err != nil {
+							return err
+						}
+					}
+
+					if informationEntry.IconFile != nil {
+						file, err := utils.SaveUpload(informationEntry.IconFile, tx, ctx)
+						if err != nil {
+							return err
+						}
+						informationEntryModel.IconID = &file.ID
+					}
+
+					if informationEntryModel.IconID == nil {
+						return fmt.Errorf("no icon id")
+					}
+
+					tx.Clauses(clause.OnConflict{
+						Columns:   []clause.Column{{Name: "id"}},
+						DoUpdates: clause.AssignmentColumns([]string{"icon_id", "title", "content", "entry_id"}),
+					}).Create(&informationEntryModel)
+
+					if err := tx.Delete(&model.CurriculumCourseInformationEntries{}, "`id` NOT IN ?", &form.InformationEntries).Error; err != nil {
+						return err
+					}
 				}
 			}
 
@@ -261,6 +303,10 @@ func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 						Columns:   []clause.Column{{Name: "id"}},
 						DoUpdates: clause.AssignmentColumns([]string{"url", "title", "entry_id"}),
 					}).Create(&youtubeVideoEntryModel)
+				}
+
+				if err := tx.Delete(&model.CurriculumCourseYoutubeVideoEntries{}, "`id` NOT IN ?", &form.YoutubeVideoEntries).Error; err != nil {
+					return err
 				}
 			}
 
