@@ -233,6 +233,10 @@ func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 				entryToSave.SeqNoSameLevel = entryToSave.SeqNoSameLevel + 1
 			}
 
+			if err := tx.Save(&entryToSave).Error; err != nil {
+				return err
+			}
+
 			retainedIDs := []model.UUIDEx{}
 			if form.BlogEntries != nil {
 				for _, blogEntry := range form.BlogEntries {
@@ -251,7 +255,7 @@ func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 
 					retainedIDs = append(retainedIDs, blogEntryModel.ID)
 
-					if err := tx.Delete(&model.CurriculumCourseBlogEntries{}, "`id` NOT IN ?", &retainedIDs).Error; err != nil {
+					if err := tx.Delete(&model.CurriculumCourseBlogEntries{}, "`id` NOT IN ?", retainedIDs).Error; err != nil {
 						return err
 					}
 				}
@@ -276,7 +280,7 @@ func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 						}
 					}
 
-					_, iconFileHeader, err := ctx.Request().FormFile(fmt.Sprintf("information_entries[%d].icon_file", i))
+					_, iconFileHeader, err := ctx.Request().FormFile(fmt.Sprintf("information_entries.%d.icon_file", i))
 					if err == nil {
 						file, err := utils.SaveUpload(iconFileHeader, tx, ctx)
 						if err != nil {
@@ -296,7 +300,7 @@ func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 						return err
 					}
 
-					if err := tx.Delete(&model.CurriculumCourseInformationEntries{}, "`id` NOT IN ?", &retainedIDs).Error; err != nil {
+					if err := tx.Delete(&model.CurriculumCourseInformationEntries{}, "`id` NOT IN ?", retainedIDs).Error; err != nil {
 						return err
 					}
 				}
@@ -322,13 +326,13 @@ func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 					}
 				}
 
-				if err := tx.Delete(&model.CurriculumCourseYoutubeVideoEntries{}, "`id` NOT IN ?", &retainedIDs).Error; err != nil {
+				if err := tx.Delete(&model.CurriculumCourseYoutubeVideoEntries{}, "`id` NOT IN ?", retainedIDs).Error; err != nil {
 					return err
 				}
 			}
 
 			// // return nil will commit the whole transaction
-			return tx.Save(&entryToSave).Error
+			return nil
 		})
 
 		if err != nil {
