@@ -11,12 +11,16 @@ import (
 	"gorm.io/gorm"
 )
 
+func GenerateServerPhysicalFileName(originalPhysicalFileName string) string {
+	extension := filepath.Ext(originalPhysicalFileName)
+	return fmt.Sprintf("%d.%s", time.Now().UnixNano(), extension)
+}
+
 func SaveUpload(fileHeader *multipart.FileHeader, db *gorm.DB, ctx iris.Context) (*model.File, error) {
 	if fileHeader == nil {
 		return nil, fmt.Errorf("nil fileHeader")
 	}
-	extension := filepath.Ext(fileHeader.Filename)
-	serverPhysicalFileName := fmt.Sprintf("%d.%s", time.Now().UnixNano(), extension)
+	serverPhysicalFileName := GenerateServerPhysicalFileName(fileHeader.Filename)
 	_, err := ctx.SaveFormFile(fileHeader, fmt.Sprintf("./%s/%s", "uploads", serverPhysicalFileName))
 	if err != nil {
 		return nil, err
