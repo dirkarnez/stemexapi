@@ -13,7 +13,7 @@ import (
 
 func GenerateServerPhysicalFileName(originalPhysicalFileName string) string {
 	extension := filepath.Ext(originalPhysicalFileName)
-	return fmt.Sprintf("%d.%s", time.Now().UnixNano(), extension)
+	return fmt.Sprintf("%d%s", time.Now().UnixNano(), extension)
 }
 
 func SaveUpload(fileHeader *multipart.FileHeader, db *gorm.DB, ctx iris.Context) (*model.File, error) {

@@ -48,44 +48,39 @@ func GetFiles(dbInstance *gorm.DB) context.Handler {
 	}
 }
 
-// files, err := ioutil.ReadDir("./uploads")
-// if err != nil {
-// 	log.Fatal(err)
-// }
-
-// var fileNames []string
-// for _, file := range files {
-// 	if !file.IsDir() {
-// 		fileNames = append(fileNames, file.Name())
-// 	}
-// }
-
 func UploadFile(dbInstance *gorm.DB) context.Handler {
 	return func(ctx iris.Context) {
-		uploadedFiles, _, err := ctx.UploadFormFiles("./uploads")
+		// uploadedFiles, _, err := ctx.UploadFormFiles("./uploads")
+		// if err != nil {
+		//
+		// 	return
+		// }
+
+		maxSize := ctx.Application().ConfigurationReadOnly().GetPostMaxMemory()
+
+		err := ctx.Request().ParseMultipartForm(maxSize)
 		if err != nil {
 			ctx.StopWithStatus(iris.StatusInternalServerError)
 			return
 		}
 
-		var fileModels []model.File
-		for _, uploadedFile := range uploadedFiles {
-			fileModels = append(fileModels, model.File{
-				OriginalPhysicalFileName: uploadedFile.Filename,
-				ServerPhysicalFileName:   utils.GenerateServerPhysicalFileName(uploadedFile.Filename),
-			})
+		form := ctx.Request().MultipartForm
+
+		files := form.File["files[]"]
+		failures := 0
+		for _, file := range files {
+
+			_, err = utils.SaveUpload(file, dbInstance, ctx)
+			if err != nil {
+				failures++
+				//ctx.Writef("failed to upload: %s\n", file.Filename)
+			}
 		}
 
-		if err := dbInstance.
-			CreateInBatches(&fileModels, 100).Error; err != nil {
-			ctx.StopWithStatus(iris.StatusInternalServerError)
-			return
-		} else {
-			ctx.JSON(iris.Map{
-				"status": 200,
-			})
-			return
-		}
+		ctx.JSON(iris.Map{
+			"files_uploaded":  len(files),
+			"files_submitted": len(files) - failures,
+		})
 
 		// // Get the file from the dropzone request
 		// file, info, err := ctx.FormFile("file")

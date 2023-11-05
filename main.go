@@ -391,7 +391,7 @@ func main() {
 		iris.TLS(fmt.Sprintf(":%d", port), "server.crt", "server.key"),
 		// skip err server closed when CTRL/CMD+C pressed:
 		iris.WithoutServerError(iris.ErrServerClosed),
-		iris.WithPostMaxMemory(32<<20 /* same as 32 * iris.MB */),
+		iris.WithPostMaxMemory(32*iris.MB),
 		// enables faster json serialization and more:
 		iris.WithOptimizations,
 	)
