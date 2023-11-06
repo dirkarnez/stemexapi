@@ -63,6 +63,28 @@ INSERT INTO files(`original_physical_file_name`, `server_physical_file_name`) VA
 INSERT INTO files(`id`, `original_physical_file_name`, `server_physical_file_name`) VALUES(0x11e29e537bdf11ee9aa006c3bc34e27e, 'WhatsApp Image 2023-11-04 at 19.31.20.jpeg', '1699190846191939900.jpeg'); 
 INSERT INTO files(`id`, `original_physical_file_name`, `server_physical_file_name`) VALUES(0xd8475e8c7bdf11ee9aa006c3bc34e27e, 'Coding Minecraft - Intermediate C (Adelaide).xlsx - Template.pdf', '1699191183099406000.pdf'); 
 
+
+
+INSERT INTO files(`id`, `original_physical_file_name`, `server_physical_file_name`) VALUES(0xb80a924961bb466e90de73288e5046c2, '1.1.png', '1.1.png');
+INSERT INTO files(`id`, `original_physical_file_name`, `server_physical_file_name`) VALUES(0x2be39cea2cab4a529be17d41c8035858, '1.2.png', '1.2.png');
+INSERT INTO files(`id`, `original_physical_file_name`, `server_physical_file_name`) VALUES(0xe7d0d94e62c844bfb91d1e21eaa3efa1, '1.3.png', '1.3.png');
+INSERT INTO files(`id`, `original_physical_file_name`, `server_physical_file_name`) VALUES(0xff282a002c994ea8a58cfa9acebabedd, '2.1.png', '2.1.png');
+INSERT INTO files(`id`, `original_physical_file_name`, `server_physical_file_name`) VALUES(0xa0f8a0e10eeb4056a0212e3a1f44ff73, '2.2.png', '2.2.png');
+INSERT INTO files(`id`, `original_physical_file_name`, `server_physical_file_name`) VALUES(0xfedc89a1bda9411992fc8cb9b8107fcf, '2.3.png', '2.3.png');
+INSERT INTO files(`id`, `original_physical_file_name`, `server_physical_file_name`) VALUES(0x5bdbbdaee0f540dfa0dd0b352b1c6dd6, '3.1.png', '3.1.png');
+INSERT INTO files(`id`, `original_physical_file_name`, `server_physical_file_name`) VALUES(0x86e6da3bc4644e718b6541d56ac25869, '3.2.png', '3.2.png');
+INSERT INTO files(`id`, `original_physical_file_name`, `server_physical_file_name`) VALUES(0xed25c736c4fb422bb188a85911c29851, '3.3.png', '3.3.png');
+INSERT INTO files(`id`, `original_physical_file_name`, `server_physical_file_name`) VALUES(0xda73c1ba794a41d694a95576ba1a43ac, '4.1.png', '4.1.png');
+INSERT INTO files(`id`, `original_physical_file_name`, `server_physical_file_name`) VALUES(0x9b98d0325b264e25a0f882fd2221eed5, '4.2.png', '4.2.png');
+INSERT INTO files(`id`, `original_physical_file_name`, `server_physical_file_name`) VALUES(0xd3bc8598b2804d6381a4d116b8179de7, '4.3.png', '4.3.png');
+INSERT INTO files(`id`, `original_physical_file_name`, `server_physical_file_name`) VALUES(0xa0f1e6f4d4604fee9ddca402a260d898, '4.4.png', '4.4.png');
+INSERT INTO files(`id`, `original_physical_file_name`, `server_physical_file_name`) VALUES(0xb0399dc5cab4427aab26981416cec0b4, '5.1.png', '5.1.png');
+INSERT INTO files(`id`, `original_physical_file_name`, `server_physical_file_name`) VALUES(0x493f34e43dd544cd8666368d522bc4ab, '5.2.png', '5.2.png');
+INSERT INTO files(`id`, `original_physical_file_name`, `server_physical_file_name`) VALUES(0x9b010f030fce4e3b885ef735422a51ee, '5.3.png', '5.3.png');
+INSERT INTO files(`id`, `original_physical_file_name`, `server_physical_file_name`) VALUES(0x648c95638f8341be8ebf65ff1040e71a, '5.4.png', '5.4.png');
+INSERT INTO files(`id`, `original_physical_file_name`, `server_physical_file_name`) VALUES(0x7b7082b6dc5240f4a88d9403ffc47c7d, '5.5.png', '5.5.png');
+INSERT INTO files(`id`, `original_physical_file_name`, `server_physical_file_name`) VALUES(0x3a37a4e1b27041dea722b6b68ba7edf9, '5.6.png', '5.6.png');
+
 -- TRUNCATE TABLE curriculum_entries;
 
 INSERT INTO curriculum_entries(`description`, `icon_id`, `seq_no_same_level`) SELECT 'Coding Minecraft', `id`, 0 FROM files WHERE `server_physical_file_name` = 'upcoming-schedule/codingMinecraft/Level 1-min.png';
