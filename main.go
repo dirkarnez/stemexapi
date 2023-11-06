@@ -295,7 +295,7 @@ func main() {
 		// })
 
 		party.Post("/login", api.Login(dbInstance))
-		party.Get("/logout", middlewareAuthorizedAPI, api.Logout)
+		party.Post("/logout", middlewareAuthorizedAPI, api.Logout)
 
 		party.Post("/user", middlewareAuthorizedAPI, api.CreateOrUpdateUser(dbInstance))
 

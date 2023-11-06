@@ -80,5 +80,5 @@ func Logout(ctx iris.Context) {
 		session.Destroy()
 	}
 
-	ctx.Redirect("/")
+	ctx.JSON(iris.Map{"status": iris.StatusOK})
 }

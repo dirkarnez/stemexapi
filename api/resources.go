@@ -55,5 +55,23 @@ func GetResourceByID(dbInstance *gorm.DB) context.Handler {
 		path := []string{ex, "uploads"}
 		path = append(path, strings.Split(file.ServerPhysicalFileName, "/")...)
 		ctx.ServeFile(filepath.Join(path...))
+
+		// go func(filename string, ctx iris.Context) {
+		// 	// linux only
+		// 	// file, err := os.OpenFile(filepath.Join(path...), os.O_RDONLY|os.O_NONBLOCK, 0)
+		// 	// if err != nil {
+		// 	// 	// Handle the error case
+		// 	// 	ctx.StatusCode(iris.StatusInternalServerError)
+		// 	// 	ctx.WriteString("Error serving file")
+		// 	// 	return
+		// 	// }
+		// 	// defer file.Close()
+
+		// 	// Perform any necessary file I/O operations asynchronously
+		// 	// ...
+
+		// 	// Serve the file
+		// 	ctx.ServeFile(filename)
+		// }(filepath.Join(path...), ctx)
 	}
 }
