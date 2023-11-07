@@ -26,7 +26,7 @@ func GetFiles(dbInstance *gorm.DB) context.Handler {
 		var count int64
 		if err := dbInstance.
 			Model(&model.File{}).
-			Where("`seq_no` BETWEEN ? AND ?", from, to).
+			Where("`seq_no` BETWEEN ? AND ?", from, to-1).
 			Find(&files).Error; err != nil {
 			ctx.StatusCode(iris.StatusInternalServerError)
 			return
