@@ -7,6 +7,9 @@
 - new
   - https://ec2-43-198-151-195.ap-east-1.compute.amazonaws.com/api/
 
+### Mail
+- [app password](https://myaccount.google.com/apppasswords): `cyqb rllp qhep glnx`
+
 ### Service
 - https://raw.githubusercontent.com/containerd/containerd/main/containerd.service
   ```bash
