@@ -10,6 +10,10 @@
 ### Mail
 - [app password](https://myaccount.google.com/apppasswords): `cyqb rllp qhep glnx`
 
+### Google Drive
+- https://console.cloud.google.com/apis/enableflow?apiid=drive.googleapis.com&pli=1&project=stemex-academy&supportedpurview=project
+- https://console.cloud.google.com/apis/library/drive.googleapis.com?project=stemex-academy&supportedpurview=project
+- https://developers.google.com/drive/api/reference/rest/v3/files/list
 ### Service
 - https://raw.githubusercontent.com/containerd/containerd/main/containerd.service
   ```bash
