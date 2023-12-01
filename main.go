@@ -149,6 +149,9 @@ func main() {
 	_, enforcerErr = e.AddPolicy("admin", "_", "read")
 	utils.CheckError(enforcerErr)
 
+	_, enforcerErr = e.AddPolicy("partner", "_", "read")
+	utils.CheckError(enforcerErr)
+
 	_, enforcerErr = e.AddPolicy("sales", "_", "read")
 	utils.CheckError(enforcerErr)
 
@@ -246,6 +249,12 @@ func main() {
 
 		var instructor = model.Role{Name: "instructor"}
 		if err := dbInstance.Create(&instructor).Error; err != nil {
+			log.Fatalln(err)
+			return
+		}
+
+		var partner = model.Role{Name: "partner"}
+		if err := dbInstance.Create(&partner).Error; err != nil {
 			log.Fatalln(err)
 			return
 		}
