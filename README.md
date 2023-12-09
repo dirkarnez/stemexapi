@@ -7,6 +7,36 @@
 - new
   - https://ec2-43-198-151-195.ap-east-1.compute.amazonaws.com/api/
 
+### TODOs
+```
+curr
+- add genesis
+
+courses
+- id
+- cirr id
+- normal price courses_prices
+
+courses_prices
+- effective start 
+- effective end
+
+course_lessons
+- id
+- courses-id
+- lesson date
+- lesson instructr
+
+
+last minute offer
+- courses
+- offer price courses_prices
+
+- 100vh
+- parent
+- upload component
+
+```
 ### Mail
 - [app password](https://myaccount.google.com/apppasswords): `cyqb rllp qhep glnx`
 
