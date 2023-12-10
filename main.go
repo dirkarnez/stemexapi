@@ -211,38 +211,8 @@ func main() {
 			return
 		}
 
-		if err := dbInstance.Create(&model.User{FullName: "Jovy", UserName: "jovy", Password: "stemex", RoleID: &sales.ID}).Error; err != nil {
-			log.Println("?????????????????????????????")
-			log.Fatalln(err)
-			return
-		}
-
-		var admin = model.Role{Name: "admin"}
-		if err := dbInstance.Create(&admin).Error; err != nil {
-			log.Fatalln(err)
-			return
-		}
-
-		if err := dbInstance.Create(&model.User{FullName: "Joe", UserName: "joe", Password: "stemex", RoleID: &admin.ID}).Error; err != nil {
-			log.Println("?????????????????????????????")
-			log.Fatalln(err)
-			return
-		}
-
-		if err := dbInstance.Create(&model.User{FullName: "prospect123", UserName: "prospect123", Password: "stemex"}).Error; err != nil {
-			log.Println("?????????????????????????????")
-			log.Fatalln(err)
-			return
-		}
-
-		var parent = model.Role{Name: "parent"}
-		if err := dbInstance.Create(&parent).Error; err != nil {
-			log.Fatalln(err)
-			return
-		}
-
-		if err := dbInstance.Create(&model.User{FullName: "Loretta Leung", UserName: "leungloretta", Password: "stemex", RoleID: &parent.ID}).Error; err != nil {
-			log.Println("?????????????????????????????")
+		var prospect = model.Role{Name: "prospect"}
+		if err := dbInstance.Create(&prospect).Error; err != nil {
 			log.Fatalln(err)
 			return
 		}
@@ -255,6 +225,72 @@ func main() {
 
 		var partner = model.Role{Name: "partner"}
 		if err := dbInstance.Create(&partner).Error; err != nil {
+			log.Fatalln(err)
+			return
+		}
+
+		if err := dbInstance.Create(&model.User{FullName: "Singapore company 1", UserName: "singapore1", Password: "stemex", RoleID: partner.ID}).Error; err != nil {
+			log.Println("?????????????????????????????")
+			log.Fatalln(err)
+			return
+		}
+
+		if err := dbInstance.Create(&model.User{FullName: "Singapore company 2", UserName: "singapore2", Password: "stemex", RoleID: partner.ID}).Error; err != nil {
+			log.Println("?????????????????????????????")
+			log.Fatalln(err)
+			return
+		}
+
+		if err := dbInstance.Create(&model.User{FullName: "Singapore company 3", UserName: "singapore3", Password: "stemex", RoleID: partner.ID}).Error; err != nil {
+			log.Println("?????????????????????????????")
+			log.Fatalln(err)
+			return
+		}
+
+		if err := dbInstance.Create(&model.User{FullName: "Singapore company 4", UserName: "singapore4", Password: "stemex", RoleID: partner.ID}).Error; err != nil {
+			log.Println("?????????????????????????????")
+			log.Fatalln(err)
+			return
+		}
+
+		if err := dbInstance.Create(&model.User{FullName: "Singapore company 5", UserName: "singapore5", Password: "stemex", RoleID: partner.ID}).Error; err != nil {
+			log.Println("?????????????????????????????")
+			log.Fatalln(err)
+			return
+		}
+
+		if err := dbInstance.Create(&model.User{FullName: "Jovy", UserName: "jovy", Password: "stemex", RoleID: sales.ID}).Error; err != nil {
+			log.Println("?????????????????????????????")
+			log.Fatalln(err)
+			return
+		}
+
+		var admin = model.Role{Name: "admin"}
+		if err := dbInstance.Create(&admin).Error; err != nil {
+			log.Fatalln(err)
+			return
+		}
+
+		if err := dbInstance.Create(&model.User{FullName: "Joe", UserName: "joe", Password: "stemex", RoleID: admin.ID}).Error; err != nil {
+			log.Println("?????????????????????????????")
+			log.Fatalln(err)
+			return
+		}
+
+		if err := dbInstance.Create(&model.User{FullName: "prospect123", UserName: "prospect123", Password: "stemex", RoleID: prospect.ID}).Error; err != nil {
+			log.Println("?????????????????????????????")
+			log.Fatalln(err)
+			return
+		}
+
+		var parent = model.Role{Name: "parent"}
+		if err := dbInstance.Create(&parent).Error; err != nil {
+			log.Fatalln(err)
+			return
+		}
+
+		if err := dbInstance.Create(&model.User{FullName: "Loretta Leung", UserName: "leungloretta", Password: "stemex", RoleID: parent.ID}).Error; err != nil {
+			log.Println("?????????????????????????????")
 			log.Fatalln(err)
 			return
 		}
@@ -309,6 +345,8 @@ func main() {
 		party.Post("/user", middlewareAuthorizedAPI, api.CreateOrUpdateUser(dbInstance))
 
 		party.Get("/users", middlewareAuthorizedAPI, api.GetAllUsers(dbInstance))
+		party.Get("/partners", middlewareAuthorizedAPI, api.GetAllPartners(dbInstance))
+
 		//party.Post("/users", middlewareAuthorizedAPI, api.CreateUser(factoryInstance.GetUsersBO()))
 
 		party.Get("/roles", middlewareAuthorizedAPI, api.GetAllRoles(dbInstance))
@@ -346,26 +384,19 @@ func main() {
 				return
 			}
 
-			// prospect
-			if user.RoleID == nil {
-				ctx.JSON(iris.Map{
-					"user_name": user.FullName,
-				})
-			} else {
-				var rule model.Role
-				var id = user.RoleID
-				if err := dbInstance.First(&rule, "id = ?", *id).Error; err != nil {
-					ctx.WriteString(fmt.Sprintf("Hi %s!", userName))
-					return
-				}
-
-				log.Println(rule.Name)
-
-				ctx.JSON(iris.Map{
-					"user_name": user.FullName,
-					"role":      rule.Name,
-				})
+			var rule model.Role
+			var id = user.RoleID
+			if err := dbInstance.First(&rule, "id = ?", id).Error; err != nil {
+				ctx.WriteString(fmt.Sprintf("Hi %s!", userName))
+				return
 			}
+
+			log.Println(rule.Name)
+
+			ctx.JSON(iris.Map{
+				"user_name": user.FullName,
+				"role":      rule.Name,
+			})
 
 			// if err := dbInstance.Debug().Create(&sales).Error; err != nil {
 			// 	log.Fatalln(err)

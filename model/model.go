@@ -19,27 +19,27 @@ import (
 //  );
 
 type BaseModel struct {
-	ID        UUIDEx         `gorm:"column:id;type:binary(16);primaryKey;default:UNHEX(REPLACE(UUID(), '-', ''))"`
-	CreatedAt time.Time      `gorm:"column:created_at"`
-	UpdatedAt time.Time      `gorm:"column:updated_at"`
-	DeletedAt gorm.DeletedAt `gorm:"column:deleted_at"`
+	ID        UUIDEx         `gorm:"column:id;type:binary(16);primaryKey;default:UNHEX(REPLACE(UUID(), '-', ''))" json:"id"`
+	CreatedAt time.Time      `gorm:"column:created_at" json:"created_at"`
+	UpdatedAt time.Time      `gorm:"column:updated_at" json:"updated_at"`
+	DeletedAt gorm.DeletedAt `gorm:"column:deleted_at" json:"deleted_at"`
 }
 
 type User struct {
 	BaseModel
-	FullName      string  `gorm:"column:full_name;type:varchar(255);not null"`
-	UserName      string  `gorm:"column:user_name;type:varchar(15);unique;not null"`
-	Password      string  `gorm:"column:password;type:varchar(15);not null"`
-	ContactNumber string  `gorm:"column:contact_number;type:varchar(15);not null"`
-	Email         string  `gorm:"column:email;type:varchar(255);not null"`
-	IsDummy       bool    `gorm:"column:is_dummy;type:boolean;default:false"`
-	RoleID        *UUIDEx `gorm:"column:role_id;type:binary(16)"`
-	Role          *Role   `gorm:"foreignKey:RoleID"`
+	FullName      string `gorm:"column:full_name;type:varchar(255);not null" json:"full_name"`
+	UserName      string `gorm:"column:user_name;type:varchar(15);unique;not null" json:"user_name"`
+	Password      string `gorm:"column:password;type:varchar(15);not null" json:"-"`
+	ContactNumber string `gorm:"column:contact_number;type:varchar(15);not null" json:"contact_number"`
+	Email         string `gorm:"column:email;type:varchar(255);not null" json:"email"`
+	IsDummy       bool   `gorm:"column:is_dummy;type:boolean;default:false" json:"is_dummy"`
+	RoleID        UUIDEx `gorm:"column:role_id;type:binary(16);not null" json:"role_id"`
+	Role          Role   `gorm:"foreignKey:RoleID" json:"role"`
 }
 
 type Role struct {
 	BaseModel
-	Name string `gorm:"column:name;unique;not null"`
+	Name string `gorm:"column:name;unique;not null" json:"name"`
 }
 
 type UserActivity struct {
