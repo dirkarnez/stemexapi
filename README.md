@@ -126,3 +126,33 @@ curl \
 - [ ] [dirkarnez/stemexfaker](https://github.com/dirkarnez/stemexfaker)
 - [ ] Build variant
 - [ ] [dirkarnez/stemexdocs](https://github.com/dirkarnez/stemexdocs)
+- [ ] test cases (instead of postman)
+- [ ] gorm wrapper
+  - ```go
+    import (
+        "reflect"
+        "github.com/jinzhu/gorm"
+    )
+    
+    type User struct {
+        gorm.Model
+        Name  string `gorm:"column:user_name"`
+        Email string `gorm:"column:user_email"`
+    }
+    
+    func main() {
+        user := User{}
+        reflectType := reflect.TypeOf(user)
+    
+        for i := 0; i < reflectType.NumField(); i++ {
+            field := reflectType.Field(i)
+            gormTag := field.Tag.Get("gorm")
+    
+            if gormTag != "" {
+                // Do something with the GORM tag
+                // In this example, we'll just print it
+                fmt.Printf("Field: %s, GORM Tag: %s\n", field.Name, gormTag)
+            }
+        }
+    }
+    ```
