@@ -58,13 +58,13 @@ func (b StemexS3Client) ListObjects() ([]types.Object, error) {
 }
 
 // DownloadFile gets an object from a bucket and stores it in a local file.
-func (b StemexS3Client) DownloadFile(bucketName string, objectKey string, fileName string) error {
+func (b StemexS3Client) DownloadFile(objectKey string, fileName string) error {
 	result, err := b.s3Client.GetObject(context.TODO(), &s3.GetObjectInput{
-		Bucket: aws.String(bucketName),
+		Bucket: aws.String(b.bucketName),
 		Key:    aws.String(objectKey),
 	})
 	if err != nil {
-		log.Printf("Couldn't get object %v:%v. Here's why: %v\n", bucketName, objectKey, err)
+		log.Printf("Couldn't get object %v:%v. Here's why: %v\n", b.bucketName, objectKey, err)
 		return err
 	}
 	defer result.Body.Close()

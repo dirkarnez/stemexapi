@@ -6,12 +6,13 @@ import (
 	"strings"
 
 	"github.com/dirkarnez/stemexapi/model"
+	"github.com/dirkarnez/stemexapi/utils"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/context"
 	"gorm.io/gorm"
 )
 
-func GetResourceByID(dbInstance *gorm.DB) context.Handler {
+func GetResourceByID(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.Handler {
 	return func(ctx iris.Context) {
 		ex, _ := os.Getwd() //use os.Executable() in the future
 
@@ -54,6 +55,7 @@ func GetResourceByID(dbInstance *gorm.DB) context.Handler {
 
 		path := []string{ex, "uploads"}
 		path = append(path, strings.Split(file.ServerPhysicalFileName, "/")...)
+		s3.DownloadFile()
 		ctx.ServeFile(filepath.Join(path...))
 
 		// go func(filename string, ctx iris.Context) {

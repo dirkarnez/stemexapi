@@ -70,6 +70,8 @@ func main() {
 
 	httpClient := &http.Client{}
 
+	s3 := utils.NewStemexS3Client()
+
 	app := iris.New()
 	app.Use(iris.Compression)
 	//	app.Use(iris.NoCache)
@@ -360,7 +362,7 @@ func main() {
 		party.Get("/prospect-activity", middlewareAuthorizedAPI, api.GetProspectActivities(dbInstance))
 		party.Get("/parent-activity", middlewareAuthorizedAPI, api.GetParentActivities(dbInstance))
 		party.Get("/internal-user-activity", middlewareAuthorizedAPI, api.GetInternalUserActivities(dbInstance))
-		party.Get("/resourses", middlewareAuthorizedAPI, api.GetResourceByID(dbInstance))
+		party.Get("/resourse", middlewareAuthorizedAPI, api.GetResourceByID(s3, dbInstance))
 
 		party.Get("/files", middlewareAuthorizedAPI, api.GetFiles(dbInstance))
 		party.Post("/upload", middlewareAuthorizedAPI, api.UploadFile(dbInstance))

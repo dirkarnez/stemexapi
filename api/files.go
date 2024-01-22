@@ -48,7 +48,7 @@ func GetFiles(dbInstance *gorm.DB) context.Handler {
 	}
 }
 
-func UploadFile(dbInstance *gorm.DB) context.Handler {
+func UploadFile(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.Handler {
 	return func(ctx iris.Context) {
 		// uploadedFiles, _, err := ctx.UploadFormFiles("./uploads")
 		// if err != nil {
@@ -70,7 +70,7 @@ func UploadFile(dbInstance *gorm.DB) context.Handler {
 		failures := 0
 		for _, file := range files {
 
-			_, err = utils.SaveUpload(file, dbInstance, ctx)
+			_, err = utils.SaveUpload(file, s3, dbInstance, ctx)
 			if err != nil {
 				failures++
 				//ctx.Writef("failed to upload: %s\n", file.Filename)
