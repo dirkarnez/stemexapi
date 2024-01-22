@@ -13,7 +13,7 @@ import (
 
 func GenerateServerPhysicalFileName(originalPhysicalFileName string) string {
 	extension := filepath.Ext(originalPhysicalFileName)
-	return fmt.Sprintf("%d%s", time.Now().UnixNano(), extension)
+	return fmt.Sprintf("%s-%d%s", originalPhysicalFileName, time.Now().UnixNano(), extension)
 }
 
 func SaveUpload(fileHeader *multipart.FileHeader, db *gorm.DB, ctx iris.Context) (*model.File, error) {
@@ -21,11 +21,17 @@ func SaveUpload(fileHeader *multipart.FileHeader, db *gorm.DB, ctx iris.Context)
 		return nil, fmt.Errorf("nil fileHeader")
 	}
 	serverPhysicalFileName := GenerateServerPhysicalFileName(fileHeader.Filename)
-	_, err := ctx.SaveFormFile(fileHeader, fmt.Sprintf("./%s/%s", "uploads", serverPhysicalFileName))
+
+	multipartFile, err := fileHeader.Open()
 	if err != nil {
 		return nil, err
 	}
-
+	defer multipartFile.Close()
+	err = NewStemexS3Client().UploadFile(fmt.Sprintf("%s/%s", "Course Resources", serverPhysicalFileName), multipartFile)
+	// _, err := ctx.SaveFormFile(fileHeader, )
+	if err != nil {
+		return nil, err
+	}
 	file := model.File{OriginalPhysicalFileName: fileHeader.Filename, ServerPhysicalFileName: serverPhysicalFileName}
 	if err := db.
 		Create(&file).Error; err != nil {
