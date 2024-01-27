@@ -353,7 +353,7 @@ func main() {
 
 		party.Get("/roles", middlewareAuthorizedAPI, api.GetAllRoles(dbInstance))
 
-		party.Post("/curriculum-entry", middlewareAuthorizedAPI, api.CreateOrUpdateCurriculumEntry(dbInstance))
+		party.Post("/curriculum-entry", middlewareAuthorizedAPI, api.CreateOrUpdateCurriculumEntry(s3, dbInstance))
 		party.Get("/curriculum", middlewareAuthorizedAPI, api.GetCurriculum(dbInstance))
 		party.Get("/curriculum-courses", middlewareAuthorizedAPI, api.GetCurriculumCourses(dbInstance))
 
@@ -365,7 +365,7 @@ func main() {
 		party.Get("/resourse", middlewareAuthorizedAPI, api.GetResourceByID(s3, dbInstance))
 
 		party.Get("/files", middlewareAuthorizedAPI, api.GetFiles(dbInstance))
-		party.Post("/upload", middlewareAuthorizedAPI, api.UploadFile(dbInstance))
+		party.Post("/upload", middlewareAuthorizedAPI, api.UploadFile(s3, dbInstance))
 
 		party.Get("/deals/getDeal", middlewareAuthorizedAPI, api.GetDeals(httpClient))
 		party.Get("/deals/search", middlewareAuthorizedAPI, api.SearchDeal(httpClient))

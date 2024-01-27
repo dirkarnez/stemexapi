@@ -11,7 +11,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func GenerateServerPhysicalFileName(originalPhysicalFileName string) string {
+func GenerateObjectKey(originalPhysicalFileName string) string {
 	extension := filepath.Ext(originalPhysicalFileName)
 	return fmt.Sprintf("%s-%d%s", originalPhysicalFileName, time.Now().UnixNano(), extension)
 }
@@ -20,19 +20,19 @@ func SaveUpload(fileHeader *multipart.FileHeader, s3 *StemexS3Client, db *gorm.D
 	if fileHeader == nil {
 		return nil, fmt.Errorf("nil fileHeader")
 	}
-	serverPhysicalFileName := GenerateServerPhysicalFileName(fileHeader.Filename)
+	objectKey := GenerateObjectKey(fileHeader.Filename)
 
 	multipartFile, err := fileHeader.Open()
 	if err != nil {
 		return nil, err
 	}
 	defer multipartFile.Close()
-	err = s3.UploadFile(fmt.Sprintf("%s/%s", "Course Resources", serverPhysicalFileName), multipartFile)
+	err = s3.UploadFile(fmt.Sprintf("%s/%s", "Course Resources", objectKey), multipartFile)
 	// _, err := ctx.SaveFormFile(fileHeader, )
 	if err != nil {
 		return nil, err
 	}
-	file := model.File{OriginalPhysicalFileName: fileHeader.Filename, ServerPhysicalFileName: serverPhysicalFileName}
+	file := model.File{FileNameUploaded: fileHeader.Filename, ObjectKey: objectKey}
 	if err := db.
 		Create(&file).Error; err != nil {
 		return nil, err

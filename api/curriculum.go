@@ -151,7 +151,7 @@ func GetCurriculumCourses(dbInstance *gorm.DB) context.Handler {
 	}
 }
 
-func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
+func CreateOrUpdateCurriculumEntry(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.Handler {
 	return func(ctx iris.Context) {
 		err := dbInstance.Transaction(func(tx *gorm.DB) error {
 			type InformationEntry struct {
@@ -207,7 +207,7 @@ func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 
 			_, iconFileHeader, err := ctx.Request().FormFile("icon_file")
 			if err == nil {
-				file, err := utils.SaveUpload(iconFileHeader, tx, ctx)
+				file, err := utils.SaveUpload(iconFileHeader, s3, tx, ctx)
 				if err != nil {
 					return err
 				}
@@ -283,7 +283,7 @@ func CreateOrUpdateCurriculumEntry(dbInstance *gorm.DB) context.Handler {
 
 					_, iconFileHeader, err := ctx.Request().FormFile(fmt.Sprintf("information_entries.%d.icon_file", i))
 					if err == nil {
-						file, err := utils.SaveUpload(iconFileHeader, tx, ctx)
+						file, err := utils.SaveUpload(iconFileHeader, s3, tx, ctx)
 						if err != nil {
 							return err
 						}

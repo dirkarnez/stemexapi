@@ -50,10 +50,10 @@ type UserActivity struct {
 
 type File struct {
 	BaseModel
-	SeqNo                    uint64 `gorm:"column:seq_no;unique;not null;autoIncrement"`
-	OriginalPhysicalFileName string `gorm:"column:original_physical_file_name;type:varchar(500);not null"`
-	ServerPhysicalFileName   string `gorm:"column:server_physical_file_name;type:varchar(500);not null"`
-	//ContentHash      string `gorm:"column:content_hash;type:varchar(500);unique;not null"`
+	SeqNo            uint64 `gorm:"column:seq_no;unique;not null;autoIncrement"`
+	ObjectKey        string `gorm:"column:object_key;type:varchar(500);unique;not null"`
+	FileNameUploaded string `gorm:"column:file_name_uploaded;type:varchar(500);not null"`
+	//ContentHash      string `gorm:"column:content_hash;type:varchar(500);"`
 }
 
 type CurriculumEntry struct {

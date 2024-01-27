@@ -1,9 +1,7 @@
 package api
 
 import (
-	"os"
-	"path/filepath"
-	"strings"
+	"bytes"
 
 	"github.com/dirkarnez/stemexapi/model"
 	"github.com/dirkarnez/stemexapi/utils"
@@ -14,7 +12,7 @@ import (
 
 func GetResourceByID(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.Handler {
 	return func(ctx iris.Context) {
-		ex, _ := os.Getwd() //use os.Executable() in the future
+		// ex, _ := os.Getwd() //use os.Executable() in the future
 
 		id := ctx.URLParam("id")
 
@@ -53,10 +51,11 @@ func GetResourceByID(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.Hand
 		// 	return
 		// }
 
-		path := []string{ex, "uploads"}
-		path = append(path, strings.Split(file.ServerPhysicalFileName, "/")...)
-		s3.DownloadFile()
-		ctx.ServeFile(filepath.Join(path...))
+		// path := []string{ex, "uploads"}
+		// path = append(path, strings.Split(file.ServerPhysicalFileName, "/")...)
+		data, _ := s3.DownloadFile(file.ObjectKey)
+		// filepath.Join(path...)
+		ctx.ServeContent(bytes.NewReader(data), file.FileNameUploaded, file.UpdatedAt)
 
 		// go func(filename string, ctx iris.Context) {
 		// 	// linux only

@@ -4,7 +4,6 @@ import (
 	"context"
 	"io"
 	"log"
-	"os"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
@@ -58,28 +57,30 @@ func (b StemexS3Client) ListObjects() ([]types.Object, error) {
 }
 
 // DownloadFile gets an object from a bucket and stores it in a local file.
-func (b StemexS3Client) DownloadFile(objectKey string, fileName string) error {
+func (b StemexS3Client) DownloadFile(objectKey string) ([]byte, error) {
 	result, err := b.s3Client.GetObject(context.TODO(), &s3.GetObjectInput{
 		Bucket: aws.String(b.bucketName),
 		Key:    aws.String(objectKey),
 	})
 	if err != nil {
 		log.Printf("Couldn't get object %v:%v. Here's why: %v\n", b.bucketName, objectKey, err)
-		return err
+		return nil, err
 	}
 	defer result.Body.Close()
-	file, err := os.Create(fileName)
-	if err != nil {
-		log.Printf("Couldn't create file %v. Here's why: %v\n", fileName, err)
-		return err
-	}
-	defer file.Close()
-	body, err := io.ReadAll(result.Body)
-	if err != nil {
-		log.Printf("Couldn't read object body from %v. Here's why: %v\n", objectKey, err)
-	}
-	_, err = file.Write(body)
-	return err
+	return io.ReadAll(result.Body)
+
+	// file, err := os.Create(fileName)
+	// if err != nil {
+	// 	log.Printf("Couldn't create file %v. Here's why: %v\n", fileName, err)
+	// 	return err
+	// }
+	// defer file.Close()
+	// body, err := io.ReadAll(result.Body)
+	// if err != nil {
+	// 	log.Printf("Couldn't read object body from %v. Here's why: %v\n", objectKey, err)
+	// }
+	// _, err = file.Write(body)
+	// return err
 }
 
 func NewStemexS3Client() *StemexS3Client {
