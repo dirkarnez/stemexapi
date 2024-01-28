@@ -364,7 +364,7 @@ func main() {
 		party.Get("/internal-user-activity", middlewareAuthorizedAPI, api.GetInternalUserActivities(dbInstance))
 		party.Get("/resourse", middlewareAuthorizedAPI, api.GetResourceByID(s3, dbInstance))
 
-		party.Get("/files", middlewareAuthorizedAPI, api.GetFiles(dbInstance))
+		party.Get("/resourse-list", middlewareAuthorizedAPI, api.GetFiles(dbInstance))
 		party.Post("/upload", middlewareAuthorizedAPI, api.UploadFile(s3, dbInstance))
 
 		party.Get("/deals/getDeal", middlewareAuthorizedAPI, api.GetDeals(httpClient))

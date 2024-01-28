@@ -70,7 +70,7 @@ func UploadFile(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.Handler {
 		failures := 0
 		for _, file := range files {
 
-			_, err = utils.SaveUpload(file, s3, dbInstance, ctx)
+			_, err = utils.SaveUpload(file, []string{}, s3, dbInstance, ctx)
 			if err != nil {
 				failures++
 				//ctx.Writef("failed to upload: %s\n", file.Filename)
