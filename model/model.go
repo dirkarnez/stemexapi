@@ -58,11 +58,43 @@ type File struct {
 
 type CurriculumEntry struct {
 	BaseModel
-	IconID         *UUIDEx `gorm:"column:icon_id;type:binary(16);not null"`
-	Icon           *File   `gorm:"foreignKey:IconID"` //constraint:OnDelete:SET NULL
+	IconID *UUIDEx `gorm:"column:icon_id;type:binary(16);not null"`
+	Icon   *File   `gorm:"foreignKey:IconID"` //constraint:OnDelete:SET NULL
+
+	CurriculumPlanID *UUIDEx `gorm:"column:curriculum_plan_id;type:binary(16);not null"`
+	CurriculumPlan   *File   `gorm:"foreignKey:CurriculumPlanID"` //constraint:OnDelete:SET NULL
+
 	Description    string  `gorm:"column:description;type:varchar(255);not null;uniqueIndex:idx_description_same_level"`
 	ParentID       *UUIDEx `gorm:"column:parent_id;type:binary(16);uniqueIndex:idx_seq_no_same_level;uniqueIndex:idx_description_same_level"`
 	SeqNoSameLevel uint64  `gorm:"column:seq_no_same_level;not null;default:0;uniqueIndex:idx_seq_no_same_level"`
+}
+
+type CurriculumCourseLesson struct {
+	BaseModel
+	LessonNumber *uint64          `gorm:"column:lesson_number;unique;not null"`
+	EntryID      *UUIDEx          `gorm:"column:entry_id;type:binary(16)"`
+	Entry        *CurriculumEntry `gorm:"foreignKey:EntryID"`
+	// Content string           `gorm:"column:content;type:varchar(255);not null"`
+}
+
+type CurriculumCourseLessonResourceType struct {
+	BaseModel
+	Name string `gorm:"column:name;type:varchar(255);not null"`
+	// SeqNo            uint64 `gorm:"column:seq_no;unique;not null;autoIncrement"`
+	// ObjectKey        string `gorm:"column:object_key;type:varchar(500);unique;not null"`
+	// FileNameUploaded string `gorm:"column:file_name_uploaded;type:varchar(500);not null"`
+	//ContentHash      string `gorm:"column:content_hash;type:varchar(500);"`
+}
+
+type CurriculumCourseLessonResources struct {
+	LessonID *UUIDEx                 `gorm:"column:lesson_id;type:binary(16)"`
+	Lesson   *CurriculumCourseLesson `gorm:"foreignKey:LessonID"`
+
+	ResourseTypeID *UUIDEx                             `gorm:"column:resourse_type_id;type:binary(16);not null"`
+	ResourseType   *CurriculumCourseLessonResourceType `gorm:"foreignKey:ResourseTypeID"` //constraint:OnDelete:SET NULL
+
+	ResourseID *UUIDEx `gorm:"column:resourse_id;type:binary(16);not null"`
+	Resourse   *File   `gorm:"foreignKey:ResourseID"` //constraint:OnDelete:SET NULL
 }
 
 type CurriculumCoursePrerequisites struct {
