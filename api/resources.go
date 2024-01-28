@@ -53,7 +53,10 @@ func GetResourceByID(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.Hand
 
 		// path := []string{ex, "uploads"}
 		// path = append(path, strings.Split(file.ServerPhysicalFileName, "/")...)
-		data, _ := s3.DownloadFile(file.ObjectKey)
+		data, err := s3.DownloadFile(file.ObjectKey)
+		if err != nil {
+			ctx.StopWithError(iris.StatusInternalServerError, err)
+		}
 		// filepath.Join(path...)
 		ctx.ServeContent(bytes.NewReader(data), file.FileNameUploaded, file.UpdatedAt)
 
