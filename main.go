@@ -192,20 +192,9 @@ func main() {
 	// log.Println("!!!!!!done", roles)
 
 	if mode == "reinit" {
-		managedTables := []interface{}{
-			&model.User{},
-			&model.Role{},
-			&model.File{},
-			&model.UserActivity{},
-			&model.CurriculumEntry{},
-			&model.CurriculumCoursePrerequisites{},
-			&model.CurriculumCourseYoutubeVideoEntries{},
-			&model.CurriculumCourseBlogEntries{},
-			&model.CurriculumCourseInformationEntries{},
-		}
 
-		dbInstance.Migrator().DropTable(managedTables...)
-		dbInstance.AutoMigrate(managedTables...)
+		dbInstance.Migrator().DropTable(model.AllTables...)
+		dbInstance.AutoMigrate(model.AllTables...)
 
 		var sales = model.Role{Name: "sales"}
 		if err := dbInstance.Create(&sales).Error; err != nil {

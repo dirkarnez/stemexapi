@@ -18,6 +18,18 @@ import (
 //    ,
 //  );
 
+var AllTables = []interface{}{
+	&User{},
+	&Role{},
+	&File{},
+	&UserActivity{},
+	&CurriculumEntry{},
+	&CurriculumCoursePrerequisites{},
+	&CurriculumCourseYoutubeVideoEntries{},
+	&CurriculumCourseBlogEntries{},
+	&CurriculumCourseInformationEntries{},
+}
+
 type BaseModel struct {
 	ID        UUIDEx         `gorm:"column:id;type:binary(16);primaryKey;default:UNHEX(REPLACE(UUID(), '-', ''))" json:"id"`
 	CreatedAt time.Time      `gorm:"column:created_at" json:"created_at"`
