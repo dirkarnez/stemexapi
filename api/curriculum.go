@@ -176,8 +176,6 @@ func CreateOrUpdateCurriculumType(s3 *utils.StemexS3Client, dbInstance *gorm.DB)
 				return err
 			}
 
-			entryToSave.Description = form.Description
-
 			if len(form.ID) > 1 {
 				IDUUID, err := model.ValidUUIDExFromIDString(form.ID)
 				if err != nil {
@@ -185,6 +183,8 @@ func CreateOrUpdateCurriculumType(s3 *utils.StemexS3Client, dbInstance *gorm.DB)
 				}
 				tx.First(&entryToSave, "`id` = ?", IDUUID)
 			}
+
+			entryToSave.Description = form.Description
 
 			if len(form.IconID) > 1 {
 				IconIDUUID, err := model.ValidUUIDExFromIDString(form.IconID)
