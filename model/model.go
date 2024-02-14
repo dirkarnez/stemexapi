@@ -73,6 +73,9 @@ type CurriculumEntry struct {
 	IconID *UUIDEx `gorm:"column:icon_id;type:binary(16);not null"`
 	Icon   *File   `gorm:"foreignKey:IconID"` //constraint:OnDelete:SET NULL
 
+	CurriculumPlanID *UUIDEx `gorm:"column:curriculum_plan_id;type:binary(16)"` //not null
+	CurriculumPlan   *File   `gorm:"foreignKey:CurriculumPlanID"`               //constraint:OnDelete:SET NULL
+
 	Description    string  `gorm:"column:description;type:varchar(255);not null;uniqueIndex:idx_description_same_level"`
 	ParentID       *UUIDEx `gorm:"column:parent_id;type:binary(16);uniqueIndex:idx_seq_no_same_level;uniqueIndex:idx_description_same_level"`
 	SeqNoSameLevel uint64  `gorm:"column:seq_no_same_level;not null;default:0;uniqueIndex:idx_seq_no_same_level"`
