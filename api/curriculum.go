@@ -244,7 +244,6 @@ func CreateOrUpdateCurriculumType(s3 *utils.StemexS3Client, dbInstance *gorm.DB)
 			var returnForm Form
 			returnForm.Description = entryToSave.Description
 			returnForm.ID = entryToSave.ID.ToString()
-			returnForm. = entryToSave.ParentID.ToString()
 
 			if entryToSave.IconID != nil {
 				returnForm.IconID = (*entryToSave.IconID).ToString()
