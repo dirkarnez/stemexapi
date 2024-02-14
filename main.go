@@ -343,6 +343,7 @@ func main() {
 		party.Get("/roles", middlewareAuthorizedAPI, api.GetAllRoles(dbInstance))
 
 		party.Post("/curriculum-entry", middlewareAuthorizedAPI, api.CreateOrUpdateCurriculumEntry(s3, dbInstance))
+		party.Post("/curriculum-type", middlewareAuthorizedAPI, api.CreateOrUpdateCurriculumType(s3, dbInstance))
 		party.Get("/curriculum", middlewareAuthorizedAPI, api.GetCurriculum(dbInstance))
 		party.Get("/curriculum-courses", middlewareAuthorizedAPI, api.GetCurriculumCourses(dbInstance))
 

@@ -46,3 +46,8 @@ func ValidUUIDExFromIDString(id string) (UUIDEx, error) {
 	}
 	return UUIDEx(uuidParsed), nil
 }
+
+func (my UUIDEx) ToString() string {
+	u := uuid.UUID(my)
+	return fmt.Sprintf(`"%s"`, strings.ReplaceAll(u.String(), "-", ""))
+}

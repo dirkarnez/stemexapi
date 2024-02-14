@@ -151,6 +151,110 @@ func GetCurriculumCourses(dbInstance *gorm.DB) context.Handler {
 	}
 }
 
+func CreateOrUpdateCurriculumType(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.Handler {
+	return func(ctx iris.Context) {
+		var entryToSave = model.CurriculumEntry{}
+		type Form struct {
+			ID     string `form:"id"`
+			IconID string `form:"icon_id"`
+			//IconFile/**multipart.FileHeader */ []byte                                           `form:"icon_file"`
+			Description string `form:"description"`
+			ParentID    string `form:"parent_id"`
+		}
+
+		err := dbInstance.Transaction(func(tx *gorm.DB) error {
+			// type InformationEntry struct {
+			// 	IconID string `form:"icon_id"`
+			// 	//IconFile []byte/**multipart.FileHeader*/ `form:"icon_file"`
+			// 	Title   string `form:"title"`
+			// 	Content string `form:"content"`
+			// }
+
+			var form Form
+			err := ctx.ReadForm(&form)
+			if err != nil {
+				return err
+			}
+
+			entryToSave.Description = form.Description
+
+			if len(form.ID) > 1 {
+				IDUUID, err := model.ValidUUIDExFromIDString(form.ID)
+				if err != nil {
+					return err
+				}
+				tx.First(&entryToSave, "`id` = ?", IDUUID)
+			}
+
+			if len(form.IconID) > 1 {
+				IconIDUUID, err := model.ValidUUIDExFromIDString(form.IconID)
+				entryToSave.IconID = &IconIDUUID
+				if err != nil {
+					return err
+				}
+			}
+
+			// // Get the max post value size passed via iris.WithPostMaxMemory.
+			maxSize := ctx.Application().ConfigurationReadOnly().GetPostMaxMemory()
+
+			err = ctx.Request().ParseMultipartForm(maxSize)
+			if err != nil {
+				return err
+			}
+
+			_, iconFileHeader, err := ctx.Request().FormFile("icon_file")
+			if err == nil {
+				file, err := utils.SaveUpload(iconFileHeader, []string{utils.PrefixCourseResourses, entryToSave.Description}, s3, tx, ctx)
+				if err != nil {
+					return err
+				}
+				entryToSave.IconID = &file.ID
+			}
+
+			if entryToSave.IconID == nil {
+				return fmt.Errorf("no icon id")
+			}
+
+			if len(form.ParentID) > 1 && form.ParentID != "null" {
+				parentIDUUID, err := model.ValidUUIDExFromIDString(form.ParentID)
+				if err != nil {
+					return err
+				}
+				entryToSave.ParentID = &parentIDUUID
+
+				tx.Model(&model.CurriculumEntry{}).
+					Select("MAX(`seq_no_same_level`)").
+					Where("`parent_id` = ?", *entryToSave.ParentID).
+					Group("`parent_id`").
+					Scan(&entryToSave.SeqNoSameLevel)
+				entryToSave.SeqNoSameLevel = entryToSave.SeqNoSameLevel + 1
+			}
+
+			if err := tx.Save(&entryToSave).Error; err != nil {
+				return err
+			}
+
+			// // return nil will commit the whole transaction
+			return nil
+		})
+
+		if err != nil {
+			ctx.StopWithError(iris.StatusInternalServerError, err)
+		} else {
+			var returnForm Form
+			returnForm.Description = entryToSave.Description
+			returnForm.ID = entryToSave.ID.ToString()
+			returnForm.ParentID = entryToSave.ParentID.ToString()
+
+			if entryToSave.IconID != nil {
+				returnForm.IconID = (*entryToSave.IconID).ToString()
+			}
+
+			ctx.JSON(returnForm)
+		}
+	}
+}
+
 func CreateOrUpdateCurriculumEntry(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.Handler {
 	return func(ctx iris.Context) {
 		err := dbInstance.Transaction(func(tx *gorm.DB) error {
@@ -334,38 +438,38 @@ func CreateOrUpdateCurriculumEntry(s3 *utils.StemexS3Client, dbInstance *gorm.DB
 	}
 }
 
-func ShouldBeACourse(dbInstance *gorm.DB) context.Handler {
-	return func(ctx iris.Context) {
-		// SELECT CASE WHEN count(id) > 0 THEN true ELSE false END AS `should_be_a_course` from curriculum_course_information_entries ccie where entry_id in (
-		// 	select id from curriculum_entries WHERE parent_id = (
-		// 		SELECT parent_id from curriculum_entries where id = 0x7ba94959764011ee9aa006c3bc34e27e
-		// 	)
-		// )
+// func ShouldBeACourse(dbInstance *gorm.DB) context.Handler {
+// 	return func(ctx iris.Context) {
+// 		// SELECT CASE WHEN count(id) > 0 THEN true ELSE false END AS `should_be_a_course` from curriculum_course_information_entries ccie where entry_id in (
+// 		// 	select id from curriculum_entries WHERE parent_id = (
+// 		// 		SELECT parent_id from curriculum_entries where id = 0x7ba94959764011ee9aa006c3bc34e27e
+// 		// 	)
+// 		// )
 
-		parentID := ctx.URLParam("parent-id")
+// 		parentID := ctx.URLParam("parent-id")
 
-		if len(parentID) < 1 {
-			ctx.StopWithStatus(http.StatusForbidden)
-			return
-		}
+// 		if len(parentID) < 1 {
+// 			ctx.StopWithStatus(http.StatusForbidden)
+// 			return
+// 		}
 
-		parentIDUUIDEx, err := model.ValidUUIDExFromIDString(parentID)
-		if err != nil {
-			ctx.StopWithStatus(http.StatusNotFound)
-			return
-		}
+// 		parentIDUUIDEx, err := model.ValidUUIDExFromIDString(parentID)
+// 		if err != nil {
+// 			ctx.StopWithStatus(http.StatusNotFound)
+// 			return
+// 		}
 
-		itShouldBeACourse := false
+// 		itShouldBeACourse := false
 
-		dbInstance.Table("`curriculum_course_information_entries`").
-			Select("CASE WHEN count(`id`) > 0 THEN true ELSE false END AS `should_be_a_course`").
-			Where("`entry_id` IN (?)", dbInstance.Table("`curriculum_entries`").
-				Select("`id`").
-				Where("`parent_id` = ?", parentIDUUIDEx)).
-			Pluck("`should_be_a_course`", &itShouldBeACourse)
+// 		dbInstance.Table("`curriculum_course_information_entries`").
+// 			Select("CASE WHEN count(`id`) > 0 THEN true ELSE false END AS `should_be_a_course`").
+// 			Where("`entry_id` IN (?)", dbInstance.Table("`curriculum_entries`").
+// 				Select("`id`").
+// 				Where("`parent_id` = ?", parentIDUUIDEx)).
+// 			Pluck("`should_be_a_course`", &itShouldBeACourse)
 
-		ctx.JSON(iris.Map{
-			"it_should_be_a_course": itShouldBeACourse,
-		})
-	}
-}
+// 		ctx.JSON(iris.Map{
+// 			"it_should_be_a_course": itShouldBeACourse,
+// 		})
+// 	}
+// }
