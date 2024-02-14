@@ -155,11 +155,11 @@ func CreateOrUpdateCurriculumType(s3 *utils.StemexS3Client, dbInstance *gorm.DB)
 	return func(ctx iris.Context) {
 		var entryToSave = model.CurriculumEntry{}
 		type Form struct {
-			ID     string `form:"id"`
-			IconID string `form:"icon_id"`
+			ID     string `form:"id"  json:"id"`
+			IconID string `form:"icon_id"  json:"icon_id"`
 			//IconFile/**multipart.FileHeader */ []byte                                           `form:"icon_file"`
-			Description string `form:"description"`
-			ParentID    string `form:"parent_id"`
+			Description string `form:"description"  json:"description"`
+			ParentID    string `form:"parent_id"  json:"parent_id"`
 		}
 
 		err := dbInstance.Transaction(func(tx *gorm.DB) error {
