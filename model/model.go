@@ -78,8 +78,8 @@ type CurriculumEntry struct {
 	SeqNoSameLevel uint64  `gorm:"column:seq_no_same_level;not null;default:0;uniqueIndex:idx_seq_no_same_level"`
 }
 
-CurriculumPlanID *UUIDEx `gorm:"column:curriculum_plan_id;type:binary(16)"` //not null
-CurriculumPlan   *File   `gorm:"foreignKey:CurriculumPlanID"`               //constraint:OnDelete:SET NULL
+// CurriculumPlanID *UUIDEx `gorm:"column:curriculum_plan_id;type:binary(16)"` //not null
+// CurriculumPlan   *File   `gorm:"foreignKey:CurriculumPlanID"`               //constraint:OnDelete:SET NULL
 
 
 type CurriculumCourseLesson struct {
