@@ -7,6 +7,9 @@
 - new
   - https://ec2-43-198-151-195.ap-east-1.compute.amazonaws.com/api/
 
+### `main.go`s
+- `go run cmd/gormplayground/main.go`
+
 ### TODOs
 ```
 curr
