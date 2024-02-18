@@ -62,10 +62,6 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 		// 	IsCourse    bool          `json:"is_course"`
 		// }
 
-		var users []struct {
-			Name  string
-			Total int
-		}
 		// err := u.WithContext(ctx).Select(u.Name, u.ID.Count().As("total")).Group(u.Name).Scan(&users)
 
 		var curriculumEntryList []dto.CurriculumEntry
