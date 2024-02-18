@@ -40,7 +40,18 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 
 		var q = query.Use(dbInstance)
 
-		var curriculumEntryList []dto.CurriculumEntry
+		var curriculumEntry []dto.CurriculumEntry = nil
+		err := q.Transaction(func(tx *query.Query) error {
+			var err error
+			curriculumEntry, err = tx.CurriculumEntry.
+				Select(q.CurriculumEntry.ALL, q.CurriculumCourse.ID).
+				LeftJoin(q.CurriculumCourse, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.ID)).
+				Where(q.CurriculumEntry.ID.Eq(model.NewUUIDEx())).
+				Group(q.CurriculumEntry.ID).
+				First()
+		})
+
+		var curriculumEntryList 
 		err = initSession.
 			Select("`ce`.*, CASE WHEN count(`ccytve`.`entry_id`) > 0 OR count(`ccbe`.`entry_id`) > 0 THEN true ELSE false END AS `is_course`").
 			Joins("LEFT JOIN `curriculum_course_youtube_video_entries` `ccytve` ON `ccytve`.`entry_id` = `ce`.`id`").
