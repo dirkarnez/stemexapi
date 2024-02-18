@@ -64,8 +64,8 @@ func GetCurriculum(dbInstance *gorm.DB) context.Handler {
 			// Select("`ce`.*, CASE WHEN count(`entry_id`) > 0 THEN true ELSE false END AS `is_course`").
 			//CurriculumCourse
 			err = initSession.
-				Select("`ce`.*,  IF(`cc`.`entry_id` IS NOT NULL, true, false) AS `is_course`")
-			Joins("LEFT JOIN `curriculum_courses` `cc` ON `cc`.`entry_id` = `ce`.`id`").
+				Select("`ce`.*,  IF(`cc`.`entry_id` IS NOT NULL, true, false) AS `is_course`").
+				Joins("LEFT JOIN `curriculum_courses` `cc` ON `cc`.`entry_id` = `ce`.`id`").
 				Where("`ce`.`id` = ?", IDUUID).
 				Group("`ce`.`id`").
 				Limit(1).
