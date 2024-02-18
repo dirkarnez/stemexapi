@@ -36,7 +36,7 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 
 	return func(ctx iris.Context) {
 		id := ctx.URLParam("id")
-		topLevel := ctx.URLParamBoolDefault("top-level", false)
+		//topLevel := ctx.URLParamBoolDefault("top-level", false)
 
 		var err error
 		var q = query.Use(dbInstance)
@@ -51,7 +51,7 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 		}
 
 		var curriculumEntryList []*model.CurriculumEntry
-		err := q.Transaction(func(tx *query.Query) error {
+		err = q.Transaction(func(tx *query.Query) error {
 			var err error
 			curriculumEntryList, err = tx.CurriculumEntry.
 				Select(q.CurriculumEntry.ALL, q.CurriculumCourse.ID).
