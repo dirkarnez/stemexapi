@@ -43,10 +43,13 @@ func main() {
 	var curriculumEntry *model.CurriculumEntry = nil
 	q.Transaction(func(tx *query.Query) error {
 		var err error
-		curriculumEntry, err = tx.CurriculumEntry.Where(u.Name.Eq("modi")).First()
-		
+		curriculumEntry, err = tx.CurriculumEntry.Select(q.CurriculumCourse.ALL, q.CurriculumCourse).Where(u.Name.Eq("modi")).First()
+
+
+		u.WithContext(ctx).Select(u.Name, e.Email).LeftJoin(e, e.UserID.EqCol(u.ID)).Scan(&result)
+
 		curriculumEntry, err = tx.CurriculumEntry
-		.Select(q.CurriculumCourse.ALL, q.CurriculumCourse)
+		
 
 		err := u.WithContext(ctx)
 		.Select(u.Name, u.Age.Sum().As("total")).Group(u.Name).Having(u.Name.Eq("group")).Scan(&users)
