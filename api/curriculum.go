@@ -76,13 +76,12 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 			ctx.StatusCode(iris.StatusInternalServerError)
 			return
 		} else {
-
 			var curriculumEntryDTOList []dto.CurriculumEntry
 
 			for i, curriculumEntry := range curriculumEntryList {
-				fmt.Println(i, s)
+				curriculumEntryDTOList = append(curriculumEntryDTOList)
 			}
-			ctx.JSON()
+			ctx.JSON(curriculumEntryDTOList)
 		}
 
 		// var err = initSession.
