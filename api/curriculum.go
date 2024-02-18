@@ -95,9 +95,9 @@ func GetCurriculum(dbInstance *gorm.DB) context.Handler {
 					IconID:      curriculumEntry.IconID,
 					ParentID:    curriculumEntry.ParentID,
 					//Prerequisites: []string
-					YoutubeVideoURLs:   curriculumCourseYoutubeVideoEntries,
-					InformationEntries: curriculumCourseInformationEntries,
-					BlogEntries:        curriculumCourseBlogEntries,
+					YoutubeVideoURLs: curriculumCourseYoutubeVideoEntries,
+					// InformationEntries: curriculumCourseInformationEntries,
+					BlogEntries: curriculumCourseBlogEntries,
 				})
 			}
 		} else {
