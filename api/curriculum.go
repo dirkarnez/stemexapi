@@ -60,10 +60,10 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 				Select(q.CurriculumEntry.ALL, field.NewField(q.CurriculumCourse.TableName(), q.CurriculumCourse.ID.ColumnName().String()).IsNotNull().As("is_course")).
 				LeftJoin(q.CurriculumCourse, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.ID)).
 				Where(func() field.Expr {
-					if parentUUID == nil {
+					if parentUUIDPtr == nil {
 						return q.CurriculumEntry.ParentID.IsNull()
 					} else {
-						return q.CurriculumEntry.ParentID.Eq(*parentUUID)
+						return q.CurriculumEntry.ParentID.Eq(*parentUUIDPtr)
 					}
 				}()).
 				Group(q.CurriculumEntry.ID).
