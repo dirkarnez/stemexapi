@@ -40,7 +40,7 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 
 		var q = query.Use(dbInstance)
 
-		var curriculumEntryList []*dto.CurriculumEntry
+		var curriculumEntryList []*model.CurriculumEntry
 		err := q.Transaction(func(tx *query.Query) error {
 			var err error
 			curriculumEntryList, err = tx.CurriculumEntry.
