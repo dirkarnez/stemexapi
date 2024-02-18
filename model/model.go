@@ -113,7 +113,7 @@ type CurriculumCourseLessonResourceType struct {
 	//ContentHash      string `gorm:"column:content_hash;type:varchar(500);"`
 }
 
-type CurriculumCourseLessonResources struct {
+type CurriculumCourseLevelLessonResources struct {
 	LessonID *UUIDEx                 `gorm:"column:lesson_id;type:binary(16)"`
 	Lesson   *CurriculumCourseLesson `gorm:"foreignKey:LessonID"`
 
