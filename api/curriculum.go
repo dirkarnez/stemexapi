@@ -74,11 +74,15 @@ func GetCurriculum(dbInstance *gorm.DB) context.Handler {
 				ctx.StatusCode(iris.StatusInternalServerError)
 				return
 			}
+
 			err = dbInstance.
 				Model(&model.CurriculumCourseBlogEntries{}).
 				Where(&model.CurriculumCourseBlogEntries{EntryID: &curriculumEntry.ID}).
 				Find(&curriculumCourseBlogEntries).Error
-
+			if err != nil {
+				ctx.StatusCode(iris.StatusInternalServerError)
+				return
+			}
 			// _ = dbInstance.
 			// 	Model(&model.CurriculumCourseInformationEntries{}).
 			// 	Where(&model.CurriculumCourseInformationEntries{EntryID: &curriculumEntry.ID}).
