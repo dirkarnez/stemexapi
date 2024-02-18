@@ -70,7 +70,10 @@ func GetCurriculum(dbInstance *gorm.DB) context.Handler {
 				Group("`ce`.`id`").
 				Limit(1).
 				Scan(&curriculumEntry).Error
-
+			if err != nil {
+				ctx.StatusCode(iris.StatusInternalServerError)
+				return
+			}
 			err = dbInstance.
 				Model(&model.CurriculumCourseBlogEntries{}).
 				Where(&model.CurriculumCourseBlogEntries{EntryID: &curriculumEntry.ID}).
