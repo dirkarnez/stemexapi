@@ -70,7 +70,6 @@ func main() {
 	// })
 
 	// fmt.Printf("curriculumEntry %+v, err = %+v", curriculumEntry, err)
-	var q = query.Use(dbInstance)
 
 	var curriculumEntryList []*model.CurriculumEntry
 	err := q.Transaction(func(tx *query.Query) error {
