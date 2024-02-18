@@ -87,7 +87,7 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 			if curriculumEntryList == nil {
 				curriculumEntryList = []dto.CurriculumEntry{}
 			}
-			ctx.JSON()
+			ctx.JSON(curriculumEntryList)
 		}
 
 		// var err = initSession.
