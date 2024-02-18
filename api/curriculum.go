@@ -347,9 +347,9 @@ func CreateOrUpdateCurriculumEntry(s3 *utils.StemexS3Client, dbInstance *gorm.DB
 				return err
 			}
 
-			if err := tx.Delete(&model.CurriculumCourseInformationEntries{}, "`entry_id` = ?", entryToSave.ID).Error; err != nil {
-				return err
-			}
+			// if err := tx.Delete(&model.CurriculumCourseInformationEntries{}, "`entry_id` = ?", entryToSave.ID).Error; err != nil {
+			// 	return err
+			// }
 
 			if err := tx.Delete(&model.CurriculumCourseYoutubeVideoEntries{}, "`entry_id` = ?", entryToSave.ID).Error; err != nil {
 				return err
