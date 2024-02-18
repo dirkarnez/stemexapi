@@ -55,7 +55,7 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 			curriculumEntryList, err = tx.CurriculumEntry.
 				Select(q.CurriculumEntry.ALL, q.CurriculumCourse.ID).
 				LeftJoin(q.CurriculumCourse, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.ID)).
-				Where(q.CurriculumEntry.ID.Eq(model.NewUUIDEx())).
+				Where(q.CurriculumEntry.ID.Eq(IDUUID)).
 				Group(q.CurriculumEntry.ID).
 				Find()
 			return err
