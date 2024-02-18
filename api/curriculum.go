@@ -54,6 +54,14 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 			parentUUIDPtr = nil
 		}
 
+		// type CurriculumEntry struct {
+		// 	ID          model.UUIDEx  `json:"id"`
+		// 	Description string        `json:"description"`
+		// 	ParentID    *model.UUIDEx `json:"parent_id"`
+		// 	IconID      *model.UUIDEx `json:"icon_id"`
+		// 	IsCourse    bool          `json:"is_course"`
+		// }
+
 		var curriculumEntryList []dto.CurriculumEntry
 		err = q.Transaction(func(tx *query.Query) error {
 			err := tx.CurriculumEntry.
@@ -66,7 +74,6 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 						return q.CurriculumEntry.ParentID.Eq(*parentUUIDPtr)
 					}
 				}()).
-				Group(q.CurriculumEntry.ID).
 				Scan(curriculumEntryList)
 			return err
 		})
