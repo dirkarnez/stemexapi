@@ -40,5 +40,14 @@ func main() {
 		return nil
 	})
 
+	var user *model.CurriculumEntry
+
 	fmt.Printf("Users %d", len(user))
 }
+
+
+Select("`ce`.*,  IF(`cc`.`entry_id` IS NOT NULL, true, false) AS `is_course`").
+Joins("LEFT JOIN `curriculum_courses` `cc` ON `cc`.`entry_id` = `ce`.`id`").
+Where("`ce`.`id` = ?", IDUUID).
+Group("`ce`.`id`").
+Limit(1).
