@@ -66,7 +66,7 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 			Name  string
 			Total int
 		}
-		err := u.WithContext(ctx).Select(u.Name, u.ID.Count().As("total")).Group(u.Name).Scan(&users)
+		// err := u.WithContext(ctx).Select(u.Name, u.ID.Count().As("total")).Group(u.Name).Scan(&users)
 
 		var curriculumEntryList []dto.CurriculumEntry
 		err = q.Transaction(func(tx *query.Query) error {
