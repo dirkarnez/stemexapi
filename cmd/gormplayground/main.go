@@ -1,12 +1,12 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"log"
 
 	"github.com/dirkarnez/stemexapi/model"
 	"github.com/dirkarnez/stemexapi/query"
+	"github.com/kataras/iris/v12"
 	"gorm.io/driver/mysql"
 	"gorm.io/gen"
 	"gorm.io/gorm"
@@ -41,36 +41,56 @@ func main() {
 	// 	return nil
 	// })
 
-	var curriculumEntry *model.CurriculumEntry = nil
+	// var curriculumEntry *model.CurriculumEntry = nil
+	// err := q.Transaction(func(tx *query.Query) error {
+	// 	var err error
+	// 	curriculumEntry, err = tx.CurriculumEntry.
+	// 		Select(q.CurriculumEntry.ALL, q.CurriculumCourse.ID).
+	// 		LeftJoin(q.CurriculumCourse, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.ID)).
+	// 		Where(q.CurriculumEntry.ID.Eq(model.NewUUIDEx())).
+	// 		Group(q.CurriculumEntry.ID).
+	// 		First()
+
+	// 	// .Where(u.Name.Eq("modi")).First()
+
+	// 	// u.WithContext(ctx).Select(u.Name, e.Email).LeftJoin(e, e.UserID.EqCol(u.ID)).Scan(&result)
+
+	// 	// curriculumEntry, err = tx.CurriculumEntry
+
+	// 	// err := u.WithContext(ctx)
+	// 	// .Select(u.Name, u.Age.Sum().As("total")).Group(u.Name).Having(u.Name.Eq("group")).Scan(&users)
+	// 	// .Where().Find()
+	// 	if err != nil {
+	// 		if errors.Is(err, gorm.ErrRecordNotFound) {
+	// 			curriculumEntry = nil
+	// 			return nil
+	// 		}
+	// 		return err
+	// 	}
+	// 	return nil
+	// })
+
+	// fmt.Printf("curriculumEntry %+v, err = %+v", curriculumEntry, err)
+	var q = query.Use(dbInstance)
+
+	var curriculumEntryList []*model.CurriculumEntry
 	err := q.Transaction(func(tx *query.Query) error {
 		var err error
-		curriculumEntry, err = tx.CurriculumEntry.
+		curriculumEntryList, err = tx.CurriculumEntry.
 			Select(q.CurriculumEntry.ALL, q.CurriculumCourse.ID).
 			LeftJoin(q.CurriculumCourse, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.ID)).
 			Where(q.CurriculumEntry.ID.Eq(model.NewUUIDEx())).
 			Group(q.CurriculumEntry.ID).
-			First()
-
-		// .Where(u.Name.Eq("modi")).First()
-
-		// u.WithContext(ctx).Select(u.Name, e.Email).LeftJoin(e, e.UserID.EqCol(u.ID)).Scan(&result)
-
-		// curriculumEntry, err = tx.CurriculumEntry
-
-		// err := u.WithContext(ctx)
-		// .Select(u.Name, u.Age.Sum().As("total")).Group(u.Name).Having(u.Name.Eq("group")).Scan(&users)
-		// .Where().Find()
-		if err != nil {
-			if errors.Is(err, gorm.ErrRecordNotFound) {
-				curriculumEntry = nil
-				return nil
-			}
-			return err
-		}
-		return nil
+			Find()
+		return err
 	})
 
-	fmt.Printf("curriculumEntry %+v, err = %+v", curriculumEntry, err)
+	if err != nil {
+		ctx.StatusCode(iris.StatusInternalServerError)
+		return
+	} else {
+		ctx.JSON(curriculumEntryList)
+	}
 }
 
 // Select("`ce`.*,  IF(`cc`.`entry_id` IS NOT NULL, true, false) AS `is_course`").
