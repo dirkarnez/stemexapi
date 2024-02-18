@@ -43,6 +43,8 @@ func main() {
 	var curriculumEntry *model.CurriculumEntry = nil
 	q.Transaction(func(tx *query.Query) error {
 		var err error
+		user, err := tx.CurriculumEntry.Where(u.Name.Eq("modi")).First()
+
 		curriculumEntry, err = tx.CurriculumEntry
 		.Select(q.CurriculumCourse.ALL, q.CurriculumCourse)
 
