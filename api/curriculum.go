@@ -1,13 +1,11 @@
 package api
 
 import (
-	"errors"
 	"fmt"
 	"net/http"
 
 	"github.com/dirkarnez/stemexapi/dto"
 	"github.com/dirkarnez/stemexapi/model"
-	"github.com/dirkarnez/stemexapi/query"
 	"github.com/dirkarnez/stemexapi/utils"
 	"github.com/google/uuid"
 	"github.com/kataras/iris/v12"
@@ -39,123 +37,125 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 		id := ctx.URLParam("id")
 		topLevel := ctx.URLParamBoolDefault("top-level", false)
 
-		initSession := dbInstance.Table("`curriculum_entries` `ce`")
-
-		if topLevel {
-			initSession = initSession.Where("`parent_id` IS NULL")
-		}
-
-		var IDUUID model.UUIDEx
-		var err error
-
-		var q = query.Use(dbInstance)
-
-		if len(id) != 0 {
-			IDUUID, err = model.ValidUUIDExFromIDString(id)
-			if err != nil {
-				ctx.StopWithStatus(http.StatusNotFound)
-				return
-			}
-
-			curriculumCourseBlogEntries := []dto.CurriculumCourseBlogEntries{}
-			curriculumCourseYoutubeVideoEntries := []dto.CurriculumCourseYoutubeVideoEntries{}
-
-			// err = initSession.Where("`curriculum_entries`.`id` = ?", IDUUID).
-			// Joins("left join `curriculum_course_blog_entries` on `curriculum_course_blog_entries`.`entry_id` = `curriculum_entries`.`id`").
-			// Joins("left join `curriculum_course_information_entries` on `curriculum_course_information_entries`.`entry_id` = `curriculum_entries`.`id`").
-			// Joins("left join `curriculum_course_youtube_video_entries` on `curriculum_course_youtube_video_entries`.`entry_id` = `curriculum_entries`.`id`").
-			// First(&details).Error
-			// Select("`ce`.*, CASE WHEN count(`entry_id`) > 0 THEN true ELSE false END AS `is_course`").
-			//CurriculumCourse
-			// err = initSession.
-			// 	Select("`ce`.*,  IF(`cc`.`entry_id` IS NOT NULL, true, false) AS `is_course`").
-			// 	Joins("LEFT JOIN `curriculum_courses` `cc` ON `cc`.`entry_id` = `ce`.`id`").
-			// 	Where("`ce`.`id` = ?", IDUUID).
-			// 	Group("`ce`.`id`").
-			// 	Limit(1).
-			// 	Scan(&curriculumEntry).Error
-			// if err != nil {
-			// 	ctx.StatusCode(iris.StatusInternalServerError)
-			// 	return
-			// }
-
-			var curriculumEntry *model.CurriculumEntry = nil
-			err := q.Transaction(func(tx *query.Query) error {
-				var err error
-				curriculumEntry, err = tx.CurriculumEntry.
-					Select(q.CurriculumEntry.ALL, q.CurriculumCourse.ID).
-					LeftJoin(q.CurriculumCourse, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.ID)).
-					Where(q.CurriculumEntry.ID.Eq(model.NewUUIDEx())).
-					Group(q.CurriculumEntry.ID).
-					First()
-
-				// .Where(u.Name.Eq("modi")).First()
-
-				// u.WithContext(ctx).Select(u.Name, e.Email).LeftJoin(e, e.UserID.EqCol(u.ID)).Scan(&result)
-
-				// curriculumEntry, err = tx.CurriculumEntry
-
-				// err := u.WithContext(ctx)
-				// .Select(u.Name, u.Age.Sum().As("total")).Group(u.Name).Having(u.Name.Eq("group")).Scan(&users)
-				// .Where().Find()
-				if err != nil {
-					if errors.Is(err, gorm.ErrRecordNotFound) {
-						curriculumEntry = nil
-						return nil
-					}
-					return err
-				}
-				return nil
-			})
-
-			err = dbInstance.
-				Model(&model.CurriculumCourseBlogEntries{}).
-				Where(&model.CurriculumCourseBlogEntries{EntryID: &curriculumEntry.ID}).
-				Find(&curriculumCourseBlogEntries).Error
-			if err != nil {
-				ctx.StatusCode(iris.StatusInternalServerError)
-				return
-			}
-			// _ = dbInstance.
-			// 	Model(&model.CurriculumCourseInformationEntries{}).
-			// 	Where(&model.CurriculumCourseInformationEntries{EntryID: &curriculumEntry.ID}).
-			// 	Find(&curriculumCourseInformationEntries).Error
-
-			err = dbInstance.
-				Model(&model.CurriculumCourseYoutubeVideoEntries{}).
-				Where(&model.CurriculumCourseYoutubeVideoEntries{EntryID: &curriculumEntry.ID}).
-				Find(&curriculumCourseYoutubeVideoEntries).Error
-
-			if err != nil {
-				ctx.StatusCode(iris.StatusInternalServerError)
-				return
-			} else {
-				ctx.JSON(dto.CurriculumCourseDetails{
-					ID:          curriculumEntry.ID,
-					Description: curriculumEntry.Description,
-					IconID:      curriculumEntry.IconID,
-					ParentID:    curriculumEntry.ParentID,
-					//Prerequisites: []string
-					YoutubeVideoURLs: curriculumCourseYoutubeVideoEntries,
-					// InformationEntries: curriculumCourseInformationEntries,
-					BlogEntries: curriculumCourseBlogEntries,
-				})
-			}
+		var curriculumEntryList []dto.CurriculumEntry
+		err = initSession.
+			Select("`ce`.*, CASE WHEN count(`ccytve`.`entry_id`) > 0 OR count(`ccbe`.`entry_id`) > 0 THEN true ELSE false END AS `is_course`").
+			Joins("LEFT JOIN `curriculum_course_youtube_video_entries` `ccytve` ON `ccytve`.`entry_id` = `ce`.`id`").
+			Joins("LEFT JOIN `curriculum_course_blog_entries` `ccbe` ON `ccbe`.`entry_id` = `ce`.`id`").
+			Group("`ce`.`id`").
+			Scan(&curriculumEntryList).Error
+		if err != nil {
+			ctx.StatusCode(iris.StatusInternalServerError)
+			return
 		} else {
-			var curriculumEntryList []dto.CurriculumEntry
-			err = initSession.
-				Select("`ce`.*, CASE WHEN count(`ccytve`.`entry_id`) > 0 OR count(`ccbe`.`entry_id`) > 0 THEN true ELSE false END AS `is_course`").
-				Joins("LEFT JOIN `curriculum_course_youtube_video_entries` `ccytve` ON `ccytve`.`entry_id` = `ce`.`id`").
-				Joins("LEFT JOIN `curriculum_course_blog_entries` `ccbe` ON `ccbe`.`entry_id` = `ce`.`id`").
-				Group("`ce`.`id`").
-				Scan(&curriculumEntryList).Error
-			if err != nil {
-				ctx.StatusCode(iris.StatusInternalServerError)
-				return
-			} else {
-				ctx.JSON(curriculumEntryList)
-			}
+			ctx.JSON(curriculumEntryList)
 		}
+
+		// initSession := dbInstance.Table("`curriculum_entries` `ce`")
+
+		// if topLevel {
+		// 	initSession = initSession.Where("`parent_id` IS NULL")
+		// }
+
+		// var IDUUID model.UUIDEx
+		// var err error
+
+		// var q = query.Use(dbInstance)
+
+		// if len(id) != 0 {
+		// 	IDUUID, err = model.ValidUUIDExFromIDString(id)
+		// 	if err != nil {
+		// 		ctx.StopWithStatus(http.StatusNotFound)
+		// 		return
+		// 	}
+
+		// 	curriculumCourseBlogEntries := []dto.CurriculumCourseBlogEntries{}
+		// 	curriculumCourseYoutubeVideoEntries := []dto.CurriculumCourseYoutubeVideoEntries{}
+
+		// 	// err = initSession.Where("`curriculum_entries`.`id` = ?", IDUUID).
+		// 	// Joins("left join `curriculum_course_blog_entries` on `curriculum_course_blog_entries`.`entry_id` = `curriculum_entries`.`id`").
+		// 	// Joins("left join `curriculum_course_information_entries` on `curriculum_course_information_entries`.`entry_id` = `curriculum_entries`.`id`").
+		// 	// Joins("left join `curriculum_course_youtube_video_entries` on `curriculum_course_youtube_video_entries`.`entry_id` = `curriculum_entries`.`id`").
+		// 	// First(&details).Error
+		// 	// Select("`ce`.*, CASE WHEN count(`entry_id`) > 0 THEN true ELSE false END AS `is_course`").
+		// 	//CurriculumCourse
+		// 	// err = initSession.
+		// 	// 	Select("`ce`.*,  IF(`cc`.`entry_id` IS NOT NULL, true, false) AS `is_course`").
+		// 	// 	Joins("LEFT JOIN `curriculum_courses` `cc` ON `cc`.`entry_id` = `ce`.`id`").
+		// 	// 	Where("`ce`.`id` = ?", IDUUID).
+		// 	// 	Group("`ce`.`id`").
+		// 	// 	Limit(1).
+		// 	// 	Scan(&curriculumEntry).Error
+		// 	// if err != nil {
+		// 	// 	ctx.StatusCode(iris.StatusInternalServerError)
+		// 	// 	return
+		// 	// }
+
+		// 	var curriculumEntry *model.CurriculumEntry = nil
+		// 	err := q.Transaction(func(tx *query.Query) error {
+		// 		var err error
+		// 		curriculumEntry, err = tx.CurriculumEntry.
+		// 			Select(q.CurriculumEntry.ALL, q.CurriculumCourse.ID).
+		// 			LeftJoin(q.CurriculumCourse, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.ID)).
+		// 			Where(q.CurriculumEntry.ID.Eq(model.NewUUIDEx())).
+		// 			Group(q.CurriculumEntry.ID).
+		// 			First()
+
+		// 		// .Where(u.Name.Eq("modi")).First()
+
+		// 		// u.WithContext(ctx).Select(u.Name, e.Email).LeftJoin(e, e.UserID.EqCol(u.ID)).Scan(&result)
+
+		// 		// curriculumEntry, err = tx.CurriculumEntry
+
+		// 		// err := u.WithContext(ctx)
+		// 		// .Select(u.Name, u.Age.Sum().As("total")).Group(u.Name).Having(u.Name.Eq("group")).Scan(&users)
+		// 		// .Where().Find()
+		// 		if err != nil {
+		// 			if errors.Is(err, gorm.ErrRecordNotFound) {
+		// 				curriculumEntry = nil
+		// 				return nil
+		// 			}
+		// 			return err
+		// 		}
+		// 		return nil
+		// 	})
+
+		// 	err = dbInstance.
+		// 		Model(&model.CurriculumCourseBlogEntries{}).
+		// 		Where(&model.CurriculumCourseBlogEntries{EntryID: &curriculumEntry.ID}).
+		// 		Find(&curriculumCourseBlogEntries).Error
+		// 	if err != nil {
+		// 		ctx.StatusCode(iris.StatusInternalServerError)
+		// 		return
+		// 	}
+		// 	// _ = dbInstance.
+		// 	// 	Model(&model.CurriculumCourseInformationEntries{}).
+		// 	// 	Where(&model.CurriculumCourseInformationEntries{EntryID: &curriculumEntry.ID}).
+		// 	// 	Find(&curriculumCourseInformationEntries).Error
+
+		// 	err = dbInstance.
+		// 		Model(&model.CurriculumCourseYoutubeVideoEntries{}).
+		// 		Where(&model.CurriculumCourseYoutubeVideoEntries{EntryID: &curriculumEntry.ID}).
+		// 		Find(&curriculumCourseYoutubeVideoEntries).Error
+
+		// 	if err != nil {
+		// 		ctx.StatusCode(iris.StatusInternalServerError)
+		// 		return
+		// 	} else {
+		// 		ctx.JSON(dto.CurriculumCourseDetails{
+		// 			ID:          curriculumEntry.ID,
+		// 			Description: curriculumEntry.Description,
+		// 			IconID:      curriculumEntry.IconID,
+		// 			ParentID:    curriculumEntry.ParentID,
+		// 			//Prerequisites: []string
+		// 			YoutubeVideoURLs: curriculumCourseYoutubeVideoEntries,
+		// 			// InformationEntries: curriculumCourseInformationEntries,
+		// 			BlogEntries: curriculumCourseBlogEntries,
+		// 		})
+		// 	}
+		// } else {
+
+		// }
 	}
 }
 
