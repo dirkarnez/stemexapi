@@ -40,6 +40,15 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 
 		var q = query.Use(dbInstance)
 
+		var IDUUID model.UUIDEx
+		if len(id) != 0 {
+			IDUUID, err = model.ValidUUIDExFromIDString(id)
+			if err != nil {
+				ctx.StopWithStatus(http.StatusNotFound)
+				return
+			}
+		}
+
 		var curriculumEntryList []*model.CurriculumEntry
 		err := q.Transaction(func(tx *query.Query) error {
 			var err error
