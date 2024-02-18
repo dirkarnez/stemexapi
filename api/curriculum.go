@@ -48,6 +48,8 @@ func GetCurriculum(dbInstance *gorm.DB) context.Handler {
 		var IDUUID model.UUIDEx
 		var err error
 
+		var q = query.Use(dbInstance)
+
 		if len(id) != 0 {
 			IDUUID, err = model.ValidUUIDExFromIDString(id)
 			if err != nil {
