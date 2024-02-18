@@ -32,7 +32,6 @@ func newCurriculumEntry(db *gorm.DB, opts ...gen.DOOption) curriculumEntry {
 	_curriculumEntry.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_curriculumEntry.DeletedAt = field.NewField(tableName, "deleted_at")
 	_curriculumEntry.IconID = field.NewField(tableName, "icon_id")
-	_curriculumEntry.CurriculumPlanID = field.NewField(tableName, "curriculum_plan_id")
 	_curriculumEntry.Description = field.NewString(tableName, "description")
 	_curriculumEntry.ParentID = field.NewField(tableName, "parent_id")
 	_curriculumEntry.SeqNoSameLevel = field.NewUint64(tableName, "seq_no_same_level")
@@ -40,12 +39,6 @@ func newCurriculumEntry(db *gorm.DB, opts ...gen.DOOption) curriculumEntry {
 		db: db.Session(&gorm.Session{}),
 
 		RelationField: field.NewRelation("Icon", "model.File"),
-	}
-
-	_curriculumEntry.CurriculumPlan = curriculumEntryBelongsToCurriculumPlan{
-		db: db.Session(&gorm.Session{}),
-
-		RelationField: field.NewRelation("CurriculumPlan", "model.File"),
 	}
 
 	_curriculumEntry.fillFieldMap()
@@ -56,19 +49,16 @@ func newCurriculumEntry(db *gorm.DB, opts ...gen.DOOption) curriculumEntry {
 type curriculumEntry struct {
 	curriculumEntryDo
 
-	ALL              field.Asterisk
-	ID               field.Field
-	CreatedAt        field.Time
-	UpdatedAt        field.Time
-	DeletedAt        field.Field
-	IconID           field.Field
-	CurriculumPlanID field.Field
-	Description      field.String
-	ParentID         field.Field
-	SeqNoSameLevel   field.Uint64
-	Icon             curriculumEntryBelongsToIcon
-
-	CurriculumPlan curriculumEntryBelongsToCurriculumPlan
+	ALL            field.Asterisk
+	ID             field.Field
+	CreatedAt      field.Time
+	UpdatedAt      field.Time
+	DeletedAt      field.Field
+	IconID         field.Field
+	Description    field.String
+	ParentID       field.Field
+	SeqNoSameLevel field.Uint64
+	Icon           curriculumEntryBelongsToIcon
 
 	fieldMap map[string]field.Expr
 }
@@ -90,7 +80,6 @@ func (c *curriculumEntry) updateTableName(table string) *curriculumEntry {
 	c.UpdatedAt = field.NewTime(table, "updated_at")
 	c.DeletedAt = field.NewField(table, "deleted_at")
 	c.IconID = field.NewField(table, "icon_id")
-	c.CurriculumPlanID = field.NewField(table, "curriculum_plan_id")
 	c.Description = field.NewString(table, "description")
 	c.ParentID = field.NewField(table, "parent_id")
 	c.SeqNoSameLevel = field.NewUint64(table, "seq_no_same_level")
@@ -110,13 +99,12 @@ func (c *curriculumEntry) GetFieldByName(fieldName string) (field.OrderExpr, boo
 }
 
 func (c *curriculumEntry) fillFieldMap() {
-	c.fieldMap = make(map[string]field.Expr, 11)
+	c.fieldMap = make(map[string]field.Expr, 9)
 	c.fieldMap["id"] = c.ID
 	c.fieldMap["created_at"] = c.CreatedAt
 	c.fieldMap["updated_at"] = c.UpdatedAt
 	c.fieldMap["deleted_at"] = c.DeletedAt
 	c.fieldMap["icon_id"] = c.IconID
-	c.fieldMap["curriculum_plan_id"] = c.CurriculumPlanID
 	c.fieldMap["description"] = c.Description
 	c.fieldMap["parent_id"] = c.ParentID
 	c.fieldMap["seq_no_same_level"] = c.SeqNoSameLevel
@@ -201,77 +189,6 @@ func (a curriculumEntryBelongsToIconTx) Clear() error {
 }
 
 func (a curriculumEntryBelongsToIconTx) Count() int64 {
-	return a.tx.Count()
-}
-
-type curriculumEntryBelongsToCurriculumPlan struct {
-	db *gorm.DB
-
-	field.RelationField
-}
-
-func (a curriculumEntryBelongsToCurriculumPlan) Where(conds ...field.Expr) *curriculumEntryBelongsToCurriculumPlan {
-	if len(conds) == 0 {
-		return &a
-	}
-
-	exprs := make([]clause.Expression, 0, len(conds))
-	for _, cond := range conds {
-		exprs = append(exprs, cond.BeCond().(clause.Expression))
-	}
-	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
-	return &a
-}
-
-func (a curriculumEntryBelongsToCurriculumPlan) WithContext(ctx context.Context) *curriculumEntryBelongsToCurriculumPlan {
-	a.db = a.db.WithContext(ctx)
-	return &a
-}
-
-func (a curriculumEntryBelongsToCurriculumPlan) Session(session *gorm.Session) *curriculumEntryBelongsToCurriculumPlan {
-	a.db = a.db.Session(session)
-	return &a
-}
-
-func (a curriculumEntryBelongsToCurriculumPlan) Model(m *model.CurriculumEntry) *curriculumEntryBelongsToCurriculumPlanTx {
-	return &curriculumEntryBelongsToCurriculumPlanTx{a.db.Model(m).Association(a.Name())}
-}
-
-type curriculumEntryBelongsToCurriculumPlanTx struct{ tx *gorm.Association }
-
-func (a curriculumEntryBelongsToCurriculumPlanTx) Find() (result *model.File, err error) {
-	return result, a.tx.Find(&result)
-}
-
-func (a curriculumEntryBelongsToCurriculumPlanTx) Append(values ...*model.File) (err error) {
-	targetValues := make([]interface{}, len(values))
-	for i, v := range values {
-		targetValues[i] = v
-	}
-	return a.tx.Append(targetValues...)
-}
-
-func (a curriculumEntryBelongsToCurriculumPlanTx) Replace(values ...*model.File) (err error) {
-	targetValues := make([]interface{}, len(values))
-	for i, v := range values {
-		targetValues[i] = v
-	}
-	return a.tx.Replace(targetValues...)
-}
-
-func (a curriculumEntryBelongsToCurriculumPlanTx) Delete(values ...*model.File) (err error) {
-	targetValues := make([]interface{}, len(values))
-	for i, v := range values {
-		targetValues[i] = v
-	}
-	return a.tx.Delete(targetValues...)
-}
-
-func (a curriculumEntryBelongsToCurriculumPlanTx) Clear() error {
-	return a.tx.Clear()
-}
-
-func (a curriculumEntryBelongsToCurriculumPlanTx) Count() int64 {
 	return a.tx.Count()
 }
 
