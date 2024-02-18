@@ -271,9 +271,9 @@ func CreateOrUpdateCurriculumEntry(s3 *utils.StemexS3Client, dbInstance *gorm.DB
 				ID     string `form:"id"`
 				IconID string `form:"icon_id"`
 				//IconFile/**multipart.FileHeader */ []byte                                           `form:"icon_file"`
-				Description         string                                    `form:"description"`
-				ParentID            string                                    `form:"parent_id"`
-				InformationEntries  []InformationEntry                        `form:"information_entries"`
+				Description string `form:"description"`
+				ParentID    string `form:"parent_id"`
+				// InformationEntries  []InformationEntry                        `form:"information_entries"`
 				BlogEntries         []dto.CurriculumCourseBlogEntries         `form:"blog_entries"`
 				YoutubeVideoEntries []dto.CurriculumCourseYoutubeVideoEntries `form:"youtube_video_entries"`
 			}
