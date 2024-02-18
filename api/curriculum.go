@@ -51,6 +51,12 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 				Find()
 			return err
 		})
+		if err != nil {
+			ctx.StatusCode(iris.StatusInternalServerError)
+			return
+		} else {
+			ctx.JSON(curriculumEntryList)
+		}
 
 		// var err = initSession.
 		// 	Select("`ce`.*, CASE WHEN count(`ccytve`.`entry_id`) > 0 OR count(`ccbe`.`entry_id`) > 0 THEN true ELSE false END AS `is_course`").
