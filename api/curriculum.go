@@ -35,15 +35,15 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 	// }
 
 	return func(ctx iris.Context) {
-		id := ctx.URLParam("parent-id")
+		parentID := ctx.URLParam("parent-id")
 		// topLevel := ctx.URLParamBoolDefault("top-level", false)
 
 		var err error
 		var q = query.Use(dbInstance)
 
-		var IDUUID model.UUIDEx
-		if len(id) != 0 {
-			IDUUID, err = model.ValidUUIDExFromIDString(id)
+		var parentID model.UUIDEx
+		if len(parentID) != 0 {
+			parentID, err = model.ValidUUIDExFromIDString(id)
 			if err != nil {
 				ctx.StopWithError(http.StatusNotFound, fmt.Errorf("invalid id"))
 				return
