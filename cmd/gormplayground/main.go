@@ -65,7 +65,7 @@ func main() {
 		return nil
 	})
 
-	fmt.Printf("Users %d", len(user))
+	fmt.Printf("Users %d", curriculumEntry)
 }
 
 // Select("`ce`.*,  IF(`cc`.`entry_id` IS NOT NULL, true, false) AS `is_course`").
