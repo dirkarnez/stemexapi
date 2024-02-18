@@ -341,7 +341,7 @@ func main() {
 		party.Post("/curriculum-course", middlewareAuthorizedAPI, api.CreateOrUpdateCurriculumEntry(s3, dbInstance))
 		party.Post("/curriculum-course-type", middlewareAuthorizedAPI, api.CreateOrUpdateCurriculumType(s3, dbInstance))
 		party.Get("/curriculum-tree", middlewareAuthorizedAPI, api.GetCurriculumTree(dbInstance))
-		party.Get("/curriculum-course-type", middlewareAuthorizedAPI, api.GetCurriculumType(dbInstance))
+		party.Get("/curriculum-course-type", middlewareAuthorizedAPI, api.GetCurriculumCourseType(dbInstance))
 
 		party.Get("/curriculum-courses", middlewareAuthorizedAPI, api.GetCurriculumCourses(dbInstance))
 
