@@ -279,7 +279,7 @@ func GetCurriculumCourses(dbInstance *gorm.DB) context.Handler {
 	}
 }
 
-func CreateOrUpdateCurriculumType(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.Handler {
+func CreateOrUpdateCurriculumCourseType(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.Handler {
 	return func(ctx iris.Context) {
 		var entryToSave = model.CurriculumEntry{}
 		type Form struct {
