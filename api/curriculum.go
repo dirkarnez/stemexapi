@@ -56,7 +56,6 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 
 		var curriculumEntryList []*model.CurriculumEntry
 		err = q.Transaction(func(tx *query.Query) error {
-
 			var err error
 			curriculumEntryList, err = tx.CurriculumEntry.
 				Select(q.CurriculumEntry.ALL, field.NewField(q.CurriculumCourse.TableName(), q.CurriculumCourse.ID.ColumnName().String()).IsNotNull().As("is_course")).
