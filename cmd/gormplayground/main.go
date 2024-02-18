@@ -46,8 +46,8 @@ func main() {
 		curriculumEntry, err = tx.CurriculumEntry.
 			Select(q.CurriculumEntry.ALL, q.CurriculumCourse.ID).
 			LeftJoin(q.CurriculumEntry, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.ID)).
-			Where(q.CurriculumEntry.ID.Eq(model.NewUUIDEx()))
-		Group(q.CurriculumEntry.ID).
+			Where(q.CurriculumEntry.ID.Eq(model.NewUUIDEx())).
+			Group(q.CurriculumEntry.ID).
 			First()
 
 		// .Where(u.Name.Eq("modi")).First()
