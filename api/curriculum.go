@@ -51,6 +51,7 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 				Find()
 			return err
 		})
+
 		if err != nil {
 			ctx.StatusCode(iris.StatusInternalServerError)
 			return
