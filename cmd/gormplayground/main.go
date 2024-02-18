@@ -62,7 +62,7 @@ func main() {
 		// .Where().Find()
 		if err != nil {
 			if errors.Is(err, gorm.ErrRecordNotFound) {
-				// Handle record not found error...
+				return nil
 			}
 			return err
 		}
