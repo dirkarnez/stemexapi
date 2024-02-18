@@ -54,7 +54,7 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 			parentUUIDPtr = nil
 		}
 
-		var curriculumEntryList []*model.CurriculumEntry
+		var curriculumEntryList []dto.CurriculumEntry
 		err = q.Transaction(func(tx *query.Query) error {
 			var err error
 			curriculumEntryList, err = tx.CurriculumEntry.
@@ -68,7 +68,7 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 					}
 				}()).
 				Group(q.CurriculumEntry.ID).
-				Find()
+				Scan()
 			return err
 		})
 
@@ -76,10 +76,12 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 			ctx.StatusCode(iris.StatusInternalServerError)
 			return
 		} else {
-			var curriculumEntryDTOList []dto.CurriculumEntry
+			var curriculumEntryDTOList [].CurriculumEntry
 
 			for i, curriculumEntry := range curriculumEntryList {
-				curriculumEntryDTOList = append(curriculumEntryDTOList)
+				curriculumEntryDTOList = append(curriculumEntryDTOList, dto.CurriculumEntry{
+
+				})
 			}
 			ctx.JSON(curriculumEntryDTOList)
 		}
