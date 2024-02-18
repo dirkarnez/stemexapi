@@ -89,7 +89,7 @@ func main() {
 			Find()
 		return err
 	})
-	fmt.Printf("curriculumEntryList %+v, err = %+v", curriculumEntryList, err)
+	fmt.Printf("curriculumEntryList %+v, err = %+v", len(curriculumEntryList), err)
 
 }
 
