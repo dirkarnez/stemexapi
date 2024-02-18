@@ -386,7 +386,7 @@ func CreateOrUpdateCurriculumType(s3 *utils.StemexS3Client, dbInstance *gorm.DB)
 	}
 }
 
-func CreateOrUpdateCurriculumEntry(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.Handler {
+func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.Handler {
 	return func(ctx iris.Context) {
 		err := dbInstance.Transaction(func(tx *gorm.DB) error {
 			// type InformationEntry struct {
