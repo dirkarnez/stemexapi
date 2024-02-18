@@ -38,12 +38,12 @@ type CurriculumCourseBlogEntries struct {
 	Title       string       `json:"title" form:"title"`
 }
 
-type CurriculumCourseInformationEntries struct {
-	ID      model.UUIDEx  `json:"id"`
-	IconID  *model.UUIDEx `json:"icon_id"`
-	Title   string        `json:"title"`
-	Content string        `json:"content"`
-}
+// type CurriculumCourseInformationEntries struct {
+// 	ID      model.UUIDEx  `json:"id"`
+// 	IconID  *model.UUIDEx `json:"icon_id"`
+// 	Title   string        `json:"title"`
+// 	Content string        `json:"content"`
+// }
 
 type CurriculumCourseDetails struct {
 	ID                 model.UUIDEx                          `json:"id"`
