@@ -71,7 +71,7 @@ func GetCurriculum(dbInstance *gorm.DB) context.Handler {
 				Limit(1).
 				Scan(&curriculumEntry).Error
 
-			_ = dbInstance.
+			err = dbInstance.
 				Model(&model.CurriculumCourseBlogEntries{}).
 				Where(&model.CurriculumCourseBlogEntries{EntryID: &curriculumEntry.ID}).
 				Find(&curriculumCourseBlogEntries).Error
@@ -81,7 +81,7 @@ func GetCurriculum(dbInstance *gorm.DB) context.Handler {
 			// 	Where(&model.CurriculumCourseInformationEntries{EntryID: &curriculumEntry.ID}).
 			// 	Find(&curriculumCourseInformationEntries).Error
 
-			_ = dbInstance.
+			err = dbInstance.
 				Model(&model.CurriculumCourseYoutubeVideoEntries{}).
 				Where(&model.CurriculumCourseYoutubeVideoEntries{EntryID: &curriculumEntry.ID}).
 				Find(&curriculumCourseYoutubeVideoEntries).Error
