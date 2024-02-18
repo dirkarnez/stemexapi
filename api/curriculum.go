@@ -230,7 +230,7 @@ func GetCurriculumCourseType(dbInstance *gorm.DB) context.Handler {
 			idUUIDPtr = nil
 		}
 
-		var curriculumEntry model.CurriculumEntry
+		var curriculumEntry *model.CurriculumEntry
 		err = q.Transaction(func(tx *query.Query) error {
 			var err error
 			curriculumEntry, err = tx.CurriculumEntry.
