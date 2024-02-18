@@ -76,13 +76,13 @@ func main() {
 	err := q.Transaction(func(tx *query.Query) error {
 
 		// create a new generic field map to `generic_a`
-		f := field.NewField("table_name", "generic")
+		f := field.NewField("curriculum_courses", "id")
 		// `table_name`.`generic` IS NULL
-		f.IsNull()
+		f.IsNotNull()
 
 		var err error
 		curriculumEntryList, err = tx.CurriculumEntry.
-			Select(q.CurriculumEntry.ALL, q.CurriculumCourse.ID).
+			Select(q.CurriculumEntry.ALL, q.CurriculumCourse.ID, f.IsNotNull()).
 			LeftJoin(q.CurriculumCourse, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.ID)).
 			Where(q.CurriculumEntry.ID.Eq(model.NewUUIDEx())).
 			Group(q.CurriculumEntry.ID).
