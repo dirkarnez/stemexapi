@@ -55,7 +55,6 @@ func GetCurriculum(dbInstance *gorm.DB) context.Handler {
 				return
 			}
 
-			curriculumEntry := dto.CurriculumEntry{}
 			curriculumCourseBlogEntries := []dto.CurriculumCourseBlogEntries{}
 			curriculumCourseYoutubeVideoEntries := []dto.CurriculumCourseYoutubeVideoEntries{}
 
