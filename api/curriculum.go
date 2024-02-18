@@ -53,7 +53,7 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 
 		var curriculumEntryList []*model.CurriculumEntry
 		err = q.Transaction(func(tx *query.Query) error {
-			var a = func() field.Expr {
+			var getWhere = func() field.Expr {
 				if parentUUID == nil {
 					return q.CurriculumEntry.ParentID.IsNull()
 				} else {
