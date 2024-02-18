@@ -114,8 +114,8 @@ type CurriculumCourseLessonResourceType struct {
 }
 
 type CurriculumCourseLevelLessonResources struct {
-	LessonID *UUIDEx                 `gorm:"column:lesson_id;type:binary(16)"`
-	Lesson   *CurriculumCourseLesson `gorm:"foreignKey:LessonID"`
+	LessonID *UUIDEx                      `gorm:"column:lesson_id;type:binary(16)"`
+	Lesson   *CurriculumCourseLevelLesson `gorm:"foreignKey:LessonID"`
 
 	ResourseTypeID *UUIDEx                             `gorm:"column:resourse_type_id;type:binary(16);not null"`
 	ResourseType   *CurriculumCourseLessonResourceType `gorm:"foreignKey:ResourseTypeID"` //constraint:OnDelete:SET NULL
