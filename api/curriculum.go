@@ -242,7 +242,7 @@ func GetCurriculumCourseType(dbInstance *gorm.DB) context.Handler {
 						return q.CurriculumEntry.ParentID.Eq(*idUUIDPtr)
 					}
 				}()).
-				Scan(&curriculumEntryList)
+				Scan(&curriculumEntry)
 			return err
 		})
 
