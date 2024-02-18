@@ -44,7 +44,7 @@ func main() {
 	q.Transaction(func(tx *query.Query) error {
 		var err error
 		curriculumEntry, err = tx.CurriculumEntry.Where(u.Name.Eq("modi")).First()
-
+		
 		curriculumEntry, err = tx.CurriculumEntry
 		.Select(q.CurriculumCourse.ALL, q.CurriculumCourse)
 
