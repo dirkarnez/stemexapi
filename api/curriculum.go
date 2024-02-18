@@ -52,6 +52,7 @@ func GetCurriculum(dbInstance *gorm.DB) context.Handler {
 				ctx.StopWithStatus(http.StatusNotFound)
 				return
 			}
+
 			curriculumEntry := dto.CurriculumEntry{}
 			curriculumCourseBlogEntries := []dto.CurriculumCourseBlogEntries{}
 			curriculumCourseYoutubeVideoEntries := []dto.CurriculumCourseYoutubeVideoEntries{}
