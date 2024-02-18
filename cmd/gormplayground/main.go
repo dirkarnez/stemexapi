@@ -41,8 +41,8 @@ func main() {
 	// })
 
 	var curriculumEntry *model.CurriculumEntry = nil
+	var err error
 	q.Transaction(func(tx *query.Query) error {
-		var err error
 		curriculumEntry, err = tx.CurriculumEntry.
 			Select(q.CurriculumEntry.ALL, q.CurriculumCourse.ID).
 			LeftJoin(q.CurriculumCourse, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.ID)).
