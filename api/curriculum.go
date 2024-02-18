@@ -16,7 +16,7 @@ import (
 	"gorm.io/gorm/clause"
 )
 
-func GetCurriculum(dbInstance *gorm.DB) context.Handler {
+func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 	// return func(ctx iris.Context) {
 	// 	var curriculumEntryList []model.CurriculumEntry
 	// 	if err := dbInstance.Raw(`
