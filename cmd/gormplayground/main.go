@@ -40,7 +40,7 @@ func main() {
 		return nil
 	})
 
-	var user *model.CurriculumEntry
+	var user *model.CurriculumEntry = nil
 
 	fmt.Printf("Users %d", len(user))
 }
