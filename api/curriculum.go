@@ -53,11 +53,17 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 
 		var curriculumEntryList []*model.CurriculumEntry
 		err = q.Transaction(func(tx *query.Query) error {
+			var a = func() {
+				if true {
+					return q.CurriculumEntry.ParentID.IsNull()
+				}
+			}
+
 			var err error
 			curriculumEntryList, err = tx.CurriculumEntry.
 				Select(q.CurriculumEntry.ALL, field.NewField(q.CurriculumCourse.TableName(), q.CurriculumCourse.ID.ColumnName().String()).IsNotNull().As("is_course")).
 				LeftJoin(q.CurriculumCourse, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.ID)).
-				Where(q.CurriculumEntry.ParentID.IsNull()).
+				Where(getWhere()).
 				Group(q.CurriculumEntry.ID).
 				Find()
 			return err
