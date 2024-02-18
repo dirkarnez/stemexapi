@@ -9,6 +9,7 @@
 
 ### `main.go`s
 - `go run cmd/gormplayground/main.go`
+- `go run cmd/codegen/main.go`
 
 ### TODOs
 ```
