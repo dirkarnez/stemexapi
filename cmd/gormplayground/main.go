@@ -41,7 +41,7 @@ func main() {
 	// })
 
 	var curriculumEntry *model.CurriculumEntry = nil
-	var err error
+	var err error = nil
 	q.Transaction(func(tx *query.Query) error {
 		curriculumEntry, err = tx.CurriculumEntry.
 			Select(q.CurriculumEntry.ALL, q.CurriculumCourse.ID).
