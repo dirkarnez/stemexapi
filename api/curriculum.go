@@ -56,6 +56,8 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 			var a = func() field.Expr {
 				if parentUUID == nil {
 					return q.CurriculumEntry.ParentID.IsNull()
+				} else {
+					return q.CurriculumEntry.ParentID.Eq(*parentUUID)
 				}
 			}
 
