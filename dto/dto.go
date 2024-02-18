@@ -27,9 +27,8 @@ type CurriculumEntry struct {
 }
 
 type CurriculumCourseYoutubeVideoEntries struct {
-	ID    model.UUIDEx `json:"id" form:"id"`
-	URL   string       `json:"url" form:"url"`
-	Title string       `json:"title"`
+	ID  model.UUIDEx `json:"id" form:"id"`
+	URL string       `json:"url" form:"url"`
 }
 
 type CurriculumCourseBlogEntries struct {
