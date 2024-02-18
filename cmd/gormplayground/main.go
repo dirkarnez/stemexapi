@@ -45,7 +45,8 @@ func main() {
 		var err error
 		curriculumEntry, err = tx.CurriculumEntry.
 		Select(q.CurriculumEntry.ALL, q.CurriculumCourse.ID).
-		LeftJoin(q.CurriculumEntry, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.ID)).Scan(&result)
+		LeftJoin(q.CurriculumEntry, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.ID)).
+		.First()
 		// .Where(u.Name.Eq("modi")).First()
 
 
