@@ -54,7 +54,6 @@ func GetCurriculum(dbInstance *gorm.DB) context.Handler {
 			}
 			curriculumEntry := dto.CurriculumEntry{}
 			curriculumCourseBlogEntries := []dto.CurriculumCourseBlogEntries{}
-			curriculumCourseInformationEntries := []dto.CurriculumCourseInformationEntries{}
 			curriculumCourseYoutubeVideoEntries := []dto.CurriculumCourseYoutubeVideoEntries{}
 
 			// err = initSession.Where("`curriculum_entries`.`id` = ?", IDUUID).
