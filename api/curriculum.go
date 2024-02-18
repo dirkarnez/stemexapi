@@ -6,6 +6,7 @@ import (
 
 	"github.com/dirkarnez/stemexapi/dto"
 	"github.com/dirkarnez/stemexapi/model"
+	"github.com/dirkarnez/stemexapi/query"
 	"github.com/dirkarnez/stemexapi/utils"
 	"github.com/google/uuid"
 	"github.com/kataras/iris/v12"
@@ -36,6 +37,8 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 	return func(ctx iris.Context) {
 		id := ctx.URLParam("id")
 		topLevel := ctx.URLParamBoolDefault("top-level", false)
+
+		var q = query.Use(dbInstance)
 
 		var curriculumEntryList []dto.CurriculumEntry
 		err = initSession.
