@@ -82,7 +82,7 @@ func main() {
 
 		var err error
 		curriculumEntryList, err = tx.CurriculumEntry.
-			Select(q.CurriculumEntry.ALL, q.CurriculumCourse.ID, f.IsNotNull().As()).
+			Select(q.CurriculumEntry.ALL, q.CurriculumCourse.ID, f.IsNotNull().As("is_course")).
 			LeftJoin(q.CurriculumCourse, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.ID)).
 			Where(q.CurriculumEntry.ID.Eq(model.NewUUIDEx())).
 			Group(q.CurriculumEntry.ID).
