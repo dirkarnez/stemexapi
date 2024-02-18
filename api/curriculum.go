@@ -48,7 +48,7 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 				LeftJoin(q.CurriculumCourse, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.ID)).
 				Where(q.CurriculumEntry.ID.Eq(model.NewUUIDEx())).
 				Group(q.CurriculumEntry.ID).
-				First()
+				Find()
 		})
 
 		var err = initSession.
