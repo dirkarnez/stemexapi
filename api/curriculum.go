@@ -413,7 +413,6 @@ func CreateOrUpdateCurriculumEntry(s3 *utils.StemexS3Client, dbInstance *gorm.DB
 					youtubeVideoEntryModel := model.CurriculumCourseYoutubeVideoEntries{}
 					youtubeVideoEntryModel.ID = youtubeVideoEntry.ID
 					youtubeVideoEntryModel.URL = youtubeVideoEntry.URL
-					youtubeVideoEntryModel.Title = youtubeVideoEntry.Title
 					youtubeVideoEntryModel.EntryID = &entryToSave.ID
 
 					if err := tx.Clauses(clause.OnConflict{
