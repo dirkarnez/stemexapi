@@ -43,7 +43,7 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 
 		var parentUUID model.UUIDEx
 		if len(parentID) != 0 {
-			parentUUID, err = model.ValidUUIDExFromIDString(id)
+			parentUUID, err = model.ValidUUIDExFromIDString(parentID)
 			if err != nil {
 				ctx.StopWithError(http.StatusNotFound, fmt.Errorf("invalid id"))
 				return
