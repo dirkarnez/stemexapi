@@ -75,10 +75,10 @@ func GetCurriculum(dbInstance *gorm.DB) context.Handler {
 				Where(&model.CurriculumCourseBlogEntries{EntryID: &curriculumEntry.ID}).
 				Find(&curriculumCourseBlogEntries).Error
 
-			_ = dbInstance.
-				Model(&model.CurriculumCourseInformationEntries{}).
-				Where(&model.CurriculumCourseInformationEntries{EntryID: &curriculumEntry.ID}).
-				Find(&curriculumCourseInformationEntries).Error
+			// _ = dbInstance.
+			// 	Model(&model.CurriculumCourseInformationEntries{}).
+			// 	Where(&model.CurriculumCourseInformationEntries{EntryID: &curriculumEntry.ID}).
+			// 	Find(&curriculumCourseInformationEntries).Error
 
 			_ = dbInstance.
 				Model(&model.CurriculumCourseYoutubeVideoEntries{}).
