@@ -24,6 +24,7 @@ var AllTables = []interface{}{
 	&File{},
 	&UserActivity{},
 	&CurriculumEntry{},
+	&CurriculumCourse{},
 	&CurriculumCoursePrerequisites{},
 	&CurriculumCourseYoutubeVideoEntries{},
 	&CurriculumCourseBlogEntries{},
