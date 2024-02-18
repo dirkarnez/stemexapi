@@ -50,6 +50,8 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 				return
 			}
 			parentUUIDPtr = &parentUUID
+		} else {
+			parentUUIDPtr = nil
 		}
 
 		var curriculumEntryList []*model.CurriculumEntry
