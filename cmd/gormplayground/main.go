@@ -8,6 +8,7 @@ import (
 	"github.com/dirkarnez/stemexapi/query"
 	"gorm.io/driver/mysql"
 	"gorm.io/gen"
+	"gorm.io/gen/field"
 	"gorm.io/gorm"
 )
 
@@ -73,6 +74,12 @@ func main() {
 
 	var curriculumEntryList []*model.CurriculumEntry
 	err := q.Transaction(func(tx *query.Query) error {
+
+		// create a new generic field map to `generic_a`
+		f := field.NewField("table_name", "generic")
+		// `table_name`.`generic` IS NULL
+		f.IsNull()
+
 		var err error
 		curriculumEntryList, err = tx.CurriculumEntry.
 			Select(q.CurriculumEntry.ALL, q.CurriculumCourse.ID).
