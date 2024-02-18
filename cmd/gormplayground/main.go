@@ -30,15 +30,15 @@ func main() {
 	dbInstance = dbInstance.Debug()
 	var q = query.Use(dbInstance)
 
-	var user []*model.User
-	q.Transaction(func(tx *query.Query) error {
-		var err error
-		user, err = tx.User.Where(q.User.Password.Eq("stemex")).Find()
-		if err != nil {
-			return err
-		}
-		return nil
-	})
+	// var user []*model.User
+	// q.Transaction(func(tx *query.Query) error {
+	// 	var err error
+	// 	user, err = tx.User.Where(q.User.Password.Eq("stemex")).Find()
+	// 	if err != nil {
+	// 		return err
+	// 	}
+	// 	return nil
+	// })
 
 	var curriculumEntry *model.CurriculumEntry = nil
 	q.Transaction(func(tx *query.Query) error {
