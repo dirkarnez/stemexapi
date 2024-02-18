@@ -62,6 +62,7 @@ func main() {
 		// .Where().Find()
 		if err != nil {
 			if errors.Is(err, gorm.ErrRecordNotFound) {
+				curriculumEntry = nil
 				return nil
 			}
 			return err
