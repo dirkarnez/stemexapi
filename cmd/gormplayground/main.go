@@ -60,6 +60,7 @@ func main() {
 		// .Select(u.Name, u.Age.Sum().As("total")).Group(u.Name).Having(u.Name.Eq("group")).Scan(&users)
 		// .Where().Find()
 		if err != nil {
+			fmt.Printf(" err = %+v", err)
 			return err
 		}
 		return nil
