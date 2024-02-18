@@ -43,11 +43,6 @@ func newCurriculumCourseBlogEntries(db *gorm.DB, opts ...gen.DOOption) curriculu
 		}{
 			RelationField: field.NewRelation("Entry.Icon", "model.File"),
 		},
-		CurriculumPlan: struct {
-			field.RelationField
-		}{
-			RelationField: field.NewRelation("Entry.CurriculumPlan", "model.File"),
-		},
 	}
 
 	_curriculumCourseBlogEntries.fillFieldMap()
@@ -133,9 +128,6 @@ type curriculumCourseBlogEntriesBelongsToEntry struct {
 	field.RelationField
 
 	Icon struct {
-		field.RelationField
-	}
-	CurriculumPlan struct {
 		field.RelationField
 	}
 }

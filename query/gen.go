@@ -18,7 +18,6 @@ import (
 var (
 	Q                                   = new(Query)
 	CurriculumCourseBlogEntries         *curriculumCourseBlogEntries
-	CurriculumCourseInformationEntries  *curriculumCourseInformationEntries
 	CurriculumCoursePrerequisites       *curriculumCoursePrerequisites
 	CurriculumCourseYoutubeVideoEntries *curriculumCourseYoutubeVideoEntries
 	CurriculumEntry                     *curriculumEntry
@@ -31,7 +30,6 @@ var (
 func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	*Q = *Use(db, opts...)
 	CurriculumCourseBlogEntries = &Q.CurriculumCourseBlogEntries
-	CurriculumCourseInformationEntries = &Q.CurriculumCourseInformationEntries
 	CurriculumCoursePrerequisites = &Q.CurriculumCoursePrerequisites
 	CurriculumCourseYoutubeVideoEntries = &Q.CurriculumCourseYoutubeVideoEntries
 	CurriculumEntry = &Q.CurriculumEntry
@@ -45,7 +43,6 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 	return &Query{
 		db:                                  db,
 		CurriculumCourseBlogEntries:         newCurriculumCourseBlogEntries(db, opts...),
-		CurriculumCourseInformationEntries:  newCurriculumCourseInformationEntries(db, opts...),
 		CurriculumCoursePrerequisites:       newCurriculumCoursePrerequisites(db, opts...),
 		CurriculumCourseYoutubeVideoEntries: newCurriculumCourseYoutubeVideoEntries(db, opts...),
 		CurriculumEntry:                     newCurriculumEntry(db, opts...),
@@ -60,7 +57,6 @@ type Query struct {
 	db *gorm.DB
 
 	CurriculumCourseBlogEntries         curriculumCourseBlogEntries
-	CurriculumCourseInformationEntries  curriculumCourseInformationEntries
 	CurriculumCoursePrerequisites       curriculumCoursePrerequisites
 	CurriculumCourseYoutubeVideoEntries curriculumCourseYoutubeVideoEntries
 	CurriculumEntry                     curriculumEntry
@@ -76,7 +72,6 @@ func (q *Query) clone(db *gorm.DB) *Query {
 	return &Query{
 		db:                                  db,
 		CurriculumCourseBlogEntries:         q.CurriculumCourseBlogEntries.clone(db),
-		CurriculumCourseInformationEntries:  q.CurriculumCourseInformationEntries.clone(db),
 		CurriculumCoursePrerequisites:       q.CurriculumCoursePrerequisites.clone(db),
 		CurriculumCourseYoutubeVideoEntries: q.CurriculumCourseYoutubeVideoEntries.clone(db),
 		CurriculumEntry:                     q.CurriculumEntry.clone(db),
@@ -99,7 +94,6 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 	return &Query{
 		db:                                  db,
 		CurriculumCourseBlogEntries:         q.CurriculumCourseBlogEntries.replaceDB(db),
-		CurriculumCourseInformationEntries:  q.CurriculumCourseInformationEntries.replaceDB(db),
 		CurriculumCoursePrerequisites:       q.CurriculumCoursePrerequisites.replaceDB(db),
 		CurriculumCourseYoutubeVideoEntries: q.CurriculumCourseYoutubeVideoEntries.replaceDB(db),
 		CurriculumEntry:                     q.CurriculumEntry.replaceDB(db),
@@ -112,7 +106,6 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 
 type queryCtx struct {
 	CurriculumCourseBlogEntries         ICurriculumCourseBlogEntriesDo
-	CurriculumCourseInformationEntries  ICurriculumCourseInformationEntriesDo
 	CurriculumCoursePrerequisites       ICurriculumCoursePrerequisitesDo
 	CurriculumCourseYoutubeVideoEntries ICurriculumCourseYoutubeVideoEntriesDo
 	CurriculumEntry                     ICurriculumEntryDo
@@ -125,7 +118,6 @@ type queryCtx struct {
 func (q *Query) WithContext(ctx context.Context) *queryCtx {
 	return &queryCtx{
 		CurriculumCourseBlogEntries:         q.CurriculumCourseBlogEntries.WithContext(ctx),
-		CurriculumCourseInformationEntries:  q.CurriculumCourseInformationEntries.WithContext(ctx),
 		CurriculumCoursePrerequisites:       q.CurriculumCoursePrerequisites.WithContext(ctx),
 		CurriculumCourseYoutubeVideoEntries: q.CurriculumCourseYoutubeVideoEntries.WithContext(ctx),
 		CurriculumEntry:                     q.CurriculumEntry.WithContext(ctx),

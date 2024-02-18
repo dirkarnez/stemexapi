@@ -32,7 +32,6 @@ func newCurriculumCourseYoutubeVideoEntries(db *gorm.DB, opts ...gen.DOOption) c
 	_curriculumCourseYoutubeVideoEntries.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_curriculumCourseYoutubeVideoEntries.DeletedAt = field.NewField(tableName, "deleted_at")
 	_curriculumCourseYoutubeVideoEntries.URL = field.NewString(tableName, "url")
-	_curriculumCourseYoutubeVideoEntries.Title = field.NewString(tableName, "title")
 	_curriculumCourseYoutubeVideoEntries.EntryID = field.NewField(tableName, "entry_id")
 	_curriculumCourseYoutubeVideoEntries.Entry = curriculumCourseYoutubeVideoEntriesBelongsToEntry{
 		db: db.Session(&gorm.Session{}),
@@ -42,11 +41,6 @@ func newCurriculumCourseYoutubeVideoEntries(db *gorm.DB, opts ...gen.DOOption) c
 			field.RelationField
 		}{
 			RelationField: field.NewRelation("Entry.Icon", "model.File"),
-		},
-		CurriculumPlan: struct {
-			field.RelationField
-		}{
-			RelationField: field.NewRelation("Entry.CurriculumPlan", "model.File"),
 		},
 	}
 
@@ -64,7 +58,6 @@ type curriculumCourseYoutubeVideoEntries struct {
 	UpdatedAt field.Time
 	DeletedAt field.Field
 	URL       field.String
-	Title     field.String
 	EntryID   field.Field
 	Entry     curriculumCourseYoutubeVideoEntriesBelongsToEntry
 
@@ -88,7 +81,6 @@ func (c *curriculumCourseYoutubeVideoEntries) updateTableName(table string) *cur
 	c.UpdatedAt = field.NewTime(table, "updated_at")
 	c.DeletedAt = field.NewField(table, "deleted_at")
 	c.URL = field.NewString(table, "url")
-	c.Title = field.NewString(table, "title")
 	c.EntryID = field.NewField(table, "entry_id")
 
 	c.fillFieldMap()
@@ -106,13 +98,12 @@ func (c *curriculumCourseYoutubeVideoEntries) GetFieldByName(fieldName string) (
 }
 
 func (c *curriculumCourseYoutubeVideoEntries) fillFieldMap() {
-	c.fieldMap = make(map[string]field.Expr, 8)
+	c.fieldMap = make(map[string]field.Expr, 7)
 	c.fieldMap["id"] = c.ID
 	c.fieldMap["created_at"] = c.CreatedAt
 	c.fieldMap["updated_at"] = c.UpdatedAt
 	c.fieldMap["deleted_at"] = c.DeletedAt
 	c.fieldMap["url"] = c.URL
-	c.fieldMap["title"] = c.Title
 	c.fieldMap["entry_id"] = c.EntryID
 
 }
@@ -133,9 +124,6 @@ type curriculumCourseYoutubeVideoEntriesBelongsToEntry struct {
 	field.RelationField
 
 	Icon struct {
-		field.RelationField
-	}
-	CurriculumPlan struct {
 		field.RelationField
 	}
 }
