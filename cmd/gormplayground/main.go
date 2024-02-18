@@ -78,7 +78,7 @@ func main() {
 		// create a new generic field map to `generic_a`
 		f := field.NewField("curriculum_courses", "id")
 		// `table_name`.`generic` IS NULL
-		f.IsNotNull()
+		//f.IsNotNull()
 
 		var err error
 		curriculumEntryList, err = tx.CurriculumEntry.
