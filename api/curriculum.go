@@ -49,6 +49,11 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 				Where(q.CurriculumEntry.ID.Eq(model.NewUUIDEx())).
 				Group(q.CurriculumEntry.ID).
 				Find()
+			if err != nil {
+				return err
+			} else {
+				ctx.JSON(curriculumEntryList)
+			}
 		})
 
 		var err = initSession.
