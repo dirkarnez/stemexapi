@@ -36,7 +36,7 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 	// }
 
 	return func(ctx iris.Context) {
-		parentID := ctx.URLParam("parent-id")
+		parentID := ctx.URLParamDefault("parent-id", "")
 		// topLevel := ctx.URLParamBoolDefault("top-level", false)
 
 		var err error
