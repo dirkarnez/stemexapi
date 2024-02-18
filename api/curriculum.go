@@ -386,6 +386,11 @@ func CreateOrUpdateCurriculumCourseType(s3 *utils.StemexS3Client, dbInstance *go
 	}
 }
 
+func GetCurriculumCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.Handler {
+	return func(ctx iris.Context) {
+	}
+}
+
 func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.Handler {
 	return func(ctx iris.Context) {
 		err := dbInstance.Transaction(func(tx *gorm.DB) error {
