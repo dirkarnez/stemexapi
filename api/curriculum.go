@@ -38,6 +38,7 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 		id := ctx.URLParam("id")
 		topLevel := ctx.URLParamBoolDefault("top-level", false)
 
+		var err error
 		var q = query.Use(dbInstance)
 
 		var IDUUID model.UUIDEx
