@@ -46,6 +46,7 @@ func main() {
 		curriculumEntry, err = tx.CurriculumEntry.
 		Select(q.CurriculumEntry.ALL, q.CurriculumCourse.ID).
 		LeftJoin(q.CurriculumEntry, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.ID)).
+		Where(q.CurriculumEntry.ID.Eq(model.NewUUIDEx()))
 		Group(q.CurriculumEntry.ID).
 		Having(u.Name.Eq("group"))
 		First()
@@ -59,7 +60,7 @@ func main() {
 
 		// err := u.WithContext(ctx)
 		// .Select(u.Name, u.Age.Sum().As("total")).Group(u.Name).Having(u.Name.Eq("group")).Scan(&users)
-		// .Where(q.User.Password.Eq("stemex")).Find()
+		// .Where().Find()
 		if err != nil {
 			return err
 		}
