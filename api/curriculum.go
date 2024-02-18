@@ -11,6 +11,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/context"
+	"gorm.io/gen/field"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
@@ -54,7 +55,7 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 		err = q.Transaction(func(tx *query.Query) error {
 			var err error
 			curriculumEntryList, err = tx.CurriculumEntry.
-				Select(q.CurriculumEntry.ALL, q.CurriculumCourse.ID).
+				Select(q.CurriculumEntry.ALL, field.NewField("curriculum_courses", "id").IsNotNull().As("is_course")).
 				LeftJoin(q.CurriculumCourse, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.ID)).
 				Where(q.CurriculumEntry.ID.Eq(parentUUID)).
 				Group(q.CurriculumEntry.ID).
