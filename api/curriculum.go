@@ -103,7 +103,7 @@ func GetCurriculum(dbInstance *gorm.DB) context.Handler {
 		} else {
 			var curriculumEntryList []dto.CurriculumEntry
 			err = initSession.
-				Select("`ce`.*, CASE WHEN count(`ccie`.`entry_id`) > 0 OR count(`ccytve`.`entry_id`) > 0 OR count(`ccbe`.`entry_id`) > 0 THEN true ELSE false END AS `is_course`").
+				Select("`ce`.*, CASE WHEN count(`ccytve`.`entry_id`) > 0 OR count(`ccbe`.`entry_id`) > 0 THEN true ELSE false END AS `is_course`").
 				Joins("LEFT JOIN `curriculum_course_youtube_video_entries` `ccytve` ON `ccytve`.`entry_id` = `ce`.`id`").
 				Joins("LEFT JOIN `curriculum_course_blog_entries` `ccbe` ON `ccbe`.`entry_id` = `ce`.`id`").
 				Group("`ce`.`id`").
