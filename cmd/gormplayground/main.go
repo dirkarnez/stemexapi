@@ -44,19 +44,17 @@ func main() {
 	q.Transaction(func(tx *query.Query) error {
 		var err error
 		curriculumEntry, err = tx.CurriculumEntry.
-		Select(q.CurriculumEntry.ALL, q.CurriculumCourse.ID).
-		LeftJoin(q.CurriculumEntry, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.ID)).
-		Where(q.CurriculumEntry.ID.Eq(model.NewUUIDEx()))
+			Select(q.CurriculumEntry.ALL, q.CurriculumCourse.ID).
+			LeftJoin(q.CurriculumEntry, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.ID)).
+			Where(q.CurriculumEntry.ID.Eq(model.NewUUIDEx()))
 		Group(q.CurriculumEntry.ID).
-		Having(u.Name.Eq("group"))
-		First()
-		// .Where(u.Name.Eq("modi")).First()
+			First()
 
+		// .Where(u.Name.Eq("modi")).First()
 
 		// u.WithContext(ctx).Select(u.Name, e.Email).LeftJoin(e, e.UserID.EqCol(u.ID)).Scan(&result)
 
 		// curriculumEntry, err = tx.CurriculumEntry
-		
 
 		// err := u.WithContext(ctx)
 		// .Select(u.Name, u.Age.Sum().As("total")).Group(u.Name).Having(u.Name.Eq("group")).Scan(&users)
@@ -70,9 +68,8 @@ func main() {
 	fmt.Printf("Users %d", len(user))
 }
 
-
-Select("`ce`.*,  IF(`cc`.`entry_id` IS NOT NULL, true, false) AS `is_course`").
-Joins("LEFT JOIN `curriculum_courses` `cc` ON `cc`.`entry_id` = `ce`.`id`").
-Where("`ce`.`id` = ?", IDUUID).
-Group("`ce`.`id`").
-Limit(1).
+// Select("`ce`.*,  IF(`cc`.`entry_id` IS NOT NULL, true, false) AS `is_course`").
+// Joins("LEFT JOIN `curriculum_courses` `cc` ON `cc`.`entry_id` = `ce`.`id`").
+// Where("`ce`.`id` = ?", IDUUID).
+// Group("`ce`.`id`").
+// Limit(1).
