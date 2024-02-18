@@ -340,7 +340,7 @@ func main() {
 
 		party.Post("/curriculum-course", middlewareAuthorizedAPI, api.CreateOrUpdateCurriculumEntry(s3, dbInstance))
 		party.Post("/curriculum-course-type", middlewareAuthorizedAPI, api.CreateOrUpdateCurriculumType(s3, dbInstance))
-		party.Get("/curriculum-tree", middlewareAuthorizedAPI, api.GetCurriculum(dbInstance))
+		party.Get("/curriculum-tree", middlewareAuthorizedAPI, api.GetCurriculumTree(dbInstance))
 		party.Get("/curriculum-courses", middlewareAuthorizedAPI, api.GetCurriculumCourses(dbInstance))
 
 		party.Get("/prospect-activity", middlewareAuthorizedAPI, api.GetProspectActivities(dbInstance))
