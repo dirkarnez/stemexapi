@@ -220,14 +220,40 @@ func GetCurriculumCourseType(dbInstance *gorm.DB) context.Handler {
 
 		var idUUIDPtr *model.UUIDEx = nil
 		if len(ID) != 0 {
-			parentUUID, err := model.ValidUUIDExFromIDString(ID)
+			idUUID, err := model.ValidUUIDExFromIDString(ID)
 			if err != nil {
 				ctx.StopWithError(http.StatusNotFound, fmt.Errorf("invalid id"))
 				return
 			}
-			idUUIDPtr = &parentUUID
+			idUUIDPtr = &idUUID
 		} else {
 			idUUIDPtr = nil
+		}
+
+		var curriculumEntry dto.CurriculumEntry
+		err = q.Transaction(func(tx *query.Query) error {
+			err := tx.CurriculumEntry.
+				Select(q.CurriculumEntry.ALL, field.NewField(q.CurriculumCourse.TableName(), q.CurriculumCourse.ID.ColumnName().String()).IsNotNull().As("is_course")).
+				LeftJoin(q.CurriculumCourse, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.ID)).
+				Where(func() field.Expr {
+					if idUUIDPtr == nil {
+						return q.CurriculumEntry.ParentID.IsNull()
+					} else {
+						return q.CurriculumEntry.ParentID.Eq(*idUUIDPtr)
+					}
+				}()).
+				Scan(&curriculumEntryList)
+			return err
+		})
+
+		if err != nil {
+			ctx.StatusCode(iris.StatusInternalServerError)
+			return
+		} else {
+			if curriculumEntryList == nil {
+				curriculumEntryList = []dto.CurriculumEntry{}
+			}
+			ctx.JSON(curriculumEntryList)
 		}
 	}
 }
