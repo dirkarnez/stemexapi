@@ -134,7 +134,6 @@ type CurriculumCoursePrerequisites struct {
 type CurriculumCourseYoutubeVideoEntries struct {
 	BaseModel
 	URL     string           `gorm:"column:url;type:varchar(500);not null"`
-	Title   string           `gorm:"column:title;type:varchar(255);not null"`
 	EntryID *UUIDEx          `gorm:"column:entry_id;type:binary(16)"`
 	Entry   *CurriculumEntry `gorm:"foreignKey:EntryID"`
 }
