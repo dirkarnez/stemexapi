@@ -64,10 +64,6 @@ func main() {
 	flag.StringVar(&mode, "mode", "update", `mode: "reinit" or "update"`)
 	flag.Parse()
 
-	// if port > 1<<16-1 {
-	// 	log.Fatal("Port number too large")
-	// }
-
 	httpClient := &http.Client{}
 
 	s3 := utils.NewStemexS3Client()
@@ -342,8 +338,8 @@ func main() {
 
 		party.Get("/roles", middlewareAuthorizedAPI, api.GetAllRoles(dbInstance))
 
-		party.Post("/curriculum-entry", middlewareAuthorizedAPI, api.CreateOrUpdateCurriculumEntry(s3, dbInstance))
-		party.Post("/curriculum-type", middlewareAuthorizedAPI, api.CreateOrUpdateCurriculumType(s3, dbInstance))
+		party.Post("/curriculum-course", middlewareAuthorizedAPI, api.CreateOrUpdateCurriculumEntry(s3, dbInstance))
+		party.Post("/curriculum-course-type", middlewareAuthorizedAPI, api.CreateOrUpdateCurriculumType(s3, dbInstance))
 		party.Get("/curriculum", middlewareAuthorizedAPI, api.GetCurriculum(dbInstance))
 		party.Get("/curriculum-courses", middlewareAuthorizedAPI, api.GetCurriculumCourses(dbInstance))
 

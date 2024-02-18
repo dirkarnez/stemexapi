@@ -72,21 +72,35 @@ type CurriculumEntry struct {
 	BaseModel
 	IconID *UUIDEx `gorm:"column:icon_id;type:binary(16);not null"`
 	Icon   *File   `gorm:"foreignKey:IconID"` //constraint:OnDelete:SET NULL
-	
+
 	Description    string  `gorm:"column:description;type:varchar(255);not null;uniqueIndex:idx_description_same_level"`
 	ParentID       *UUIDEx `gorm:"column:parent_id;type:binary(16);uniqueIndex:idx_seq_no_same_level;uniqueIndex:idx_description_same_level"`
 	SeqNoSameLevel uint64  `gorm:"column:seq_no_same_level;not null;default:0;uniqueIndex:idx_seq_no_same_level"`
 }
 
-// CurriculumPlanID *UUIDEx `gorm:"column:curriculum_plan_id;type:binary(16)"` //not null
-// CurriculumPlan   *File   `gorm:"foreignKey:CurriculumPlanID"`               //constraint:OnDelete:SET NULL
-
-
-type CurriculumCourseLesson struct {
+type CurriculumCourse struct {
 	BaseModel
-	LessonNumber *uint64          `gorm:"column:lesson_number;unique;not null"`
-	EntryID      *UUIDEx          `gorm:"column:entry_id;type:binary(16)"`
-	Entry        *CurriculumEntry `gorm:"foreignKey:EntryID"`
+
+	EntryID *UUIDEx          `gorm:"column:entry_id;type:binary(16)"`
+	Entry   *CurriculumEntry `gorm:"foreignKey:EntryID"`
+
+	CurriculumPlanID *UUIDEx `gorm:"column:curriculum_plan_id;type:binary(16)"` //not null
+	CurriculumPlan   *File   `gorm:"foreignKey:CurriculumPlanID"`               //constraint:OnDelete:SET NULL
+}
+
+type CurriculumCourseLevel struct {
+	BaseModel
+	LevelName string            `gorm:"column:level_name;unique;not null"`
+	CourseID  *UUIDEx           `gorm:"column:course_id;type:binary(16)"`
+	Course    *CurriculumCourse `gorm:"foreignKey:CourseID"`
+	// Content string           `gorm:"column:content;type:varchar(255);not null"`
+}
+
+type CurriculumCourseLevelLesson struct {
+	BaseModel
+	LessonNumber  *uint64                `gorm:"column:lesson_number;unique;not null"`
+	CourseLevelID *UUIDEx                `gorm:"column:entry_id;type:binary(16)"`
+	CourseLevel   *CurriculumCourseLevel `gorm:"foreignKey:CourseLevelID"`
 	// Content string           `gorm:"column:content;type:varchar(255);not null"`
 }
 
