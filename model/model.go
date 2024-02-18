@@ -149,14 +149,10 @@ type CurriculumCourseBlogEntries struct {
 
 type CurriculumCourseInformationEntries struct {
 	BaseModel
-	IconID  *UUIDEx          `gorm:"column:icon_id;type:binary(16)"`
-	Icon    *File            `gorm:"foreignKey:IconID"` //constraint:OnDelete:SET NULL
-	Title   string           `gorm:"column:title;type:varchar(255);not null"`
-	Content string           `gorm:"column:content;type:varchar(1000);not null"`
-	LessonID *UUIDEx          `gorm:"column:lesson_id;type:binary(16)"`
-	Entry   *CurriculumEntry `gorm:"foreignKey:EntryID"`
+	IconID   *UUIDEx                      `gorm:"column:icon_id;type:binary(16)"`
+	Icon     *File                        `gorm:"foreignKey:IconID"` //constraint:OnDelete:SET NULL
+	Title    string                       `gorm:"column:title;type:varchar(255);not null"`
+	Content  string                       `gorm:"column:content;type:varchar(1000);not null"`
+	LessonID *UUIDEx                      `gorm:"column:lesson_id;type:binary(16)"`
+	Lesson   *CurriculumCourseLevelLesson `gorm:"foreignKey:LessonID"`
 }
-
-
- *UUIDEx                      `gorm:"column:;type:binary(16)"`
-Lesson   *CurriculumCourseLevelLesson `gorm:"foreignKey:LessonID"`
