@@ -27,7 +27,7 @@ var AllTables = []interface{}{
 	&CurriculumCoursePrerequisites{},
 	&CurriculumCourseYoutubeVideoEntries{},
 	&CurriculumCourseBlogEntries{},
-	&CurriculumCourseInformationEntries{},
+	// &CurriculumCourseInformationEntries{},
 }
 
 type BaseModel struct {
@@ -147,12 +147,12 @@ type CurriculumCourseBlogEntries struct {
 	Entry       *CurriculumEntry `gorm:"foreignKey:EntryID"`
 }
 
-type CurriculumCourseInformationEntries struct {
-	BaseModel
-	IconID   *UUIDEx                      `gorm:"column:icon_id;type:binary(16)"`
-	Icon     *File                        `gorm:"foreignKey:IconID"` //constraint:OnDelete:SET NULL
-	Title    string                       `gorm:"column:title;type:varchar(255);not null"`
-	Content  string                       `gorm:"column:content;type:varchar(1000);not null"`
-	LessonID *UUIDEx                      `gorm:"column:lesson_id;type:binary(16)"`
-	Lesson   *CurriculumCourseLevelLesson `gorm:"foreignKey:LessonID"`
-}
+// type CurriculumCourseInformationEntries struct {
+// 	BaseModel
+// 	IconID   *UUIDEx                      `gorm:"column:icon_id;type:binary(16)"`
+// 	Icon     *File                        `gorm:"foreignKey:IconID"` //constraint:OnDelete:SET NULL
+// 	Title    string                       `gorm:"column:title;type:varchar(255);not null"`
+// 	Content  string                       `gorm:"column:content;type:varchar(1000);not null"`
+// 	LessonID *UUIDEx                      `gorm:"column:lesson_id;type:binary(16)"`
+// 	Lesson   *CurriculumCourseLevelLesson `gorm:"foreignKey:LessonID"`
+// }
