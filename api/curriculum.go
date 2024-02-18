@@ -80,7 +80,7 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 						return q.CurriculumEntry.ParentID.Eq(*parentUUIDPtr)
 					}
 				}()).
-				Scan(curriculumEntryList)
+				Scan(&curriculumEntryList)
 			return err
 		})
 
