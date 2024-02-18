@@ -77,7 +77,7 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 			return
 		} else {
 
-			var curriculumEntryDTOList []*dto.CurriculumEntry
+			var curriculumEntryDTOList []dto.CurriculumEntry{}
 			curriculumEntryList
 			ctx.JSON()
 		}
