@@ -236,13 +236,7 @@ func GetCurriculumCourseType(dbInstance *gorm.DB) context.Handler {
 			curriculumEntry, err = tx.CurriculumEntry.
 				Select(q.CurriculumEntry.ALL, field.NewField(q.CurriculumCourse.TableName(), q.CurriculumCourse.ID.ColumnName().String()).IsNotNull().As("is_course")).
 				LeftJoin(q.CurriculumCourse, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.ID)).
-				Where(func() field.Expr {
-					if idUUIDPtr == nil {
-						return q.CurriculumEntry.ParentID.IsNull()
-					} else {
-						return q.CurriculumEntry.ParentID.Eq(*idUUIDPtr)
-					}
-				}()).
+				Where(q.CurriculumEntry.ID.Eq(*idUUIDPtr)).
 				First()
 			return err
 		})
