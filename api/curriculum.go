@@ -40,7 +40,7 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 
 		var q = query.Use(dbInstance)
 
-		var curriculumEntry []dto.CurriculumEntry
+		var curriculumEntryList []dto.CurriculumEntry
 		err := q.Transaction(func(tx *query.Query) error {
 			var err error
 			curriculumEntry, err = tx.CurriculumEntry.
@@ -51,19 +51,18 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 				First()
 		})
 
-		var curriculumEntryList 
-		err = initSession.
-			Select("`ce`.*, CASE WHEN count(`ccytve`.`entry_id`) > 0 OR count(`ccbe`.`entry_id`) > 0 THEN true ELSE false END AS `is_course`").
-			Joins("LEFT JOIN `curriculum_course_youtube_video_entries` `ccytve` ON `ccytve`.`entry_id` = `ce`.`id`").
-			Joins("LEFT JOIN `curriculum_course_blog_entries` `ccbe` ON `ccbe`.`entry_id` = `ce`.`id`").
-			Group("`ce`.`id`").
-			Scan(&curriculumEntryList).Error
-		if err != nil {
-			ctx.StatusCode(iris.StatusInternalServerError)
-			return
-		} else {
-			ctx.JSON(curriculumEntryList)
-		}
+		// var err = initSession.
+		// 	Select("`ce`.*, CASE WHEN count(`ccytve`.`entry_id`) > 0 OR count(`ccbe`.`entry_id`) > 0 THEN true ELSE false END AS `is_course`").
+		// 	Joins("LEFT JOIN `curriculum_course_youtube_video_entries` `ccytve` ON `ccytve`.`entry_id` = `ce`.`id`").
+		// 	Joins("LEFT JOIN `curriculum_course_blog_entries` `ccbe` ON `ccbe`.`entry_id` = `ce`.`id`").
+		// 	Group("`ce`.`id`").
+		// 	Scan(&curriculumEntryList).Error
+		// if err != nil {
+		// 	ctx.StatusCode(iris.StatusInternalServerError)
+		// 	return
+		// } else {
+		// 	ctx.JSON(curriculumEntryList)
+		// }
 
 		// initSession := dbInstance.Table("`curriculum_entries` `ce`")
 
