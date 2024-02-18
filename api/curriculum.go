@@ -62,16 +62,16 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 		// 	IsCourse    bool          `json:"is_course"`
 		// }
 
-		// var users []struct {
-		// 	Name  string
-		// 	Total int
-		// }
-		// err := u.WithContext(ctx).Select(u.Name, u.ID.Count().As("total")).Group(u.Name).Scan(&users)
+		var users []struct {
+			Name  string
+			Total int
+		}
+		err := u.WithContext(ctx).Select(u.Name, u.ID.Count().As("total")).Group(u.Name).Scan(&users)
 
 		var curriculumEntryList []dto.CurriculumEntry
 		err = q.Transaction(func(tx *query.Query) error {
 			err := tx.CurriculumEntry.
-				Select(q.CurriculumEntry.ALL). //, field.NewField(q.CurriculumCourse.TableName(), q.CurriculumCourse.ID.ColumnName().String()).IsNotNull().As("is_course")
+				Select(q.CurriculumEntry.ALL, field.NewField(q.CurriculumCourse.TableName(), q.CurriculumCourse.ID.ColumnName().String()).IsNotNull().As("is_course")).
 				LeftJoin(q.CurriculumCourse, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.ID)).
 				Where(func() field.Expr {
 					if parentUUIDPtr == nil {
