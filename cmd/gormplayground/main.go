@@ -41,6 +41,14 @@ func main() {
 	})
 
 	var curriculumEntry *model.CurriculumEntry = nil
+	q.Transaction(func(tx *query.Query) error {
+		var err error
+		user, err = tx.CurriculumEntry.Where(q.User.Password.Eq("stemex")).Find()
+		if err != nil {
+			return err
+		}
+		return nil
+	})
 
 	fmt.Printf("Users %d", len(user))
 }
