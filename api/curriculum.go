@@ -260,12 +260,12 @@ func CreateOrUpdateCurriculumType(s3 *utils.StemexS3Client, dbInstance *gorm.DB)
 func CreateOrUpdateCurriculumEntry(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.Handler {
 	return func(ctx iris.Context) {
 		err := dbInstance.Transaction(func(tx *gorm.DB) error {
-			type InformationEntry struct {
-				IconID string `form:"icon_id"`
-				//IconFile []byte/**multipart.FileHeader*/ `form:"icon_file"`
-				Title   string `form:"title"`
-				Content string `form:"content"`
-			}
+			// type InformationEntry struct {
+			// 	IconID string `form:"icon_id"`
+			// 	//IconFile []byte/**multipart.FileHeader*/ `form:"icon_file"`
+			// 	Title   string `form:"title"`
+			// 	Content string `form:"content"`
+			// }
 
 			type Form struct {
 				ID     string `form:"id"`
