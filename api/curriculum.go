@@ -210,7 +210,27 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 		// }
 	}
 }
+func GetCurriculumCourseType(dbInstance *gorm.DB) context.Handler {
+	return func(ctx iris.Context) {
+		ID := ctx.URLParamDefault("id", "")
+		// topLevel := ctx.URLParamBoolDefault("top-level", false)
 
+		var err error
+		var q = query.Use(dbInstance)
+
+		var idUUIDPtr *model.UUIDEx = nil
+		if len(ID) != 0 {
+			parentUUID, err := model.ValidUUIDExFromIDString(ID)
+			if err != nil {
+				ctx.StopWithError(http.StatusNotFound, fmt.Errorf("invalid id"))
+				return
+			}
+			idUUIDPtr = &parentUUID
+		} else {
+			idUUIDPtr = nil
+		}
+	}
+}
 func GetCurriculumCourses(dbInstance *gorm.DB) context.Handler {
 	return func(ctx iris.Context) {
 		parentID := ctx.URLParam("parent-id")
