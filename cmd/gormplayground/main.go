@@ -43,9 +43,11 @@ func main() {
 	var curriculumEntry *model.CurriculumEntry = nil
 	q.Transaction(func(tx *query.Query) error {
 		var err error
-		user, err = tx.CurriculumEntry.Select(q.CurriculumCourse.ALL, )
+		curriculumEntry, err = tx.CurriculumEntry
+		.Select(q.CurriculumCourse.ALL, q.CurriculumCourse)
 
-		err := u.WithContext(ctx).Select(u.Name, u.Age.Sum().As("total")).Group(u.Name).Having(u.Name.Eq("group")).Scan(&users)
+		err := u.WithContext(ctx)
+		.Select(u.Name, u.Age.Sum().As("total")).Group(u.Name).Having(u.Name.Eq("group")).Scan(&users)
 		.Where(q.User.Password.Eq("stemex")).Find()
 		if err != nil {
 			return err
