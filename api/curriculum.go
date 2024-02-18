@@ -372,42 +372,42 @@ func CreateOrUpdateCurriculumEntry(s3 *utils.StemexS3Client, dbInstance *gorm.DB
 				}
 			}
 
-			if form.InformationEntries != nil {
-				for i, informationEntry := range form.InformationEntries {
-					informationEntryModel := model.CurriculumCourseInformationEntries{}
-					informationEntryModel.Title = informationEntry.Title
-					informationEntryModel.Content = informationEntry.Content
-					informationEntryModel.EntryID = &entryToSave.ID
+			// if form.InformationEntries != nil {
+			// 	for i, informationEntry := range form.InformationEntries {
+			// 		informationEntryModel := model.CurriculumCourseInformationEntries{}
+			// 		informationEntryModel.Title = informationEntry.Title
+			// 		informationEntryModel.Content = informationEntry.Content
+			// 		// informationEntryModel.EntryID = &entryToSave.ID
 
-					if len(informationEntry.IconID) > 1 {
-						IconIDUUID, err := model.ValidUUIDExFromIDString(informationEntry.IconID)
-						informationEntryModel.IconID = &IconIDUUID
-						if err != nil {
-							return err
-						}
-					}
+			// 		if len(informationEntry.IconID) > 1 {
+			// 			IconIDUUID, err := model.ValidUUIDExFromIDString(informationEntry.IconID)
+			// 			informationEntryModel.IconID = &IconIDUUID
+			// 			if err != nil {
+			// 				return err
+			// 			}
+			// 		}
 
-					_, iconFileHeader, err := ctx.Request().FormFile(fmt.Sprintf("information_entries.%d.icon_file", i))
-					if err == nil {
-						file, err := utils.SaveUpload(iconFileHeader, []string{utils.PrefixCourseResourses, entryToSave.Description}, s3, tx, ctx)
-						if err != nil {
-							return err
-						}
-						informationEntryModel.IconID = &file.ID
-					}
+			// 		_, iconFileHeader, err := ctx.Request().FormFile(fmt.Sprintf("information_entries.%d.icon_file", i))
+			// 		if err == nil {
+			// 			file, err := utils.SaveUpload(iconFileHeader, []string{utils.PrefixCourseResourses, entryToSave.Description}, s3, tx, ctx)
+			// 			if err != nil {
+			// 				return err
+			// 			}
+			// 			informationEntryModel.IconID = &file.ID
+			// 		}
 
-					if informationEntryModel.IconID == nil {
-						return fmt.Errorf("no icon id")
-					}
+			// 		if informationEntryModel.IconID == nil {
+			// 			return fmt.Errorf("no icon id")
+			// 		}
 
-					if err := tx.Clauses(clause.OnConflict{
-						Columns:   []clause.Column{{Name: "id"}},
-						DoUpdates: clause.AssignmentColumns([]string{"icon_id", "title", "content", "entry_id"}),
-					}).Create(&informationEntryModel).Error; err != nil {
-						return err
-					}
-				}
-			}
+			// 		if err := tx.Clauses(clause.OnConflict{
+			// 			Columns:   []clause.Column{{Name: "id"}},
+			// 			DoUpdates: clause.AssignmentColumns([]string{"icon_id", "title", "content", "entry_id"}),
+			// 		}).Create(&informationEntryModel).Error; err != nil {
+			// 			return err
+			// 		}
+			// 	}
+			// }
 
 			if form.YoutubeVideoEntries != nil {
 				for _, youtubeVideoEntry := range form.YoutubeVideoEntries {
