@@ -232,8 +232,7 @@ func GetCurriculumCourseType(dbInstance *gorm.DB) context.Handler {
 
 		var curriculumEntry *dto.CurriculumEntry
 		err = q.Transaction(func(tx *query.Query) error {
-			var err error
-			curriculumEntry, err = tx.CurriculumEntry.
+			err := tx.CurriculumEntry.
 				Select(q.CurriculumEntry.ALL, field.NewField(q.CurriculumCourse.TableName(), q.CurriculumCourse.ID.ColumnName().String()).IsNotNull().As("is_course")).
 				LeftJoin(q.CurriculumCourse, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.ID)).
 				Where(q.CurriculumEntry.ID.Eq(*idUUIDPtr)).
@@ -248,7 +247,7 @@ func GetCurriculumCourseType(dbInstance *gorm.DB) context.Handler {
 			if curriculumEntryList == nil {
 				curriculumEntryList = []dto.CurriculumEntry{}
 			}
-			ctx.JSON(curriculumEntryList)
+			ctx.JSON(curriculumEntry)
 		}
 	}
 }
