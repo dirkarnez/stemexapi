@@ -42,7 +42,7 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 		var err error
 		var q = query.Use(dbInstance)
 
-		var parentUUID *model.UUIDEx = nil
+		var parentUUID model.UUIDEx
 		if len(parentID) != 0 {
 			parentUUID, err = model.ValidUUIDExFromIDString(parentID)
 			if err != nil {
