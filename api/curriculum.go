@@ -402,7 +402,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			// }
 			//IconFile/**multipart.FileHeader */ []byte                                           `form:"icon_file"`
 			// (2) ['curriculum_plan_file', File]
-			// course_levels[*]icon_file
+			// course_levels[*].icon_file
 			// course_levels[*].Lessons[*].PresentationNotes
 			// course_levels[*].Lessons[*].StudentNotes
 			// course_levels[*].Lessons[*].TeacherNotes
