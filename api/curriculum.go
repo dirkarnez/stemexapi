@@ -8,7 +8,6 @@ import (
 	"github.com/dirkarnez/stemexapi/model"
 	"github.com/dirkarnez/stemexapi/query"
 	"github.com/dirkarnez/stemexapi/utils"
-	"github.com/google/uuid"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/context"
 	"gorm.io/gen/field"
@@ -43,7 +42,7 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 		var q = query.Use(dbInstance)
 
 		var parentUUIDPtr *model.UUIDEx = nil
-		if len(parentID) != 0 {
+		if len(parentID) > 0 {
 			parentUUID, err := model.ValidUUIDExFromIDString(parentID)
 			if err != nil {
 				ctx.StopWithError(http.StatusNotFound, fmt.Errorf("invalid id"))
@@ -68,7 +67,7 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 		err = q.Transaction(func(tx *query.Query) error {
 			err := tx.CurriculumEntry.
 				Select(q.CurriculumEntry.ALL, field.NewField(q.CurriculumCourse.TableName(), q.CurriculumCourse.ID.ColumnName().String()).IsNotNull().As("is_course")).
-				LeftJoin(q.CurriculumCourse, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.ID)).
+				LeftJoin(q.CurriculumCourse, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.EntryID)).
 				Where(func() field.Expr {
 					if parentUUIDPtr == nil {
 						return q.CurriculumEntry.ParentID.IsNull()
@@ -248,36 +247,37 @@ func GetCurriculumCourseType(dbInstance *gorm.DB) context.Handler {
 		}
 	}
 }
-func GetCurriculumCourses(dbInstance *gorm.DB) context.Handler {
-	return func(ctx iris.Context) {
-		parentID := ctx.URLParam("parent-id")
 
-		if len(parentID) < 1 {
-			ctx.StopWithStatus(http.StatusForbidden)
-			return
-		}
+// func GetCurriculumCourses(dbInstance *gorm.DB) context.Handler {
+// 	return func(ctx iris.Context) {
+// 		parentID := ctx.URLParam("parent-id")
 
-		parentIDUUID, _ := uuid.Parse(parentID)
-		parentIDUUIDEx := model.UUIDEx(parentIDUUID)
+// 		if len(parentID) < 1 {
+// 			ctx.StopWithStatus(http.StatusForbidden)
+// 			return
+// 		}
 
-		var curriculumEntryList []dto.CurriculumEntry
+// 		parentIDUUID, _ := uuid.Parse(parentID)
+// 		parentIDUUIDEx := model.UUIDEx(parentIDUUID)
 
-		err := dbInstance.Transaction(func(tx *gorm.DB) error {
-			return tx.Table("`curriculum_entries` `ce`").
-				Select("`ce`.*, CASE WHEN count(`entry_id`) > 0 THEN true ELSE false END AS `is_course`").
-				Joins("LEFT JOIN `curriculum_course_information_entries` `ccie` ON `ccie`.`entry_id` = `ce`.`id`").
-				Where("`ce`.`parent_id` = ?", &parentIDUUIDEx).
-				Group("`ce`.`id`").
-				Scan(&curriculumEntryList).Error
-		})
+// 		var curriculumEntryList []dto.CurriculumEntry
 
-		if err != nil {
-			ctx.StatusCode(iris.StatusInternalServerError)
-		} else {
-			ctx.JSON(curriculumEntryList)
-		}
-	}
-}
+// 		err := dbInstance.Transaction(func(tx *gorm.DB) error {
+// 			return tx.Table("`curriculum_entries` `ce`").
+// 				Select("`ce`.*, CASE WHEN count(`entry_id`) > 0 THEN true ELSE false END AS `is_course`").
+// 				Joins("LEFT JOIN `curriculum_course_information_entries` `ccie` ON `ccie`.`entry_id` = `ce`.`id`").
+// 				Where("`ce`.`parent_id` = ?", &parentIDUUIDEx).
+// 				Group("`ce`.`id`").
+// 				Scan(&curriculumEntryList).Error
+// 		})
+
+// 		if err != nil {
+// 			ctx.StatusCode(iris.StatusInternalServerError)
+// 		} else {
+// 			ctx.JSON(curriculumEntryList)
+// 		}
+// 	}
+// }
 
 func CreateOrUpdateCurriculumCourseType(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.Handler {
 	return func(ctx iris.Context) {

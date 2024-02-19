@@ -9,6 +9,7 @@ import (
 
 	"github.com/dirkarnez/stemexapi/model"
 	"github.com/dirkarnez/stemexapi/query"
+	"github.com/google/uuid"
 	"github.com/kataras/iris/v12"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -66,7 +67,9 @@ func SaveUploadV2(fileHeader *multipart.FileHeader, uuidptr *model.UUIDEx, prefi
 	var file = model.File{FileNameUploaded: fileHeader.Filename, ObjectKey: objectKey}
 
 	if uuidptr != nil {
-		file.ID = *uuidptr
+		if (*uuidptr) != model.UUIDEx(uuid.Nil) {
+			file.ID = *uuidptr
+		}
 	}
 
 	err = q.File.Clauses(clause.OnConflict{
