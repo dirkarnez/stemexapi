@@ -403,7 +403,7 @@ func GetCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.
 
 		var curriculumCourseLevels []*model.CurriculumCourseLevel
 		var curriculumCourseLevelLessons []*model.CurriculumCourseLevelLesson
-		var curriculumCourseLevelLessonResources []*model.CurriculumCourseLevelLessonResources
+		var ppt []*model.CurriculumCourseLevelLessonResources
 
 		var err error
 		var q = query.Use(dbInstance)
