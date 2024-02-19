@@ -570,7 +570,6 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			}
 
 			/* associations: CurriculumCourseLevels*/
-			var levels model.CurriculumCourseLevel
 			for _, dto := range form.Levels {
 				entity := model.CurriculumCourseLevel{}
 
@@ -583,7 +582,12 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				}
 				entity.CourseID = curriculumCourse.ID
 				entity.Name = dto.Name
-				levels = append(levels, &entity)
+				err = tx.CurriculumCourseLevel.Clauses(clause.OnConflict{
+					UpdateAll: true,
+				}).Create(entity)
+				if err != nil {
+					return err
+				}
 			}
 
 			
