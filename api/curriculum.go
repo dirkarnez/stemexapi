@@ -507,28 +507,52 @@ func GetCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.
 						curriculumCourseLevelLessonDTO.PresentationNotes = append(curriculumCourseLevelLessonDTO.PresentationNotes, pptDTO)
 					}
 
-					curriculumCourseLevelLessons, err = tx.CurriculumCourseLevelLesson.
-						Select(q.CurriculumCourseLevelLesson.ALL).
-						Where(q.CurriculumCourseLevelLesson.CourseLevelID.Eq(courseLevel.ID)).
+					ppts, err = tx.CurriculumCourseLevelLessonResources.
+						Select(q.CurriculumCourseLevelLessonResources.ALL).
+						Where(q.CurriculumCourseLevelLessonResources.LessonID.Eq(curriculumCourseLevelLesson.ID)).
+						Preload(field.Associations).
 						Find()
 					if err != nil {
 						return err
 					}
+					for _, ppt := range ppts {
+						pptDTO := dto.CurriculumCourseLevelLessonResources{
+							ID:         ppt.ID.ToString(),
+							ResourseID: ppt.Resourse.ID.ToString(),
+						}
+						curriculumCourseLevelLessonDTO.PresentationNotes = append(curriculumCourseLevelLessonDTO.PresentationNotes, pptDTO)
+					}
 
-					curriculumCourseLevelLessons, err = tx.CurriculumCourseLevelLesson.
-						Select(q.CurriculumCourseLevelLesson.ALL).
-						Where(q.CurriculumCourseLevelLesson.CourseLevelID.Eq(courseLevel.ID)).
+					ppts, err = tx.CurriculumCourseLevelLessonResources.
+						Select(q.CurriculumCourseLevelLessonResources.ALL).
+						Where(q.CurriculumCourseLevelLessonResources.LessonID.Eq(curriculumCourseLevelLesson.ID)).
+						Preload(field.Associations).
 						Find()
 					if err != nil {
 						return err
 					}
+					for _, ppt := range ppts {
+						pptDTO := dto.CurriculumCourseLevelLessonResources{
+							ID:         ppt.ID.ToString(),
+							ResourseID: ppt.Resourse.ID.ToString(),
+						}
+						curriculumCourseLevelLessonDTO.PresentationNotes = append(curriculumCourseLevelLessonDTO.PresentationNotes, pptDTO)
+					}
 
-					curriculumCourseLevelLessons, err = tx.CurriculumCourseLevelLesson.
-						Select(q.CurriculumCourseLevelLesson.ALL).
-						Where(q.CurriculumCourseLevelLesson.CourseLevelID.Eq(courseLevel.ID)).
+					ppts, err = tx.CurriculumCourseLevelLessonResources.
+						Select(q.CurriculumCourseLevelLessonResources.ALL).
+						Where(q.CurriculumCourseLevelLessonResources.LessonID.Eq(curriculumCourseLevelLesson.ID)).
+						Preload(field.Associations).
 						Find()
 					if err != nil {
 						return err
+					}
+					for _, ppt := range ppts {
+						pptDTO := dto.CurriculumCourseLevelLessonResources{
+							ID:         ppt.ID.ToString(),
+							ResourseID: ppt.Resourse.ID.ToString(),
+						}
+						curriculumCourseLevelLessonDTO.PresentationNotes = append(curriculumCourseLevelLessonDTO.PresentationNotes, pptDTO)
 					}
 
 					courseLevelDTO.Lessons = append(courseLevelDTO.Lessons, curriculumCourseLevelLessonDTO)
