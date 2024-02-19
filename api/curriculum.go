@@ -480,7 +480,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			}).Create(&curriculumEntry)
 
 			/* associations*/
-			var blogs []model.CurriculumCourseBlogEntries
+			var blogs []*model.CurriculumCourseBlogEntries
 			for _, dto := range form.BlogEntries {
 				entity := model.CurriculumCourseBlogEntries{}
 
