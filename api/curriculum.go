@@ -495,11 +495,11 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			// curriculumCourse.EntryID = &curriculumEntry.ID
 
 			if len(form.CurriculumPlanID) > 1 {
-				CurriculumPlanIDUUID, err := model.ValidUUIDExFromIDString(form.CurriculumPlanID)
+				curriculumPlanIDUUID, err := model.ValidUUIDExFromIDString(form.CurriculumPlanID)
 				if err != nil {
 					return err
 				}
-				curriculumEntry.IconID = &IconIDUUID
+				curriculumEntry.IconID = &curriculumPlanIDUUID
 			}
 
 			_, curriculumPlanFileHeader, err := ctx.Request().FormFile("curriculum_plan_file")
