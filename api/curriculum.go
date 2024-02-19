@@ -298,6 +298,7 @@ func CreateOrUpdateCurriculumCourseType(s3 *utils.StemexS3Client, dbInstance *go
 			// 	Content string `form:"content"`
 			// }
 
+			var returnForm Form
 			var form Form
 			err := ctx.ReadForm(&form)
 			if err != nil {
@@ -727,6 +728,13 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				}
 			}
 
+			returnForm.ID = curriculumEntry.ID.ToString()
+			returnForm.Description = curriculumEntry.Description
+			returnForm.IconID = curriculumEntry.IconID.ToString()
+			if curriculumEntry.ParentID != nil {
+				returnForm.ParentID = (*curriculumEntry.ParentID).ToString()
+			}
+			returnForm.CurriculumPlanID = 
 			return nil
 		})
 
@@ -876,13 +884,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 		if err != nil {
 			ctx.StopWithError(iris.StatusInternalServerError, err)
 		} else {
-			var returnForm Form
-			returnForm.ID = curriculumEntry.ID.ToString()
-			returnForm.Description = curriculumEntry.Description
-			returnForm.IconID = curriculumEntry.IconID.ToString()
-			if curriculumEntry.ParentID != nil {
-				returnForm.ParentID = (*curriculumEntry.ParentID).ToString()
-			}
+
 
 			ctx.JSON(returnForm)
 		}
