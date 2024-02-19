@@ -478,9 +478,9 @@ func GetCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.
 					IconID:      courseLevel.IconID.ToString(),
 				}
 
-				curriculumCourseLevelLesson, err = tx.CurriculumCourseLevelLesson.
-					Select(q.CurriculumCourseLevel.ALL).
-					Where(q.CurriculumCourseLevel.CourseID.Eq(curriculumCourse.ID)).
+				curriculumCourseLevelLessons, err = tx.CurriculumCourseLevelLesson.
+					Select(q.CurriculumCourseLevelLesson.ALL).
+					Where(q.CurriculumCourseLevelLesson.CourseID.Eq(curriculumCourse.ID)).
 					Find()
 				if err != nil {
 					return err
