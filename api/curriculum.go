@@ -535,7 +535,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			/* associations: CurriculumCourseLevels*/
 			var levels []*model.CurriculumCourseLevel
 			for _, dto := range form.Levels {
-				entity := model.CurriculumCourseBlogEntries{}
+				entity := model.CurriculumCourseLevel{}
 
 				if len(dto.ID) > 1 {
 					IDUUID, err := model.ValidUUIDExFromIDString(dto.ID)
