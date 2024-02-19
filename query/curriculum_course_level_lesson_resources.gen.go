@@ -27,6 +27,10 @@ func newCurriculumCourseLevelLessonResources(db *gorm.DB, opts ...gen.DOOption) 
 
 	tableName := _curriculumCourseLevelLessonResources.curriculumCourseLevelLessonResourcesDo.TableName()
 	_curriculumCourseLevelLessonResources.ALL = field.NewAsterisk(tableName)
+	_curriculumCourseLevelLessonResources.ID = field.NewField(tableName, "id")
+	_curriculumCourseLevelLessonResources.CreatedAt = field.NewTime(tableName, "created_at")
+	_curriculumCourseLevelLessonResources.UpdatedAt = field.NewTime(tableName, "updated_at")
+	_curriculumCourseLevelLessonResources.DeletedAt = field.NewField(tableName, "deleted_at")
 	_curriculumCourseLevelLessonResources.LessonID = field.NewField(tableName, "lesson_id")
 	_curriculumCourseLevelLessonResources.ResourseTypeID = field.NewField(tableName, "resourse_type_id")
 	_curriculumCourseLevelLessonResources.ResourseID = field.NewField(tableName, "resourse_id")
@@ -106,6 +110,10 @@ type curriculumCourseLevelLessonResources struct {
 	curriculumCourseLevelLessonResourcesDo
 
 	ALL            field.Asterisk
+	ID             field.Field
+	CreatedAt      field.Time
+	UpdatedAt      field.Time
+	DeletedAt      field.Field
 	LessonID       field.Field
 	ResourseTypeID field.Field
 	ResourseID     field.Field
@@ -130,6 +138,10 @@ func (c curriculumCourseLevelLessonResources) As(alias string) *curriculumCourse
 
 func (c *curriculumCourseLevelLessonResources) updateTableName(table string) *curriculumCourseLevelLessonResources {
 	c.ALL = field.NewAsterisk(table)
+	c.ID = field.NewField(table, "id")
+	c.CreatedAt = field.NewTime(table, "created_at")
+	c.UpdatedAt = field.NewTime(table, "updated_at")
+	c.DeletedAt = field.NewField(table, "deleted_at")
 	c.LessonID = field.NewField(table, "lesson_id")
 	c.ResourseTypeID = field.NewField(table, "resourse_type_id")
 	c.ResourseID = field.NewField(table, "resourse_id")
@@ -149,7 +161,11 @@ func (c *curriculumCourseLevelLessonResources) GetFieldByName(fieldName string) 
 }
 
 func (c *curriculumCourseLevelLessonResources) fillFieldMap() {
-	c.fieldMap = make(map[string]field.Expr, 6)
+	c.fieldMap = make(map[string]field.Expr, 10)
+	c.fieldMap["id"] = c.ID
+	c.fieldMap["created_at"] = c.CreatedAt
+	c.fieldMap["updated_at"] = c.UpdatedAt
+	c.fieldMap["deleted_at"] = c.DeletedAt
 	c.fieldMap["lesson_id"] = c.LessonID
 	c.fieldMap["resourse_type_id"] = c.ResourseTypeID
 	c.fieldMap["resourse_id"] = c.ResourseID
