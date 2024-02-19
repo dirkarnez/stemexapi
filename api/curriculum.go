@@ -532,7 +532,8 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				return err
 			}
 
-			/* associations: CurriculumCourseYoutubeVideoEntries*/
+			/* associations: CurriculumCourseLevels*/
+			var youtubes []*model.CurriculumCourseYoutubeVideoEntries
 
 			return nil
 		})
