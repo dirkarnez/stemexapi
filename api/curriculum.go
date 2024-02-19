@@ -463,7 +463,7 @@ func GetCurriculumCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB
 
 			returnForm.CourseID = (*curriculumCourse).ID.ToString()
 			returnForm.CurriculumPlanID = (*curriculumCourse).CurriculumPlanID.ToString()
-			returnForm.CurriculumPlanFileName = (*curriculumCourse).CurriculumPlanFileName.ToString()
+			returnForm.CurriculumPlanFileName = (*curriculumCourse).CurriculumPlan.FileNameUploaded
 
 			for _, youtube := range curriculumCourseYoutubeVideoEntries {
 				returnForm.YoutubeVideoEntries = append(returnForm.YoutubeVideoEntries, dto.CurriculumCourseYoutubeVideoEntries{
