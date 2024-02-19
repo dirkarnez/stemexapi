@@ -32,19 +32,10 @@ type CurriculumCourseYoutubeVideoEntries struct {
 }
 
 type CurriculumCourseLevels struct {
-	ID  model.UUIDEx `json:"id" form:"id"`
-	Name string       `json:"name" form:"name"`
-	Name string       `json:"name" form:"name"`
-	Name string       `json:"name" form:"name"`
+	ID          model.UUIDEx `json:"id" form:"id"`
+	Name        string       `json:"name" form:"name"`
+	Description string       `json:"description" form:"description"`
 }
-
-(2) ['levels.0.', '']
-11
-: 
-
-12
-: 
-(2) ['levels.0.description', 'sad']
 
 type CurriculumCourseBlogEntries struct {
 	ID          model.UUIDEx `json:"id" form:"id"`
