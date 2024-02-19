@@ -408,7 +408,7 @@ func GetCurriculumCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB
 			}
 			parentUUIDPtr = &idUUID
 		} else {
-			ctx.StopWithJSON(http.StatusNotFound)
+			ctx.StopWithError(http.StatusNotFound, fmt.Errorf("No such record"))
 		}
 
 	}
