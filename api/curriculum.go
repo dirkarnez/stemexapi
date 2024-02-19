@@ -703,38 +703,6 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 						entityTeacherNote.ResourseTypeID = presentationNotesType.ID
 					}
 
-					for k, studentNote := range lesson.StudentNotes {
-						entityStudentNote := model.CurriculumCourseLevelLessonResources{}
-
-						if len(studentNote.ID) > 1 {
-							studentNoteIDUUID, err := model.ValidUUIDExFromIDString(studentNote.ID)
-							if err != nil {
-								return err
-							}
-							entityStudentNote.ID = studentNoteIDUUID
-						}
-
-						if len(studentNote.ResourseID) > 1 {
-							entityStudentNoteResourseIDUUID, err := model.ValidUUIDExFromIDString(studentNote.ResourseID)
-							if err != nil {
-								return err
-							}
-							entityStudentNote.ResourseID = entityStudentNoteResourseIDUUID
-						}
-
-						_, studentNoteFileHeader, err := ctx.Request().FormFile(fmt.Sprintf("levels.%d.lessons.%d.student_notes.%d.file", i, j, k))
-						if err == nil {
-							file, err := utils.SaveUploadV2(studentNoteFileHeader, &entityStudentNote.ResourseID, []string{utils.PrefixCourseResourses, curriculumEntry.Description}, s3, tx, ctx)
-							if err != nil {
-								return err
-							}
-							entityStudentNote.ResourseID = file.ID
-						}
-
-						entityTeacherNote.LessonID = entityLesson.ID
-						entityTeacherNote.ResourseTypeID = teacherNotesType.ID
-					}
-
 					for j, miscMaterial := range lesson.MiscMaterials {
 						entityMiscMaterial := model.CurriculumCourseLevelLessonResources{}
 
