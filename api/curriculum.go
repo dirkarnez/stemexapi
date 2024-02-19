@@ -797,8 +797,8 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			if curriculumEntry.ParentID != nil {
 				returnForm.ParentID = (*curriculumEntry.ParentID).ToString()
 			}
-			returnForm.CurriculumPlanID = curriculumCourse.CurriculumPlanID.ToString()
-			returnForm.CourseID = curriculumCourse.ID.ToString()
+			// returnForm.CurriculumPlanID = curriculumCourse.CurriculumPlanID.ToString()
+			// returnForm.CourseID = curriculumCourse.ID.ToString()
 
 			// levels
 			// youtube_video_entries
