@@ -484,18 +484,18 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			}
 
 			/* associations: CurriculumCourse */
-			var curriculumCourse = model.CurriculumCourse{}
-			if len(form.CourseID) > 1 {
-				CourseIDUUID, err := model.ValidUUIDExFromIDString(form.CourseID)
-				if err != nil {
-					return err
-				}
-				curriculumCourse.ID = CourseIDUUID
-			}
-			curriculumCourse.EntryID = &curriculumEntry.ID
+			// var curriculumCourse = model.CurriculumCourse{}
+			// if len(form.CourseID) > 1 {
+			// 	CourseIDUUID, err := model.ValidUUIDExFromIDString(form.CourseID)
+			// 	if err != nil {
+			// 		return err
+			// 	}
+			// 	curriculumCourse.ID = CourseIDUUID
+			// }
+			// curriculumCourse.EntryID = &curriculumEntry.ID
 
 			if len(form.CurriculumPlanID) > 1 {
-				IconIDUUID, err := model.ValidUUIDExFromIDString(form.IconID)
+				CurriculumPlanIDUUID, err := model.ValidUUIDExFromIDString(form.CurriculumPlanID)
 				if err != nil {
 					return err
 				}
