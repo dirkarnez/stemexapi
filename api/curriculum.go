@@ -602,14 +602,16 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 					}
 
 					for j, studentNote := range lesson.StudentNotes {
-						entityLesson := model.CurriculumCourseLevelLesson{}
-						entityLesson.LessonNumber = i
-						entityLesson.CourseLevelID = entity.ID
-						
+						entityLesson := model.CurriculumCourseLevelLessonResources{}
+						entityStudentNote.LessonID = i
+						entityStudentNote.ResourseID = entity.ID
+						entityStudentNote.ResourseTypeID = tx.CurriculumCourseLessonResourceType.Where(
+							tx.CurriculumCourseLessonResourceType.Name.Eq("teacher_notes"),
+						).First()
+					}
 					}
 
 					for j, teacherNote := range lesson.TeacherNotes {
-						entityTeacherNote := model.CurriculumCourseLevelLessonResources{}
 						entityTeacherNote := model.CurriculumCourseLevelLessonResources{}
 						entityTeacherNote.LessonID = i
 						entityTeacherNote.ResourseID = entity.ID
