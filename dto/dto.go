@@ -51,6 +51,7 @@ type CurriculumCourseLevelLessons struct {
 type CurriculumCourseLevelLessonResources struct {
 	ID         string `json:"id" form:"id"`
 	ResourseID string `json:"resource_id" form:"resource_id"`
+	Name       string `json:"name" form:"name"`
 }
 
 type CurriculumCourseBlogEntries struct {
