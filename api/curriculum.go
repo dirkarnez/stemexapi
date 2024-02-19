@@ -413,7 +413,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			IconID                 string                                    `form:"icon_id"`
 			Description            string                                    `form:"description"`
 			ParentID               string                                    `form:"parent_id"`
-			ParentID               string                                    `form:"parent_id"`
+			CourseID               string                                    `form:"parent_id"`
 			CurriculumPlanID       string                                    `form:"curriculum_plan_id"`
 			CurriculumPlanFileName string                                    `form:"curriculum_plan_file_name"` // uploaded
 			BlogEntries            []dto.CurriculumCourseBlogEntries         `form:"blog_entries"`
