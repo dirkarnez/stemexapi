@@ -415,6 +415,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			Levels                 []dto.CurriculumCourseLevels              `form:"levels"`
 		}
 
+		var returnForm Form
 		var form Form
 		err := ctx.ReadForm(&form)
 		if err != nil {
