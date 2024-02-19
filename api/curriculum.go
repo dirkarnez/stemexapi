@@ -767,11 +767,11 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 							return err
 						}
 
-						studentNoteDTO := dto.CurriculumCourseLevelLessonResources{}
-						studentNoteDTO.ID = entityStudentNote.ID.ToString()
-						studentNoteDTO.ResourseID = entityStudentNote.ResourseID.ToString()
+						teacherNoteDTO := dto.CurriculumCourseLevelLessonResources{}
+						teacherNoteDTO.ID = entityTeacherNote.ID.ToString()
+						teacherNoteDTO.ResourseID = entityTeacherNote.ResourseID.ToString()
 
-						lessonDTO.StudentNotes = append(lessonDTO.StudentNotes, studentNoteDTO)
+						lessonDTO.StudentNotes = append(lessonDTO.StudentNotes, teacherNoteDTO)
 					}
 
 					for k, miscMaterial := range lesson.MiscMaterials {
