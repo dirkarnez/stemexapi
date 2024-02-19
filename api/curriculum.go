@@ -490,7 +490,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				if err != nil {
 					return err
 				}
-				curriculumCourse.ParentID = &CourseIDUUID
+				curriculumCourse.ID = CourseIDUUID
 			}
 			err = tx.CurriculumCourse.Clauses(clause.OnConflict{
 				UpdateAll: true,
