@@ -43,6 +43,11 @@ type CurriculumCourseLevelLessons struct {
 	Name string       `json:"name" form:"name"`
 }
 
+type CurriculumCourseLevelLessonResources struct {
+	ID   model.UUIDEx `json:"id" form:"id"`
+	Name string       `json:"name" form:"name"`
+}
+
 type CurriculumCourseBlogEntries struct {
 	ID          model.UUIDEx `json:"id" form:"id"`
 	ExternalURL string       `json:"external_url" form:"external_url"`
