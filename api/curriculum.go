@@ -451,17 +451,24 @@ func GetCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.
 			if err != nil {
 				return err
 			}
+
 			curriculumCourse, err = tx.CurriculumCourse.
 				Select(q.CurriculumCourse.ALL).
 				LeftJoin(q.CurriculumEntry, q.CurriculumCourse.EntryID.EqCol(q.CurriculumEntry.ID)).
 				Where(q.CurriculumEntry.ID.Eq(idUUID)).
 				Preload(field.Associations).
 				First()
+			if err != nil {
+				return err
+			}
 
 			curriculumCourseLevels, err = tx.CurriculumCourseLevel.
 				Select(q.CurriculumCourseLevel.ALL).
 				Where(q.CurriculumCourseLevel.CourseID.Eq(curriculumCourse.ID)).
 				Find()
+			if err != nil {
+				return err
+			}
 
 			for _, blog := range curriculumCourseBlogEntries {
 				returnForm.BlogEntries = append(returnForm.BlogEntries, dto.CurriculumCourseBlogEntries{
