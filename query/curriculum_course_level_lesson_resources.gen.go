@@ -40,6 +40,9 @@ func newCurriculumCourseLevelLessonResources(db *gorm.DB, opts ...gen.DOOption) 
 		RelationField: field.NewRelation("Lesson", "model.CurriculumCourseLevelLesson"),
 		CourseLevel: struct {
 			field.RelationField
+			Icon struct {
+				field.RelationField
+			}
 			Course struct {
 				field.RelationField
 				Entry struct {
@@ -54,6 +57,11 @@ func newCurriculumCourseLevelLessonResources(db *gorm.DB, opts ...gen.DOOption) 
 			}
 		}{
 			RelationField: field.NewRelation("Lesson.CourseLevel", "model.CurriculumCourseLevel"),
+			Icon: struct {
+				field.RelationField
+			}{
+				RelationField: field.NewRelation("Lesson.CourseLevel.Icon", "model.File"),
+			},
 			Course: struct {
 				field.RelationField
 				Entry struct {
@@ -189,6 +197,9 @@ type curriculumCourseLevelLessonResourcesBelongsToLesson struct {
 
 	CourseLevel struct {
 		field.RelationField
+		Icon struct {
+			field.RelationField
+		}
 		Course struct {
 			field.RelationField
 			Entry struct {
