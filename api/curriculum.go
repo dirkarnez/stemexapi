@@ -339,10 +339,6 @@ func CreateOrUpdateCurriculumCourseType(s3 *utils.StemexS3Client, dbInstance *go
 				entryToSave.IconID = file.ID
 			}
 
-			if entryToSave.IconID == nil {
-				return fmt.Errorf("no icon id")
-			}
-
 			if len(form.ParentID) > 1 && form.ParentID != "null" {
 				parentIDUUID, err := model.ValidUUIDExFromIDString(form.ParentID)
 				if err != nil {
