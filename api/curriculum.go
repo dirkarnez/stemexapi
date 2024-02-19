@@ -611,16 +611,14 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 					entityLesson.CourseLevelID = entity.ID
 
 					for j, presentationNote := range lesson.PresentationNotes {
-						
-						
+
 						if len(presentationNote.ID) > 1 {
 							presentationNoteIDUUID, err := model.ValidUUIDExFromIDString(presentationNote.ID)
 							if err != nil {
 								return err
 							}
-							entityPresentationNote.ID = IDUUID
+							entityPresentationNote.ID = presentationNoteIDUUID
 						}
-						entityPresentationNote.ID = 
 						entityPresentationNote := model.CurriculumCourseLevelLessonResources{}
 						entityPresentationNote.LessonID = i
 						entityPresentationNote.ResourseID = entity.ID
