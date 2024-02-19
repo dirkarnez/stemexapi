@@ -561,6 +561,22 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				return err
 			}
 
+			presentationNotesType, _ := tx.CurriculumCourseLessonResourceType.Where(
+				tx.CurriculumCourseLessonResourceType.Name.Eq("presentation_notes"),
+			).First()
+
+			studentNotesType, _ := tx.CurriculumCourseLessonResourceType.Where(
+				tx.CurriculumCourseLessonResourceType.Name.Eq("student_notes"),
+			).First()
+
+			teacherNotesType, _ := tx.CurriculumCourseLessonResourceType.Where(
+				tx.CurriculumCourseLessonResourceType.Name.Eq("teacher_notes"),
+			).First()
+
+			miscMaterialsType, _ := tx.CurriculumCourseLessonResourceType.Where(
+				tx.CurriculumCourseLessonResourceType.Name.Eq("misc_materials"),
+			).First()
+
 			/* associations: CurriculumCourseLevels*/
 			for i, dto := range form.Levels {
 				entity := model.CurriculumCourseLevel{}
@@ -580,22 +596,6 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				if err != nil {
 					return err
 				}
-
-				presentationNotesType, _ := tx.CurriculumCourseLessonResourceType.Where(
-					tx.CurriculumCourseLessonResourceType.Name.Eq("presentation_notes"),
-				).First()
-
-				studentNotesType, _ := tx.CurriculumCourseLessonResourceType.Where(
-					tx.CurriculumCourseLessonResourceType.Name.Eq("student_notes"),
-				).First()
-
-				teacherNotesType, _ := tx.CurriculumCourseLessonResourceType.Where(
-					tx.CurriculumCourseLessonResourceType.Name.Eq("teacher_notes"),
-				).First()
-
-				miscMaterialsType, _ := tx.CurriculumCourseLessonResourceType.Where(
-					tx.CurriculumCourseLessonResourceType.Name.Eq("misc_materials"),
-				).First()
 
 				for j, lesson := range dto.Lessons {
 					entityLesson := model.CurriculumCourseLevelLesson{}
