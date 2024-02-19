@@ -509,7 +509,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			}
 
 			/* associations: CurriculumCourseYoutubeVideoEntries*/
-			var blogs []*model.CurriculumCourseYoutubeVideoEntries
+			var youtubes []*model.CurriculumCourseYoutubeVideoEntries
 			for _, dto := range form.BlogEntries {
 				entity := model.CurriculumCourseBlogEntries{}
 
