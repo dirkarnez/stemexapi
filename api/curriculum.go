@@ -728,7 +728,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 						studentNoteDTO.ID = entityStudentNote.ID.ToString()
 						studentNoteDTO.ResourseID = entityStudentNote.ResourseID.ToString()
 
-						lessonDTO.PresentationNotes = append(lessonDTO.PresentationNotes, presentationNoteDTO)
+						lessonDTO.PresentationNotes = append(lessonDTO.StudentNotes, studentNoteDTO)
 					}
 
 					for k, teacherNote := range lesson.TeacherNotes {
