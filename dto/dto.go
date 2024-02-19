@@ -32,7 +32,7 @@ type CurriculumCourseYoutubeVideoEntries struct {
 }
 
 type CurriculumCourseLevels struct {
-	ID          model.UUIDEx                   `json:"id" form:"id"`
+	ID          string                         `json:"id" form:"id"`
 	Name        string                         `json:"name" form:"name"`
 	IconID      string                         `json:"icon_id" form:"icon_id"`
 	Description string                         `json:"description" form:"description"`
@@ -40,7 +40,7 @@ type CurriculumCourseLevels struct {
 }
 
 type CurriculumCourseLevelLessons struct {
-	ID                model.UUIDEx                           `json:"id" form:"id"`
+	ID                string                                 `json:"id" form:"id"`
 	PresentationNotes []CurriculumCourseLevelLessonResources `json:"presentation_notes" form:"presentation_notes"`
 	StudentNotes      []CurriculumCourseLevelLessonResources `json:"student_notes" form:"student_notes"`
 	TeacherNotes      []CurriculumCourseLevelLessonResources `json:"teacher_notes" form:"teacher_notes"`
@@ -48,7 +48,7 @@ type CurriculumCourseLevelLessons struct {
 }
 
 type CurriculumCourseLevelLessonResources struct {
-	ID model.UUIDEx `json:"id" form:"id"`
+	ID string `json:"id" form:"id"`
 }
 
 type CurriculumCourseBlogEntries struct {
