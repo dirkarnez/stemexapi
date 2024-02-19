@@ -465,11 +465,6 @@ func GetCurriculumCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB
 					Title:       blog.Title,
 				})
 			}
-
-			returnForm.YoutubeVideoEntries = append(returnForm.YoutubeVideoEntries, dto.CurriculumCourseYoutubeVideoEntries{
-				URL: saved.URL,
-			})
-
 		}
 	}
 }
