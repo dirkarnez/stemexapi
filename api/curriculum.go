@@ -426,6 +426,13 @@ func GetCurriculumCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB
 				return fmt.Errorf("not found")
 			}
 
+			tx.CurriculumCourseYoutubeVideoEntries.
+				Select(q.CurriculumCourseYoutubeVideoEntries.ALL).
+				LeftJoin(q.CurriculumCourse, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.EntryID)).
+				Where(q.CurriculumEntry.ID.Eq(idUUID)).
+				Where(q.CurriculumCourse.ID.IsNotNull()).
+				First()
+
 			return nil
 		})
 
@@ -438,6 +445,10 @@ func GetCurriculumCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB
 			if (*curriculumEntry).ParentID != nil {
 				returnForm.ParentID = (*(*curriculumEntry).ParentID).ToString()
 			}
+
+			returnForm.YoutubeVideoEntries = append(returnForm.YoutubeVideoEntries, dto.CurriculumCourseYoutubeVideoEntries{
+				URL: saved.URL,
+			})
 
 		}
 	}
