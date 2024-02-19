@@ -675,12 +675,124 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 					for k, teacherNote := range lesson.TeacherNotes {
 						entityTeacherNote := model.CurriculumCourseLevelLessonResources{}
 
+						if len(presentationNote.ID) > 1 {
+							presentationNoteIDUUID, err := model.ValidUUIDExFromIDString(presentationNote.ID)
+							if err != nil {
+								return err
+							}
+							entityPresentationNote.ID = presentationNoteIDUUID
+						}
+
+						if len(presentationNote.ResourseID) > 1 {
+							presentationNoteResourseIDUUID, err := model.ValidUUIDExFromIDString(presentationNote.ResourseID)
+							if err != nil {
+								return err
+							}
+							entityPresentationNote.ResourseID = presentationNoteResourseIDUUID
+						}
+
+						_, presentationNoteFileHeader, err := ctx.Request().FormFile(fmt.Sprintf("levels.%d.lessons.%d.presentation_notes.%d.file", i, j, k))
+						if err == nil {
+							file, err := utils.SaveUploadV2(presentationNoteFileHeader, &entityPresentationNote.ResourseID, []string{utils.PrefixCourseResourses, curriculumEntry.Description}, s3, tx, ctx)
+							if err != nil {
+								return err
+							}
+							entityPresentationNote.ResourseID = file.ID
+						}
+						entityPresentationNote.LessonID = entityLesson.ID
+						entityPresentationNote.ResourseTypeID = presentationNotesType.ID
+					}
+
+					for k, studentNote := range lesson.StudentNotes {
+						entityStudentNote := model.CurriculumCourseLevelLessonResources{}
+
+						if len(studentNote.ID) > 1 {
+							studentNoteIDUUID, err := model.ValidUUIDExFromIDString(studentNote.ID)
+							if err != nil {
+								return err
+							}
+							entityStudentNote.ID = studentNoteIDUUID
+						}
+
+						if len(studentNote.ResourseID) > 1 {
+							entityStudentNoteResourseIDUUID, err := model.ValidUUIDExFromIDString(studentNote.ResourseID)
+							if err != nil {
+								return err
+							}
+							entityStudentNote.ResourseID = entityStudentNoteResourseIDUUID
+						}
+
+						_, studentNoteFileHeader, err := ctx.Request().FormFile(fmt.Sprintf("levels.%d.lessons.%d.student_notes.%d.file", i, j, k))
+						if err == nil {
+							file, err := utils.SaveUploadV2(studentNoteFileHeader, &entityStudentNote.ResourseID, []string{utils.PrefixCourseResourses, curriculumEntry.Description}, s3, tx, ctx)
+							if err != nil {
+								return err
+							}
+							entityStudentNote.ResourseID = file.ID
+						}
+
 						entityTeacherNote.LessonID = entityLesson.ID
 						entityTeacherNote.ResourseTypeID = teacherNotesType.ID
 					}
 
 					for j, miscMaterial := range lesson.MiscMaterials {
 						entityMiscMaterial := model.CurriculumCourseLevelLessonResources{}
+
+						if len(presentationNote.ID) > 1 {
+							presentationNoteIDUUID, err := model.ValidUUIDExFromIDString(presentationNote.ID)
+							if err != nil {
+								return err
+							}
+							entityPresentationNote.ID = presentationNoteIDUUID
+						}
+
+						if len(presentationNote.ResourseID) > 1 {
+							presentationNoteResourseIDUUID, err := model.ValidUUIDExFromIDString(presentationNote.ResourseID)
+							if err != nil {
+								return err
+							}
+							entityPresentationNote.ResourseID = presentationNoteResourseIDUUID
+						}
+
+						_, presentationNoteFileHeader, err := ctx.Request().FormFile(fmt.Sprintf("levels.%d.lessons.%d.presentation_notes.%d.file", i, j, k))
+						if err == nil {
+							file, err := utils.SaveUploadV2(presentationNoteFileHeader, &entityPresentationNote.ResourseID, []string{utils.PrefixCourseResourses, curriculumEntry.Description}, s3, tx, ctx)
+							if err != nil {
+								return err
+							}
+							entityPresentationNote.ResourseID = file.ID
+						}
+						entityPresentationNote.LessonID = entityLesson.ID
+						entityPresentationNote.ResourseTypeID = presentationNotesType.ID
+					}
+
+					for k, studentNote := range lesson.StudentNotes {
+						entityStudentNote := model.CurriculumCourseLevelLessonResources{}
+
+						if len(studentNote.ID) > 1 {
+							studentNoteIDUUID, err := model.ValidUUIDExFromIDString(studentNote.ID)
+							if err != nil {
+								return err
+							}
+							entityStudentNote.ID = studentNoteIDUUID
+						}
+
+						if len(studentNote.ResourseID) > 1 {
+							entityStudentNoteResourseIDUUID, err := model.ValidUUIDExFromIDString(studentNote.ResourseID)
+							if err != nil {
+								return err
+							}
+							entityStudentNote.ResourseID = entityStudentNoteResourseIDUUID
+						}
+
+						_, studentNoteFileHeader, err := ctx.Request().FormFile(fmt.Sprintf("levels.%d.lessons.%d.student_notes.%d.file", i, j, k))
+						if err == nil {
+							file, err := utils.SaveUploadV2(studentNoteFileHeader, &entityStudentNote.ResourseID, []string{utils.PrefixCourseResourses, curriculumEntry.Description}, s3, tx, ctx)
+							if err != nil {
+								return err
+							}
+							entityStudentNote.ResourseID = file.ID
+						}
 
 						entityMiscMaterial.LessonID = entityLesson.ID
 						entityMiscMaterial.ResourseTypeID = miscMaterialsNotesType.ID
