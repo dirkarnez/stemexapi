@@ -627,7 +627,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 							if err != nil {
 								return err
 							}
-							curriculumCourse.CurriculumPlanID = file.ID
+							entityPresentationNote.ResourseID = file.ID
 						}
 
 						(id, file_name, file)
