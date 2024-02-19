@@ -468,7 +468,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 
 			_, iconFileHeader, err := ctx.Request().FormFile("icon_file")
 			if err == nil {
-				file, err := utils.SaveUpload(iconFileHeader, []string{utils.PrefixCourseResourses, entryToSave.Description}, s3, tx, ctx)
+				file, err := utils.SaveUpload(iconFileHeader, []string{utils.PrefixCourseResourses, curriculumEntry.Description}, s3, tx, ctx)
 				if err != nil {
 					return err
 				}
