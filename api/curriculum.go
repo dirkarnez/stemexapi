@@ -553,16 +553,16 @@ func GetCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.
 						Select(q.CurriculumCourseLevelLessonResources.ALL).
 						LeftJoin(q.CurriculumCourseLessonResourceType, q.CurriculumCourseLevelLessonResources.ResourseTypeID.EqCol(q.CurriculumCourseLessonResourceType.ID)).
 						Where(q.CurriculumCourseLevelLessonResources.LessonID.Eq(curriculumCourseLevelLesson.ID)).
-						Where(q.CurriculumCourseLessonResourceType.Name.Eq("presentation_notes")).
+						Where(q.CurriculumCourseLessonResourceType.Name.Eq("misc_materials")).
 						Preload(field.Associations).
 						Find()
 					if err != nil {
 						return err
 					}
 					for _, misc := range miscs {
-						pptDTO := dto.CurriculumCourseLevelLessonResources{
-							ID:         ppt.ID.ToString(),
-							ResourseID: ppt.Resourse.ID.ToString(),
+						miscDTO := dto.CurriculumCourseLevelLessonResources{
+							ID:         misc.ID.ToString(),
+							ResourseID: misc.Resourse.ID.ToString(),
 						}
 						curriculumCourseLevelLessonDTO.PresentationNotes = append(curriculumCourseLevelLessonDTO.PresentationNotes, pptDTO)
 					}
