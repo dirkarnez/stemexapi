@@ -585,6 +585,12 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				entity.Name = dto.Name
 				levels = append(levels, &entity)
 			}
+			err = tx.CurriculumCourseYoutubeVideoEntries.Clauses(clause.OnConflict{
+				UpdateAll: true,
+			}).Create(youtubes...)
+			if err != nil {
+				return err
+			}
 
 			return nil
 		})
