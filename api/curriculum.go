@@ -407,13 +407,19 @@ func GetCurriculumCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB
 				return
 			}
 			err = q.Transaction(func(tx *query.Query) error {
-			if len(form.ID) > 1 {
-				IDUUID, err := model.ValidUUIDExFromIDString(form.ID)
-				if err != nil {
-					return err
-				}
-				curriculumEntry.ID = IDUUID
-			}
+				err := tx.CurriculumEntry.
+					Select(q.CurriculumEntry.ALL, field.NewField(q.CurriculumCourse.TableName(), q.CurriculumCourse.ID.ColumnName().String()).IsNotNull().As("is_course")).
+					LeftJoin(q.CurriculumCourse, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.EntryID)).
+					Where(func() field.Expr {
+						if parentUUIDPtr == nil {
+							return q.CurriculumEntry.ParentID.IsNull()
+						} else {
+							return q.CurriculumEntry.ParentID.Eq(*parentUUIDPtr)
+						}
+					}()).
+					Scan(&curriculumEntryList)
+			})
+
 		} else {
 			ctx.StopWithError(http.StatusNotFound, fmt.Errorf("No such record"))
 		}
