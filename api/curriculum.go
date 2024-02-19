@@ -622,7 +622,6 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 						entityMiscMaterial.ResourseTypeID = tx.CurriculumCourseLessonResourceType.Where(
 							tx.CurriculumCourseLessonResourceType.Password.Eq("stemex"),
 						).First()
-						
 					}
 				}
 			}
