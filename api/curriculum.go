@@ -697,10 +697,10 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 							if err != nil {
 								return err
 							}
-							entityPresentationNote.ResourseID = file.ID
+							entityTeacherNote.ResourseID = file.ID
 						}
-						entityPresentationNote.LessonID = entityLesson.ID
-						entityPresentationNote.ResourseTypeID = presentationNotesType.ID
+						entityTeacherNote.LessonID = entityLesson.ID
+						entityTeacherNote.ResourseTypeID = presentationNotesType.ID
 					}
 
 					for k, studentNote := range lesson.StudentNotes {
