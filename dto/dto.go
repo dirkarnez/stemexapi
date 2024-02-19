@@ -39,11 +39,11 @@ type CurriculumCourseLevels struct {
 }
 
 type CurriculumCourseLevelLessons struct {
-	ID   model.UUIDEx `json:"id" form:"id"`
-	[]CurriculumCourseLevelLessons `json:"presentation_notes" form:"presentation_notes"`
-	[]CurriculumCourseLevelLessons `json:"id" form:"id"`
-	[]CurriculumCourseLevelLessons `json:"id" form:"id"`
-	[]CurriculumCourseLevelLessons `json:"id" form:"id"`
+	ID                model.UUIDEx                           `json:"id" form:"id"`
+	PresentationNotes []CurriculumCourseLevelLessonResources `json:"presentation_notes" form:"presentation_notes"`
+	StudentNotes      []CurriculumCourseLevelLessonResources `json:"StudentNotes" form:"StudentNotes"`
+	TeacherNotes      []CurriculumCourseLevelLessonResources `json:"TeacherNotes" form:"TeacherNotes"`
+	TeacherNotes      []CurriculumCourseLevelLessonResources `json:"TeacherNotes" form:"TeacherNotes"`
 }
 
 type CurriculumCourseLevelLessonResources struct {
