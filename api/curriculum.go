@@ -442,7 +442,7 @@ func GetCurriculumCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB
 				Where(q.CurriculumEntry.ID.Eq(idUUID)).
 				Find()
 
-			curriculumCourse, err = tx.CurriculumCourseBlogEntries.
+			curriculumCourse, err = tx.CurriculumCourse.
 
 			return nil
 		})
