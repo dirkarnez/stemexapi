@@ -397,6 +397,21 @@ func GetCurriculumCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB
 		ID := ctx.URLParamDefault("id", "")
 		var returnForm Form
 
+		var err error
+		const q = query.Use(dbInstance)
+
+		var parentUUIDPtr *model.UUIDEx = nil
+		if len(parentID) > 0 {
+			parentUUID, err := model.ValidUUIDExFromIDString(parentID)
+			if err != nil {
+				ctx.StopWithError(http.StatusNotFound, fmt.Errorf("invalid id"))
+				return
+			}
+			parentUUIDPtr = &parentUUID
+		} else {
+			parentUUIDPtr = nil
+		}
+
 	}
 }
 
