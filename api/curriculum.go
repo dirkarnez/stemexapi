@@ -593,7 +593,13 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 					entityLesson := model.CurriculumCourseLevelLesson{}
 					entityLesson.LessonNumber = i
 					entityLesson.CourseLevelID = entity.ID
-					
+
+					for i, lesson := range lesson.Lessons {
+						entityLesson := model.CurriculumCourseLevelLesson{}
+						entityLesson.LessonNumber = i
+						entityLesson.CourseLevelID = entity.ID
+						
+					}
 				}
 			}
 
