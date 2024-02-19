@@ -120,10 +120,10 @@ type CurriculumCourseLevelLessonResources struct {
 	Lesson   CurriculumCourseLevelLesson `gorm:"foreignKey:LessonID"`
 
 	ResourseTypeID UUIDEx                             `gorm:"column:resourse_type_id;type:binary(16);not null"`
-	ResourseType   \CurriculumCourseLessonResourceType `gorm:"foreignKey:ResourseTypeID"` //constraint:OnDelete:SET NULL
+	ResourseType   CurriculumCourseLessonResourceType `gorm:"foreignKey:ResourseTypeID"` //constraint:OnDelete:SET NULL
 
-	ResourseID *UUIDEx `gorm:"column:resourse_id;type:binary(16);not null"`
-	Resourse   *File   `gorm:"foreignKey:ResourseID"` //constraint:OnDelete:SET NULL
+	ResourseID UUIDEx `gorm:"column:resourse_id;type:binary(16);not null"`
+	Resourse   File   `gorm:"foreignKey:ResourseID"` //constraint:OnDelete:SET NULL
 }
 
 type CurriculumCoursePrerequisites struct {
