@@ -589,8 +589,9 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 					return err
 				}
 
-				for _, lesson := range dto.Lessons {
+				for i, lesson := range dto.Lessons {
 					entity := model.CurriculumCourseLevelLesson{}
+					entity/
 				}
 			}
 
