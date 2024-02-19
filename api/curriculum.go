@@ -401,8 +401,8 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			// 	Content string `form:"content"`
 			// }
 			//IconFile/**multipart.FileHeader */ []byte                                           `form:"icon_file"`
-			// (2) ['', '']
 			// (2) ['curriculum_plan_file', File]
+			// course_levels[*]icon_file
 			type Form struct {
 				ID                     string                                    `form:"id"`
 				IconID                 string                                    `form:"icon_id"`
