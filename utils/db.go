@@ -64,7 +64,7 @@ func SaveUploadV2(fileHeader *multipart.FileHeader, prefixes []string, s3 *Steme
 		return nil, err
 	}
 	var file = model.File{FileNameUploaded: fileHeader.Filename, ObjectKey: objectKey}
-	err = q.CurriculumEntry.Clauses(clause.OnConflict{
+	err = q.File.Clauses(clause.OnConflict{
 		UpdateAll: true,
 	}).Create(&file)
 
