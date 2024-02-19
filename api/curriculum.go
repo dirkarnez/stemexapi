@@ -254,7 +254,6 @@ func GetCurriculumCourseType(dbInstance *gorm.DB) context.Handler {
 
 		if err != nil {
 			ctx.StatusCode(iris.StatusInternalServerError)
-			return
 		} else {
 			ctx.JSON(curriculumEntry)
 		}
