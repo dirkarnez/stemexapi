@@ -414,7 +414,7 @@ func GetCurriculumCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB
 					First()
 
 				if err != nil {
-
+					return err
 				}
 			})
 
