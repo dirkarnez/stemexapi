@@ -398,7 +398,7 @@ func GetCurriculumCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB
 		var returnForm Form
 
 		var err error
-		const q = query.Use(dbInstance)
+		var q = query.Use(dbInstance)
 
 		var parentUUIDPtr *model.UUIDEx = nil
 		if len(parentID) > 0 {
