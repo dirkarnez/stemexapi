@@ -405,10 +405,10 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			ID                     string                                    `form:"id" json:"id"`
 			IconID                 string                                    `form:"icon_id" json:"icon_id"`
 			Description            string                                    `form:"description" json:"description"`
-			ParentID               string                                    `form:"parent_id" json:"id"`
-			CourseID               string                                    `form:"course_id" json:"id"`
-			CurriculumPlanID       string                                    `form:"curriculum_plan_id" json:"id"`
-			CurriculumPlanFileName string                                    `form:"curriculum_plan_file_name" json:"id"` // uploaded
+			ParentID               string                                    `form:"parent_id" json:"parent_id"`
+			CourseID               string                                    `form:"course_id" json:"course_id"`
+			CurriculumPlanID       string                                    `form:"curriculum_plan_id" json:"curriculum_plan_id"`
+			CurriculumPlanFileName string                                    `form:"curriculum_plan_file_name" json:"curriculum_plan_file_name"` // uploaded
 			BlogEntries            []dto.CurriculumCourseBlogEntries         `form:"blog_entries" json:"id"`
 			YoutubeVideoEntries    []dto.CurriculumCourseYoutubeVideoEntries `form:"youtube_video_entries" json:"id"`
 			Levels                 []dto.CurriculumCourseLevels              `form:"levels" json:"id"`
