@@ -32,11 +32,16 @@ func newCurriculumCourseLevelLesson(db *gorm.DB, opts ...gen.DOOption) curriculu
 	_curriculumCourseLevelLesson.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_curriculumCourseLevelLesson.DeletedAt = field.NewField(tableName, "deleted_at")
 	_curriculumCourseLevelLesson.LessonNumber = field.NewUint64(tableName, "lesson_number")
-	_curriculumCourseLevelLesson.CourseLevelID = field.NewField(tableName, "entry_id")
+	_curriculumCourseLevelLesson.CourseLevelID = field.NewField(tableName, "course_level_id")
 	_curriculumCourseLevelLesson.CourseLevel = curriculumCourseLevelLessonBelongsToCourseLevel{
 		db: db.Session(&gorm.Session{}),
 
 		RelationField: field.NewRelation("CourseLevel", "model.CurriculumCourseLevel"),
+		Icon: struct {
+			field.RelationField
+		}{
+			RelationField: field.NewRelation("CourseLevel.Icon", "model.File"),
+		},
 		Course: struct {
 			field.RelationField
 			Entry struct {
@@ -108,7 +113,7 @@ func (c *curriculumCourseLevelLesson) updateTableName(table string) *curriculumC
 	c.UpdatedAt = field.NewTime(table, "updated_at")
 	c.DeletedAt = field.NewField(table, "deleted_at")
 	c.LessonNumber = field.NewUint64(table, "lesson_number")
-	c.CourseLevelID = field.NewField(table, "entry_id")
+	c.CourseLevelID = field.NewField(table, "course_level_id")
 
 	c.fillFieldMap()
 
@@ -131,7 +136,7 @@ func (c *curriculumCourseLevelLesson) fillFieldMap() {
 	c.fieldMap["updated_at"] = c.UpdatedAt
 	c.fieldMap["deleted_at"] = c.DeletedAt
 	c.fieldMap["lesson_number"] = c.LessonNumber
-	c.fieldMap["entry_id"] = c.CourseLevelID
+	c.fieldMap["course_level_id"] = c.CourseLevelID
 
 }
 
@@ -150,6 +155,9 @@ type curriculumCourseLevelLessonBelongsToCourseLevel struct {
 
 	field.RelationField
 
+	Icon struct {
+		field.RelationField
+	}
 	Course struct {
 		field.RelationField
 		Entry struct {

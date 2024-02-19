@@ -32,7 +32,15 @@ func newCurriculumCourseLevel(db *gorm.DB, opts ...gen.DOOption) curriculumCours
 	_curriculumCourseLevel.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_curriculumCourseLevel.DeletedAt = field.NewField(tableName, "deleted_at")
 	_curriculumCourseLevel.Name = field.NewString(tableName, "name")
+	_curriculumCourseLevel.IconID = field.NewField(tableName, "icon_id")
+	_curriculumCourseLevel.Description = field.NewString(tableName, "description")
 	_curriculumCourseLevel.CourseID = field.NewField(tableName, "course_id")
+	_curriculumCourseLevel.Icon = curriculumCourseLevelBelongsToIcon{
+		db: db.Session(&gorm.Session{}),
+
+		RelationField: field.NewRelation("Icon", "model.File"),
+	}
+
 	_curriculumCourseLevel.Course = curriculumCourseLevelBelongsToCourse{
 		db: db.Session(&gorm.Session{}),
 
@@ -65,14 +73,18 @@ func newCurriculumCourseLevel(db *gorm.DB, opts ...gen.DOOption) curriculumCours
 type curriculumCourseLevel struct {
 	curriculumCourseLevelDo
 
-	ALL       field.Asterisk
-	ID        field.Field
-	CreatedAt field.Time
-	UpdatedAt field.Time
-	DeletedAt field.Field
-	Name      field.String
-	CourseID  field.Field
-	Course    curriculumCourseLevelBelongsToCourse
+	ALL         field.Asterisk
+	ID          field.Field
+	CreatedAt   field.Time
+	UpdatedAt   field.Time
+	DeletedAt   field.Field
+	Name        field.String
+	IconID      field.Field
+	Description field.String
+	CourseID    field.Field
+	Icon        curriculumCourseLevelBelongsToIcon
+
+	Course curriculumCourseLevelBelongsToCourse
 
 	fieldMap map[string]field.Expr
 }
@@ -94,6 +106,8 @@ func (c *curriculumCourseLevel) updateTableName(table string) *curriculumCourseL
 	c.UpdatedAt = field.NewTime(table, "updated_at")
 	c.DeletedAt = field.NewField(table, "deleted_at")
 	c.Name = field.NewString(table, "name")
+	c.IconID = field.NewField(table, "icon_id")
+	c.Description = field.NewString(table, "description")
 	c.CourseID = field.NewField(table, "course_id")
 
 	c.fillFieldMap()
@@ -111,12 +125,14 @@ func (c *curriculumCourseLevel) GetFieldByName(fieldName string) (field.OrderExp
 }
 
 func (c *curriculumCourseLevel) fillFieldMap() {
-	c.fieldMap = make(map[string]field.Expr, 7)
+	c.fieldMap = make(map[string]field.Expr, 10)
 	c.fieldMap["id"] = c.ID
 	c.fieldMap["created_at"] = c.CreatedAt
 	c.fieldMap["updated_at"] = c.UpdatedAt
 	c.fieldMap["deleted_at"] = c.DeletedAt
 	c.fieldMap["name"] = c.Name
+	c.fieldMap["icon_id"] = c.IconID
+	c.fieldMap["description"] = c.Description
 	c.fieldMap["course_id"] = c.CourseID
 
 }
@@ -129,6 +145,77 @@ func (c curriculumCourseLevel) clone(db *gorm.DB) curriculumCourseLevel {
 func (c curriculumCourseLevel) replaceDB(db *gorm.DB) curriculumCourseLevel {
 	c.curriculumCourseLevelDo.ReplaceDB(db)
 	return c
+}
+
+type curriculumCourseLevelBelongsToIcon struct {
+	db *gorm.DB
+
+	field.RelationField
+}
+
+func (a curriculumCourseLevelBelongsToIcon) Where(conds ...field.Expr) *curriculumCourseLevelBelongsToIcon {
+	if len(conds) == 0 {
+		return &a
+	}
+
+	exprs := make([]clause.Expression, 0, len(conds))
+	for _, cond := range conds {
+		exprs = append(exprs, cond.BeCond().(clause.Expression))
+	}
+	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
+	return &a
+}
+
+func (a curriculumCourseLevelBelongsToIcon) WithContext(ctx context.Context) *curriculumCourseLevelBelongsToIcon {
+	a.db = a.db.WithContext(ctx)
+	return &a
+}
+
+func (a curriculumCourseLevelBelongsToIcon) Session(session *gorm.Session) *curriculumCourseLevelBelongsToIcon {
+	a.db = a.db.Session(session)
+	return &a
+}
+
+func (a curriculumCourseLevelBelongsToIcon) Model(m *model.CurriculumCourseLevel) *curriculumCourseLevelBelongsToIconTx {
+	return &curriculumCourseLevelBelongsToIconTx{a.db.Model(m).Association(a.Name())}
+}
+
+type curriculumCourseLevelBelongsToIconTx struct{ tx *gorm.Association }
+
+func (a curriculumCourseLevelBelongsToIconTx) Find() (result *model.File, err error) {
+	return result, a.tx.Find(&result)
+}
+
+func (a curriculumCourseLevelBelongsToIconTx) Append(values ...*model.File) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Append(targetValues...)
+}
+
+func (a curriculumCourseLevelBelongsToIconTx) Replace(values ...*model.File) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Replace(targetValues...)
+}
+
+func (a curriculumCourseLevelBelongsToIconTx) Delete(values ...*model.File) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Delete(targetValues...)
+}
+
+func (a curriculumCourseLevelBelongsToIconTx) Clear() error {
+	return a.tx.Clear()
+}
+
+func (a curriculumCourseLevelBelongsToIconTx) Count() int64 {
+	return a.tx.Count()
 }
 
 type curriculumCourseLevelBelongsToCourse struct {
