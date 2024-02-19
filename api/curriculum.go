@@ -412,7 +412,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				CurriculumPlanID    string                                    `form:"curriculum_plan_id"`
 				BlogEntries         []dto.CurriculumCourseBlogEntries         `form:"blog_entries"`
 				YoutubeVideoEntries []dto.CurriculumCourseYoutubeVideoEntries `form:"youtube_video_entries"`
-				Levels              []dto.CurriculumCourseLevels              `form:"youtube_video_entries"`
+				Levels              []dto.CurriculumCourseLevels              `form:"course_levels"`
 			}
 
 			var form Form
