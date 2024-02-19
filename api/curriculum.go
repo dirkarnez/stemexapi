@@ -408,15 +408,9 @@ func GetCurriculumCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB
 			}
 			err = q.Transaction(func(tx *query.Query) error {
 				err := tx.CurriculumEntry.
-					Select(q.CurriculumEntry.ALL, field.NewField(q.CurriculumCourse.TableName(), q.CurriculumCourse.ID.ColumnName().String()).IsNotNull().As("is_course")).
+					Select(q.CurriculumEntry.ALL).
 					LeftJoin(q.CurriculumCourse, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.EntryID)).
-					Where(func() field.Expr {
-						if parentUUIDPtr == nil {
-							return q.CurriculumEntry.ParentID.IsNull()
-						} else {
-							return q.CurriculumEntry.ParentID.Eq(*parentUUIDPtr)
-						}
-					}()).
+					Where(q.CurriculumEntry.ParentID.Eq(*parentUUIDPtr)).
 					Scan(&curriculumEntryList)
 			})
 
