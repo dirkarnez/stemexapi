@@ -620,10 +620,6 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 
 				// returnForm.Levels = append(returnForm.Levels, dto.{})
 
-				// for _, saved := range blogs {
-				//returnForm.Levels = append(returnForm.Levels)
-				// }
-
 				for j, lesson := range level.Lessons {
 					entityLesson := model.CurriculumCourseLevelLesson{}
 
@@ -795,6 +791,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 						}
 					}
 				}
+				returnForm.Levels = append(returnForm.Levels)
 			}
 
 			returnForm.ID = curriculumEntry.ID.ToString()
