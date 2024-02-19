@@ -680,7 +680,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 							return err
 						}
 
-						dto.CurriculumCourseLevelLessonResources{}
+						presentationNoteDTO := dto.CurriculumCourseLevelLessonResources{}
 					}
 
 					for k, studentNote := range lesson.StudentNotes {
