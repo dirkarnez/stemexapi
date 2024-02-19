@@ -719,7 +719,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 							if err != nil {
 								return err
 							}
-							entityPresentationNote.ResourseID = presentationNoteResourseIDUUID
+							entityMiscMaterial.ResourseID = presentationNoteResourseIDUUID
 						}
 
 						_, presentationNoteFileHeader, err := ctx.Request().FormFile(fmt.Sprintf("levels.%d.lessons.%d.presentation_notes.%d.file", i, j, k))
