@@ -16,22 +16,30 @@ import (
 )
 
 var (
-	Q                                   = new(Query)
-	CurriculumCourse                    *curriculumCourse
-	CurriculumCourseBlogEntries         *curriculumCourseBlogEntries
-	CurriculumCoursePrerequisites       *curriculumCoursePrerequisites
-	CurriculumCourseYoutubeVideoEntries *curriculumCourseYoutubeVideoEntries
-	CurriculumEntry                     *curriculumEntry
-	File                                *file
-	Role                                *role
-	User                                *user
-	UserActivity                        *userActivity
+	Q                                    = new(Query)
+	CurriculumCourse                     *curriculumCourse
+	CurriculumCourseBlogEntries          *curriculumCourseBlogEntries
+	CurriculumCourseLessonResourceType   *curriculumCourseLessonResourceType
+	CurriculumCourseLevel                *curriculumCourseLevel
+	CurriculumCourseLevelLesson          *curriculumCourseLevelLesson
+	CurriculumCourseLevelLessonResources *curriculumCourseLevelLessonResources
+	CurriculumCoursePrerequisites        *curriculumCoursePrerequisites
+	CurriculumCourseYoutubeVideoEntries  *curriculumCourseYoutubeVideoEntries
+	CurriculumEntry                      *curriculumEntry
+	File                                 *file
+	Role                                 *role
+	User                                 *user
+	UserActivity                         *userActivity
 )
 
 func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	*Q = *Use(db, opts...)
 	CurriculumCourse = &Q.CurriculumCourse
 	CurriculumCourseBlogEntries = &Q.CurriculumCourseBlogEntries
+	CurriculumCourseLessonResourceType = &Q.CurriculumCourseLessonResourceType
+	CurriculumCourseLevel = &Q.CurriculumCourseLevel
+	CurriculumCourseLevelLesson = &Q.CurriculumCourseLevelLesson
+	CurriculumCourseLevelLessonResources = &Q.CurriculumCourseLevelLessonResources
 	CurriculumCoursePrerequisites = &Q.CurriculumCoursePrerequisites
 	CurriculumCourseYoutubeVideoEntries = &Q.CurriculumCourseYoutubeVideoEntries
 	CurriculumEntry = &Q.CurriculumEntry
@@ -43,47 +51,59 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 
 func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 	return &Query{
-		db:                                  db,
-		CurriculumCourse:                    newCurriculumCourse(db, opts...),
-		CurriculumCourseBlogEntries:         newCurriculumCourseBlogEntries(db, opts...),
-		CurriculumCoursePrerequisites:       newCurriculumCoursePrerequisites(db, opts...),
-		CurriculumCourseYoutubeVideoEntries: newCurriculumCourseYoutubeVideoEntries(db, opts...),
-		CurriculumEntry:                     newCurriculumEntry(db, opts...),
-		File:                                newFile(db, opts...),
-		Role:                                newRole(db, opts...),
-		User:                                newUser(db, opts...),
-		UserActivity:                        newUserActivity(db, opts...),
+		db:                                   db,
+		CurriculumCourse:                     newCurriculumCourse(db, opts...),
+		CurriculumCourseBlogEntries:          newCurriculumCourseBlogEntries(db, opts...),
+		CurriculumCourseLessonResourceType:   newCurriculumCourseLessonResourceType(db, opts...),
+		CurriculumCourseLevel:                newCurriculumCourseLevel(db, opts...),
+		CurriculumCourseLevelLesson:          newCurriculumCourseLevelLesson(db, opts...),
+		CurriculumCourseLevelLessonResources: newCurriculumCourseLevelLessonResources(db, opts...),
+		CurriculumCoursePrerequisites:        newCurriculumCoursePrerequisites(db, opts...),
+		CurriculumCourseYoutubeVideoEntries:  newCurriculumCourseYoutubeVideoEntries(db, opts...),
+		CurriculumEntry:                      newCurriculumEntry(db, opts...),
+		File:                                 newFile(db, opts...),
+		Role:                                 newRole(db, opts...),
+		User:                                 newUser(db, opts...),
+		UserActivity:                         newUserActivity(db, opts...),
 	}
 }
 
 type Query struct {
 	db *gorm.DB
 
-	CurriculumCourse                    curriculumCourse
-	CurriculumCourseBlogEntries         curriculumCourseBlogEntries
-	CurriculumCoursePrerequisites       curriculumCoursePrerequisites
-	CurriculumCourseYoutubeVideoEntries curriculumCourseYoutubeVideoEntries
-	CurriculumEntry                     curriculumEntry
-	File                                file
-	Role                                role
-	User                                user
-	UserActivity                        userActivity
+	CurriculumCourse                     curriculumCourse
+	CurriculumCourseBlogEntries          curriculumCourseBlogEntries
+	CurriculumCourseLessonResourceType   curriculumCourseLessonResourceType
+	CurriculumCourseLevel                curriculumCourseLevel
+	CurriculumCourseLevelLesson          curriculumCourseLevelLesson
+	CurriculumCourseLevelLessonResources curriculumCourseLevelLessonResources
+	CurriculumCoursePrerequisites        curriculumCoursePrerequisites
+	CurriculumCourseYoutubeVideoEntries  curriculumCourseYoutubeVideoEntries
+	CurriculumEntry                      curriculumEntry
+	File                                 file
+	Role                                 role
+	User                                 user
+	UserActivity                         userActivity
 }
 
 func (q *Query) Available() bool { return q.db != nil }
 
 func (q *Query) clone(db *gorm.DB) *Query {
 	return &Query{
-		db:                                  db,
-		CurriculumCourse:                    q.CurriculumCourse.clone(db),
-		CurriculumCourseBlogEntries:         q.CurriculumCourseBlogEntries.clone(db),
-		CurriculumCoursePrerequisites:       q.CurriculumCoursePrerequisites.clone(db),
-		CurriculumCourseYoutubeVideoEntries: q.CurriculumCourseYoutubeVideoEntries.clone(db),
-		CurriculumEntry:                     q.CurriculumEntry.clone(db),
-		File:                                q.File.clone(db),
-		Role:                                q.Role.clone(db),
-		User:                                q.User.clone(db),
-		UserActivity:                        q.UserActivity.clone(db),
+		db:                                   db,
+		CurriculumCourse:                     q.CurriculumCourse.clone(db),
+		CurriculumCourseBlogEntries:          q.CurriculumCourseBlogEntries.clone(db),
+		CurriculumCourseLessonResourceType:   q.CurriculumCourseLessonResourceType.clone(db),
+		CurriculumCourseLevel:                q.CurriculumCourseLevel.clone(db),
+		CurriculumCourseLevelLesson:          q.CurriculumCourseLevelLesson.clone(db),
+		CurriculumCourseLevelLessonResources: q.CurriculumCourseLevelLessonResources.clone(db),
+		CurriculumCoursePrerequisites:        q.CurriculumCoursePrerequisites.clone(db),
+		CurriculumCourseYoutubeVideoEntries:  q.CurriculumCourseYoutubeVideoEntries.clone(db),
+		CurriculumEntry:                      q.CurriculumEntry.clone(db),
+		File:                                 q.File.clone(db),
+		Role:                                 q.Role.clone(db),
+		User:                                 q.User.clone(db),
+		UserActivity:                         q.UserActivity.clone(db),
 	}
 }
 
@@ -97,42 +117,54 @@ func (q *Query) WriteDB() *Query {
 
 func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 	return &Query{
-		db:                                  db,
-		CurriculumCourse:                    q.CurriculumCourse.replaceDB(db),
-		CurriculumCourseBlogEntries:         q.CurriculumCourseBlogEntries.replaceDB(db),
-		CurriculumCoursePrerequisites:       q.CurriculumCoursePrerequisites.replaceDB(db),
-		CurriculumCourseYoutubeVideoEntries: q.CurriculumCourseYoutubeVideoEntries.replaceDB(db),
-		CurriculumEntry:                     q.CurriculumEntry.replaceDB(db),
-		File:                                q.File.replaceDB(db),
-		Role:                                q.Role.replaceDB(db),
-		User:                                q.User.replaceDB(db),
-		UserActivity:                        q.UserActivity.replaceDB(db),
+		db:                                   db,
+		CurriculumCourse:                     q.CurriculumCourse.replaceDB(db),
+		CurriculumCourseBlogEntries:          q.CurriculumCourseBlogEntries.replaceDB(db),
+		CurriculumCourseLessonResourceType:   q.CurriculumCourseLessonResourceType.replaceDB(db),
+		CurriculumCourseLevel:                q.CurriculumCourseLevel.replaceDB(db),
+		CurriculumCourseLevelLesson:          q.CurriculumCourseLevelLesson.replaceDB(db),
+		CurriculumCourseLevelLessonResources: q.CurriculumCourseLevelLessonResources.replaceDB(db),
+		CurriculumCoursePrerequisites:        q.CurriculumCoursePrerequisites.replaceDB(db),
+		CurriculumCourseYoutubeVideoEntries:  q.CurriculumCourseYoutubeVideoEntries.replaceDB(db),
+		CurriculumEntry:                      q.CurriculumEntry.replaceDB(db),
+		File:                                 q.File.replaceDB(db),
+		Role:                                 q.Role.replaceDB(db),
+		User:                                 q.User.replaceDB(db),
+		UserActivity:                         q.UserActivity.replaceDB(db),
 	}
 }
 
 type queryCtx struct {
-	CurriculumCourse                    ICurriculumCourseDo
-	CurriculumCourseBlogEntries         ICurriculumCourseBlogEntriesDo
-	CurriculumCoursePrerequisites       ICurriculumCoursePrerequisitesDo
-	CurriculumCourseYoutubeVideoEntries ICurriculumCourseYoutubeVideoEntriesDo
-	CurriculumEntry                     ICurriculumEntryDo
-	File                                IFileDo
-	Role                                IRoleDo
-	User                                IUserDo
-	UserActivity                        IUserActivityDo
+	CurriculumCourse                     ICurriculumCourseDo
+	CurriculumCourseBlogEntries          ICurriculumCourseBlogEntriesDo
+	CurriculumCourseLessonResourceType   ICurriculumCourseLessonResourceTypeDo
+	CurriculumCourseLevel                ICurriculumCourseLevelDo
+	CurriculumCourseLevelLesson          ICurriculumCourseLevelLessonDo
+	CurriculumCourseLevelLessonResources ICurriculumCourseLevelLessonResourcesDo
+	CurriculumCoursePrerequisites        ICurriculumCoursePrerequisitesDo
+	CurriculumCourseYoutubeVideoEntries  ICurriculumCourseYoutubeVideoEntriesDo
+	CurriculumEntry                      ICurriculumEntryDo
+	File                                 IFileDo
+	Role                                 IRoleDo
+	User                                 IUserDo
+	UserActivity                         IUserActivityDo
 }
 
 func (q *Query) WithContext(ctx context.Context) *queryCtx {
 	return &queryCtx{
-		CurriculumCourse:                    q.CurriculumCourse.WithContext(ctx),
-		CurriculumCourseBlogEntries:         q.CurriculumCourseBlogEntries.WithContext(ctx),
-		CurriculumCoursePrerequisites:       q.CurriculumCoursePrerequisites.WithContext(ctx),
-		CurriculumCourseYoutubeVideoEntries: q.CurriculumCourseYoutubeVideoEntries.WithContext(ctx),
-		CurriculumEntry:                     q.CurriculumEntry.WithContext(ctx),
-		File:                                q.File.WithContext(ctx),
-		Role:                                q.Role.WithContext(ctx),
-		User:                                q.User.WithContext(ctx),
-		UserActivity:                        q.UserActivity.WithContext(ctx),
+		CurriculumCourse:                     q.CurriculumCourse.WithContext(ctx),
+		CurriculumCourseBlogEntries:          q.CurriculumCourseBlogEntries.WithContext(ctx),
+		CurriculumCourseLessonResourceType:   q.CurriculumCourseLessonResourceType.WithContext(ctx),
+		CurriculumCourseLevel:                q.CurriculumCourseLevel.WithContext(ctx),
+		CurriculumCourseLevelLesson:          q.CurriculumCourseLevelLesson.WithContext(ctx),
+		CurriculumCourseLevelLessonResources: q.CurriculumCourseLevelLessonResources.WithContext(ctx),
+		CurriculumCoursePrerequisites:        q.CurriculumCoursePrerequisites.WithContext(ctx),
+		CurriculumCourseYoutubeVideoEntries:  q.CurriculumCourseYoutubeVideoEntries.WithContext(ctx),
+		CurriculumEntry:                      q.CurriculumEntry.WithContext(ctx),
+		File:                                 q.File.WithContext(ctx),
+		Role:                                 q.Role.WithContext(ctx),
+		User:                                 q.User.WithContext(ctx),
+		UserActivity:                         q.UserActivity.WithContext(ctx),
 	}
 }
 
