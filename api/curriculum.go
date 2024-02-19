@@ -485,8 +485,8 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 
 			/* associations: CurriculumCourse */
 			var curriculumCourse = model.CurriculumCourse{}
-			if len(form.ParentID) > 1 {
-				ParentIDUUID, err := model.ValidUUIDExFromIDString(form.ParentID)
+			if len(form.CourseID) > 1 {
+				ParentIDUUID, err := model.ValidUUIDExFromIDString(form.CourseID)
 				if err != nil {
 					return err
 				}
