@@ -43,7 +43,7 @@ type CurriculumCourseLevelLessons struct {
 	PresentationNotes []CurriculumCourseLevelLessonResources `json:"presentation_notes" form:"presentation_notes"`
 	StudentNotes      []CurriculumCourseLevelLessonResources `json:"StudentNotes" form:"StudentNotes"`
 	TeacherNotes      []CurriculumCourseLevelLessonResources `json:"TeacherNotes" form:"TeacherNotes"`
-	TeacherNotes      []CurriculumCourseLevelLessonResources `json:"TeacherNotes" form:"TeacherNotes"`
+	MiscMaterials     []CurriculumCourseLevelLessonResources `json:"TeacherNotes" form:"TeacherNotes"`
 }
 
 type CurriculumCourseLevelLessonResources struct {
