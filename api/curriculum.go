@@ -454,7 +454,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				if err != nil {
 					return err
 				}
-				curriculumEntry.ParentID = ParentIDUUID
+				curriculumEntry.ParentID = &ParentIDUUID
 			}
 
 			err := tx.CurriculumEntry.Clauses(clause.OnConflict{
