@@ -48,7 +48,8 @@ type CurriculumCourseLevelLessons struct {
 }
 
 type CurriculumCourseLevelLessonResources struct {
-	ID string `json:"id" form:"id"`
+	ID         string `json:"id" form:"id"`
+	ResourseID string `json:"icon_id" form:"icon_id"`
 }
 
 type CurriculumCourseBlogEntries struct {
