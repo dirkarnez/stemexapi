@@ -877,6 +877,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			ctx.StopWithError(iris.StatusInternalServerError, err)
 		} else {
 			var returnForm Form
+			returnForm.ID = curriculumEntry.ID.ToString()
 
 			ctx.JSON(iris.Map{
 				"status": 200,
