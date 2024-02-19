@@ -496,7 +496,7 @@ func GetCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.
 
 					ppts, err = tx.CurriculumCourseLevelLessonResources.
 						Select(q.CurriculumCourseLevelLessonResources.ALL).
-						LeftJoin(q.CurriculumEntry, q.CurriculumCourseBlogEntries.EntryID.EqCol(q.CurriculumEntry.ID)).
+						LeftJoin(q.CurriculumCourseLessonResourceType, q.CurriculumCourseBlogEntries.EntryID.EqCol(q.CurriculumEntry.ID)).
 						Where(q.CurriculumCourseLevelLessonResources.LessonID.Eq(curriculumCourseLevelLesson.ID)).
 						Preload(field.Associations).
 						Find()
