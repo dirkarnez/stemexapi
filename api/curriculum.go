@@ -632,11 +632,6 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				}
 			}
 
-			
-			for _, dto := range form.Levels {
-
-
-			dto.Lessons[0].ID
 			return nil
 		})
 
