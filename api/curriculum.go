@@ -298,7 +298,7 @@ func CreateOrUpdateCurriculumCourseType(s3 *utils.StemexS3Client, dbInstance *go
 			// 	Content string `form:"content"`
 			// }
 
-			var returnForm Form
+			
 			var form Form
 			err := ctx.ReadForm(&form)
 			if err != nil {
