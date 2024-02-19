@@ -533,6 +533,10 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				UpdateAll: true,
 			}).Create(blogs...)
 
+			for _, saved := range blogs {
+				returnForm.BlogEntries = blogs
+			}
+
 			if err != nil {
 				return err
 			}
@@ -778,9 +782,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			}
 			returnForm.CurriculumPlanID = curriculumCourse.CurriculumPlanID.ToString()
 			returnForm.CourseID = curriculumCourse.ID.ToString()
-			returnForm.BlogEntrie =
 
-				blog_entries
 			levels
 			youtube_video_entries
 
