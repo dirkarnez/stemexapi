@@ -255,6 +255,14 @@ func GetCurriculumCourseType(dbInstance *gorm.DB) context.Handler {
 		if err != nil {
 			ctx.StatusCode(iris.StatusInternalServerError)
 		} else {
+			
+			returnForm.ID = curriculumEntry.ID.ToString()
+			returnForm.Description = curriculumEntry.Description
+			returnForm.IconID = curriculumEntry.IconID.ToString()
+			if curriculumEntry.ParentID != nil {
+				returnForm.ParentID = (*curriculumEntry.ParentID).ToString()
+			}
+
 			ctx.JSON(curriculumEntry)
 		}
 	}
