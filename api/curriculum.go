@@ -407,7 +407,7 @@ func GetCurriculumCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB
 				ctx.StopWithError(http.StatusNotFound, fmt.Errorf("invalid id"))
 				return
 			}
-			parentUUIDPtr = &parentUUID
+			parentUUIDPtr = &idUUID
 		} else {
 			parentUUIDPtr = nil
 		}
