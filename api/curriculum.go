@@ -449,6 +449,15 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 
 			curriculumEntry.Description = form.Description
 
+			if len(form.ParentID) > 1 {
+				ParentIDUUID, err := model.ValidUUIDExFromIDString(form.ParentID)
+				if err != nil {
+					return err
+				}
+				curriculumEntry.ParentID = IDUUID
+			}
+			curriculumEntry. = curriculumEntry.ParentID
+
 			err := tx.CurriculumEntry.Clauses(clause.OnConflict{
 				UpdateAll: true,
 			}).Create(&curriculumEntry)
