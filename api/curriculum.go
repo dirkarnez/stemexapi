@@ -518,8 +518,8 @@ func GetCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.
 					if err != nil {
 						return err
 					}
-					for _, ppt := range students {
-						pptDTO := dto.CurriculumCourseLevelLessonResources{
+					for _, student := range students {
+						studentDTO := dto.CurriculumCourseLevelLessonResources{
 							ID:         ppt.ID.ToString(),
 							ResourseID: ppt.Resourse.ID.ToString(),
 						}
