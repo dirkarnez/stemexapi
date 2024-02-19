@@ -478,6 +478,8 @@ func GetCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.
 					Title:       blog.Title,
 				})
 			}
+
+			ctx.JSON(returnForm)
 		}
 	}
 }
