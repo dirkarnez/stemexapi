@@ -791,7 +791,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 						}
 					}
 				}
-				returnForm.Levels = append(returnForm.Levels)
+				returnForm.Levels = append(returnForm.Levels, returnLevels)
 			}
 
 			returnForm.ID = curriculumEntry.ID.ToString()
