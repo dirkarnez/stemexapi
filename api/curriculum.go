@@ -481,6 +481,9 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 
 			/* associations*/
 			var blogs []model.CurriculumCourseBlogEntries
+			for i, s := range form.BlogEntries {
+				fmt.Println(i, s)
+			}
 
 			if err != nil {
 				return err
