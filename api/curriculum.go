@@ -446,7 +446,7 @@ func GetCurriculumCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB
 				Select(q.CurriculumCourse.ALL).
 				LeftJoin(q.CurriculumEntry, q.CurriculumCourse.EntryID.EqCol(q.CurriculumEntry.ID)).
 				Where(q.CurriculumEntry.ID.Eq(idUUID)).
-				Find()
+				First()
 
 			return nil
 		})
