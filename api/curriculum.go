@@ -507,6 +507,8 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			if err != nil {
 				return err
 			}
+
+			/* associations: CurriculumCourseBlogEntries*/
 			return nil
 		})
 
