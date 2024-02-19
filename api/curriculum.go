@@ -499,7 +499,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				if err != nil {
 					return err
 				}
-				curriculumEntry.IconID = IconIDUUID
+				curriculumCourse.IconID = IconIDUUID
 			}
 
 			_, curriculumPlanFileHeader, err := ctx.Request().FormFile("curriculum_plan_file")
