@@ -620,7 +620,6 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 							}
 							entityPresentationNote.ID = presentationNoteIDUUID
 						}
-						entityPresentationNote := model.CurriculumCourseLevelLessonResources{}
 						entityPresentationNote.LessonID = i
 						entityPresentationNote.ResourseID = entity.ID
 						entityPresentationNote.ResourseTypeID = presentationNotesType.ID
