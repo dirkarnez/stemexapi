@@ -255,14 +255,6 @@ func GetCurriculumCourseType(dbInstance *gorm.DB) context.Handler {
 		if err != nil {
 			ctx.StatusCode(iris.StatusInternalServerError)
 		} else {
-			
-			returnForm.ID = curriculumEntry.ID.ToString()
-			returnForm.Description = curriculumEntry.Description
-			returnForm.IconID = curriculumEntry.IconID.ToString()
-			if curriculumEntry.ParentID != nil {
-				returnForm.ParentID = (*curriculumEntry.ParentID).ToString()
-			}
-
 			ctx.JSON(curriculumEntry)
 		}
 	}
@@ -437,10 +429,15 @@ func GetCurriculumCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB
 
 		if err != nil {
 			ctx.StopWithError(http.StatusNotFound, err)
-			return
-		}
+		} else {
+			returnForm.ID = curriculumEntry.ID.ToString()
+			returnForm.Description = curriculumEntry.Description
+			returnForm.IconID = curriculumEntry.IconID.ToString()
+			if curriculumEntry.ParentID != nil {
+				returnForm.ParentID = (*curriculumEntry.ParentID).ToString()
+			}
 
-		returnForm.
+		}
 	}
 }
 
