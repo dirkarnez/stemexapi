@@ -493,6 +493,15 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				curriculumCourse.ID = CourseIDUUID
 			}
 			curriculumCourse.EntryID = &curriculumEntry.ID
+
+			if len(form.CurriculumPlanID) > 1 {
+				IconIDUUID, err := model.ValidUUIDExFromIDString(form.IconID)
+				if err != nil {
+					return err
+				}
+				curriculumEntry.IconID = &IconIDUUID
+			}
+
 			_, curriculumPlanFileHeader, err := ctx.Request().FormFile("curriculum_plan_file")
 			if err == nil {
 				file, err := utils.SaveUploadV2(curriculumPlanFileHeader, curriculumEntry.IconID, []string{utils.PrefixCourseResourses, curriculumEntry.Description}, s3, tx, ctx)
