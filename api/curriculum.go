@@ -478,6 +478,9 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			err = tx.CurriculumEntry.Clauses(clause.OnConflict{
 				UpdateAll: true,
 			}).Create(&curriculumEntry)
+			if err != nil {
+				return err
+			}
 
 			/* associations*/
 			var blogs []*model.CurriculumCourseBlogEntries
