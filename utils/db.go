@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/dirkarnez/stemexapi/model"
+	"github.com/dirkarnez/stemexapi/query"
 	"github.com/kataras/iris/v12"
 	"gorm.io/gorm"
 )
@@ -45,7 +46,7 @@ func SaveUpload(fileHeader *multipart.FileHeader, prefixes []string, s3 *StemexS
 	}
 }
 
-func SaveUploadV2(fileHeader *multipart.FileHeader, prefixes []string, s3 *StemexS3Client, db *gorm.DB, ctx iris.Context) (*model.File, error) {
+func SaveUploadV2(fileHeader *multipart.FileHeader, prefixes []string, s3 *StemexS3Client, db *query.Query, ctx iris.Context) (*model.File, error) {
 	if fileHeader == nil {
 		return nil, fmt.Errorf("nil fileHeader")
 	}
