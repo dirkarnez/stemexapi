@@ -492,7 +492,6 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				}
 				curriculumCourse.ID = CourseIDUUID
 			}
-			curriculumCourse.EntryID = curriculumEntry.ID
 
 			if len(form.CurriculumPlanID) > 1 {
 				curriculumPlanIDUUID, err := model.ValidUUIDExFromIDString(form.CurriculumPlanID)
@@ -510,6 +509,8 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				}
 				curriculumCourse.CurriculumPlanID = file.ID
 			}
+
+			curriculumCourse.EntryID = curriculumEntry.ID
 
 			err = tx.CurriculumCourse.Clauses(clause.OnConflict{
 				UpdateAll: true,
