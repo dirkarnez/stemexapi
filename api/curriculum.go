@@ -534,7 +534,10 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			}).Create(blogs...)
 
 			for _, saved := range blogs {
-				returnForm.BlogEntries = blogs
+				returnForm.BlogEntries = append(returnForm.BlogEntries, dto.CurriculumCourseBlogEntries{
+					ExternalURL: saved.ExternalURL,
+					Title:       saved.Title,
+				})
 			}
 
 			if err != nil {
