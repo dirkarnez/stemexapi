@@ -486,11 +486,11 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			/* associations: CurriculumCourse */
 			var curriculumCourse = model.CurriculumCourse{}
 			if len(form.CourseID) > 1 {
-				ParentIDUUID, err := model.ValidUUIDExFromIDString(form.CourseID)
+				CourseIDUUID, err := model.ValidUUIDExFromIDString(form.CourseID)
 				if err != nil {
 					return err
 				}
-				curriculumEntry.ParentID = &ParentIDUUID
+				curriculumEntry.ParentID = &CourseIDUUID
 			}
 			err = tx.CurriculumCourse.Clauses(clause.OnConflict{
 				UpdateAll: true,
