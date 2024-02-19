@@ -65,16 +65,16 @@ type CurriculumCourseBlogEntries struct {
 // 	Content string        `json:"content"`
 // }
 
-type CurriculumCourseDetails struct {
-	ID               model.UUIDEx                          `json:"id"`
-	ParentID         *model.UUIDEx                         `json:"parent_id"`
-	Description      string                                `json:"description"`
-	IconID           *model.UUIDEx                         `json:"icon_id"`
-	Prerequisites    []string                              `json:"prerequisites"`
-	YoutubeVideoURLs []CurriculumCourseYoutubeVideoEntries `json:"youtube_video_entries"`
-	BlogEntries      []CurriculumCourseBlogEntries         `json:"blog_entries"`
-	// InformationEntries []CurriculumCourseInformationEntries  `json:"information_entries"`
-}
+// type CurriculumCourseDetails struct {
+// 	ID               model.UUIDEx                          `json:"id"`
+// 	ParentID         *model.UUIDEx                         `json:"parent_id"`
+// 	Description      string                                `json:"description"`
+// 	IconID           *model.UUIDEx                         `json:"icon_id"`
+// 	Prerequisites    []string                              `json:"prerequisites"`
+// 	YoutubeVideoURLs []CurriculumCourseYoutubeVideoEntries `json:"youtube_video_entries"`
+// 	BlogEntries      []CurriculumCourseBlogEntries         `json:"blog_entries"`
+// 	// InformationEntries []CurriculumCourseInformationEntries  `json:"information_entries"`
+// }
 
 type File struct {
 	ID               model.UUIDEx `json:"id"`
