@@ -471,7 +471,7 @@ func GetCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.
 			}
 
 			for _, courseLevel := range curriculumCourseLevels {
-				courseLevelDTO = dto.CurriculumCourseLevels{
+				courseLevelDTO := dto.CurriculumCourseLevels{
 					ID:          courseLevel.ID.ToString(),
 					Name:        courseLevel.Name,
 					Description: courseLevel.Description,
