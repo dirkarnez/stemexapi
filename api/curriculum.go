@@ -534,6 +534,21 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 
 			/* associations: CurriculumCourseLevels*/
 			var levels []*model.CurriculumCourseLevels
+			for _, dto := range form.BlogEntries {
+				entity := model.CurriculumCourseBlogEntries{}
+
+				if len(dto.ID) > 1 {
+					IDUUID, err := model.ValidUUIDExFromIDString(dto.ID)
+					if err != nil {
+						return err
+					}
+					entity.ID = IDUUID
+				}
+				entity.ExternalURL = dto.ExternalURL
+				entity.Title = dto.Title
+				entity.EntryID = &curriculumEntry.ID
+				blogs = append(blogs, &entity)
+			}
 
 			return nil
 		})
