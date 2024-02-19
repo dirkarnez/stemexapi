@@ -562,7 +562,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			// }
 
 			// // // return nil will commit the whole transaction
-			// return nil
+			return nil
 		})
 
 		if err != nil {
