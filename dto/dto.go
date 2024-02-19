@@ -49,7 +49,7 @@ type CurriculumCourseLevelLessons struct {
 
 type CurriculumCourseLevelLessonResources struct {
 	ID         string `json:"id" form:"id"`
-	ResourseID string `json:"icon_id" form:"icon_id"`
+	ResourseID string `json:"resource_id" form:"resource_id"`
 }
 
 type CurriculumCourseBlogEntries struct {
