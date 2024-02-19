@@ -416,7 +416,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				// 				(2) ['levels.0.name', 'sad']
 				// 11
 				// :
-				// (2) ['levels.0.icon_file', File]
+				// !!!!!!!!!!!!!!!!! ['levels.0.icon_file', File]
 				// 12
 				// :
 				// (2) ['levels.0.description', 'sad']
