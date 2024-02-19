@@ -589,45 +589,55 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 					return err
 				}
 
+				presentationNotesType, _ := tx.CurriculumCourseLessonResourceType.Where(
+					tx.CurriculumCourseLessonResourceType.Name.Eq("presentation_notes")
+				).First()
+
+				tx.CurriculumCourseLessonResourceType.Where(
+					tx.CurriculumCourseLessonResourceType.Name.Eq("student_notes"),
+				).First()
+
+				tx.CurriculumCourseLessonResourceType.Where(
+					tx.CurriculumCourseLessonResourceType.Name.Eq("teacher_notes"),
+				).First()
+
+				tx.CurriculumCourseLessonResourceType.Where(
+					tx.CurriculumCourseLessonResourceType.Name.Eq("misc_materials"),
+				).First()
+
 				for i, lesson := range dto.Lessons {
 					entityLesson := model.CurriculumCourseLevelLesson{}
 					entityLesson.LessonNumber = i
 					entityLesson.CourseLevelID = entity.ID
 
+
+
 					for j, presentationNote := range lesson.PresentationNotes {
 						entityPresentationNote := model.CurriculumCourseLevelLessonResources{}
 						entityPresentationNote.LessonID = i
 						entityPresentationNote.ResourseID = entity.ID
-						entityPresentationNote.ResourseTypeID = tx.CurriculumCourseLessonResourceType.Where(
-							tx.CurriculumCourseLessonResourceType.Name.Eq("presentation_notes"),
-						).First()
+						entityPresentationNote.ResourseTypeID = 
 					}
 
 					for j, studentNote := range lesson.StudentNotes {
 						entityStudentNote := model.CurriculumCourseLevelLessonResources{}
 						entityStudentNote.LessonID = i
 						entityStudentNote.ResourseID = entity.ID
-						entityStudentNote.ResourseTypeID = tx.CurriculumCourseLessonResourceType.Where(
-							tx.CurriculumCourseLessonResourceType.Name.Eq("student_notes"),
-						).First()
+						entityStudentNote.ResourseTypeID = 
 					}
 
 					for j, teacherNote := range lesson.TeacherNotes {
 						entityTeacherNote := model.CurriculumCourseLevelLessonResources{}
 						entityTeacherNote.LessonID = i
 						entityTeacherNote.ResourseID = entity.ID
-						entityTeacherNote.ResourseTypeID = tx.CurriculumCourseLessonResourceType.Where(
-							tx.CurriculumCourseLessonResourceType.Name.Eq("teacher_notes"),
-						).First()
+						entityTeacherNote.ResourseTypeID = 
 					}
 
 					for j, miscMaterial := range lesson.MiscMaterials {
 						entityMiscMaterial := model.CurriculumCourseLevelLessonResources{}
 						entityMiscMaterial.LessonID = i
 						entityMiscMaterial.ResourseID = entity.ID
-						entityMiscMaterial.ResourseTypeID = tx.CurriculumCourseLessonResourceType.Where(
-							tx.CurriculumCourseLessonResourceType.Name.Eq("misc_materials"),
-						).First()
+						entityMiscMaterial.ResourseTypeID = 
 					}
 				}
 			}
