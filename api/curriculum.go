@@ -423,7 +423,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 		err := ctx.ReadForm(&form)
 		if err != nil {
 			ctx.StopWithError(iris.StatusInternalServerError, err)
-			return err
+			return
 		}
 
 		var q = query.Use(dbInstance)
