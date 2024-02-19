@@ -63,7 +63,7 @@ func SaveUploadV2(fileHeader *multipart.FileHeader, uuidptr *model.UUIDEx, prefi
 	if err != nil {
 		return nil, err
 	}
-	var file = model.File{FileNameUploaded: fileHeader.Filename, ObjectKey: objectKey}
+	var file = model.File{ID: *uuidptr, FileNameUploaded: fileHeader.Filename, ObjectKey: objectKey}
 	err = q.File.Clauses(clause.OnConflict{
 		UpdateAll: true,
 	}).Create(&file)
