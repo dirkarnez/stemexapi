@@ -457,6 +457,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				curriculumEntry.ParentID = &ParentIDUUID
 			}
 
+			/**/
 			if len(form.IconID) > 1 {
 				IconIDUUID, err := model.ValidUUIDExFromIDString(form.IconID)
 				entryToSave.IconID = &IconIDUUID
@@ -481,6 +482,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				}
 				entryToSave.IconID = &file.ID
 			}
+			/**/
 
 			err := tx.CurriculumEntry.Clauses(clause.OnConflict{
 				UpdateAll: true,
