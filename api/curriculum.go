@@ -400,36 +400,38 @@ func GetCurriculumCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB
 		var err error
 		var q = query.Use(dbInstance)
 
-		if len(ID) == 0  {
+		if len(ID) == 0 {
 			ctx.StopWithError(http.StatusNotFound, fmt.Errorf("No id"))
 			return
 		}
-			idUUID, err := model.ValidUUIDExFromIDString(ID)
+
+		idUUID, err := model.ValidUUIDExFromIDString(ID)
+		if err != nil {
+			ctx.StopWithError(http.StatusNotFound, fmt.Errorf("invalid id"))
+			return
+		}
+
+		err = q.Transaction(func(tx *query.Query) error {
+			curriculumEntry, err := tx.CurriculumEntry.
+				Select(q.CurriculumEntry.ALL).
+				LeftJoin(q.CurriculumCourse, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.EntryID)).
+				Where(q.CurriculumEntry.ID.Eq(idUUID)).
+				First()
 			if err != nil {
-				ctx.StopWithError(http.StatusNotFound, fmt.Errorf("invalid id"))
-				return
+				return err
 			}
-			err = q.Transaction(func(tx *query.Query) error {
-				curriculumEntry, err := tx.CurriculumEntry.
-					Select(q.CurriculumEntry.ALL).
-					LeftJoin(q.CurriculumCourse, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.EntryID)).
-					Where(q.CurriculumEntry.ID.Eq(idUUID)).
-					First()
-				if err != nil {
-					return err
-				}
 
-				if curriculumEntry == nil {
-					return fmt.Errorf("not found")
-				}
-
-				return nil
-			})
-
-			if err != nil {
-				ctx.StopWithError(http.StatusNotFound, err)
+			if curriculumEntry == nil {
+				return fmt.Errorf("not found")
 			}
-		} else
+
+			return nil
+		})
+
+		if err != nil {
+			ctx.StopWithError(http.StatusNotFound, err)
+		}
+
 	}
 }
 
