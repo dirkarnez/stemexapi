@@ -615,8 +615,9 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				returnLevels := dto.CurriculumCourseLevels{}
 				returnLevels.ID = entityCourseLevel.ID
 				returnLevels.Name = entityCourseLevel.Name
+				returnLevels.IconID = entityCourseLevel.IconID
 				
-				"name": "",
+
 				"icon_id": "",
 				"description": "",
 				// returnForm.Levels = append(returnForm.Levels, dto.{})
