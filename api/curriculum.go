@@ -492,7 +492,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				}
 				curriculumCourse.ID = CourseIDUUID
 			}
-			// curriculumCourse.EntryID = &curriculumEntry.ID
+			curriculumCourse.EntryID = curriculumEntry.ID
 
 			if len(form.CurriculumPlanID) > 1 {
 				curriculumPlanIDUUID, err := model.ValidUUIDExFromIDString(form.CurriculumPlanID)
