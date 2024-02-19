@@ -878,8 +878,20 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 		} else {
 			var returnForm Form
 			returnForm.ID = curriculumEntry.ID.ToString()
+			returnForm.Description = curriculumEntry.Description.ToString()
 			ctx.JSON(returnForm)
 		}
+
+		ctx.JSON(dto.CurriculumCourseDetails{
+			ID:          curriculumEntry.ID,
+			Description: curriculumEntry.Description,
+			IconID:      curriculumEntry.IconID,
+			ParentID:    curriculumEntry.ParentID,
+			//Prerequisites: []string
+			YoutubeVideoURLs: curriculumCourseYoutubeVideoEntries,
+			// InformationEntries: curriculumCourseInformationEntries,
+			BlogEntries: curriculumCourseBlogEntries,
+		})
 	}
 }
 
