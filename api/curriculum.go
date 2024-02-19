@@ -336,7 +336,7 @@ func CreateOrUpdateCurriculumCourseType(s3 *utils.StemexS3Client, dbInstance *go
 				if err != nil {
 					return err
 				}
-				entryToSave.IconID = &file.ID
+				entryToSave.IconID = file.ID
 			}
 
 			if entryToSave.IconID == nil {
