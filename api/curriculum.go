@@ -723,7 +723,6 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 						}
 						entityTeacherNote.LessonID = entityLesson.ID
 						entityTeacherNote.ResourseTypeID = teacherNotesType.ID
-
 						err = tx.CurriculumCourseLevelLessonResources.Clauses(clause.OnConflict{
 							UpdateAll: true,
 						}).Create(&entityTeacherNote)
@@ -761,6 +760,12 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 						}
 						entityMiscMaterial.LessonID = entityLesson.ID
 						entityMiscMaterial.ResourseTypeID = miscMaterialsType.ID
+						err = tx.CurriculumCourseLevelLessonResources.Clauses(clause.OnConflict{
+							UpdateAll: true,
+						}).Create(&entityMiscMaterial)
+						if err != nil {
+							return err
+						}
 					}
 				}
 			}
