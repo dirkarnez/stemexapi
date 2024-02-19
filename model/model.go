@@ -92,7 +92,8 @@ type CurriculumCourse struct {
 
 type CurriculumCourseLevel struct {
 	BaseModel
-	Name   string `gorm:"column:name;unique;not null"`
+	Name string `gorm:"column:name;unique;not null"`
+
 	IconID UUIDEx `gorm:"column:icon_id;type:binary(16);not null"`
 	Icon   File   `gorm:"foreignKey:IconID"` //constraint:OnDelete:SET NULL
 
