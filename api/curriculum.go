@@ -436,10 +436,10 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				if err != nil {
 					return err
 				}
-				IDUUIDPtr = &IDUUID
+				curriculumEntry.ID = IDUUID
 			}
 
-			curriculumEntry.ID = &IDUUIDPtr
+			 = &IDUUIDPtr
 			err := tx.CurriculumEntry.Clauses(clause.OnConflict{
 				UpdateAll: true,
 			}).Create(&curriculumEntry)
