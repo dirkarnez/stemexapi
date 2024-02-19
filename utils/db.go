@@ -11,6 +11,7 @@ import (
 	"github.com/dirkarnez/stemexapi/query"
 	"github.com/kataras/iris/v12"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 const PrefixCourseResourses = "Course Resources"
@@ -67,10 +68,7 @@ func SaveUploadV2(fileHeader *multipart.FileHeader, prefixes []string, s3 *Steme
 		UpdateAll: true,
 	}).Create(&file)
 
-
-	file := 
-	if err := db.
-		Create(&file).Error; err != nil {
+	if err != nil {
 		return nil, err
 	} else {
 		return &file, nil
