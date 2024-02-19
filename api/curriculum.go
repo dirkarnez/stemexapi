@@ -532,6 +532,9 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			err = tx.CurriculumCourseBlogEntries.Clauses(clause.OnConflict{
 				UpdateAll: true,
 			}).Create(blogs...)
+			if err != nil {
+				return err
+			}
 
 			for _, saved := range blogs {
 				returnForm.BlogEntries = append(returnForm.BlogEntries, dto.CurriculumCourseBlogEntries{
