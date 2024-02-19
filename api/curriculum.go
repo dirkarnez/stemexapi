@@ -448,8 +448,6 @@ func GetCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.
 				Where(q.CurriculumEntry.ID.Eq(idUUID)).
 				First()
 
-				.Preload(field.Associations)
-				
 			return nil
 		})
 
