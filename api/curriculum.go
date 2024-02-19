@@ -511,7 +511,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				return err
 			}
 
-			returnForm.CourseID = curriculumCourse.ID
+			returnForm.CourseID = curriculumCourse.ID.ToString()
 
 			/* associations: CurriculumCourseBlogEntries*/
 			var blogs []*model.CurriculumCourseBlogEntries
