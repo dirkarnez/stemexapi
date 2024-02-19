@@ -394,7 +394,9 @@ func CreateOrUpdateCurriculumCourseType(s3 *utils.StemexS3Client, dbInstance *go
 
 func GetCurriculumCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.Handler {
 	return func(ctx iris.Context) {
+		ID := ctx.URLParamDefault("id", "")
 		var returnForm Form
+
 	}
 }
 
