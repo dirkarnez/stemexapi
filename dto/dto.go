@@ -40,7 +40,10 @@ type CurriculumCourseLevels struct {
 
 type CurriculumCourseLevelLessons struct {
 	ID   model.UUIDEx `json:"id" form:"id"`
-	Name string       `json:"name" form:"name"`
+	[]CurriculumCourseLevelLessons `json:"presentation_notes" form:"presentation_notes"`
+	[]CurriculumCourseLevelLessons `json:"id" form:"id"`
+	[]CurriculumCourseLevelLessons `json:"id" form:"id"`
+	[]CurriculumCourseLevelLessons `json:"id" form:"id"`
 }
 
 type CurriculumCourseLevelLessonResources struct {
