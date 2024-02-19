@@ -427,7 +427,7 @@ func GetCurriculumCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB
 				return fmt.Errorf("not found")
 			}
 
-			tx.CurriculumCourseYoutubeVideoEntries.
+			curriculumCourseYoutubeVideoEntries, err = tx.CurriculumCourseYoutubeVideoEntries.
 				Select(q.CurriculumCourseYoutubeVideoEntries.ALL).
 				LeftJoin(q.CurriculumEntry, q.CurriculumCourseYoutubeVideoEntries.EntryID.EqCol(q.CurriculumEntry.ID)).
 				Where(q.CurriculumEntry.ID.Eq(idUUID)).
