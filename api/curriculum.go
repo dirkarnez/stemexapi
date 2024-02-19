@@ -412,10 +412,14 @@ func GetCurriculumCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB
 					LeftJoin(q.CurriculumCourse, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.EntryID)).
 					Where(q.CurriculumEntry.ID.Eq(idUUID)).
 					First()
-
 				if err != nil {
 					return err
 				}
+
+				if curriculumEntry == nil {
+					ctx.StopWithError(http.StatusNotFound, fmt.Errorf("not found"))
+				}
+
 				return nil
 			})
 
