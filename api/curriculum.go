@@ -645,7 +645,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 						// entityStudentNote := model.CurriculumCourseLevelLessonResources{}
 						// entityStudentNote.LessonID = i
 						// entityStudentNote.ResourseID = entity.ID
-						// entityStudentNote.ResourseTypeID = studentNotesType.ID
+						// entityStudentNote.ResourseTypeID = .ID
 						entityStudentNote := model.CurriculumCourseLevelLessonResources{}
 
 						if len(studentNote.ID) > 1 {
@@ -673,7 +673,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 							entityStudentNote.ResourseID = file.ID
 						}
 						entityStudentNote.LessonID = entityLesson.ID
-						entityStudentNote.ResourseTypeID = presentationNotesType.ID
+						entityStudentNote.ResourseTypeID = studentNotesType.ID
 					}
 
 					for k, teacherNote := range lesson.TeacherNotes {
