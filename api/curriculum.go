@@ -401,7 +401,7 @@ func GetCurriculumCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB
 		var q = query.Use(dbInstance)
 
 		if len(ID) == 0 {
-			ctx.StopWithError(http.StatusNotFound, fmt.Errorf("No id"))
+			ctx.StopWithError(http.StatusNotFound, fmt.Errorf("no id"))
 			return
 		}
 
