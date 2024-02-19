@@ -511,6 +511,8 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				return err
 			}
 
+			returnForm.CourseID = curriculumCourse.ID
+
 			/* associations: CurriculumCourseBlogEntries*/
 			var blogs []*model.CurriculumCourseBlogEntries
 			for _, dto := range form.BlogEntries {
@@ -610,6 +612,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				}
 
 				returnForm.CourseID = entityCourseLevel.CourseID.ToString()
+				returnForm.
 
 				for j, lesson := range dto.Lessons {
 					entityLesson := model.CurriculumCourseLevelLesson{}
