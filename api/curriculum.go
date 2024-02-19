@@ -482,7 +482,8 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			/* associations*/
 			var blogs []model.CurriculumCourseBlogEntries
 			for i, dto := range form.BlogEntries {
-				fmt.Println(i, s)
+				entity := model.CurriculumCourseBlogEntries{}
+				blogs = append(blogs)
 			}
 
 			if err != nil {
