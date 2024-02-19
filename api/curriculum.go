@@ -884,20 +884,19 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 		if err != nil {
 			ctx.StopWithError(iris.StatusInternalServerError, err)
 		} else {
-
 			ctx.JSON(returnForm)
 		}
 
-		ctx.JSON(dto.CurriculumCourseDetails{
-			ID:          curriculumEntry.ID,
-			Description: curriculumEntry.Description,
-			IconID:      curriculumEntry.IconID,
-			ParentID:    curriculumEntry.ParentID,
-			//Prerequisites: []string
-			YoutubeVideoURLs: curriculumCourseYoutubeVideoEntries,
-			// InformationEntries: curriculumCourseInformationEntries,
-			BlogEntries: curriculumCourseBlogEntries,
-		})
+		// ctx.JSON(dto.CurriculumCourseDetails{
+		// 	ID:          curriculumEntry.ID,
+		// 	Description: curriculumEntry.Description,
+		// 	IconID:      curriculumEntry.IconID,
+		// 	ParentID:    curriculumEntry.ParentID,
+		// 	//Prerequisites: []string
+		// 	YoutubeVideoURLs: curriculumCourseYoutubeVideoEntries,
+		// 	// InformationEntries: curriculumCourseInformationEntries,
+		// 	BlogEntries: curriculumCourseBlogEntries,
+		// })
 	}
 }
 
