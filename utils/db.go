@@ -44,3 +44,28 @@ func SaveUpload(fileHeader *multipart.FileHeader, prefixes []string, s3 *StemexS
 		return &file, nil
 	}
 }
+
+func SaveUploadV2(fileHeader *multipart.FileHeader, prefixes []string, s3 *StemexS3Client, db *gorm.DB, ctx iris.Context) (*model.File, error) {
+	if fileHeader == nil {
+		return nil, fmt.Errorf("nil fileHeader")
+	}
+
+	objectKey := GenerateObjectKey(prefixes, fileHeader.Filename)
+
+	multipartFile, err := fileHeader.Open()
+	if err != nil {
+		return nil, err
+	}
+	defer multipartFile.Close()
+	err = s3.UploadFile(objectKey, multipartFile)
+	if err != nil {
+		return nil, err
+	}
+	file := model.File{FileNameUploaded: fileHeader.Filename, ObjectKey: objectKey}
+	if err := db.
+		Create(&file).Error; err != nil {
+		return nil, err
+	} else {
+		return &file, nil
+	}
+}
