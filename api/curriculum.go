@@ -483,6 +483,14 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				return err
 			}
 
+			/* associations: CurriculumCourse */
+			err = tx.CurriculumCourse.Clauses(clause.OnConflict{
+				UpdateAll: true,
+			}).Create(&curriculumEntry)
+			if err != nil {
+				return err
+			}
+
 			/* associations: CurriculumCourseBlogEntries*/
 			var blogs []*model.CurriculumCourseBlogEntries
 			for _, dto := range form.BlogEntries {
