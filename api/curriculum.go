@@ -407,13 +407,13 @@ func GetCurriculumCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB
 				return
 			}
 			err = q.Transaction(func(tx *query.Query) error {
-				if len(form.ID) > 1 {
-					IDUUID, err := model.ValidUUIDExFromIDString(form.ID)
-					if err != nil {
-						return err
-					}
-					curriculumEntry.ID = IDUUID
+			if len(form.ID) > 1 {
+				IDUUID, err := model.ValidUUIDExFromIDString(form.ID)
+				if err != nil {
+					return err
 				}
+				curriculumEntry.ID = IDUUID
+			}
 		} else {
 			ctx.StopWithError(http.StatusNotFound, fmt.Errorf("No such record"))
 		}
