@@ -368,10 +368,7 @@ func CreateOrUpdateCurriculumCourseType(s3 *utils.StemexS3Client, dbInstance *go
 			var returnForm Form
 			returnForm.Description = entryToSave.Description
 			returnForm.ID = entryToSave.ID.ToString()
-
-			if entryToSave.IconID != nil {
-				returnForm.IconID = (*entryToSave.IconID).ToString()
-			}
+			returnForm.IconID = (*entryToSave.IconID).ToString()
 
 			if entryToSave.ParentID != nil {
 				returnForm.ParentID = (*entryToSave.ParentID).ToString()
