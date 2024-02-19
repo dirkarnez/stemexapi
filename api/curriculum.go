@@ -593,15 +593,15 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 					tx.CurriculumCourseLessonResourceType.Name.Eq("presentation_notes")
 				).First()
 
-				presentationNotesType, _ := tx.CurriculumCourseLessonResourceType.Where(
+				studentNotesType, _ := tx.CurriculumCourseLessonResourceType.Where(
 					tx.CurriculumCourseLessonResourceType.Name.Eq("student_notes"),
 				).First()
 
-				presentationNotesType, _ := tx.CurriculumCourseLessonResourceType.Where(
+				teacherNotesType, _ := tx.CurriculumCourseLessonResourceType.Where(
 					tx.CurriculumCourseLessonResourceType.Name.Eq("teacher_notes"),
 				).First()
 
-				presentationNotesType, _ := tx.CurriculumCourseLessonResourceType.Where(
+				miscMaterialsNotesType, _ := tx.CurriculumCourseLessonResourceType.Where(
 					tx.CurriculumCourseLessonResourceType.Name.Eq("misc_materials"),
 				).First()
 
