@@ -567,6 +567,13 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				return err
 			}
 
+			for _, saved := range youtubes {
+				returnForm.BlogEntries = append(returnForm.YoutubeVideoEntries, dto.CurriculumCourseBlogEntries{
+					ExternalURL: saved.ExternalURL,
+					Title:       saved.Title,
+				})
+			}
+
 			presentationNotesType, _ := tx.CurriculumCourseLessonResourceType.Where(
 				tx.CurriculumCourseLessonResourceType.Name.Eq("presentation_notes"),
 			).First()
