@@ -62,7 +62,17 @@ func SaveUploadV2(fileHeader *multipart.FileHeader, prefixes []string, s3 *Steme
 	if err != nil {
 		return nil, err
 	}
-	file := model.File{FileNameUploaded: fileHeader.Filename, ObjectKey: objectKey}
+	var file = model.File{FileNameUploaded: fileHeader.Filename, ObjectKey: objectKey}
+
+
+
+
+	err := tx.CurriculumEntry.Clauses(clause.OnConflict{
+		UpdateAll: true,
+	}).Create(&curriculumEntry)
+
+
+	file := 
 	if err := db.
 		Create(&file).Error; err != nil {
 		return nil, err
