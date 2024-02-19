@@ -403,8 +403,8 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 		// course id
 		type Form struct {
 			ID                     string                                    `form:"id" json:"id"`
-			IconID                 string                                    `form:"icon_id" json:"id"`
-			Description            string                                    `form:"description" json:"id"`
+			IconID                 string                                    `form:"icon_id" json:"icon_id"`
+			Description            string                                    `form:"description" json:"description"`
 			ParentID               string                                    `form:"parent_id" json:"id"`
 			CourseID               string                                    `form:"course_id" json:"id"`
 			CurriculumPlanID       string                                    `form:"curriculum_plan_id" json:"id"`
