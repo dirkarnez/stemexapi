@@ -407,7 +407,7 @@ func GetCurriculumCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB
 				return
 			}
 			err = q.Transaction(func(tx *query.Query) error {
-				err := tx.CurriculumEntry.
+				err = tx.CurriculumEntry.
 					Select(q.CurriculumEntry.ALL).
 					LeftJoin(q.CurriculumCourse, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.EntryID)).
 					Where(q.CurriculumEntry.ID.Eq(idUUID)).
