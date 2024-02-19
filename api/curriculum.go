@@ -397,7 +397,7 @@ func GetCurriculumCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB
 		var returnForm Form
 		var curriculumEntry *model.CurriculumEntry
 		var curriculumCourseYoutubeVideoEntries []*model.CurriculumCourseYoutubeVideoEntries
-		var curriculumCourseBlogEntries []*model.CurriculumCourseYoutubeVideoEntries
+		var curriculumCourseBlogEntries []*model.CurriculumCourseBlogEntries
 
 		var err error
 		var q = query.Use(dbInstance)
