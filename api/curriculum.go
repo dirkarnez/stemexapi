@@ -453,6 +453,13 @@ func GetCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.
 				Preload(field.Associations).
 				First()
 
+			curriculumCourseLevels, err = tx.CurriculumCourseLevel.
+				Select(q.CurriculumCourse.ALL).
+				LeftJoin(q.CurriculumEntry, q.CurriculumCourse.EntryID.EqCol(q.CurriculumEntry.ID)).
+				Where(q.CurriculumEntry.ID.Eq(idUUID)).
+				Preload(field.Associations).
+				First()
+
 			return nil
 		})
 
