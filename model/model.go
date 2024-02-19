@@ -28,7 +28,10 @@ var AllTables = []interface{}{
 	&CurriculumCoursePrerequisites{},
 	&CurriculumCourseYoutubeVideoEntries{},
 	&CurriculumCourseBlogEntries{},
-	// &CurriculumCourseInformationEntries{},
+	&CurriculumCourseLevel{},
+	&CurriculumCourseLevelLesson{},
+	&CurriculumCourseLessonResourceType{},
+	&CurriculumCourseLevelLessonResources{},
 }
 
 type BaseModel struct {
