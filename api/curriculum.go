@@ -427,13 +427,13 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			}
 
 			var q = query.Use(dbInstance)
-			var curriculumEntry model.CurriculumEntry{}
-			q.Transaction(func(tx *query.Query) error {
+
+			err = q.Transaction(func(tx *query.Query) error {
 				var err error
 				user, err = tx.CurriculumEntry.Clauses(clause.OnConflict{
 					UpdateAll: true,
 				}).
-				Create(&curriculumEntry)
+					Create(&curriculumEntry)
 				if err != nil {
 					return err
 				}
