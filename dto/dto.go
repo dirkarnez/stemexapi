@@ -41,7 +41,7 @@ type CurriculumCourseLevels struct {
 
 type CurriculumCourseLevelLessons struct {
 	ID                string                                 `json:"id" form:"id"`
-	LessonNumber      uint64                                 `json:"id" form:"id"`
+	LessonNumber      uint64                                 `json:"lesson_number" form:"lesson_number"`
 	PresentationNotes []CurriculumCourseLevelLessonResources `json:"presentation_notes" form:"presentation_notes"`
 	StudentNotes      []CurriculumCourseLevelLessonResources `json:"student_notes" form:"student_notes"`
 	TeacherNotes      []CurriculumCourseLevelLessonResources `json:"teacher_notes" form:"teacher_notes"`
