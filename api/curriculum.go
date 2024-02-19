@@ -408,7 +408,7 @@ func GetCurriculumCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB
 			}
 			parentUUIDPtr = &idUUID
 		} else {
-			parentUUIDPtr = nil
+			ctx.StopWithJSON(http.StatusNotFound)
 		}
 
 	}
