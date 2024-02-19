@@ -622,7 +622,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 						entityLesson.ID = lessonIDUUID
 					} else {
 						entityLesson.LessonNumber = uint64(j + 1)
-						entityLesson.CourseLevelID = entity.ID
+						entityLesson.CourseLevelID = entityCourseLevel.ID
 					}
 
 					err = tx.CurriculumCourseLevelLesson.Clauses(clause.OnConflict{
