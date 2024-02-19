@@ -13,6 +13,7 @@ import (
 	"github.com/kataras/iris/v12/context"
 	"gorm.io/gen/field"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
@@ -424,6 +425,20 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			if err != nil {
 				return err
 			}
+			var q = query.Use(dbInstance)
+			err := query.User.Clauses(clause.OnConflict{
+				UpdateAll: true,
+			}).Create(&users)
+
+			var user []*model.User
+			q.Transaction(func(tx *query.Query) error {
+				var err error
+				user, err = tx.CurriculumEntry.Where(q.User.Password.Eq("stemex")).Find()
+				if err != nil {
+					return err
+				}
+				return nil
+			})
 
 			// var entryToSave = model.CurriculumEntry{}
 			// entryToSave.Description = form.Description
