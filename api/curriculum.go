@@ -483,7 +483,14 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			var blogs []model.CurriculumCourseBlogEntries
 			for i, dto := range form.BlogEntries {
 				entity := model.CurriculumCourseBlogEntries{}
-				entity.ID = 
+
+				if len(dto.ID) > 1 {
+					IDUUID, err := model.ValidUUIDExFromIDString(form.ID)
+					if err != nil {
+						return err
+					}
+					curriculumEntry.ID = IDUUID
+				}
 
 				// ExternalURL string           `gorm:"column:external_url;type:varchar(500);not null"`
 				// Title       string           `gorm:"column:title;type:varchar(255);not null"`
