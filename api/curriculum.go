@@ -612,6 +612,8 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 					return err
 				}
 
+				returnForm.Levels = append(returnForm.Levels, dto.CurriculumCourseLevelLessons{})
+
 				for j, lesson := range dto.Lessons {
 					entityLesson := model.CurriculumCourseLevelLesson{}
 
