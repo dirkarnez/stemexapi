@@ -484,7 +484,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			}
 
 			/* associations: CurriculumCourse */
-			var curriculumEntry model.CurriculumCourse = model.CurriculumEntry{}
+			var curriculumEntry = model.CurriculumCourse{}
 			err = tx.CurriculumCourse.Clauses(clause.OnConflict{
 				UpdateAll: true,
 			}).Create(&curriculumEntry)
