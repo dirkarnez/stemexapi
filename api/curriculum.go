@@ -424,7 +424,7 @@ func GetCurriculumCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB
 			})
 
 			if err != nil {
-				return err
+				ctx.StopWithError(http.StatusNotFound, ferr)
 			}
 
 		} else {
