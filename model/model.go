@@ -92,7 +92,7 @@ type CurriculumCourse struct {
 	CurriculumPlan   *File   `gorm:"foreignKey:CurriculumPlanID"`               //constraint:OnDelete:SET NULL
 }
 
-type CurriculumCourseLevel struct {
+type CurriculumCourseLevels struct {
 	BaseModel
 	Name     string            `gorm:"column:name;unique;not null"`
 	CourseID *UUIDEx           `gorm:"column:course_id;type:binary(16)"`
