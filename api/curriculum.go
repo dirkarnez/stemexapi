@@ -395,6 +395,7 @@ func GetCurriculumCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB
 	return func(ctx iris.Context) {
 		ID := ctx.URLParamDefault("id", "")
 		var returnForm Form
+		var curriculumEntry model.CurriculumEntry
 
 		var err error
 		var q = query.Use(dbInstance)
@@ -411,7 +412,7 @@ func GetCurriculumCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB
 		}
 
 		err = q.Transaction(func(tx *query.Query) error {
-			curriculumEntry, err = tx.CurriculumEntry.
+			curriculumEntry, err := tx.CurriculumEntry.
 				Select(q.CurriculumEntry.ALL).
 				LeftJoin(q.CurriculumCourse, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.EntryID)).
 				Where(q.CurriculumEntry.ID.Eq(idUUID)).
