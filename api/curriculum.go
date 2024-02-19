@@ -800,8 +800,8 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			returnForm.CurriculumPlanID = curriculumCourse.CurriculumPlanID.ToString()
 			returnForm.CourseID = curriculumCourse.ID.ToString()
 
-			levels
-			youtube_video_entries
+			// levels
+			// youtube_video_entries
 
 			return nil
 		})
