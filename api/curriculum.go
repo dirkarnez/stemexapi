@@ -403,10 +403,10 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			//IconFile/**multipart.FileHeader */ []byte                                           `form:"icon_file"`
 			// (2) ['curriculum_plan_file', File]
 			// course_levels[*].icon_file
-			// course_levels[*].Lessons[*].PresentationNotes
-			// course_levels[*].Lessons[*].StudentNotes
-			// course_levels[*].Lessons[*].TeacherNotes
-			// course_levels[*].Lessons[*].MiscMaterials
+			// course_levels[*].Lessons[*].PresentationNotes(id, file_name, file)
+			// course_levels[*].Lessons[*].StudentNotes(id, file_name, file)
+			// course_levels[*].Lessons[*].TeacherNotes(id, file_name, file)
+			// course_levels[*].Lessons[*].MiscMaterials(id, file_name, file)
 			type Form struct {
 				ID                     string                                    `form:"id"`
 				IconID                 string                                    `form:"icon_id"`
