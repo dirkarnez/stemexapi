@@ -80,6 +80,7 @@ type CurriculumEntry struct {
 	Description    string  `gorm:"column:description;type:varchar(255);not null;uniqueIndex:idx_description_same_level"`
 	ParentID       *UUIDEx `gorm:"column:parent_id;type:binary(16);uniqueIndex:idx_seq_no_same_level;uniqueIndex:idx_description_same_level"`
 	SeqNoSameLevel uint64  `gorm:"column:seq_no_same_level;not null;default:0;uniqueIndex:idx_seq_no_same_level"`
+	Course         CurriculumCourse
 }
 
 type CurriculumCourse struct {
