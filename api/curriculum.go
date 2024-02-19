@@ -13,7 +13,6 @@ import (
 	"github.com/kataras/iris/v12/context"
 	"gorm.io/gen/field"
 	"gorm.io/gorm"
-	"gorm.io/gorm/clause"
 )
 
 func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
@@ -421,149 +420,149 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				return err
 			}
 
-			var entryToSave = model.CurriculumEntry{}
-			entryToSave.Description = form.Description
+			// var entryToSave = model.CurriculumEntry{}
+			// entryToSave.Description = form.Description
 
-			if len(form.ID) > 1 {
-				IDUUID, err := model.ValidUUIDExFromIDString(form.ID)
-				if err != nil {
-					return err
-				}
-				tx.First(&entryToSave, "`id` = ?", IDUUID)
-			}
+			// if len(form.ID) > 1 {
+			// 	IDUUID, err := model.ValidUUIDExFromIDString(form.ID)
+			// 	if err != nil {
+			// 		return err
+			// 	}
+			// 	tx.First(&entryToSave, "`id` = ?", IDUUID)
+			// }
 
-			if len(form.IconID) > 1 {
-				IconIDUUID, err := model.ValidUUIDExFromIDString(form.IconID)
-				entryToSave.IconID = &IconIDUUID
-				if err != nil {
-					return err
-				}
-			}
+			// if len(form.IconID) > 1 {
+			// 	IconIDUUID, err := model.ValidUUIDExFromIDString(form.IconID)
+			// 	entryToSave.IconID = &IconIDUUID
+			// 	if err != nil {
+			// 		return err
+			// 	}
+			// }
 
-			// // Get the max post value size passed via iris.WithPostMaxMemory.
-			maxSize := ctx.Application().ConfigurationReadOnly().GetPostMaxMemory()
+			// // // Get the max post value size passed via iris.WithPostMaxMemory.
+			// maxSize := ctx.Application().ConfigurationReadOnly().GetPostMaxMemory()
 
-			err = ctx.Request().ParseMultipartForm(maxSize)
-			if err != nil {
-				return err
-			}
-
-			_, iconFileHeader, err := ctx.Request().FormFile("icon_file")
-			if err == nil {
-				file, err := utils.SaveUpload(iconFileHeader, []string{utils.PrefixCourseResourses, entryToSave.Description}, s3, tx, ctx)
-				if err != nil {
-					return err
-				}
-				entryToSave.IconID = &file.ID
-			}
-
-			if entryToSave.IconID == nil {
-				return fmt.Errorf("no icon id")
-			}
-
-			if len(form.ParentID) > 1 && form.ParentID != "null" {
-				parentIDUUID, err := model.ValidUUIDExFromIDString(form.ParentID)
-				if err != nil {
-					return err
-				}
-				entryToSave.ParentID = &parentIDUUID
-
-				tx.Model(&model.CurriculumEntry{}).
-					Select("MAX(`seq_no_same_level`)").
-					Where("`parent_id` = ?", *entryToSave.ParentID).
-					Group("`parent_id`").
-					Scan(&entryToSave.SeqNoSameLevel)
-				entryToSave.SeqNoSameLevel = entryToSave.SeqNoSameLevel + 1
-			}
-
-			if err := tx.Save(&entryToSave).Error; err != nil {
-				return err
-			}
-
-			if err := tx.Delete(&model.CurriculumCourseBlogEntries{}, "`entry_id` = ?", entryToSave.ID).Error; err != nil {
-				return err
-			}
-
-			// if err := tx.Delete(&model.CurriculumCourseInformationEntries{}, "`entry_id` = ?", entryToSave.ID).Error; err != nil {
+			// err = ctx.Request().ParseMultipartForm(maxSize)
+			// if err != nil {
 			// 	return err
 			// }
 
-			if err := tx.Delete(&model.CurriculumCourseYoutubeVideoEntries{}, "`entry_id` = ?", entryToSave.ID).Error; err != nil {
-				return err
-			}
+			// _, iconFileHeader, err := ctx.Request().FormFile("icon_file")
+			// if err == nil {
+			// 	file, err := utils.SaveUpload(iconFileHeader, []string{utils.PrefixCourseResourses, entryToSave.Description}, s3, tx, ctx)
+			// 	if err != nil {
+			// 		return err
+			// 	}
+			// 	entryToSave.IconID = &file.ID
+			// }
 
-			if form.BlogEntries != nil {
-				for _, blogEntry := range form.BlogEntries {
-					blogEntryModel := model.CurriculumCourseBlogEntries{}
-					blogEntryModel.ID = blogEntry.ID
-					blogEntryModel.ExternalURL = blogEntry.ExternalURL
-					blogEntryModel.Title = blogEntry.Title
-					blogEntryModel.EntryID = &entryToSave.ID
+			// if entryToSave.IconID == nil {
+			// 	return fmt.Errorf("no icon id")
+			// }
 
-					if err := tx.Clauses(clause.OnConflict{
-						Columns:   []clause.Column{{Name: "id"}},
-						DoUpdates: clause.AssignmentColumns([]string{"external_url", "title", "entry_id"}),
-					}).Create(&blogEntryModel).Error; err != nil {
-						return err
-					}
-				}
-			}
+			// if len(form.ParentID) > 1 && form.ParentID != "null" {
+			// 	parentIDUUID, err := model.ValidUUIDExFromIDString(form.ParentID)
+			// 	if err != nil {
+			// 		return err
+			// 	}
+			// 	entryToSave.ParentID = &parentIDUUID
 
-			// if form.InformationEntries != nil {
-			// 	for i, informationEntry := range form.InformationEntries {
-			// 		informationEntryModel := model.CurriculumCourseInformationEntries{}
-			// 		informationEntryModel.Title = informationEntry.Title
-			// 		informationEntryModel.Content = informationEntry.Content
-			// 		// informationEntryModel.EntryID = &entryToSave.ID
+			// 	tx.Model(&model.CurriculumEntry{}).
+			// 		Select("MAX(`seq_no_same_level`)").
+			// 		Where("`parent_id` = ?", *entryToSave.ParentID).
+			// 		Group("`parent_id`").
+			// 		Scan(&entryToSave.SeqNoSameLevel)
+			// 	entryToSave.SeqNoSameLevel = entryToSave.SeqNoSameLevel + 1
+			// }
 
-			// 		if len(informationEntry.IconID) > 1 {
-			// 			IconIDUUID, err := model.ValidUUIDExFromIDString(informationEntry.IconID)
-			// 			informationEntryModel.IconID = &IconIDUUID
-			// 			if err != nil {
-			// 				return err
-			// 			}
-			// 		}
+			// if err := tx.Save(&entryToSave).Error; err != nil {
+			// 	return err
+			// }
 
-			// 		_, iconFileHeader, err := ctx.Request().FormFile(fmt.Sprintf("information_entries.%d.icon_file", i))
-			// 		if err == nil {
-			// 			file, err := utils.SaveUpload(iconFileHeader, []string{utils.PrefixCourseResourses, entryToSave.Description}, s3, tx, ctx)
-			// 			if err != nil {
-			// 				return err
-			// 			}
-			// 			informationEntryModel.IconID = &file.ID
-			// 		}
+			// if err := tx.Delete(&model.CurriculumCourseBlogEntries{}, "`entry_id` = ?", entryToSave.ID).Error; err != nil {
+			// 	return err
+			// }
 
-			// 		if informationEntryModel.IconID == nil {
-			// 			return fmt.Errorf("no icon id")
-			// 		}
+			// // if err := tx.Delete(&model.CurriculumCourseInformationEntries{}, "`entry_id` = ?", entryToSave.ID).Error; err != nil {
+			// // 	return err
+			// // }
+
+			// if err := tx.Delete(&model.CurriculumCourseYoutubeVideoEntries{}, "`entry_id` = ?", entryToSave.ID).Error; err != nil {
+			// 	return err
+			// }
+
+			// if form.BlogEntries != nil {
+			// 	for _, blogEntry := range form.BlogEntries {
+			// 		blogEntryModel := model.CurriculumCourseBlogEntries{}
+			// 		blogEntryModel.ID = blogEntry.ID
+			// 		blogEntryModel.ExternalURL = blogEntry.ExternalURL
+			// 		blogEntryModel.Title = blogEntry.Title
+			// 		blogEntryModel.EntryID = &entryToSave.ID
 
 			// 		if err := tx.Clauses(clause.OnConflict{
 			// 			Columns:   []clause.Column{{Name: "id"}},
-			// 			DoUpdates: clause.AssignmentColumns([]string{"icon_id", "title", "content", "entry_id"}),
-			// 		}).Create(&informationEntryModel).Error; err != nil {
+			// 			DoUpdates: clause.AssignmentColumns([]string{"external_url", "title", "entry_id"}),
+			// 		}).Create(&blogEntryModel).Error; err != nil {
 			// 			return err
 			// 		}
 			// 	}
 			// }
 
-			if form.YoutubeVideoEntries != nil {
-				for _, youtubeVideoEntry := range form.YoutubeVideoEntries {
-					youtubeVideoEntryModel := model.CurriculumCourseYoutubeVideoEntries{}
-					youtubeVideoEntryModel.ID = youtubeVideoEntry.ID
-					youtubeVideoEntryModel.URL = youtubeVideoEntry.URL
-					youtubeVideoEntryModel.EntryID = &entryToSave.ID
+			// // if form.InformationEntries != nil {
+			// // 	for i, informationEntry := range form.InformationEntries {
+			// // 		informationEntryModel := model.CurriculumCourseInformationEntries{}
+			// // 		informationEntryModel.Title = informationEntry.Title
+			// // 		informationEntryModel.Content = informationEntry.Content
+			// // 		// informationEntryModel.EntryID = &entryToSave.ID
 
-					if err := tx.Clauses(clause.OnConflict{
-						Columns:   []clause.Column{{Name: "id"}},
-						DoUpdates: clause.AssignmentColumns([]string{"url", "title", "entry_id"}),
-					}).Create(&youtubeVideoEntryModel).Error; err != nil {
-						return err
-					}
-				}
-			}
+			// // 		if len(informationEntry.IconID) > 1 {
+			// // 			IconIDUUID, err := model.ValidUUIDExFromIDString(informationEntry.IconID)
+			// // 			informationEntryModel.IconID = &IconIDUUID
+			// // 			if err != nil {
+			// // 				return err
+			// // 			}
+			// // 		}
 
-			// // return nil will commit the whole transaction
-			return nil
+			// // 		_, iconFileHeader, err := ctx.Request().FormFile(fmt.Sprintf("information_entries.%d.icon_file", i))
+			// // 		if err == nil {
+			// // 			file, err := utils.SaveUpload(iconFileHeader, []string{utils.PrefixCourseResourses, entryToSave.Description}, s3, tx, ctx)
+			// // 			if err != nil {
+			// // 				return err
+			// // 			}
+			// // 			informationEntryModel.IconID = &file.ID
+			// // 		}
+
+			// // 		if informationEntryModel.IconID == nil {
+			// // 			return fmt.Errorf("no icon id")
+			// // 		}
+
+			// // 		if err := tx.Clauses(clause.OnConflict{
+			// // 			Columns:   []clause.Column{{Name: "id"}},
+			// // 			DoUpdates: clause.AssignmentColumns([]string{"icon_id", "title", "content", "entry_id"}),
+			// // 		}).Create(&informationEntryModel).Error; err != nil {
+			// // 			return err
+			// // 		}
+			// // 	}
+			// // }
+
+			// if form.YoutubeVideoEntries != nil {
+			// 	for _, youtubeVideoEntry := range form.YoutubeVideoEntries {
+			// 		youtubeVideoEntryModel := model.CurriculumCourseYoutubeVideoEntries{}
+			// 		youtubeVideoEntryModel.ID = youtubeVideoEntry.ID
+			// 		youtubeVideoEntryModel.URL = youtubeVideoEntry.URL
+			// 		youtubeVideoEntryModel.EntryID = &entryToSave.ID
+
+			// 		if err := tx.Clauses(clause.OnConflict{
+			// 			Columns:   []clause.Column{{Name: "id"}},
+			// 			DoUpdates: clause.AssignmentColumns([]string{"url", "title", "entry_id"}),
+			// 		}).Create(&youtubeVideoEntryModel).Error; err != nil {
+			// 			return err
+			// 		}
+			// 	}
+			// }
+
+			// // // return nil will commit the whole transaction
+			// return nil
 		})
 
 		if err != nil {
