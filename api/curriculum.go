@@ -475,10 +475,11 @@ func GetCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.
 					ID:     courseLevel.ID.ToString(),
 					Name:   courseLevel.Name,
 					Description: courseLevel.Description,
+					IconID: string(courseLevel.IconID)
 
 
 
-					IconID      string                         `json:"icon_id" form:"icon_id"`
+					      string                         `json:"icon_id" form:"icon_id"`
 					Description string                         `json:"description" form:"description"`
 					Lessons     []CurriculumCourseLevelLessons `json:"lessons" form:"lessons"`
 				})
