@@ -592,18 +592,18 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			).First()
 
 			/* associations: CurriculumCourseLevels*/
-			for i, dto := range form.Levels {
+			for i, level := range form.Levels {
 				entityCourseLevel := model.CurriculumCourseLevel{}
 
-				if len(dto.ID) > 1 {
-					IDUUID, err := model.ValidUUIDExFromIDString(dto.ID)
+				if len(level.ID) > 1 {
+					IDUUID, err := model.ValidUUIDExFromIDString(level.ID)
 					if err != nil {
 						return err
 					}
 					entityCourseLevel.ID = IDUUID
 				}
 				entityCourseLevel.CourseID = curriculumCourse.ID
-				entityCourseLevel.Name = dto.Name
+				entityCourseLevel.Name = level.Name
 
 				err = tx.CurriculumCourseLevel.Clauses(clause.OnConflict{
 					UpdateAll: true,
@@ -615,13 +615,10 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				// returnForm.Levels = append(returnForm.Levels, dto.{})
 
 				// for _, saved := range blogs {
-				returnForm.Levels = append(returnForm.Levels, dto.CurriculumCourseLevels{
-					ExternalURL: saved.ExternalURL,
-					Title:       saved.Title,
-				})
+				returnForm.Levels = append(returnForm.Levels)
 				// }
 
-				for j, lesson := range dto.Lessons {
+				for j, lesson := range level.Lessons {
 					entityLesson := model.CurriculumCourseLevelLesson{}
 
 					if len(lesson.ID) > 1 {
