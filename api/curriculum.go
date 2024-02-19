@@ -591,23 +591,25 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 
 			/* associations: CurriculumCourseLevels*/
 			for i, dto := range form.Levels {
-				entity := model.CurriculumCourseLevel{}
+				entityCourseLevel := model.CurriculumCourseLevel{}
 
 				if len(dto.ID) > 1 {
 					IDUUID, err := model.ValidUUIDExFromIDString(dto.ID)
 					if err != nil {
 						return err
 					}
-					entity.ID = IDUUID
+					entityCourseLevel.ID = IDUUID
 				}
-				entity.CourseID = curriculumCourse.ID
-				entity.Name = dto.Name
+				entityCourseLevel.CourseID = curriculumCourse.ID
+				entityCourseLevel.Name = dto.Name
 				err = tx.CurriculumCourseLevel.Clauses(clause.OnConflict{
 					UpdateAll: true,
-				}).Create(&entity)
+				}).Create(&entityCourseLevel)
 				if err != nil {
 					return err
 				}
+
+				returnForm.CourseID
 
 				for j, lesson := range dto.Lessons {
 					entityLesson := model.CurriculumCourseLevelLesson{}
