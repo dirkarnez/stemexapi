@@ -92,9 +92,9 @@ type CurriculumCourse struct {
 
 type CurriculumCourseLevel struct {
 	BaseModel
-	Name     string            `gorm:"column:name;unique;not null"`
-	CourseID *UUIDEx           `gorm:"column:course_id;type:binary(16)"`
-	Course   *CurriculumCourse `gorm:"foreignKey:CourseID"`
+	Name     string           `gorm:"column:name;unique;not null"`
+	CourseID UUIDEx           `gorm:"column:course_id;type:binary(16)"`
+	Course   CurriculumCourse `gorm:"foreignKey:CourseID"`
 	// Content string           `gorm:"column:content;type:varchar(255);not null"`
 }
 
