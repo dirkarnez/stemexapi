@@ -642,10 +642,38 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 					}
 
 					for k, studentNote := range lesson.StudentNotes {
-						entityStudentNote := model.CurriculumCourseLevelLessonResources{}
-						entityStudentNote.LessonID = i
-						entityStudentNote.ResourseID = entity.ID
-						entityStudentNote.ResourseTypeID = studentNotesType.ID
+						// entityStudentNote := model.CurriculumCourseLevelLessonResources{}
+						// entityStudentNote.LessonID = i
+						// entityStudentNote.ResourseID = entity.ID
+						// entityStudentNote.ResourseTypeID = studentNotesType.ID
+						entityPresentationNote := model.CurriculumCourseLevelLessonResources{}
+
+						if len(studentNote.ID) > 1 {
+							presentationNoteIDUUID, err := model.ValidUUIDExFromIDString(presentationNote.ID)
+							if err != nil {
+								return err
+							}
+							entityPresentationNote.ID = presentationNoteIDUUID
+						}
+
+						if len(presentationNote.ResourseID) > 1 {
+							presentationNoteResourseIDUUID, err := model.ValidUUIDExFromIDString(presentationNote.ResourseID)
+							if err != nil {
+								return err
+							}
+							entityPresentationNote.ResourseID = presentationNoteResourseIDUUID
+						}
+
+						_, presentationNoteFileHeader, err := ctx.Request().FormFile(fmt.Sprintf("levels.%d.lessons.%d.presentation_notes.%d.file", i, j, k))
+						if err == nil {
+							file, err := utils.SaveUploadV2(presentationNoteFileHeader, &entityPresentationNote.ResourseID, []string{utils.PrefixCourseResourses, curriculumEntry.Description}, s3, tx, ctx)
+							if err != nil {
+								return err
+							}
+							entityPresentationNote.ResourseID = file.ID
+						}
+						entityPresentationNote.LessonID = entityLesson.ID
+						entityPresentationNote.ResourseTypeID = presentationNotesType.ID
 					}
 
 					for k, teacherNote := range lesson.TeacherNotes {
