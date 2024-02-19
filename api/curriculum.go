@@ -508,7 +508,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				if err != nil {
 					return err
 				}
-				curriculumEntry.IconID = &file.ID
+				curriculumCourse.CurriculumPlanID = file.ID
 			}
 
 			err = tx.CurriculumCourse.Clauses(clause.OnConflict{
