@@ -85,7 +85,7 @@ type CurriculumEntry struct {
 type CurriculumCourse struct {
 	BaseModel
 
-	EntryID *UUIDEx          `gorm:"column:entry_id;type:binary(16)"`
+	EntryID *UUIDEx          `gorm:"column:entry_id;type:binary(16);unique"`
 	Entry   *CurriculumEntry `gorm:"foreignKey:EntryID"`
 
 	CurriculumPlanID *UUIDEx `gorm:"column:curriculum_plan_id;type:binary(16)"` //not null
