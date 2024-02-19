@@ -457,6 +457,31 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				curriculumEntry.ParentID = &ParentIDUUID
 			}
 
+			if len(form.IconID) > 1 {
+				IconIDUUID, err := model.ValidUUIDExFromIDString(form.IconID)
+				entryToSave.IconID = &IconIDUUID
+				if err != nil {
+					return err
+				}
+			}
+
+			// // Get the max post value size passed via iris.WithPostMaxMemory.
+			maxSize := ctx.Application().ConfigurationReadOnly().GetPostMaxMemory()
+
+			err = ctx.Request().ParseMultipartForm(maxSize)
+			if err != nil {
+				return err
+			}
+
+			_, iconFileHeader, err := ctx.Request().FormFile("icon_file")
+			if err == nil {
+				file, err := utils.SaveUpload(iconFileHeader, []string{utils.PrefixCourseResourses, entryToSave.Description}, s3, tx, ctx)
+				if err != nil {
+					return err
+				}
+				entryToSave.IconID = &file.ID
+			}
+
 			err := tx.CurriculumEntry.Clauses(clause.OnConflict{
 				UpdateAll: true,
 			}).Create(&curriculumEntry)
