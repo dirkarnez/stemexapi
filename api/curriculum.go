@@ -647,6 +647,13 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 						}
 						entityPresentationNote.LessonID = entityLesson.ID
 						entityPresentationNote.ResourseTypeID = presentationNotesType.ID
+
+						err = tx.CurriculumCourseLevelLessonResources.Clauses(clause.OnConflict{
+							UpdateAll: true,
+						}).Create(&entityLesson)
+						if err != nil {
+							return err
+						}
 					}
 
 					for k, studentNote := range lesson.StudentNotes {
