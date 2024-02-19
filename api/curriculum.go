@@ -316,7 +316,7 @@ func CreateOrUpdateCurriculumCourseType(s3 *utils.StemexS3Client, dbInstance *go
 
 			if len(form.IconID) > 1 {
 				IconIDUUID, err := model.ValidUUIDExFromIDString(form.IconID)
-				entryToSave.IconID = &IconIDUUID
+				entryToSave.IconID = IconIDUUID
 				if err != nil {
 					return err
 				}
