@@ -493,7 +493,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				}
 				entity.ExternalURL = dto.ExternalURL
 				entity.Title = dto.Title
-				entity.EntryID = *curriculumEntry.ID
+				entity.EntryID = curriculumEntry.ID
 				blogs = append(blogs, entity)
 			}
 
