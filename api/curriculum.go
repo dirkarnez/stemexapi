@@ -461,7 +461,7 @@ func GetCurriculumCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB
 				returnForm.ParentID = (*(*curriculumEntry).ParentID).ToString()
 			}
 
-			returnForm.CourseID = (*curriculumCourse).ID
+			returnForm.CourseID = (*curriculumCourse).ID.ToString()
 			returnForm.CurriculumPlanID
 			returnForm.CurriculumPlanFileName
 
