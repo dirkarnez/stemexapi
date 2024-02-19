@@ -479,6 +479,8 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				UpdateAll: true,
 			}).Create(&curriculumEntry)
 
+			/* associations*/
+
 			if err != nil {
 				return err
 			}
