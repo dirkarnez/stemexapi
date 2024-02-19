@@ -52,9 +52,9 @@ type CurriculumCourseLevelLessonResources struct {
 }
 
 type CurriculumCourseBlogEntries struct {
-	ID          model.UUIDEx `json:"id" form:"id"`
-	ExternalURL string       `json:"external_url" form:"external_url"`
-	Title       string       `json:"title" form:"title"`
+	ID          string `json:"id" form:"id"`
+	ExternalURL string `json:"external_url" form:"external_url"`
+	Title       string `json:"title" form:"title"`
 }
 
 // type CurriculumCourseInformationEntries struct {
