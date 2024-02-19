@@ -33,8 +33,18 @@ type CurriculumCourseYoutubeVideoEntries struct {
 
 type CurriculumCourseLevels struct {
 	ID  model.UUIDEx `json:"id" form:"id"`
-	URL string       `json:"url" form:"url"`
+	Name string       `json:"name" form:"name"`
+	Name string       `json:"name" form:"name"`
+	Name string       `json:"name" form:"name"`
 }
+
+(2) ['levels.0.', '']
+11
+: 
+
+12
+: 
+(2) ['levels.0.description', 'sad']
 
 type CurriculumCourseBlogEntries struct {
 	ID          model.UUIDEx `json:"id" form:"id"`
