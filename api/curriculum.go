@@ -455,7 +455,7 @@ func GetCurriculumCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB
 
 			for _, youtube := range curriculumCourseYoutubeVideoEntries {
 				returnForm.YoutubeVideoEntries = append(returnForm.YoutubeVideoEntries, dto.CurriculumCourseYoutubeVideoEntries{
-					URL: saved.URL,
+					URL: youtube.URL,
 				})
 			}
 
