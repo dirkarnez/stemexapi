@@ -611,9 +611,9 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 					entityCourseLevel.IconID = IconIDUUID
 				}
 
-				_, presentationNoteFileHeader, err := ctx.Request().FormFile(fmt.Sprintf("levels.%d.icon_file", i))
+				_, levelIconFileHeader, err := ctx.Request().FormFile(fmt.Sprintf("levels.%d.icon_file", i))
 				if err == nil {
-					file, err := utils.SaveUploadV2(presentationNoteFileHeader, &entityPresentationNote.ResourseID, []string{utils.PrefixCourseResourses, curriculumEntry.Description}, s3, tx, ctx)
+					file, err := utils.SaveUploadV2(levelIconFileHeader, &entityCourseLevel.IconID.ResourseID, []string{utils.PrefixCourseResourses, curriculumEntry.Description}, s3, tx, ctx)
 					if err != nil {
 						return err
 					}
