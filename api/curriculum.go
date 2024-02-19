@@ -608,12 +608,11 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 					if err != nil {
 						return err
 					}
-					entityCourseLevel.ID = IconIDUUID
+					entityCourseLevel.IconID = IconIDUUID
 				}
 
 				entityCourseLevel.CourseID = curriculumCourse.ID
 				entityCourseLevel.Name = level.Name
-				entityCourseLevel.IconID = level.
 
 				err = tx.CurriculumCourseLevel.Clauses(clause.OnConflict{
 					UpdateAll: true,
