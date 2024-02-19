@@ -485,6 +485,13 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 
 			/* associations: CurriculumCourse */
 			var curriculumCourse = model.CurriculumCourse{}
+			if len(form.ParentID) > 1 {
+				ParentIDUUID, err := model.ValidUUIDExFromIDString(form.ParentID)
+				if err != nil {
+					return err
+				}
+				curriculumEntry.ParentID = &ParentIDUUID
+			}
 			err = tx.CurriculumCourse.Clauses(clause.OnConflict{
 				UpdateAll: true,
 			}).Create(&curriculumCourse)
