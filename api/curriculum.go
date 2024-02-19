@@ -407,6 +407,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 		// course_levels[*].Lessons[*].StudentNotes(id, file_name, file)
 		// course_levels[*].Lessons[*].TeacherNotes(id, file_name, file)
 		// course_levels[*].Lessons[*].MiscMaterials(id, file_name, file)
+		// course id
 		type Form struct {
 			ID                     string                                    `form:"id"`
 			IconID                 string                                    `form:"icon_id"`
