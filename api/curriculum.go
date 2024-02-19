@@ -776,7 +776,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			if curriculumEntry.ParentID != nil {
 				returnForm.ParentID = (*curriculumEntry.ParentID).ToString()
 			}
-			returnForm.CurriculumPlanID = curriculumCourse.CurriculumPlanID
+			returnForm.CurriculumPlanID = curriculumCourse.CurriculumPlanID.ToString()
 			return nil
 		})
 
