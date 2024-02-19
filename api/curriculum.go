@@ -610,7 +610,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 					entityLesson.LessonNumber = uint64(i + 1)
 					entityLesson.CourseLevelID = entity.ID
 
-					for _, presentationNote := range lesson.PresentationNotes {
+					for j, presentationNote := range lesson.PresentationNotes {
 						entityPresentationNote := model.CurriculumCourseLevelLessonResources{}
 
 						if len(presentationNote.ID) > 1 {
@@ -621,7 +621,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 							entityPresentationNote.ID = presentationNoteIDUUID
 						}						
 						
-						_, curriculumPlanFileHeader, err := ctx.Request().FormFile(fmt.Sprintf("levels.%d.icon_file", i))
+						_, curriculumPlanFileHeader, err := ctx.Request().FormFile(fmt.Sprintf("levels.%d.lessons.%d.", i, j))
 						if err == nil {
 							file, err := utils.SaveUploadV2(curriculumPlanFileHeader, &curriculumCourse.CurriculumPlanID, []string{utils.PrefixCourseResourses, curriculumEntry.Description}, s3, tx, ctx)
 							if err != nil {
