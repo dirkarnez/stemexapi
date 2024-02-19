@@ -400,7 +400,7 @@ func GetCurriculumCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB
 		var err error
 		var q = query.Use(dbInstance)
 
-		if len(ID) > 0 {
+		if len(ID) == 0 {
 			idUUID, err := model.ValidUUIDExFromIDString(ID)
 			if err != nil {
 				ctx.StopWithError(http.StatusNotFound, fmt.Errorf("invalid id"))
