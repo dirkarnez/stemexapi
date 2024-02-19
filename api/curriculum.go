@@ -491,12 +491,10 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 					}
 					entity.ID = IDUUID
 				}
-
-				// ExternalURL string           `gorm:"column:external_url;type:varchar(500);not null"`
-				// Title       string           `gorm:"column:title;type:varchar(255);not null"`
-				// EntryID     *UUIDEx          `gorm:"column:entry_id;type:binary(16)"`
-				// Entry       *CurriculumEntry `gorm:"foreignKey:EntryID"`
-				blogs = append(blogs)
+				entity.ExternalURL = dto.ExternalURL
+				entity.Title = dto.Title
+				entity.EntryID = dto.EntryID
+				blogs = append(blogs, entity)
 			}
 
 			if err != nil {
