@@ -666,7 +666,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 
 						_, studentNoteFileHeader, err := ctx.Request().FormFile(fmt.Sprintf("levels.%d.lessons.%d.student_notes.%d.file", i, j, k))
 						if err == nil {
-							file, err := utils.SaveUploadV2(presentationNoteFileHeader, &entityStudentNote.ResourseID, []string{utils.PrefixCourseResourses, curriculumEntry.Description}, s3, tx, ctx)
+							file, err := utils.SaveUploadV2(studentNoteFileHeader, &entityStudentNote.ResourseID, []string{utils.PrefixCourseResourses, curriculumEntry.Description}, s3, tx, ctx)
 							if err != nil {
 								return err
 							}
