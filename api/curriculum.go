@@ -570,7 +570,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			}
 
 			/* associations: CurriculumCourseLevels*/
-			for _, dto := range form.Levels {
+			for i, dto := range form.Levels {
 				entity := model.CurriculumCourseLevel{}
 
 				if len(dto.ID) > 1 {
@@ -605,12 +605,12 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 					tx.CurriculumCourseLessonResourceType.Name.Eq("misc_materials"),
 				).First()
 
-				for i, lesson := range dto.Lessons {
+				for j, lesson := range dto.Lessons {
 					entityLesson := model.CurriculumCourseLevelLesson{}
 					entityLesson.LessonNumber = uint64(i + 1)
 					entityLesson.CourseLevelID = entity.ID
 
-					for j, presentationNote := range lesson.PresentationNotes {
+					for k, presentationNote := range lesson.PresentationNotes {
 						entityPresentationNote := model.CurriculumCourseLevelLessonResources{}
 
 						if len(presentationNote.ID) > 1 {
