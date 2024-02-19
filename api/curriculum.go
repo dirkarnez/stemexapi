@@ -474,7 +474,6 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				}
 				curriculumEntry.IconID = &file.ID
 			}
-			/**/
 
 			err := tx.CurriculumEntry.Clauses(clause.OnConflict{
 				UpdateAll: true,
