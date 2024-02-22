@@ -15,19 +15,6 @@ import (
 	"gorm.io/gorm/clause"
 )
 
-type Form struct {
-	ID                     string                                    `form:"id" json:"id"`
-	IconID                 string                                    `form:"icon_id" json:"icon_id"`
-	Description            string                                    `form:"description" json:"description"`
-	ParentID               string                                    `form:"parent_id" json:"parent_id"`
-	CourseID               string                                    `form:"course_id" json:"course_id"`
-	CurriculumPlanID       string                                    `form:"curriculum_plan_id" json:"curriculum_plan_id"`
-	CurriculumPlanFileName string                                    `form:"curriculum_plan_file_name" json:"curriculum_plan_file_name"` // uploaded
-	BlogEntries            []dto.CurriculumCourseBlogEntries         `form:"blog_entries" json:"blog_entries"`
-	YoutubeVideoEntries    []dto.CurriculumCourseYoutubeVideoEntries `form:"youtube_video_entries" json:"youtube_video_entries"`
-	Levels                 []dto.CurriculumCourseLevels              `form:"levels" json:"levels"`
-}
-
 func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 	// return func(ctx iris.Context) {
 	// 	var curriculumEntryList []model.CurriculumEntry
@@ -394,7 +381,8 @@ func CreateOrUpdateCurriculumCourseType(s3 *utils.StemexS3Client, dbInstance *go
 func GetCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.Handler {
 	return func(ctx iris.Context) {
 		ID := ctx.URLParamDefault("id", "")
-		var returnForm Form
+		var returnForm dto.CurriculumCourseForm
+
 		var curriculumEntry *model.CurriculumEntry
 		var curriculumCourseYoutubeVideoEntries []*model.CurriculumCourseYoutubeVideoEntries
 		var curriculumCourseBlogEntries []*model.CurriculumCourseBlogEntries
@@ -630,8 +618,8 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 		// course_levels[*].Lessons[*].MiscMaterials(id, file_name, file)
 		// course id
 
-		var returnForm Form
-		var form Form
+		var returnForm dto.CurriculumCourseForm
+		var form dto.CurriculumCourseForm
 		err := ctx.ReadForm(&form)
 		if err != nil {
 			ctx.StopWithError(iris.StatusInternalServerError, err)

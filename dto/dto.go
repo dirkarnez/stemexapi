@@ -91,3 +91,16 @@ type FileManagement struct {
 	ToSeqNoExclusive   int64  `json:"to_seq_no_exclusive"`
 	TotalCount         int64  `json:"total_count"`
 }
+
+type CurriculumCourseForm struct {
+	ID                     string                                `form:"id" json:"id"`
+	IconID                 string                                `form:"icon_id" json:"icon_id"`
+	Description            string                                `form:"description" json:"description"`
+	ParentID               string                                `form:"parent_id" json:"parent_id"`
+	CourseID               string                                `form:"course_id" json:"course_id"`
+	CurriculumPlanID       string                                `form:"curriculum_plan_id" json:"curriculum_plan_id"`
+	CurriculumPlanFileName string                                `form:"curriculum_plan_file_name" json:"curriculum_plan_file_name"` // uploaded
+	BlogEntries            []CurriculumCourseBlogEntries         `form:"blog_entries" json:"blog_entries"`
+	YoutubeVideoEntries    []CurriculumCourseYoutubeVideoEntries `form:"youtube_video_entries" json:"youtube_video_entries"`
+	Levels                 []CurriculumCourseLevels              `form:"levels" json:"levels"`
+}
