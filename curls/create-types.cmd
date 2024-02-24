@@ -37,9 +37,9 @@ curl -X POST --location "https://localhost/api/curriculum-course-type" -b cookie
 --form "description=\"%description%\"" --form "icon_file=@\"../uploads/%file%\"" --output "%description%.json"
 
 set "description=AppInventor Mobile Apps"
-set "file=upcoming-schedule/AppInventor Mobile Apps/Level 1-min.png"
+set "file=%USERPROFILE%/Downloads/stemex-curriculum/AppInventor/Level 1-min.png"
 curl -X POST --location "https://localhost/api/curriculum-course-type" -b cookie.txt --insecure ^
---form "description=\"%description%\"" --form "icon_file=@\"../uploads/%file%\"" --output "%description%.json"
+--form "description=\"%description%\"" --form "icon_file=@\"%file%\"" --output "%description%.json"
 
 set "description=A.I. ^& Machine Learning"
 set "file=upcoming-schedule/A.I. _ Machine Learning/Level 1-min.png"
@@ -70,3 +70,4 @@ set "file=upcoming-schedule/Smart City/Level 1-min.png"
 curl -X POST --location "https://localhost/api/curriculum-course-type" -b cookie.txt --insecure ^
 --form "description=\"%description%\"" --form "icon_file=@\"../uploads/%file%\"" --output "%description%.json"
 
+pause

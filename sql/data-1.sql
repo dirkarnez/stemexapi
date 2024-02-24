@@ -260,12 +260,6 @@ WHERE curriculum_entries.`description` = 'VEX Robotics'
 AND files.`server_physical_file_name` = 'upcoming-schedule/Vex Robotics/Level 1-min.png';
 
 -- 1
-INSERT INTO curriculum_entries (`description`, `parent_id`, `icon_id`, `seq_no_same_level`)
-SELECT 'AppInventor Mobile Apps Development Introductory', curriculum_entries.`id`, files.`id`, 0
-FROM curriculum_entries, files 
-WHERE curriculum_entries.`description` = 'AppInventor Mobile Apps'
-AND files.`server_physical_file_name` = 'upcoming-schedule/AppInventor Mobile Apps/Level 2-Introductory-min.png';
-
 
 INSERT INTO curriculum_entries (`description`, `parent_id`, `icon_id`, `seq_no_same_level`)
 SELECT 'AppInventor Mobile Apps Development Intermediate', curriculum_entries.`id`, files.`id`, 1

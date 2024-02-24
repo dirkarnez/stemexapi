@@ -220,11 +220,6 @@ WHERE `description` = 'VEX Robotics Introductory';
 INSERT INTO curriculum_course_blog_entries (`external_url`, `title`, `entry_id`)
 SELECT 'https://hk.stemex.org/self-control-app/', '從小培養孩子的自控能力 3款提升自控能力的電子應用程式', `id`
 FROM curriculum_entries
-WHERE `description` = 'AppInventor Mobile Apps Development Introductory';
-
-INSERT INTO curriculum_course_blog_entries (`external_url`, `title`, `entry_id`)
-SELECT 'https://hk.stemex.org/self-control-app/', '從小培養孩子的自控能力 3款提升自控能力的電子應用程式', `id`
-FROM curriculum_entries
 WHERE `description` = 'AppInventor Mobile Apps Development Intermediate';
 
 INSERT INTO curriculum_course_blog_entries (`external_url`, `title`, `entry_id`)
