@@ -160,3 +160,33 @@ curl \
         }
     }
     ```
+  - mapper
+    - ```go
+      package main
+
+      import "fmt"
+      
+      type VertexA struct {
+      	X int
+      	Y int
+      }
+      
+      type VertexB struct {
+      	X int
+      	Y int
+      }
+      
+      func mapper(a *VertexA, b *VertexB) {
+      	b.Y = a.Y
+      	return
+      }
+      
+      func main() {
+      	a := VertexA{1, 2}
+      	b := VertexB{}
+      	mapper(&a, &b)
+      
+      	fmt.Println(b.Y)
+      }
+
+      ```
