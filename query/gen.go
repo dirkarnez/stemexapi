@@ -27,6 +27,7 @@ var (
 	CurriculumCourseYoutubeVideoEntries  *curriculumCourseYoutubeVideoEntries
 	CurriculumEntry                      *curriculumEntry
 	File                                 *file
+	ParentUserActivating                 *parentUserActivating
 	Role                                 *role
 	User                                 *user
 	UserActivity                         *userActivity
@@ -44,6 +45,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	CurriculumCourseYoutubeVideoEntries = &Q.CurriculumCourseYoutubeVideoEntries
 	CurriculumEntry = &Q.CurriculumEntry
 	File = &Q.File
+	ParentUserActivating = &Q.ParentUserActivating
 	Role = &Q.Role
 	User = &Q.User
 	UserActivity = &Q.UserActivity
@@ -62,6 +64,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		CurriculumCourseYoutubeVideoEntries:  newCurriculumCourseYoutubeVideoEntries(db, opts...),
 		CurriculumEntry:                      newCurriculumEntry(db, opts...),
 		File:                                 newFile(db, opts...),
+		ParentUserActivating:                 newParentUserActivating(db, opts...),
 		Role:                                 newRole(db, opts...),
 		User:                                 newUser(db, opts...),
 		UserActivity:                         newUserActivity(db, opts...),
@@ -81,6 +84,7 @@ type Query struct {
 	CurriculumCourseYoutubeVideoEntries  curriculumCourseYoutubeVideoEntries
 	CurriculumEntry                      curriculumEntry
 	File                                 file
+	ParentUserActivating                 parentUserActivating
 	Role                                 role
 	User                                 user
 	UserActivity                         userActivity
@@ -101,6 +105,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		CurriculumCourseYoutubeVideoEntries:  q.CurriculumCourseYoutubeVideoEntries.clone(db),
 		CurriculumEntry:                      q.CurriculumEntry.clone(db),
 		File:                                 q.File.clone(db),
+		ParentUserActivating:                 q.ParentUserActivating.clone(db),
 		Role:                                 q.Role.clone(db),
 		User:                                 q.User.clone(db),
 		UserActivity:                         q.UserActivity.clone(db),
@@ -128,6 +133,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		CurriculumCourseYoutubeVideoEntries:  q.CurriculumCourseYoutubeVideoEntries.replaceDB(db),
 		CurriculumEntry:                      q.CurriculumEntry.replaceDB(db),
 		File:                                 q.File.replaceDB(db),
+		ParentUserActivating:                 q.ParentUserActivating.replaceDB(db),
 		Role:                                 q.Role.replaceDB(db),
 		User:                                 q.User.replaceDB(db),
 		UserActivity:                         q.UserActivity.replaceDB(db),
@@ -145,6 +151,7 @@ type queryCtx struct {
 	CurriculumCourseYoutubeVideoEntries  ICurriculumCourseYoutubeVideoEntriesDo
 	CurriculumEntry                      ICurriculumEntryDo
 	File                                 IFileDo
+	ParentUserActivating                 IParentUserActivatingDo
 	Role                                 IRoleDo
 	User                                 IUserDo
 	UserActivity                         IUserActivityDo
@@ -162,6 +169,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		CurriculumCourseYoutubeVideoEntries:  q.CurriculumCourseYoutubeVideoEntries.WithContext(ctx),
 		CurriculumEntry:                      q.CurriculumEntry.WithContext(ctx),
 		File:                                 q.File.WithContext(ctx),
+		ParentUserActivating:                 q.ParentUserActivating.WithContext(ctx),
 		Role:                                 q.Role.WithContext(ctx),
 		User:                                 q.User.WithContext(ctx),
 		UserActivity:                         q.UserActivity.WithContext(ctx),

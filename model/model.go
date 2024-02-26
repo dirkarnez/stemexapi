@@ -20,6 +20,7 @@ import (
 
 var AllTables = []interface{}{
 	&User{},
+	&ParentUserActivating{},
 	&Role{},
 	&File{},
 	&UserActivity{},
@@ -51,6 +52,17 @@ type User struct {
 	IsDummy       bool   `gorm:"column:is_dummy;type:boolean;default:false" json:"is_dummy"`
 	RoleID        UUIDEx `gorm:"column:role_id;type:binary(16);not null" json:"role_id"`
 	Role          Role   `gorm:"foreignKey:RoleID" json:"role"`
+}
+
+type ParentUserActivating struct {
+	BaseModel
+	FullName      string    `gorm:"column:full_name;type:varchar(255);not null" json:"full_name"`
+	UserName      string    `gorm:"column:user_name;type:varchar(15);unique;not null" json:"user_name"`
+	Password      string    `gorm:"column:password;type:varchar(15);not null" json:"-"`
+	ContactNumber string    `gorm:"column:contact_number;type:varchar(15);not null" json:"contact_number"`
+	Email         string    `gorm:"column:email;type:varchar(255);not null" json:"email"`
+	ActivationKey string    `gorm:"column:activation_key;type:varchar(255);not null" json:"activation_key"`
+	UpdatedAt     time.Time `gorm:"column:updated_at" json:"updated_at"`
 }
 
 type Role struct {
