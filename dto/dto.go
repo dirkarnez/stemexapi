@@ -1,6 +1,7 @@
 package dto
 
 import (
+	"mime/multipart"
 	"time"
 
 	"github.com/dirkarnez/stemexapi/model"
@@ -95,6 +96,7 @@ type FileManagement struct {
 type CurriculumCourseForm struct {
 	ID                     string                                `form:"id" json:"id"`
 	IconID                 string                                `form:"icon_id" json:"icon_id"`
+	IconFile               *multipart.FileHeader                 `form:"icon_file"`
 	Description            string                                `form:"description" json:"description"`
 	ParentID               string                                `form:"parent_id" json:"parent_id"`
 	CourseID               string                                `form:"course_id" json:"course_id"`
