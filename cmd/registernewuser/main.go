@@ -6,6 +6,7 @@ import (
 
 	"github.com/dirkarnez/stemexapi/model"
 	"github.com/dirkarnez/stemexapi/query"
+	"github.com/dirkarnez/stemexapi/utils"
 	"gorm.io/driver/mysql"
 	"gorm.io/gen"
 	"gorm.io/gen/field"
@@ -74,6 +75,16 @@ func main() {
 
 	var curriculumEntryList []*model.CurriculumEntry
 	err := q.Transaction(func(tx *query.Query) error {
+		// form
+		// insert + email
+		// url with key
+		// insert + delete
+		// syucess
+
+		utils.Testing()
+		tx.ParentUserActivating.Create(&model.ParentUserActivating{})
+
+		fmt.Scanln()
 
 		// create a new generic field map to `generic_a`
 		f := field.NewField("curriculum_courses", "id")

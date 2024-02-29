@@ -5,7 +5,7 @@ import (
 	"net/smtp"
 )
 
-func test() {
+func Testing() {
 	email := "alex.chan@stemex.org"
 
 	// Sender data.
