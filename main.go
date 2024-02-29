@@ -39,7 +39,7 @@ func middlewareAuthorizedSPA(ctx iris.Context) {
 		auth, _ := sessions.Get(ctx).GetBoolean("authenticated")
 
 		if !auth && requestPath != "/login" {
-			if requestPath == "/register" || requestPath == "/activation " {
+			if requestPath == "/register" || requestPath == "/activation" {
 				ctx.Redirect("/")
 			} else {
 				ctx.Redirect("/login")

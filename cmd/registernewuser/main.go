@@ -4,12 +4,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/dirkarnez/stemexapi/model"
 	"github.com/dirkarnez/stemexapi/query"
 	"github.com/dirkarnez/stemexapi/utils"
 	"gorm.io/driver/mysql"
 	"gorm.io/gen"
-	"gorm.io/gen/field"
 	"gorm.io/gorm"
 )
 
@@ -31,7 +29,7 @@ func main() {
 
 	dbInstance = dbInstance.Debug()
 	var q = query.Use(dbInstance)
-
+	fmt.Println(q)
 	// var user []*model.User
 	// q.Transaction(func(tx *query.Query) error {
 	// 	var err error
@@ -73,35 +71,35 @@ func main() {
 
 	// fmt.Printf("curriculumEntry %+v, err = %+v", curriculumEntry, err)
 
-	var curriculumEntryList []*model.CurriculumEntry
-	err := q.Transaction(func(tx *query.Query) error {
-		// form
-		// insert + email
-		// url with key
-		// insert + delete
-		// syucess
+	// var curriculumEntryList []*model.CurriculumEntry
+	// err := q.Transaction(func(tx *query.Query) error {
+	// 	// form
+	// 	// insert + email
+	// 	// url with key
+	// 	// insert + delete
+	// 	// syucess
 
-		utils.Testing()
-		tx.ParentUserActivating.Create(&model.ParentUserActivating{})
+	// 	utils.Testing()
+	// 	tx.ParentUserActivating.Create(&model.ParentUserActivating{})
 
-		fmt.Scanln()
+	// 	fmt.Scanln()
 
-		// create a new generic field map to `generic_a`
-		f := field.NewField("curriculum_courses", "id")
-		// `table_name`.`generic` IS NULL
-		//f.IsNotNull()
+	// 	// create a new generic field map to `generic_a`
+	// 	f := field.NewField("curriculum_courses", "id")
+	// 	// `table_name`.`generic` IS NULL
+	// 	//f.IsNotNull()
 
-		var err error
-		curriculumEntryList, err = tx.CurriculumEntry.
-			Select(q.CurriculumEntry.ALL, f.IsNotNull().As("is_course")).
-			LeftJoin(q.CurriculumCourse, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.ID)).
-			Where(q.CurriculumEntry.ID.Eq(model.NewUUIDEx())).
-			Group(q.CurriculumEntry.ID).
-			Find()
-		return err
-	})
-	fmt.Printf("curriculumEntryList %+v, err = %+v", len(curriculumEntryList), err)
-
+	// 	var err error
+	// 	curriculumEntryList, err = tx.CurriculumEntry.
+	// 		Select(q.CurriculumEntry.ALL, f.IsNotNull().As("is_course")).
+	// 		LeftJoin(q.CurriculumCourse, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.ID)).
+	// 		Where(q.CurriculumEntry.ID.Eq(model.NewUUIDEx())).
+	// 		Group(q.CurriculumEntry.ID).
+	// 		Find()
+	// 	return err
+	// })
+	// fmt.Printf("curriculumEntryList %+v, err = %+v", len(curriculumEntryList), err)
+	utils.SendActivationHTMLEmail("noyip90061@aersm.com", "fdgd", "https://stackoverflow.com/")
 }
 
 // Select("`ce`.*,  IF(`cc`.`entry_id` IS NOT NULL, true, false) AS `is_course`").

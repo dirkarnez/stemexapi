@@ -5,33 +5,25 @@ import (
 	"net/smtp"
 )
 
-func Testing() {
-	email := "alex.chan@stemex.org"
+func SendActivationHTMLEmail(to, subject, uuidString string) error {
+	return sendEmail(to, subject, fmt.Sprintf(`<html><body>Please click this <a href="%s" target="_blank">link</a> for activation</body></html>`, uuidString))
+}
 
+func sendEmail(to, subject, body string) error {
 	// Sender data.
-	from := email
+	from := "alex.chan@stemex.org"
 	password := "cyqb rllp qhep glnx"
-
-	// Receiver email address.
-	to := []string{
-		email,
-	}
 
 	// smtp server configuration.
 	smtpHost := "smtp.gmail.com"
 	smtpPort := "587"
 
 	// Message.
-	message := []byte(fmt.Sprintf("To: %s\nSubject: discount Gophers!\nThis is the email body.\n", email))
+	message := []byte(fmt.Sprintf("To: %s\nSubject: %s\nMIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n%s\n", to, subject, body))
 
 	// client, err := smtp.Dial(smtpHost + ":" + smtpPort)
 	// client.Auth()
 
 	// Sending email.
-	err := smtp.SendMail(smtpHost+":"+smtpPort, smtp.PlainAuth("Alex Chan", email, password, smtpHost), from, to, message)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Println("Email Sent Successfully!")
+	return smtp.SendMail(smtpHost+":"+smtpPort, smtp.PlainAuth("Alex Chan", from, password, smtpHost), from, []string{to}, message)
 }
