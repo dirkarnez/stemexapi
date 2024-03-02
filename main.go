@@ -39,7 +39,7 @@ func middlewareAuthorizedSPA(ctx iris.Context) {
 		auth, _ := sessions.Get(ctx).GetBoolean("authenticated")
 
 		if !auth && requestPath != "/login" {
-			if requestPath == "/register" || requestPath == "/activation" {
+			if requestPath == "/register" || requestPath == "/activation" || strings.HasPrefix(requestPath, "/curriculum-embeded") {
 				ctx.Redirect("/")
 			} else {
 				ctx.Redirect("/login")
@@ -366,13 +366,13 @@ func main() {
 
 		party.Get("/roles", middlewareAuthorizedAPI, api.GetAllRoles(dbInstance))
 
-		party.Get("/curriculum-tree", middlewareAuthorizedAPI, api.GetCurriculumTree(dbInstance))
+		party.Get("/curriculum-tree", api.GetCurriculumTree(dbInstance))
 
 		party.Post("/curriculum-course", middlewareAuthorizedAPI, api.CreateOrUpdateCurriculumCourse(s3, dbInstance))
-		party.Get("/curriculum-course", middlewareAuthorizedAPI, api.GetCurriculumCourse(s3, dbInstance))
+		party.Get("/curriculum-course", api.GetCurriculumCourse(s3, dbInstance))
 
 		party.Post("/curriculum-course-type", middlewareAuthorizedAPI, api.CreateOrUpdateCurriculumCourseType(s3, dbInstance))
-		party.Get("/curriculum-course-type", middlewareAuthorizedAPI, api.GetCurriculumCourseType(dbInstance))
+		party.Get("/curriculum-course-type", api.GetCurriculumCourseType(dbInstance))
 
 		// party.Get("/curriculum-courses", middlewareAuthorizedAPI, api.GetCurriculumCourses(dbInstance))
 
