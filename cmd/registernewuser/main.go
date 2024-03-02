@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/dirkarnez/stemexapi/model"
 	"github.com/dirkarnez/stemexapi/query"
-	"github.com/dirkarnez/stemexapi/utils"
 	"gorm.io/driver/mysql"
 	"gorm.io/gen"
 	"gorm.io/gorm"
@@ -30,15 +30,27 @@ func main() {
 	dbInstance = dbInstance.Debug()
 	var q = query.Use(dbInstance)
 	fmt.Println(q)
-	// var user []*model.User
-	// q.Transaction(func(tx *query.Query) error {
-	// 	var err error
-	// 	user, err = tx.User.Where(q.User.Password.Eq("stemex")).Find()
-	// 	if err != nil {
-	// 		return err
-	// 	}
-	// 	return nil
-	// })
+	q.Transaction(func(tx *query.Query) error {
+		var err error
+		
+		user, err = tx.User.Where(q...Eq("stemex")).Find()
+		if err != nil {
+			return err
+		}
+
+		// form
+		// insert + email IsActivated flase,  ParentUserActivating
+		// url with key
+		// insert + delete
+		// syucess
+
+		
+		utils.Testing()
+		tx.ParentUserActivating.Create(&model.ParentUserActivating{})
+
+		fmt.Scanln()
+		return nil
+	})
 
 	// var curriculumEntry *model.CurriculumEntry = nil
 	// err := q.Transaction(func(tx *query.Query) error {
@@ -71,19 +83,6 @@ func main() {
 
 	// fmt.Printf("curriculumEntry %+v, err = %+v", curriculumEntry, err)
 
-	// var curriculumEntryList []*model.CurriculumEntry
-	// err := q.Transaction(func(tx *query.Query) error {
-	// 	// form
-	// 	// insert + email
-	// 	// url with key
-	// 	// insert + delete
-	// 	// syucess
-
-	// 	utils.Testing()
-	// 	tx.ParentUserActivating.Create(&model.ParentUserActivating{})
-
-	// 	fmt.Scanln()
-
 	// 	// create a new generic field map to `generic_a`
 	// 	f := field.NewField("curriculum_courses", "id")
 	// 	// `table_name`.`generic` IS NULL
@@ -99,7 +98,7 @@ func main() {
 	// 	return err
 	// })
 	// fmt.Printf("curriculumEntryList %+v, err = %+v", len(curriculumEntryList), err)
-	utils.SendActivationHTMLEmail("noyip90061@aersm.com", "fdgd", "https://stackoverflow.com/")
+	//utils.SendActivationHTMLEmail("noyip90061@aersm.com", "fdgd", "https://stackoverflow.com/")
 }
 
 // Select("`ce`.*,  IF(`cc`.`entry_id` IS NOT NULL, true, false) AS `is_course`").

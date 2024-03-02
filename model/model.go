@@ -50,6 +50,7 @@ type User struct {
 	ContactNumber string `gorm:"column:contact_number;type:varchar(15);not null" json:"contact_number"`
 	Email         string `gorm:"column:email;type:varchar(255);not null" json:"email"`
 	IsDummy       bool   `gorm:"column:is_dummy;type:boolean;default:false" json:"is_dummy"`
+	IsActivated   bool   `gorm:"column:is_activated;type:boolean;default:false" json:"is_activated"`
 	RoleID        UUIDEx `gorm:"column:role_id;type:binary(16);not null" json:"role_id"`
 	Role          Role   `gorm:"foreignKey:RoleID" json:"role"`
 }
@@ -78,6 +79,7 @@ type UserActivity struct {
 
 type File struct {
 	BaseModel
+	IsPublic         bool   `gorm:"column:is_public;type:boolean;default:false;not null"`
 	SeqNo            uint64 `gorm:"column:seq_no;unique;not null;autoIncrement"`
 	ObjectKey        string `gorm:"column:object_key;type:varchar(500);unique;not null"`
 	FileNameUploaded string `gorm:"column:file_name_uploaded;type:varchar(500);not null"`
