@@ -1,0 +1,7 @@
+{
+    "terminal.integrated.profiles.windows": {
+        "bash": {
+            "path": "${env:USERPROFILE}\\Downloads\\PortableGit\\git-bash.exe"
+        }
+    }
+}
