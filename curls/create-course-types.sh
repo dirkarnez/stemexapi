@@ -20,7 +20,7 @@ create_course_types "Cyber Virtual Robotics" "upcoming-schedule/cyberVirtualRobo
 create_course_types "Lego Robotics" "upcoming-schedule/LEGO_Robotics/Level 1-min.png"
 create_course_types "VEX Robotics" "upcoming-schedule/Vex Robotics/Level 1-min.png"
 create_course_types "AppInventor Mobile Apps"
-# set "file=%USERPROFILE%/Downloads/stemex-curriculum/AppInventor/Level 1-min.png"
+# set "file=$USERPROFILE/Downloads/stemex-curriculum/AppInventor/Level 1-min.png"
 
 # set "description=A.I. ^& Machine Learning"
 # set "file=upcoming-schedule/A.I. _ Machine Learning/Level 1-min.png"
