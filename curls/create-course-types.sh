@@ -1,8 +1,6 @@
 #!/bin/bash
 export PATH="/mingw64/bin:/usr/local/bin:/usr/bin:/bin:$USERPROFILE/Downloads"
 
-#!/bin/bash
-
 function hello_world () {
    echo "Parameter #1 is $1"
    curl -X POST --location "https://localhost/api/curriculum-course-type" -b cookie.txt --insecure \
