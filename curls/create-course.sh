@@ -31,6 +31,23 @@ function create_course () {
         --output "OUTPUT.json"
 }
 
+create_course "AppInventor Mobile Apps" \ 
+    $icon_file \
+    $description \
+    $curriculum_plan_file \
+    $blog_entries_0_external_url \
+    $blog_entries_0_title \
+    $youtube_video_entries_0_url \
+    $levels_0_name \
+    $levels_0_icon_file \
+    $levels_0_description \
+    $levels_0_lessons_0_presentation_notes_0_file \
+    $levels_0_lessons_0_student_notes_0_file \
+    $levels_0_lessons_0_teacher_notes_0_file \
+    $levels_0_lessons_0_misc_materials_0_file \
+    $levels_0_lessons_0_misc_materials_1_file \
+    $levels_0_lessons_0_misc_materials_2_file 
+
 
 # use this to parse a json file to array of objects and foreach(element => console.log(element.name))
 
