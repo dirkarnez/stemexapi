@@ -465,24 +465,6 @@ WHERE `description` = 'VEX Robotics Introductory'
 AND files.`server_physical_file_name` = 'upcoming-schedule/Vex Robotics/Level 3-min.png';
 
 -- AppInventor Mobile Apps Development
-
-INSERT INTO files(`original_physical_file_name`, `server_physical_file_name`) VALUES('upcoming-schedule/AppInventor Mobile Apps/Level 3-Introductory A-min.png', 'upcoming-schedule/AppInventor Mobile Apps/Level 3-Introductory A-min.png'); 
-INSERT INTO files(`original_physical_file_name`, `server_physical_file_name`) VALUES('upcoming-schedule/AppInventor Mobile Apps/Level 3-Introductory B-min.png', 'upcoming-schedule/AppInventor Mobile Apps/Level 3-Introductory B-min.png'); 
-
-INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
-SELECT files.`id`, 'A - HelloPurr: Tap the Kitty, Hear Him Meow', 'HelloPurr is a simple app that you can build in a very fun way. You will create a button that has a picture of your favorite cat on it, and then program the button so that when it is clicked a "meow" sound plays with some vibrations.', curriculum_entries.`id`
-FROM curriculum_entries, files 
-WHERE `description` = 'AppInventor Mobile Apps Development Introductory'
-AND files.`server_physical_file_name` = 'upcoming-schedule/AppInventor Mobile Apps/Level 3-Introductory A-min.png';
-
-INSERT INTO curriculum_course_information_entries (`icon_id`, `title`, `content`, `entry_id`)
-SELECT files.`id`, 'B - Piccall', 'PicCall shows you how you can use App Inventor to make apps that do actual things, like calling friends. We will learn about how real-life applications work and are programmed.', curriculum_entries.`id`
-FROM curriculum_entries, files 
-WHERE `description` = 'AppInventor Mobile Apps Development Introductory'
-AND files.`server_physical_file_name` = 'upcoming-schedule/AppInventor Mobile Apps/Level 3-Introductory B-min.png';
-
-
-
 INSERT INTO files(`original_physical_file_name`, `server_physical_file_name`) VALUES('upcoming-schedule/AppInventor Mobile Apps/Level 3-Intermediate A-min.png', 'upcoming-schedule/AppInventor Mobile Apps/Level 3-Intermediate A-min.png'); 
 INSERT INTO files(`original_physical_file_name`, `server_physical_file_name`) VALUES('upcoming-schedule/AppInventor Mobile Apps/Level 3-Intermediate B-min.png', 'upcoming-schedule/AppInventor Mobile Apps/Level 3-Intermediate B-min.png'); 
 

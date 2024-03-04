@@ -10,3 +10,5 @@ public/*
 !public/index.original.html
 
 uploads/*
+curls/*.json
+curls/cookie.txt

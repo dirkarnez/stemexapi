@@ -25,7 +25,7 @@ func Login(dbInstance *gorm.DB) context.Handler {
 			err := dbInstance.Transaction(func(tx *gorm.DB) error {
 				// do some database operations in the transaction (use 'tx' from this point, not 'db')
 				if err := tx.Model(&model.User{}).
-					Where(&model.User{UserName: userName, Password: password}).
+					Where(&model.User{UserName: userName, Password: password, IsActivated: true}).
 					Limit(2).
 					Group("user_name").
 					Having("COUNT(user_name) = 1").

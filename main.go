@@ -39,7 +39,11 @@ func middlewareAuthorizedSPA(ctx iris.Context) {
 		auth, _ := sessions.Get(ctx).GetBoolean("authenticated")
 
 		if !auth && requestPath != "/login" {
-			ctx.Redirect("/login")
+			if requestPath == "/register" || requestPath == "/activation" || strings.HasPrefix(requestPath, "/curriculum-embeded") {
+				ctx.Redirect("/")
+			} else {
+				ctx.Redirect("/login")
+			}
 		} else if auth && requestPath == "/login" {
 			ctx.Redirect("/")
 		}
@@ -64,11 +68,9 @@ func main() {
 	flag.StringVar(&mode, "mode", "update", `mode: "reinit" or "update"`)
 	flag.Parse()
 
-	// if port > 1<<16-1 {
-	// 	log.Fatal("Port number too large")
-	// }
-
 	httpClient := &http.Client{}
+
+	s3 := utils.NewStemexS3Client()
 
 	app := iris.New()
 	app.Use(iris.Compression)
@@ -149,6 +151,9 @@ func main() {
 	_, enforcerErr = e.AddPolicy("admin", "_", "read")
 	utils.CheckError(enforcerErr)
 
+	_, enforcerErr = e.AddPolicy("partner", "_", "read")
+	utils.CheckError(enforcerErr)
+
 	_, enforcerErr = e.AddPolicy("sales", "_", "read")
 	utils.CheckError(enforcerErr)
 
@@ -187,20 +192,9 @@ func main() {
 	// log.Println("!!!!!!done", roles)
 
 	if mode == "reinit" {
-		managedTables := []interface{}{
-			&model.User{},
-			&model.Role{},
-			&model.File{},
-			&model.UserActivity{},
-			&model.CurriculumEntry{},
-			&model.CurriculumCoursePrerequisites{},
-			&model.CurriculumCourseYoutubeVideoEntries{},
-			&model.CurriculumCourseBlogEntries{},
-			&model.CurriculumCourseInformationEntries{},
-		}
 
-		dbInstance.Migrator().DropTable(managedTables...)
-		dbInstance.AutoMigrate(managedTables...)
+		dbInstance.Migrator().DropTable(model.AllTables...)
+		dbInstance.AutoMigrate(model.AllTables...)
 
 		var sales = model.Role{Name: "sales"}
 		if err := dbInstance.Create(&sales).Error; err != nil {
@@ -208,7 +202,55 @@ func main() {
 			return
 		}
 
-		if err := dbInstance.Create(&model.User{FullName: "Jovy", UserName: "jovy", Password: "stemex", RoleID: &sales.ID}).Error; err != nil {
+		var prospect = model.Role{Name: "prospect"}
+		if err := dbInstance.Create(&prospect).Error; err != nil {
+			log.Fatalln(err)
+			return
+		}
+
+		var instructor = model.Role{Name: "instructor"}
+		if err := dbInstance.Create(&instructor).Error; err != nil {
+			log.Fatalln(err)
+			return
+		}
+
+		var partner = model.Role{Name: "partner"}
+		if err := dbInstance.Create(&partner).Error; err != nil {
+			log.Fatalln(err)
+			return
+		}
+
+		if err := dbInstance.Create(&model.User{FullName: "Singapore company 1", UserName: "singapore1", Password: "stemex", RoleID: partner.ID, IsActivated: true}).Error; err != nil {
+			log.Println("?????????????????????????????")
+			log.Fatalln(err)
+			return
+		}
+
+		if err := dbInstance.Create(&model.User{FullName: "Singapore company 2", UserName: "singapore2", Password: "stemex", RoleID: partner.ID, IsActivated: true}).Error; err != nil {
+			log.Println("?????????????????????????????")
+			log.Fatalln(err)
+			return
+		}
+
+		if err := dbInstance.Create(&model.User{FullName: "Singapore company 3", UserName: "singapore3", Password: "stemex", RoleID: partner.ID, IsActivated: true}).Error; err != nil {
+			log.Println("?????????????????????????????")
+			log.Fatalln(err)
+			return
+		}
+
+		if err := dbInstance.Create(&model.User{FullName: "Singapore company 4", UserName: "singapore4", Password: "stemex", RoleID: partner.ID, IsActivated: true}).Error; err != nil {
+			log.Println("?????????????????????????????")
+			log.Fatalln(err)
+			return
+		}
+
+		if err := dbInstance.Create(&model.User{FullName: "Singapore company 5", UserName: "singapore5", Password: "stemex", RoleID: partner.ID, IsActivated: true}).Error; err != nil {
+			log.Println("?????????????????????????????")
+			log.Fatalln(err)
+			return
+		}
+
+		if err := dbInstance.Create(&model.User{FullName: "Jovy", UserName: "jovy", Password: "stemex", RoleID: sales.ID, IsActivated: true}).Error; err != nil {
 			log.Println("?????????????????????????????")
 			log.Fatalln(err)
 			return
@@ -220,13 +262,13 @@ func main() {
 			return
 		}
 
-		if err := dbInstance.Create(&model.User{FullName: "Joe", UserName: "joe", Password: "stemex", RoleID: &admin.ID}).Error; err != nil {
+		if err := dbInstance.Create(&model.User{FullName: "Joe", UserName: "joe", Password: "stemex", RoleID: admin.ID, IsActivated: true}).Error; err != nil {
 			log.Println("?????????????????????????????")
 			log.Fatalln(err)
 			return
 		}
 
-		if err := dbInstance.Create(&model.User{FullName: "prospect123", UserName: "prospect123", Password: "stemex"}).Error; err != nil {
+		if err := dbInstance.Create(&model.User{FullName: "prospect123", UserName: "prospect123", Password: "stemex", RoleID: prospect.ID, IsActivated: true}).Error; err != nil {
 			log.Println("?????????????????????????????")
 			log.Fatalln(err)
 			return
@@ -238,14 +280,32 @@ func main() {
 			return
 		}
 
-		if err := dbInstance.Create(&model.User{FullName: "Loretta Leung", UserName: "leungloretta", Password: "stemex", RoleID: &parent.ID}).Error; err != nil {
+		if err := dbInstance.Create(&model.User{FullName: "Loretta Leung", UserName: "leungloretta", Password: "stemex", RoleID: parent.ID, IsActivated: true}).Error; err != nil {
 			log.Println("?????????????????????????????")
 			log.Fatalln(err)
 			return
 		}
 
-		var instructor = model.Role{Name: "instructor"}
-		if err := dbInstance.Create(&instructor).Error; err != nil {
+		if err := dbInstance.Create(&model.CurriculumCourseLessonResourceType{Name: "presentation_notes"}).Error; err != nil {
+			log.Println("?????????????????????????????")
+			log.Fatalln(err)
+			return
+		}
+
+		if err := dbInstance.Create(&model.CurriculumCourseLessonResourceType{Name: "student_notes"}).Error; err != nil {
+			log.Println("?????????????????????????????")
+			log.Fatalln(err)
+			return
+		}
+
+		if err := dbInstance.Create(&model.CurriculumCourseLessonResourceType{Name: "teacher_notes"}).Error; err != nil {
+			log.Println("?????????????????????????????")
+			log.Fatalln(err)
+			return
+		}
+
+		if err := dbInstance.Create(&model.CurriculumCourseLessonResourceType{Name: "misc_materials"}).Error; err != nil {
+			log.Println("?????????????????????????????")
 			log.Fatalln(err)
 			return
 		}
@@ -300,23 +360,29 @@ func main() {
 		party.Post("/user", middlewareAuthorizedAPI, api.CreateOrUpdateUser(dbInstance))
 
 		party.Get("/users", middlewareAuthorizedAPI, api.GetAllUsers(dbInstance))
+		party.Get("/partners", middlewareAuthorizedAPI, api.GetAllPartners(dbInstance))
+
 		//party.Post("/users", middlewareAuthorizedAPI, api.CreateUser(factoryInstance.GetUsersBO()))
 
 		party.Get("/roles", middlewareAuthorizedAPI, api.GetAllRoles(dbInstance))
 
-		party.Post("/curriculum-entry", middlewareAuthorizedAPI, api.CreateOrUpdateCurriculumEntry(dbInstance))
-		party.Get("/curriculum", middlewareAuthorizedAPI, api.GetCurriculum(dbInstance))
-		party.Get("/curriculum-courses", middlewareAuthorizedAPI, api.GetCurriculumCourses(dbInstance))
+		party.Get("/curriculum-tree", api.GetCurriculumTree(dbInstance))
 
-		party.Get("/should-be-a-course", middlewareAuthorizedAPI, api.ShouldBeACourse(dbInstance))
+		party.Post("/curriculum-course", middlewareAuthorizedAPI, api.CreateOrUpdateCurriculumCourse(s3, dbInstance))
+		party.Get("/curriculum-course", api.GetCurriculumCourse(s3, dbInstance))
+
+		party.Post("/curriculum-course-type", middlewareAuthorizedAPI, api.CreateOrUpdateCurriculumCourseType(s3, dbInstance))
+		party.Get("/curriculum-course-type", api.GetCurriculumCourseType(dbInstance))
+
+		// party.Get("/curriculum-courses", middlewareAuthorizedAPI, api.GetCurriculumCourses(dbInstance))
 
 		party.Get("/prospect-activity", middlewareAuthorizedAPI, api.GetProspectActivities(dbInstance))
 		party.Get("/parent-activity", middlewareAuthorizedAPI, api.GetParentActivities(dbInstance))
 		party.Get("/internal-user-activity", middlewareAuthorizedAPI, api.GetInternalUserActivities(dbInstance))
-		party.Get("/resourses", middlewareAuthorizedAPI, api.GetResourceByID(dbInstance))
+		party.Get("/resourse", middlewareAuthorizedAPI, api.GetResourceByID(s3, dbInstance))
 
-		party.Get("/files", middlewareAuthorizedAPI, api.GetFiles(dbInstance))
-		party.Post("/upload", middlewareAuthorizedAPI, api.UploadFile(dbInstance))
+		party.Get("/resourse-list", middlewareAuthorizedAPI, api.GetFiles(dbInstance))
+		party.Post("/upload", middlewareAuthorizedAPI, api.UploadFile(s3, dbInstance))
 
 		party.Get("/deals/getDeal", middlewareAuthorizedAPI, api.GetDeals(httpClient))
 		party.Get("/deals/search", middlewareAuthorizedAPI, api.SearchDeal(httpClient))
@@ -332,31 +398,24 @@ func main() {
 			userName := sessions.Get(ctx).GetString("user_name")
 
 			var user model.User
-			if err := dbInstance.Where(&model.User{UserName: userName}).First(&user).Error; err != nil {
+			if err := dbInstance.Where(&model.User{UserName: userName, IsActivated: true}).First(&user).Error; err != nil {
 				ctx.WriteString(fmt.Sprintf("Hi %s!", userName))
 				return
 			}
 
-			// prospect
-			if user.RoleID == nil {
-				ctx.JSON(iris.Map{
-					"user_name": user.FullName,
-				})
-			} else {
-				var rule model.Role
-				var id = user.RoleID
-				if err := dbInstance.First(&rule, "id = ?", *id).Error; err != nil {
-					ctx.WriteString(fmt.Sprintf("Hi %s!", userName))
-					return
-				}
-
-				log.Println(rule.Name)
-
-				ctx.JSON(iris.Map{
-					"user_name": user.FullName,
-					"role":      rule.Name,
-				})
+			var rule model.Role
+			var id = user.RoleID
+			if err := dbInstance.First(&rule, "id = ?", id).Error; err != nil {
+				ctx.WriteString(fmt.Sprintf("Hi %s!", userName))
+				return
 			}
+
+			log.Println(rule.Name)
+
+			ctx.JSON(iris.Map{
+				"user_name": user.FullName,
+				"role":      rule.Name,
+			})
 
 			// if err := dbInstance.Debug().Create(&sales).Error; err != nil {
 			// 	log.Fatalln(err)

@@ -128,12 +128,6 @@ WHERE `description` = 'VEX Robotics Introductory';
 
 
 -- AppInventor Mobile Apps Development
-
-INSERT INTO curriculum_course_youtube_video_entries (`url`, `title`, `entry_id`)
-SELECT 'https://www.youtube.com/embed/zbpzr_hYwtg', 'STEMex AppInventor Mobile Apps Development + A.I. - YouTube', `id`
-FROM curriculum_entries
-WHERE `description` = 'AppInventor Mobile Apps Development Introductory';
-
 INSERT INTO curriculum_course_youtube_video_entries (`url`, `title`, `entry_id`)
 SELECT 'https://www.youtube.com/embed/zbpzr_hYwtg', 'STEMex AppInventor Mobile Apps Development + A.I. - YouTube', `id`
 FROM curriculum_entries

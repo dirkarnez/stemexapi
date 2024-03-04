@@ -60,7 +60,7 @@ INSERT INTO files(`original_physical_file_name`, `server_physical_file_name`) VA
 INSERT INTO files(`original_physical_file_name`, `server_physical_file_name`) VALUES('upcoming-schedule/Smart City/Level 2-Elementary-min.png', 'upcoming-schedule/Smart City/Level 2-Elementary-min.png'); 
 INSERT INTO files(`original_physical_file_name`, `server_physical_file_name`) VALUES('upcoming-schedule/Smart City/Level 2-Introductory-min.png', 'upcoming-schedule/Smart City/Level 2-Introductory-min.png'); 
 INSERT INTO files(`original_physical_file_name`, `server_physical_file_name`) VALUES('upcoming-schedule/Smart City/Level 2-Intermediate-min.png', 'upcoming-schedule/Smart City/Level 2-Intermediate-min.png'); 
-INSERT INTO files(`id`, `original_physical_file_name`, `server_physical_file_name`) VALUES(0x11e29e537bdf11ee9aa006c3bc34e27e, 'WhatsApp Image 2023-11-04 at 19.31.20.jpeg', '1699190846191939900.jpeg'); 
+INSERT INTO files(`id`, `original_physical_file_name`, `server_physical_file_name`) VALUES(0x11e29e537bdf11ee9aa006c3bc34e27e, 'WhatsApp Image 2023-11-04 at 19.31.20.jpeg', '1699190846191939900.jpeg');
 INSERT INTO files(`id`, `original_physical_file_name`, `server_physical_file_name`) VALUES(0xd8475e8c7bdf11ee9aa006c3bc34e27e, 'Coding Minecraft - Intermediate C (Adelaide).xlsx - Template.pdf', '1699191183099406000.pdf'); 
 
 
@@ -260,12 +260,6 @@ WHERE curriculum_entries.`description` = 'VEX Robotics'
 AND files.`server_physical_file_name` = 'upcoming-schedule/Vex Robotics/Level 1-min.png';
 
 -- 1
-INSERT INTO curriculum_entries (`description`, `parent_id`, `icon_id`, `seq_no_same_level`)
-SELECT 'AppInventor Mobile Apps Development Introductory', curriculum_entries.`id`, files.`id`, 0
-FROM curriculum_entries, files 
-WHERE curriculum_entries.`description` = 'AppInventor Mobile Apps'
-AND files.`server_physical_file_name` = 'upcoming-schedule/AppInventor Mobile Apps/Level 2-Introductory-min.png';
-
 
 INSERT INTO curriculum_entries (`description`, `parent_id`, `icon_id`, `seq_no_same_level`)
 SELECT 'AppInventor Mobile Apps Development Intermediate', curriculum_entries.`id`, files.`id`, 1

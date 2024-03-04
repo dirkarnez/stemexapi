@@ -7,6 +7,49 @@
 - new
   - https://ec2-43-198-151-195.ap-east-1.compute.amazonaws.com/api/
 
+### `main.go`
+- `go run cmd/gormplayground/main.go`
+- `go run cmd/codegen/main.go`
+
+### TODOs
+```
+curr
+- add genesis
+
+courses
+- id
+- cirr id
+- normal price courses_prices
+
+courses_prices
+- effective start 
+- effective end
+
+course_lessons
+- id
+- courses-id
+- lesson date
+- lesson instructr
+
+
+last minute offer
+- courses
+- offer price courses_prices
+
+- 100vh
+- parent
+- upload component
+
+```
+### Mail
+- [app password](https://myaccount.google.com/apppasswords): `cyqb rllp qhep glnx`
+
+### Google Drive
+- https://console.cloud.google.com/apis/enableflow?apiid=drive.googleapis.com&pli=1&project=stemex-academy&supportedpurview=project
+- https://console.cloud.google.com/apis/library/drive.googleapis.com?project=stemex-academy&supportedpurview=project
+- https://developers.google.com/drive/api/reference/rest/v3/files/list
+- https://pkg.go.dev/google.golang.org/api/drive/v3
+
 ### Service
 - https://raw.githubusercontent.com/containerd/containerd/main/containerd.service
   ```bash
@@ -79,6 +122,7 @@ curl \
   ```
 
 ### TODOs
+- [ ] https://github.com/gin-gonic/gin/blob/master/binding/multipart_form_mapping_test.go
 - [ ] do not create parent table, but create a mapping table for hubsapot key
 - [ ] [dirkarnez/queueserver](https://github.com/dirkarnez/queueserver)
 - [ ] oauth?
@@ -86,3 +130,64 @@ curl \
 - [ ] [dirkarnez/go-json-customized-marshall](https://github.com/dirkarnez/go-json-customized-marshall)
 - [ ] [dirkarnez/stemexfaker](https://github.com/dirkarnez/stemexfaker)
 - [ ] Build variant
+- [ ] [dirkarnez/stemexdocs](https://github.com/dirkarnez/stemexdocs)
+- [ ] test cases (instead of postman)
+- [ ] gorm wrapper
+  - ```go
+    import (
+        "reflect"
+        "github.com/jinzhu/gorm"
+    )
+    
+    type User struct {
+        gorm.Model
+        Name  string `gorm:"column:user_name"`
+        Email string `gorm:"column:user_email"`
+    }
+    
+    func main() {
+        user := User{}
+        reflectType := reflect.TypeOf(user)
+    
+        for i := 0; i < reflectType.NumField(); i++ {
+            field := reflectType.Field(i)
+            gormTag := field.Tag.Get("gorm")
+    
+            if gormTag != "" {
+                // Do something with the GORM tag
+                // In this example, we'll just print it
+                fmt.Printf("Field: %s, GORM Tag: %s\n", field.Name, gormTag)
+            }
+        }
+    }
+    ```
+  - mapper
+    - ```go
+      package main
+
+      import "fmt"
+      
+      type VertexA struct {
+      	X int
+      	Y int
+      }
+      
+      type VertexB struct {
+      	X int
+      	Y int
+      }
+      
+      func mapper(a *VertexA, b *VertexB) {
+      	b.Y = a.Y
+      	return
+      }
+      
+      func main() {
+      	a := VertexA{1, 2}
+      	b := VertexB{}
+      	mapper(&a, &b)
+      
+      	fmt.Println(b.Y)
+      }
+
+      ```

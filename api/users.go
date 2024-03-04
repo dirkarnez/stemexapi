@@ -28,6 +28,23 @@ func GetAllUsers(dbInstance *gorm.DB) context.Handler {
 	}
 }
 
+func GetAllPartners(dbInstance *gorm.DB) context.Handler {
+	return func(ctx iris.Context) {
+		var users []model.User
+
+		if err := dbInstance.Model(&model.User{}).
+			Preload(clause.Associations).
+			Joins("LEFT JOIN `roles` as `r` ON `users`.`role_id` = `r`.`id`").
+			Where("`r`.`name` IN ?", []string{"partner"}).
+			Find(&users).Error; err != nil {
+			ctx.StatusCode(iris.StatusInternalServerError)
+			return
+		} else {
+			ctx.JSON(users)
+		}
+	}
+}
+
 func GetAllRoles(dbInstance *gorm.DB) context.Handler {
 	return func(ctx iris.Context) {
 		var roles []model.Role
@@ -97,9 +114,9 @@ func GetInternalUserActivities(dbInstance *gorm.DB) context.Handler {
 func CreateOrUpdateUser(dbInstance *gorm.DB) context.Handler {
 	return func(ctx iris.Context) {
 		type CreateOrUpdateUserDTO struct {
-			UserID   model.UUIDEx  `json:"user_id"`
-			UserName string        `json:"user_name"`
-			RoleID   *model.UUIDEx `json:"role_id"`
+			UserID   model.UUIDEx `json:"user_id"`
+			UserName string       `json:"user_name"`
+			RoleID   model.UUIDEx `json:"role_id"`
 		}
 
 		createOrUpdateUserDTO := CreateOrUpdateUserDTO{}
