@@ -113,7 +113,7 @@ function create_course () {
 icon_file="$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Level 2-Introductory-min.png"
 $description="AppInventor Mobile Apps Development Introductory"
 curriculum_plan_file="$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/App Inventor Intro Curriculum Guide.pdf"
-youtube_video_entries_0_url=https://www.youtube.com/watch?v=zbpzr_hYwtg"
+youtube_video_entries_0_url="https://www.youtube.com/watch?v=zbpzr_hYwtg"
 levels_0_name="A"
  "AppInventor Mobile Apps" $icon_file $description
 
