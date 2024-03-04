@@ -25,15 +25,10 @@ create_course_types "AppInventor Mobile Apps" "$USERPROFILE/Downloads/stemex-cur
 create_course_types "A.I.& Machine Learning" "$USERPROFILE/Downloads/stemex-curriculum/A.I.& Machine Learning/Level 1-min.png"
 create_course_types "3D Design & Printing" "upcoming-schedule/3D_Design_Printing/Level 1-min.png"
 
-create_course_types"Micro:bits"
-# set "upcoming-schedule/Micro_bit/Level 1-min.png"
-# set "output=Micro_bit"
+create_course_types "Micro:bits"  "upcoming-schedule/Micro_bit/Level 1-min.png"
 
-create_course_types "AR/VR"
-# set "upcoming-schedule/AR_VR/Level 1-min.png"
-# set "output=AR_VR"
+create_course_types "AR/VR" "upcoming-schedule/AR_VR/Level 1-min.png"
 
-create_course_types "Smart City"
-# set "upcoming-schedule/Smart City/Level 1-min.png"
+create_course_types "Smart City""upcoming-schedule/Smart City/Level 1-min.png"
 
 read -p "done"
