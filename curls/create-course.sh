@@ -128,7 +128,7 @@ create_course "AppInventor Mobile Apps" \
 # --output "%output%.json"
 
 
-icon_file="$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Level 2-Introductory-min.png"
+export icon_file="$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Level 2-Introductory-min.png"
 description="AppInventor Mobile Apps Development Introductory"
 curriculum_plan_file="$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/App Inventor Intro Curriculum Guide.pdf"
 blog_entries_0_external_url="https://hk.stemex.org/self-control-app/" 
