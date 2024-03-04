@@ -20,7 +20,7 @@ function create_course () {
         --form "curriculum_plan_file=@$curriculum_plan_file" \
         --form "youtube_video_entries.0.url=$blog_entries_0_external_url" \
         --form "blog_entries.0.external_url=https://hk.stemex.org/self-control-app/" \
-        --form "blog_entries.0.title=從小培養孩子的自控能力 3款提升自控能力的電子應用程式" \
+        --form "blog_entries.0.title=$blog_entries_0_title" \
         --form "levels.0.name=A" \
         --form "levels.0.icon_file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Level 3-Introductory A-min.png" \
         --form "levels.0.description=HelloPurr: Tap the Kitty, Hear Him Meow', 'HelloPurr is a simple app that you can build in a very fun way. You will create a button that has a picture of your favorite cat on it, and then program the button so that when it is clicked a "meow" sound plays with some vibrations." \
@@ -38,7 +38,7 @@ function create_course () {
     $description \
     $ \
     $ \
-    $blog_entries_0_title \
+    $ \
     $youtube_video_entries_0_url \
     $levels_0_name \
     $levels_0_icon_file \
