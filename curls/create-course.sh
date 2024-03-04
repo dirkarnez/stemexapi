@@ -75,10 +75,10 @@ function create_course () {
 
 
 
-icon_file="upcoming-schedule/codingMinecraft/Level 2-Elementary-min.png"
-description="Coding Minecraft Elementary"
+# icon_file="upcoming-schedule/codingMinecraft/Level 2-Elementary-min.png"
+# description="Coding Minecraft Elementary"
 
-echo $parent_id
+# echo $parent_id
 # --form "blog_entries.0.external_url=\"https://hk.stemex.org/java-your-way-through-minecraft/\"" \
 # --form "blog_entries.0.title=\"JAVA YOUR WAY THROUGH MINECRAFT!\"" \
 # --form "blog_entries.1.external_url=\"https://hk.stemex.org/minecraft-kids/\"" \
