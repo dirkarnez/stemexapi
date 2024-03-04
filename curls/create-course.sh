@@ -13,6 +13,8 @@ function create_course () {
 
 #    echo "$course_desplay_name $course_icon_path $course_json_output"
 
+    parent_id=$(jq-windows-amd64.exe --raw-output '.id' "./Coding Roblox.json")
+
    curl -X POST --location "https://localhost/api/curriculum-course-type" -b cookie.txt --insecure \
       --form "description=$course_desplay_name" \
       --form "icon_file=@$course_icon_path" \
@@ -22,7 +24,7 @@ function create_course () {
 
 ls
 # use this to parse a json file to array of objects and foreach(element => console.log(element.name))
-parent_id=$(jq-windows-amd64.exe --raw-output '.id' "./Coding Roblox.json")
+
 
 
 # @REM @REM INSERT INTO curriculum_entries (`description`, `parent_id`, `icon_id`, `seq_no_same_level`)
