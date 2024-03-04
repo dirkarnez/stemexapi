@@ -18,8 +18,8 @@ function create_course () {
         --form "icon_file=@$icon_file" \
         --form "description=$description" \
         --form "curriculum_plan_file=@$curriculum_plan_file" \
-        --form "youtube_video_entries.0.url=$" \
-        --form "blog_entries.0.external_url=https://hk.stemex.org/self-control-app/" \
+        --form "youtube_video_entries.0.url=$youtube_video_entries_0_url" \
+        --form "blog_entries.0.external_url=$blog_entries_0_external_url" \
         --form "blog_entries.0.title=$blog_entries_0_title" \
         --form "levels.0.name=A" \
         --form "levels.0.icon_file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Level 3-Introductory A-min.png" \
@@ -39,7 +39,7 @@ function create_course () {
     $ \
     $ \
     $ \
-    $youtube_video_entries_0_url \
+    $ \
     $levels_0_name \
     $levels_0_icon_file \
     $levels_0_description \
