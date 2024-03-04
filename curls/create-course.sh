@@ -112,14 +112,12 @@ function create_course () {
 
 icon_file="$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Level 2-Introductory-min.png"
 $description="AppInventor Mobile Apps Development Introductory"
-
+curriculum_plan_file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/App Inventor Intro Curriculum Guide.pdf
  "AppInventor Mobile Apps" $icon_file $description
 
 
 
-        --form "icon_file=" \
-        --form "description=" \
-        --form "curriculum_plan_file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/App Inventor Intro Curriculum Guide.pdf" \
+        --form "" \
         --form "youtube_video_entries.0.url=https://www.youtube.com/watch?v=zbpzr_hYwtg" \
         --form "blog_entries.0.external_url=https://hk.stemex.org/self-control-app/" \
         --form "blog_entries.0.title=從小培養孩子的自控能力 3款提升自控能力的電子應用程式" \
