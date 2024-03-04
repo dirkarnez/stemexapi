@@ -1,8 +1,3 @@
-#!/bin/sh
-export PATH="/mingw64/bin:/usr/local/bin:/usr/bin:/bin:$USERPROFILE/Downloads"
-
-
-
 #!/bin/bash
 export PATH="/mingw64/bin:/usr/local/bin:/usr/bin:/bin:$USERPROFILE/Downloads"
 
