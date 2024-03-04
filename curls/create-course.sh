@@ -137,6 +137,8 @@ create_course "AppInventor Mobile Apps" \
     $levels_0_description \
     $levels_0_lessons_0_presentation_notes_0_file \
     $levels_0_lessons_0_student_notes_0_file \
+    $levels_0_lessons_0_teacher_notes_0_file \
+    $levels_0_lessons_0_misc_materials_0_file \
     \
 
 
