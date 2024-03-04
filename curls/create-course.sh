@@ -4,7 +4,7 @@ export PATH="/mingw64/bin:/usr/local/bin:/usr/bin:/bin:$USERPROFILE/Downloads"
 function create_course () {
     course_type_json_output=$(echo $1 | sed 's/\//_/g' | sed 's/:/_/g')
     parent_id=$(jq-windows-amd64.exe --raw-output '.id' "./$course_type_json_output.json")
-    # course_json_output=$(echo $description | sed 's/\//_/g' | sed 's/:/_/g')
+    course_json_output=$(echo $description | sed 's/\//_/g' | sed 's/:/_/g')
     
     curl -X POST --location "https://localhost/api/curriculum-course" -b cookie.txt --insecure \
         --form "parent_id=$parent_id" \
@@ -23,7 +23,7 @@ function create_course () {
         --form "levels.0.lessons.0.misc_materials.0.file=@$levels_0_lessons_0_misc_materials_0_file" \
         --form "levels.0.lessons.0.misc_materials.1.file=@$levels_0_lessons_0_misc_materials_1_file" \
         --form "levels.0.lessons.0.misc_materials.2.file=@$levels_0_lessons_0_misc_materials_2_file" \
-        --output "course_json_output.json"
+        --output "$course_json_output.json"
 }
 
 
