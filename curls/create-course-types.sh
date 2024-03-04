@@ -20,7 +20,6 @@ create_course_types "Coding Scratch" "$USERPROFILE/Downloads/stemex-curriculum/C
 create_course_types "Cyber Virtual Robotics" "$USERPROFILE/Downloads/stemex-curriculum/Cyber Virtual Robotics/Level 1.png"
 create_course_types "Lego Robotics" "$USERPROFILE/Downloads/stemex-curriculum/Lego Robotics/Level 1-min.png"
 create_course_types "VEX Robotics" "$USERPROFILE/Downloads/stemex-curriculum/Vex Robotics/Level 1-min.png"
-
 create_course_types "AppInventor Mobile Apps" "$USERPROFILE/Downloads/stemex-curriculum/AppInventor/Level 1-min.png"
 create_course_types "A.I.& Machine Learning" "$USERPROFILE/Downloads/stemex-curriculum/A.I.& Machine Learning/Level 1-min.png"
 create_course_types "3D Design & Printing" "$USERPROFILE/Downloads/stemex-curriculum/3D_Design_Printing/Level 1-min.png"
