@@ -5,12 +5,14 @@ function create_course () {
 #    =$1
 #    course_icon_path=$2
     course_type_json_output=$(echo $1 | sed 's/\//_/g' | sed 's/:/_/g')
+    
+    parent_id=$(jq-windows-amd64.exe --raw-output '.id' "./$course_type_json_output.json")
 
 #    echo "$course_desplay_name $course_icon_path $course_json_output"
 
 # parent_id=$(jq-windows-amd64.exe --raw-output '.id' "./Coding Roblox.json")
 
-    parent_id=$(jq-windows-amd64.exe --raw-output '.id' "./$course_type_json_output.json")
+
     description=
     echo $parent_id
 
