@@ -23,7 +23,7 @@ function create_course () {
         --form "levels.0.lessons.0.misc_materials.0.file=@$levels_0_lessons_0_misc_materials_0_file" \
         --form "levels.0.lessons.0.misc_materials.1.file=@$levels_0_lessons_0_misc_materials_1_file" \
         --form "levels.0.lessons.0.misc_materials.2.file=@$levels_0_lessons_0_misc_materials_2_file" \
-        --output "$course_json_output.json"
+        --output "course_json_output.json"
 }
 
 
