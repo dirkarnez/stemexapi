@@ -13,6 +13,7 @@ function create_course_types () {
 }
 
 create_course_types "Coding Minecraft" "upcoming-schedule/codingMinecraft/Level 1-min.png"
+create_course_types "Coding Minecraft" "upcoming-schedule/codingMinecraft/Level 1-min.png"
 
 # set "description=Coding Roblox"
 # set "file=upcoming-schedule/codingRoblox/Level 1-min.png"
