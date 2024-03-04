@@ -26,6 +26,6 @@ function create_course_types () {
 # create_course_types "3D Design & Printing" "upcoming-schedule/3D_Design_Printing/Level 1-min.png"
 # create_course_types "Micro:bits"  "upcoming-schedule/Micro_bit/Level 1-min.png"
 create_course_types "AR/VR" "upcoming-schedule/AR_VR/Level 1-min.png"
-create_course_types "Smart City" "upcoming-schedule/Smart City/Level 1-min.png"
+# create_course_types "Smart City" "upcoming-schedule/Smart City/Level 1-min.png"
 
 read -p "done"
