@@ -4,7 +4,7 @@ export PATH="/mingw64/bin:/usr/local/bin:/usr/bin:/bin:$USERPROFILE/Downloads"
 function create_course () {
 #    =$1
 #    course_icon_path=$2
-#    course_type_json_output=$(echo $1 | sed 's/\//_/g' | sed 's/:/_/g')
+    course_type_json_output=$(echo $1 | sed 's/\//_/g' | sed 's/:/_/g')
 
 #    echo "$course_desplay_name $course_icon_path $course_json_output"
 
