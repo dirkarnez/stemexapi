@@ -130,7 +130,7 @@ create_course "AppInventor Mobile Apps" \
     $description \
     $curriculum_plan_file \
     $blog_entries_0_external_url \
-
+    $blog_entries_0_title \
 
 
 
