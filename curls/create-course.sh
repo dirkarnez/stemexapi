@@ -142,9 +142,5 @@ create_course "AppInventor Mobile Apps" \
     $levels_0_lessons_0_misc_materials_1_file \
     $levels_0_lessons_0_misc_materials_2_file 
 
-
-
-        --output "OUTPUT.json"
-
 # https://localhost/api/curriculum-course?id=6dd4a6d9d2fa11ee9aa006c3bc34e27e
 read -p "done"
