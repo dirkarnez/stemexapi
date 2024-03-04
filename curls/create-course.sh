@@ -22,7 +22,6 @@ function create_course () {
 }
 
 
-ls
 # use this to parse a json file to array of objects and foreach(element => console.log(element.name))
 
 
