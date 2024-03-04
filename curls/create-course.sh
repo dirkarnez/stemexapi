@@ -110,7 +110,7 @@ export icon_file="$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_Ap
 export description="AppInventor Mobile Apps Development Introductory"
 export curriculum_plan_file="$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/App Inventor Intro Curriculum Guide.pdf"
 export blog_entries_0_external_url="https://hk.stemex.org/self-control-app/" 
-export blog_entries_0_title="從小培養孩子的自控能力 3款提升自控能力的電子應用程式" 
+export blog_entries_0_title="從小培養孩子的控能力 3款提升自控能力的電子應用程式" 
 export youtube_video_entries_0_url="https://www.youtube.com/watch?v=zbpzr_hYwtg"
 export levels_0_name="A"
 export levels_0_icon_file="$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Level 3-Introductory A-min.png" 
