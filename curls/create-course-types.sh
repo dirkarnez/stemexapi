@@ -21,25 +21,22 @@ create_course_types "Lego Robotics" "upcoming-schedule/LEGO_Robotics/Level 1-min
 create_course_types "VEX Robotics" "upcoming-schedule/Vex Robotics/Level 1-min.png"
 create_course_types "AppInventor Mobile Apps" "$USERPROFILE/Downloads/stemex-curriculum/AppInventor/Level 1-min.png"
 create_course_types "A.I.& Machine Learning" "$USERPROFILE/Downloads/stemex-curriculum/A.I.& Machine Learning/Level 1-min.png"
-create_course_types "3D Design ^& Printing" "upcoming-schedule/3D_Design_Printing/Level 1-min.png"
-# set "output=3D_Design_Printing"
-# curl -X POST --location "https://localhost/api/curriculum-course-type" -b cookie.txt --insecure ^
-# --form "description=\"%description%\"" --form "icon_file=@\"../uploads/%file%\"" --output "%output%.json"
+create_course_types "3D Design & Printing" "upcoming-schedule/3D_Design_Printing/Level 1-min.png"
 
-# set "description=Micro:bits"
-# set "file=upcoming-schedule/Micro_bit/Level 1-min.png"
+# set "Micro:bits"
+# set "upcoming-schedule/Micro_bit/Level 1-min.png"
 # set "output=Micro_bit"
 # curl -X POST --location "https://localhost/api/curriculum-course-type" -b cookie.txt --insecure ^
 # --form "description=\"%description%\"" --form "icon_file=@\"../uploads/%file%\"" --output "%output%.json"
 
-# set "description=AR/VR"
-# set "file=upcoming-schedule/AR_VR/Level 1-min.png"
+# set "AR/VR"
+# set "upcoming-schedule/AR_VR/Level 1-min.png"
 # set "output=AR_VR"
 # curl -X POST --location "https://localhost/api/curriculum-course-type" -b cookie.txt --insecure ^
 # --form "description=\"%description%\"" --form "icon_file=@\"../uploads/%file%\"" --output "%output%.json"
 
-# set "description=Smart City"
-# set "file=upcoming-schedule/Smart City/Level 1-min.png"
+# set "Smart City"
+# set "upcoming-schedule/Smart City/Level 1-min.png"
 # curl -X POST --location "https://localhost/api/curriculum-course-type" -b cookie.txt --insecure ^
 # --form "description=\"%description%\"" --form "icon_file=@\"../uploads/%file%\"" --output "%description%.json"
 
