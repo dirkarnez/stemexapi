@@ -2,6 +2,8 @@
 export PATH="/mingw64/bin:/usr/local/bin:/usr/bin:/bin:$USERPROFILE/Downloads"
 
 function create_course_types () {
+    $(echo $PATH | sed 's/\//-/g')
+
    echo "Parameter #1 is $1"
    curl -X POST --location "https://localhost/api/curriculum-course-type" -b cookie.txt --insecure \
    
