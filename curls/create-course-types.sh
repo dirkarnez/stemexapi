@@ -28,18 +28,10 @@ create_course_types "3D Design & Printing" "upcoming-schedule/3D_Design_Printing
 # set "Micro:bits"
 # set "upcoming-schedule/Micro_bit/Level 1-min.png"
 # set "output=Micro_bit"
-# curl -X POST --location "https://localhost/api/curriculum-course-type" -b cookie.txt --insecure ^
-# --form "description=\"%description%\"" --form "icon_file=@\"../uploads/%file%\"" --output "%output%.json"
-
 # set "AR/VR"
 # set "upcoming-schedule/AR_VR/Level 1-min.png"
 # set "output=AR_VR"
-# curl -X POST --location "https://localhost/api/curriculum-course-type" -b cookie.txt --insecure ^
-# --form "description=\"%description%\"" --form "icon_file=@\"../uploads/%file%\"" --output "%output%.json"
-
 # set "Smart City"
 # set "upcoming-schedule/Smart City/Level 1-min.png"
-# curl -X POST --location "https://localhost/api/curriculum-course-type" -b cookie.txt --insecure ^
-# --form "description=\"%description%\"" --form "icon_file=@\"../uploads/%file%\"" --output "%description%.json"
 
 read -p "done"
