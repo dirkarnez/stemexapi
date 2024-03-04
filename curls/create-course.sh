@@ -25,7 +25,7 @@ function create_course () {
         --form "levels.0.icon_file=@$levels_0_icon_file" \
         --form "levels.0.description=$levels_0_description" \
         --form "levels.0.lessons.0.presentation_notes.0.file=@$levels_0_lessons_0_presentation_notes_0_file" \
-        --form "levels.0.lessons.0.student_notes.0.file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/App Inventor Intro _Lesson1_Student Notes.pdf" \
+        --form "levels.0.lessons.0.student_notes.0.file=@$levels_0_lessons_0_student_notes_0_file" \
         --form "levels.0.lessons.0.teacher_notes.0.file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/App Inventor Intro _Lesson1_Teacher Notes.txt" \
         --form "levels.0.lessons.0.misc_materials.0.file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/Bee-Sound.mp3" \
         --form "levels.0.lessons.0.misc_materials.1.file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/codi.jpg" \
@@ -34,7 +34,7 @@ function create_course () {
 }
 
     $ \
-    $levels_0_lessons_0_student_notes_0_file \
+    $ \
     $levels_0_lessons_0_teacher_notes_0_file \
     $levels_0_lessons_0_misc_materials_0_file \
     $levels_0_lessons_0_misc_materials_1_file \
