@@ -18,7 +18,7 @@ create_course_types "Coding Roblox" "$USERPROFILE/Downloads/stemex-curriculum/co
 create_course_types "Coding Python" "$USERPROFILE/Downloads/stemex-curriculum/Coding_Python/Level 1-min.png"
 create_course_types "Coding Scratch" "$USERPROFILE/Downloads/stemex-curriculum/Coding_Scratch/Level 1-min.png"
 create_course_types "Cyber Virtual Robotics" "$USERPROFILE/Downloads/stemex-curriculum/cyberVirtualRobotics/Level 1.png"
-create_course_types "Lego Robotics" "$USERPROFILE/Downloads/stemex-curriculum/LEGO_Robotics/Level 1-min.png"
+create_course_types "Lego Robotics" "$USERPROFILE/Downloads/stemex-curriculum/Lego Robotics/Level 1-min.png"
 create_course_types "VEX Robotics" "$USERPROFILE/Downloads/stemex-curriculum/Vex Robotics/Level 1-min.png"
 
 create_course_types "AppInventor Mobile Apps" "$USERPROFILE/Downloads/stemex-curriculum/AppInventor/Level 1-min.png"
