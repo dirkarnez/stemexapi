@@ -5,8 +5,8 @@ function create_course () {
 #    =$1
 #    course_icon_path=
     course_type_json_output=$(echo $1 | sed 's/\//_/g' | sed 's/:/_/g')
-    description=$2
     parent_id=$(jq-windows-amd64.exe --raw-output '.id' "./$course_type_json_output.json")
+    description=$2
 
 #    echo "$course_desplay_name $course_icon_path $course_json_output"
 
