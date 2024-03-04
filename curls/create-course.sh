@@ -134,6 +134,8 @@ create_course "AppInventor Mobile Apps" \
     $youtube_video_entries_0_url \
     $levels_0_name \
     $levels_0_icon_file \
+    $levels_0_description \
+    \
 
 
 
