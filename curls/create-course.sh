@@ -95,7 +95,7 @@ function create_course () {
 # --output "%output%.json"
 
 
-
+ "AppInventor Mobile Apps" 
 parent_id=$(jq-windows-amd64.exe --raw-output '.id' "./AppInventor Mobile Apps.json")
 description="AppInventor Mobile Apps Development Introductory"
 echo $parent_id
