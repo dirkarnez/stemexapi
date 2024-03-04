@@ -15,8 +15,8 @@ function create_course_types () {
 
 create_course_types "Coding Minecraft" "$USERPROFILE/Downloads/stemex-curriculum/codingMinecraft/Level 1-min.png"
 create_course_types "Coding Roblox" "$USERPROFILE/Downloads/stemex-curriculum/codingRoblox/Level 1-min.png"
-create_course_types "Coding Python" "$USERPROFILE/Downloads/stemex-curriculum/Coding_Python/Level 1-min.png"
-create_course_types "Coding Scratch" "$USERPROFILE/Downloads/stemex-curriculum/Coding_Scratch/Level 1-min.png"
+create_course_types "Coding Python" "$USERPROFILE/Downloads/stemex-curriculum/Coding Python/Level 1-min.png"
+create_course_types "Coding Scratch" "$USERPROFILE/Downloads/stemex-curriculum/Coding Scratch/Level 1-min.png"
 create_course_types "Cyber Virtual Robotics" "$USERPROFILE/Downloads/stemex-curriculum/Cyber Virtual Robotics/Level 1.png"
 create_course_types "Lego Robotics" "$USERPROFILE/Downloads/stemex-curriculum/Lego Robotics/Level 1-min.png"
 create_course_types "VEX Robotics" "$USERPROFILE/Downloads/stemex-curriculum/Vex Robotics/Level 1-min.png"
