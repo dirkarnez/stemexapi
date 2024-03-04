@@ -14,7 +14,7 @@ function create_course_types () {
 
 create_course_types "Coding Minecraft" "upcoming-schedule/codingMinecraft/Level 1-min.png"
 create_course_types "Coding Roblox" "upcoming-schedule/codingRoblox/Level 1-min.png"
-create_course_types Coding Python" "upcoming-schedule/Coding_Python/Level 1-min.png"
+create_course_types "Coding Python" "upcoming-schedule/Coding_Python/Level 1-min.png"
 create_course_types "Coding Scratch" "upcoming-schedule/Coding_Scratch/Level 1-min.png"
 create_course_types "Cyber Virtual Robotics" "upcoming-schedule/cyberVirtualRobotics/Level 1.png"
 
