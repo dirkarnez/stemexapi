@@ -10,9 +10,11 @@ function create_course () {
 
 # parent_id=$(jq-windows-amd64.exe --raw-output '.id' "./Coding Roblox.json")
 
-parent_id=$(jq-windows-amd64.exe --raw-output '.id' "./AppInventor Mobile Apps.json")
-description=
-echo $parent_id
+    parent_id=$(jq-windows-amd64.exe --raw-output '.id' "./AppInventor Mobile Apps.json")
+    description=
+    echo $parent_id
+
+    
 #    curl -X POST --location "https://localhost/api/curriculum-course-type" -b cookie.txt --insecure \
 #       --form "description=$course_desplay_name" \
 #       --form "icon_file=@$course_icon_path" \
