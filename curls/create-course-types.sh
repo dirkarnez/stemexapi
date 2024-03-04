@@ -6,8 +6,8 @@ function create_course_types () {
    course_icon_path = $2
    course_json_output = $(echo $1 | sed 's/\//-/g')
 
-   echo "$course_desplay_name $course_icon_path"
-   curl -X POST --location "https://localhost/api/curriculum-course-type" -b cookie.txt --insecure \
+   echo "$course_desplay_name $course_icon_path $course_json_output"
+   # curl -X POST --location "https://localhost/api/curriculum-course-type" -b cookie.txt --insecure \
    
    # --form "description=\"%description%\"" --form "icon_file=@\"../uploads/%file%\"" --output "%description%.json"
    # set "description="
