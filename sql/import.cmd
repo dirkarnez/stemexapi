@@ -4,5 +4,6 @@ mysql --host=ec2-43-198-151-195.ap-east-1.compute.amazonaws.com --port=3306 --us
 mysql --host=ec2-43-198-151-195.ap-east-1.compute.amazonaws.com --port=3306 --user=webadmin --password=password --database=testing < data-3.sql
 mysql --host=ec2-43-198-151-195.ap-east-1.compute.amazonaws.com --port=3306 --user=webadmin --password=password --database=testing < data-4.sql
 mysql --host=ec2-43-198-151-195.ap-east-1.compute.amazonaws.com --port=3306 --user=webadmin --password=password --database=testing < data-5.sql
+mysql --host=ec2-43-198-151-195.ap-east-1.compute.amazonaws.com --port=3306 --user=webadmin --password=password --database=testing < data-6.sql
 
 pause
