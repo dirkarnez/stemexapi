@@ -20,7 +20,7 @@ create_course_types "Cyber Virtual Robotics" "upcoming-schedule/cyberVirtualRobo
 create_course_types "Lego Robotics" "upcoming-schedule/LEGO_Robotics/Level 1-min.png"
 create_course_types "VEX Robotics" "upcoming-schedule/Vex Robotics/Level 1-min.png"
 create_course_types "AppInventor Mobile Apps" "$USERPROFILE/Downloads/stemex-curriculum/AppInventor/Level 1-min.png"
-create_course_types "A.I.& Machine Learning" "upcoming-schedule/A.I.& Machine Learning/Level 1-min.png"
+create_course_types "A.I.& Machine Learning" "$USERPROFILE/Downloads/stemex-curriculum/A.I.& Machine Learning/Level 1-min.png"
 # set "output=A.I._Machine_Learning"
 
 # set "description=3D Design ^& Printing"
