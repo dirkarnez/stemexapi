@@ -6,10 +6,10 @@ export PATH="/mingw64/bin:/usr/local/bin:/usr/bin:/bin:$USERPROFILE/Downloads"
 #!/bin/bash
 export PATH="/mingw64/bin:/usr/local/bin:/usr/bin:/bin:$USERPROFILE/Downloads"
 
-function create_course_type () {
-   course_desplay_name=$1
-   course_icon_path=$2
-   course_json_output=$(echo $1 | sed 's/\//_/g' | sed 's/:/_/g')
+function create_course () {
+#    course_desplay_name=$1
+#    course_icon_path=$2
+#    course_json_output=$(echo $1 | sed 's/\//_/g' | sed 's/:/_/g')
 
    echo "$course_desplay_name $course_icon_path $course_json_output"
    curl -X POST --location "https://localhost/api/curriculum-course-type" -b cookie.txt --insecure \
@@ -17,6 +17,7 @@ function create_course_type () {
       --form "icon_file=@$course_icon_path" \
       --output "$course_json_output.json"
 }
+
 
 ls
 # use this to parse a json file to array of objects and foreach(element => console.log(element.name))
