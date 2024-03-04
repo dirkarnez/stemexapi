@@ -6,4 +6,3 @@ curl -k -c cookie.txt --location "https://localhost:443/api/login" \
     --data "{\"user_name\": \"joe\",\"password\": \"stemex\"}"
 
 read -p "done"
-
