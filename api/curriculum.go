@@ -855,14 +855,13 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 					return err
 				}
 
-				levelEntityList = append(levelEntityList, &entityCourseLevel)
-
 				returnLevels := dto.CurriculumCourseLevels{}
 				returnLevels.ID = entityCourseLevel.ID.ToString()
 				returnLevels.Name = entityCourseLevel.Name
 				returnLevels.IconID = entityCourseLevel.IconID.ToString()
 				returnLevels.Description = entityCourseLevel.Description
 
+				var lessonEntityList []*model.CurriculumCourseLevelLesson
 				for j, lesson := range level.Lessons {
 					entityLesson := model.CurriculumCourseLevelLesson{}
 
@@ -1061,9 +1060,19 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 
 						lessonDTO.MiscMaterials = append(lessonDTO.MiscMaterials, miscMaterialDTO)
 					}
+
+					lessonEntityList = append(lessonEntityList, &entityLesson)
 					returnLevels.Lessons = append(returnLevels.Lessons, lessonDTO)
 				}
 
+				tx.CurriculumCourseLevelLesson.
+					Where(tx.CurriculumCourseLevelLesson.CourseLevelID.Eq(entityCourseLevel.ID)).
+					Not(tx.CurriculumCourseLevelLesson.ID.In(lo.Map(lessonEntityList, func(lessonEntity *model.CurriculumCourseLevelLesson, index int) driver.Valuer {
+						return lessonEntity.ID
+					})...)).
+					Delete()
+
+				levelEntityList = append(levelEntityList, &entityCourseLevel)
 				returnForm.Levels = append(returnForm.Levels, returnLevels)
 			}
 
