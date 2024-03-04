@@ -15,11 +15,6 @@ function create_course_types () {
 create_course_types "Coding Minecraft" "upcoming-schedule/codingMinecraft/Level 1-min.png"
 create_course_types "Coding Roblox" "upcoming-schedule/codingRoblox/Level 1-min.png"
 
-# set "description="
-# set "file="
-# curl -X POST --location "https://localhost/api/curriculum-course-type" -b cookie.txt --insecure ^
-# --form "description=\"%description%\"" --form "icon_file=@\"../uploads/%file%\"" --output "%description%.json"
-
 # set "description=Coding Python"
 # set "file=upcoming-schedule/Coding_Python/Level 1-min.png"
 # curl -X POST --location "https://localhost/api/curriculum-course-type" -b cookie.txt --insecure ^
