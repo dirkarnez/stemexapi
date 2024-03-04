@@ -18,7 +18,7 @@ function create_course () {
         --form "icon_file=@$icon_file" \
         --form "description=$description" \
         --form "curriculum_plan_file=@$curriculum_plan_file" \
-        --form "youtube_video_entries.0.url=$blog_entries_0_external_url" \
+        --form "youtube_video_entries.0.url=$" \
         --form "blog_entries.0.external_url=https://hk.stemex.org/self-control-app/" \
         --form "blog_entries.0.title=$blog_entries_0_title" \
         --form "levels.0.name=A" \
