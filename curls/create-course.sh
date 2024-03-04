@@ -8,7 +8,7 @@ function create_course () {
 
 #    echo "$course_desplay_name $course_icon_path $course_json_output"
 
-    parent_id=$(jq-windows-amd64.exe --raw-output '.id' "./Coding Roblox.json")
+# parent_id=$(jq-windows-amd64.exe --raw-output '.id' "./Coding Roblox.json")
 
    curl -X POST --location "https://localhost/api/curriculum-course-type" -b cookie.txt --insecure \
       --form "description=$course_desplay_name" \
