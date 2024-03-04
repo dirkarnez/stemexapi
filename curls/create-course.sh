@@ -25,8 +25,8 @@ function create_course () {
         --form "levels.0.lessons.0.presentation_notes.0.file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/App Inventor Introductory [L1-HelloCodi].pptx" \
         --form "levels.0.lessons.0.student_notes.0.file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/App Inventor Intro _Lesson1_Student Notes.pdf" \
         --form "levels.0.lessons.0.teacher_notes.0.file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/App Inventor Intro _Lesson1_Teacher Notes.txt" \
-        --form "levels.0.lessons.0.misc_materials.0.file=@../../stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/Bee-Sound.mp3" \
-        --form "levels.0.lessons.0.misc_materials.1.file=@../../stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/codi.jpg" \
+        --form "levels.0.lessons.0.misc_materials.0.file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/Bee-Sound.mp3" \
+        --form "levels.0.lessons.0.misc_materials.1.file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/codi.jpg" \
         --form "levels.0.lessons.0.misc_materials.2.file=@../../stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/HelloCodi.aia" \
         --output "OUTPUT.json"
 }
