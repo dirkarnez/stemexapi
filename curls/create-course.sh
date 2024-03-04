@@ -10,7 +10,7 @@ function create_course () {
 
 # parent_id=$(jq-windows-amd64.exe --raw-output '.id' "./Coding Roblox.json")
 
-    parent_id=$(jq-windows-amd64.exe --raw-output '.id' "./AppInventor Mobile Apps.json")
+    parent_id=$(jq-windows-amd64.exe --raw-output '.id' "./$course_type_json_output.json")
     description=
     echo $parent_id
 
