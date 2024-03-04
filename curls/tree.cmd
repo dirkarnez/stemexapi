@@ -1,1 +1,0 @@
-curl "https://localhost/api/curriculum-tree"  -b cookie.txt --insecure

@@ -1,6 +1,7 @@
 package api
 
 import (
+	"database/sql/driver"
 	"fmt"
 	"net/http"
 
@@ -10,6 +11,7 @@ import (
 	"github.com/dirkarnez/stemexapi/utils"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/context"
+	"github.com/samber/lo"
 	"gorm.io/gen/field"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -638,6 +640,9 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			}
 
 			curriculumEntry.Description = form.Description
+			if len(curriculumEntry.Description) < 1 {
+				return fmt.Errorf("no description")
+			}
 
 			if len(form.ParentID) > 1 {
 				ParentIDUUID, err := model.ValidUUIDExFromIDString(form.ParentID)
@@ -742,6 +747,13 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				return err
 			}
 
+			tx.CurriculumCourseBlogEntries.
+				Where(tx.CurriculumCourseBlogEntries.EntryID.Eq(curriculumEntry.ID)).
+				Not(tx.CurriculumCourseBlogEntries.ID.In(lo.Map(blogs, func(blog *model.CurriculumCourseBlogEntries, index int) driver.Valuer {
+					return blog.ID
+				})...)).
+				Delete()
+
 			for _, saved := range blogs {
 				returnForm.BlogEntries = append(returnForm.BlogEntries, dto.CurriculumCourseBlogEntries{
 					ExternalURL: saved.ExternalURL,
@@ -773,6 +785,13 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				return err
 			}
 
+			tx.CurriculumCourseYoutubeVideoEntries.
+				Where(tx.CurriculumCourseYoutubeVideoEntries.EntryID.Eq(curriculumEntry.ID)).
+				Not(tx.CurriculumCourseYoutubeVideoEntries.ID.In(lo.Map(youtubes, func(youtube *model.CurriculumCourseYoutubeVideoEntries, index int) driver.Valuer {
+					return youtube.ID
+				})...)).
+				Delete()
+
 			for _, saved := range youtubes {
 				returnForm.YoutubeVideoEntries = append(returnForm.YoutubeVideoEntries, dto.CurriculumCourseYoutubeVideoEntries{
 					URL: saved.URL,
@@ -796,6 +815,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			).First()
 
 			/* associations: CurriculumCourseLevels*/
+			var levelEntityList []*model.CurriculumCourseLevel
 			for i, level := range form.Levels {
 				entityCourseLevel := model.CurriculumCourseLevel{}
 
@@ -835,6 +855,8 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 					return err
 				}
 
+				levelEntityList = append(levelEntityList, &entityCourseLevel)
+
 				returnLevels := dto.CurriculumCourseLevels{}
 				returnLevels.ID = entityCourseLevel.ID.ToString()
 				returnLevels.Name = entityCourseLevel.Name
@@ -851,7 +873,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 						}
 						entityLesson.ID = lessonIDUUID
 					} else {
-						entityLesson.LessonNumber = uint64(j + 1)
+						entityLesson.LessonNumber = lesson.LessonNumber // uint64(j + 1)
 						entityLesson.CourseLevelID = entityCourseLevel.ID
 					}
 
@@ -1044,6 +1066,13 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 
 				returnForm.Levels = append(returnForm.Levels, returnLevels)
 			}
+
+			tx.CurriculumCourseLevel.
+				Where(tx.CurriculumCourseLevel.CourseID.Eq(curriculumCourse.ID)).
+				Not(tx.CurriculumCourseLevel.ID.In(lo.Map(levelEntityList, func(levelEntity *model.CurriculumCourseLevel, index int) driver.Valuer {
+					return levelEntity.ID
+				})...)).
+				Delete()
 
 			returnForm.ID = curriculumEntry.ID.ToString()
 			returnForm.Description = curriculumEntry.Description
