@@ -4,6 +4,7 @@ export PATH="/mingw64/bin:/usr/local/bin:/usr/bin:/bin:$USERPROFILE/Downloads"
 function create_course_types () {
    echo "Parameter #1 is $1"
    curl -X POST --location "https://localhost/api/curriculum-course-type" -b cookie.txt --insecure \
+   
    # --form "description=\"%description%\"" --form "icon_file=@\"../uploads/%file%\"" --output "%description%.json"
    # set "description="
 # set "file="
