@@ -19,10 +19,10 @@ create_course_types "Coding Scratch" "upcoming-schedule/Coding_Scratch/Level 1-m
 create_course_types "Cyber Virtual Robotics" "upcoming-schedule/cyberVirtualRobotics/Level 1.png"
 
 
-# set "Lego Robotics"
+create_course_types "Lego Robotics"
 # set "upcoming-schedule/LEGO_Robotics/Level 1-min.png"
 
-# set "description=VEX Robotics"
+create_course_types "description=VEX Robotics"
 # set "file=upcoming-schedule/Vex Robotics/Level 1-min.png"
 
 # set "description=AppInventor Mobile Apps"
