@@ -17,8 +17,8 @@ function create_course () {
         --form "parent_id=$parent_id" \
         --form "icon_file=@$icon_file" \
         --form "description=$description" \
-        --form "curriculum_plan_file=@$3" \
-        --form "youtube_video_entries.0.url=$4" \
+        --form "curriculum_plan_file=@$curriculum_plan_file" \
+        --form "youtube_video_entries.0.url=$blog_entries_0_external_url" \
         --form "blog_entries.0.external_url=https://hk.stemex.org/self-control-app/" \
         --form "blog_entries.0.title=從小培養孩子的自控能力 3款提升自控能力的電子應用程式" \
         --form "levels.0.name=A" \
@@ -36,8 +36,8 @@ function create_course () {
  \ 
     $icon_file \
     $description \
-    $curriculum_plan_file \
-    $blog_entries_0_external_url \
+    $ \
+    $ \
     $blog_entries_0_title \
     $youtube_video_entries_0_url \
     $levels_0_name \
@@ -49,7 +49,7 @@ function create_course () {
     $levels_0_lessons_0_misc_materials_0_file \
     $levels_0_lessons_0_misc_materials_1_file \
     $levels_0_lessons_0_misc_materials_2_file 
-    
+
 create_course "AppInventor Mobile Apps" \ 
     $description \
     $curriculum_plan_file \
