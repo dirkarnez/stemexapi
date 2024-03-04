@@ -28,7 +28,7 @@ function create_course () {
         --form "levels.0.lessons.0.misc_materials.0.file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/Bee-Sound.mp3" \
         --form "levels.0.lessons.0.misc_materials.1.file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/codi.jpg" \
         --form "levels.0.lessons.0.misc_materials.2.file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/HelloCodi.aia" \
-        --output "OUTPUT.json"
+        --output "$(jq-windows-amd64.exe --raw-output '.id' "./$course_type_json_output.json").json"
 }
 
 create_course "AppInventor Mobile Apps" \ 
