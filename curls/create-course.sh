@@ -110,13 +110,14 @@ function create_course () {
 # --output "%output%.json"
 
 
-icon_file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Level 2-Introductory-min.png
+icon_file="$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Level 2-Introductory-min.png"
+$description
  "AppInventor Mobile Apps"  "AppInventor Mobile Apps Development Introductory"
 
 
 
         --form "icon_file=" \
-        --form "description=$description" \
+        --form "description=" \
         --form "curriculum_plan_file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/App Inventor Intro Curriculum Guide.pdf" \
         --form "youtube_video_entries.0.url=https://www.youtube.com/watch?v=zbpzr_hYwtg" \
         --form "blog_entries.0.external_url=https://hk.stemex.org/self-control-app/" \
