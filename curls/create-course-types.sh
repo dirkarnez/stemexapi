@@ -18,9 +18,7 @@ create_course_types "Coding Python" "upcoming-schedule/Coding_Python/Level 1-min
 create_course_types "Coding Scratch" "upcoming-schedule/Coding_Scratch/Level 1-min.png"
 create_course_types "Cyber Virtual Robotics" "upcoming-schedule/cyberVirtualRobotics/Level 1.png"
 create_course_types "Lego Robotics" "upcoming-schedule/LEGO_Robotics/Level 1-min.png"
-
-create_course_types "VEX Robotics"
-# set "file=upcoming-schedule/Vex Robotics/Level 1-min.png"
+create_course_types "VEX Robotics" "upcoming-schedule/Vex Robotics/Level 1-min.png"
 
 # set "description=AppInventor Mobile Apps"
 # set "file=%USERPROFILE%/Downloads/stemex-curriculum/AppInventor/Level 1-min.png"
