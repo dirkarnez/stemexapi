@@ -15,42 +15,27 @@ function create_course_types () {
 create_course_types "Coding Minecraft" "upcoming-schedule/codingMinecraft/Level 1-min.png"
 create_course_types "Coding Roblox" "upcoming-schedule/codingRoblox/Level 1-min.png"
 create_course_types Coding Python" "upcoming-schedule/Coding_Python/Level 1-min.png"
-# set "description=
-# set "file=
-# curl -X POST --location "https://localhost/api/curriculum-course-type" -b cookie.txt --insecure ^
-# --form "description=\"%description%\"" --form "icon_file=@\"../uploads/%file%\"" --output "%description%.json"
 
 
-# set "description=Coding Scratch"
-# set "file=upcoming-schedule/Coding_Scratch/Level 1-min.png"
-# curl -X POST --location "https://localhost/api/curriculum-course-type" -b cookie.txt --insecure ^
-# --form "description=\"%description%\"" --form "icon_file=@\"../uploads/%file%\"" --output "%description%.json"
+# set "Coding Scratch"
+# set "upcoming-schedule/Coding_Scratch/Level 1-min.png"
 
-# set "description=Cyber Virtual Robotics"
-# set "file=upcoming-schedule/cyberVirtualRobotics/Level 1.png"
-# curl -X POST --location "https://localhost/api/curriculum-course-type" -b cookie.txt --insecure ^
-# --form "description=\"%description%\"" --form "icon_file=@\"../uploads/%file%\"" --output "%description%.json"
+# set "Cyber Virtual Robotics"
+# set "upcoming-schedule/cyberVirtualRobotics/Level 1.png"
 
-# set "description=Lego Robotics"
-# set "file=upcoming-schedule/LEGO_Robotics/Level 1-min.png"
-# curl -X POST --location "https://localhost/api/curriculum-course-type" -b cookie.txt --insecure ^
-# --form "description=\"%description%\"" --form "icon_file=@\"../uploads/%file%\"" --output "%description%.json"
+
+# set "Lego Robotics"
+# set "upcoming-schedule/LEGO_Robotics/Level 1-min.png"
 
 # set "description=VEX Robotics"
 # set "file=upcoming-schedule/Vex Robotics/Level 1-min.png"
-# curl -X POST --location "https://localhost/api/curriculum-course-type" -b cookie.txt --insecure ^
-# --form "description=\"%description%\"" --form "icon_file=@\"../uploads/%file%\"" --output "%description%.json"
 
 # set "description=AppInventor Mobile Apps"
 # set "file=%USERPROFILE%/Downloads/stemex-curriculum/AppInventor/Level 1-min.png"
-# curl -X POST --location "https://localhost/api/curriculum-course-type" -b cookie.txt --insecure ^
-# --form "description=\"%description%\"" --form "icon_file=@\"%file%\"" --output "%description%.json"
 
 # set "description=A.I. ^& Machine Learning"
 # set "file=upcoming-schedule/A.I. _ Machine Learning/Level 1-min.png"
 # set "output=A.I._Machine_Learning"
-# curl -X POST --location "https://localhost/api/curriculum-course-type" -b cookie.txt --insecure ^
-# --form "description=\"%description%\"" --form "icon_file=@\"../uploads/%file%\"" --output "%output%.json"
 
 # set "description=3D Design ^& Printing"
 # set "file=upcoming-schedule/3D_Design_Printing/Level 1-min.png"
