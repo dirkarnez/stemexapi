@@ -113,24 +113,25 @@ function create_course () {
 icon_file="$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Level 2-Introductory-min.png"
 $description="AppInventor Mobile Apps Development Introductory"
 curriculum_plan_file="$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/App Inventor Intro Curriculum Guide.pdf"
+
 levels_0_name="A"
  "AppInventor Mobile Apps" $icon_file $description
 
 
 
         --form "" \
-        --form "youtube_video_entries.0.url=https://www.youtube.com/watch?v=zbpzr_hYwtg" \
-        --form "blog_entries.0.external_url=https://hk.stemex.org/self-control-app/" \
-        --form "blog_entries.0.title=從小培養孩子的自控能力 3款提升自控能力的電子應用程式" \
+        --form "youtube_video_entries_0_url=https://www.youtube.com/watch?v=zbpzr_hYwtg" \
+        --form "blog_entries_0_external_url=https://hk.stemex.org/self-control-app/" \
+        --form "blog_entries_0_title=從小培養孩子的自控能力 3款提升自控能力的電子應用程式" \
         --form "" \
-        --form "levels.0.icon_file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Level 3-Introductory A-min.png" \
-        --form "levels.0.description=HelloPurr: Tap the Kitty, Hear Him Meow', 'HelloPurr is a simple app that you can build in a very fun way. You will create a button that has a picture of your favorite cat on it, and then program the button so that when it is clicked a "meow" sound plays with some vibrations." \
-        --form "levels.0.lessons.0.presentation_notes.0.file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/App Inventor Introductory [L1-HelloCodi].pptx" \
-        --form "levels.0.lessons.0.student_notes.0.file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/App Inventor Intro _Lesson1_Student Notes.pdf" \
-        --form "levels.0.lessons.0.teacher_notes.0.file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/App Inventor Intro _Lesson1_Teacher Notes.txt" \
-        --form "levels.0.lessons.0.misc_materials.0.file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/Bee-Sound.mp3" \
-        --form "levels.0.lessons.0.misc_materials.1.file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/codi.jpg" \
-        --form "levels.0.lessons.0.misc_materials.2.file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/HelloCodi.aia" \
+        --form "levels_0_icon_file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Level 3-Introductory A-min.png" \
+        --form "levels_0_description=HelloPurr: Tap the Kitty, Hear Him Meow', 'HelloPurr is a simple app that you can build in a very fun way. You will create a button that has a picture of your favorite cat on it, and then program the button so that when it is clicked a "meow" sound plays with some vibrations." \
+        --form "levels_0_lessons_0_presentation_notes.0.file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/App Inventor Introductory [L1-HelloCodi].pptx" \
+        --form "levels_0_lessons_0_student_notes.0.file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/App Inventor Intro _Lesson1_Student Notes.pdf" \
+        --form "levels_0_lessons_0_teacher_notes.0.file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/App Inventor Intro _Lesson1_Teacher Notes.txt" \
+        --form "levels_0_lessons_0_misc_materials.0.file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/Bee-Sound.mp3" \
+        --form "levels_0_lessons_0_misc_materials.1.file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/codi.jpg" \
+        --form "levels_0_lessons_0_misc_materials.2.file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/HelloCodi.aia" \
         --output "OUTPUT.json"
 
 # https://localhost/api/curriculum-course?id=6dd4a6d9d2fa11ee9aa006c3bc34e27e
