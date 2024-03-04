@@ -11,7 +11,7 @@ function create_course () {
     curl -X POST --location "https://localhost/api/curriculum-course" -b cookie.txt --insecure \
         --form "parent_id=$parent_id" \
         --form "icon_file=@$icon_file" \
-        --form "description=fdgfdg" \
+        --form "description=$description" \
         --form "curriculum_plan_file=@$curriculum_plan_file" \
         --form "youtube_video_entries.0.url=$youtube_video_entries_0_url" \
         --form "blog_entries.0.external_url=$blog_entries_0_external_url" \
