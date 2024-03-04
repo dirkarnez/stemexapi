@@ -28,8 +28,8 @@ function create_course () {
         --form "levels.0.lessons.0.student_notes.0.file=@$levels_0_lessons_0_student_notes_0_file" \
         --form "levels.0.lessons.0.teacher_notes.0.file=@$levels_0_lessons_0_teacher_notes_0_file" \
         --form "levels.0.lessons.0.misc_materials.0.file=@$levels_0_lessons_0_misc_materials_0_file" \
-        --form "levels.0.lessons.0.misc_materials.1.file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/codi.jpg" \
-        --form "levels.0.lessons.0.misc_materials.2.file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/HelloCodi.aia" \
+        --form "levels.0.lessons.0.misc_materials.1.file=@$levels_0_lessons_0_misc_materials_1_file" \
+        --form "levels.0.lessons.0.misc_materials.2.file=@$levels_0_lessons_0_misc_materials_2_file" \
         --output "$course_json_output.json"
 }
 
@@ -37,8 +37,8 @@ function create_course () {
     $ \
     $ \
     $ \
-    $levels_0_lessons_0_misc_materials_1_file \
-    $levels_0_lessons_0_misc_materials_2_file 
+    $ \
+    $ 
 
 create_course "AppInventor Mobile Apps" \ 
     $description \
