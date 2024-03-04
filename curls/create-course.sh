@@ -2,7 +2,7 @@
 export PATH="/mingw64/bin:/usr/local/bin:/usr/bin:/bin:$USERPROFILE/Downloads"
 
 function create_course () {
-#    course_desplay_name=$1
+#    course_type_desplay_name=$1
 #    course_icon_path=$2
 #    course_json_output=$(echo $1 | sed 's/\//_/g' | sed 's/:/_/g')
 
@@ -14,7 +14,7 @@ function create_course () {
     description=
     echo $parent_id
 
-    
+
 #    curl -X POST --location "https://localhost/api/curriculum-course-type" -b cookie.txt --insecure \
 #       --form "description=$course_desplay_name" \
 #       --form "icon_file=@$course_icon_path" \
