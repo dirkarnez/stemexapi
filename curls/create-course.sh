@@ -144,22 +144,7 @@ export levels_0_lessons_0_misc_materials_0_file="$USERPROFILE/Downloads/stemex-c
 export levels_0_lessons_0_misc_materials_1_file="$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/codi.jpg" 
 export levels_0_lessons_0_misc_materials_2_file="$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/HelloCodi.aia" 
 
-create_course "AppInventor Mobile Apps" \ 
-    $icon_file \
-    $description \
-    $curriculum_plan_file \
-    $blog_entries_0_external_url \
-    $blog_entries_0_title \
-    $youtube_video_entries_0_url \
-    $levels_0_name \
-    $levels_0_icon_file \
-    $levels_0_description \
-    $levels_0_lessons_0_presentation_notes_0_file \
-    $levels_0_lessons_0_student_notes_0_file \
-    $levels_0_lessons_0_teacher_notes_0_file \
-    $levels_0_lessons_0_misc_materials_0_file \
-    $levels_0_lessons_0_misc_materials_1_file \
-    $levels_0_lessons_0_misc_materials_2_file 
+create_course "AppInventor Mobile Apps"
 
 # https://localhost/api/curriculum-course?id=6dd4a6d9d2fa11ee9aa006c3bc34e27e
 read -p "done"
