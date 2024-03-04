@@ -7,6 +7,7 @@ function create_course () {
     course_json_output=$(echo $description | sed 's/\//_/g' | sed 's/:/_/g')
     
     $USERPROFILE/Downloads/curl/curl.exe -X POST --location "https://localhost/api/curriculum-course" -b cookie.txt --insecure \
+        --form "id=2c6fba70da2111ee9aa006c3bc34e27e"
         --form "parent_id=$parent_id" \
         --form "description=$description" \
         --form "icon_file=@$icon_file" \
