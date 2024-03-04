@@ -7,7 +7,7 @@ function create_course () {
     course_json_output=$(echo $description | sed 's/\//_/g' | sed 's/:/_/g')
 
     echo "$description"
-
+    
     curl -X POST --location "https://localhost/api/curriculum-course" -b cookie.txt --insecure \
         --form "parent_id=$parent_id" \
         --form "icon_file=@$icon_file" \
@@ -108,7 +108,7 @@ function create_course () {
 
 
 export icon_file="$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Level 2-Introductory-min.png"
-export description="Introductory"
+export description="AppInventor Mobile Apps Development Introductory"
 export curriculum_plan_file="$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/App Inventor Intro Curriculum Guide.pdf"
 export blog_entries_0_external_url="https://hk.stemex.org/self-control-app/" 
 export blog_entries_0_title="從小培養孩子的自控能力 3款提升自控能力的電子應用程式" 
