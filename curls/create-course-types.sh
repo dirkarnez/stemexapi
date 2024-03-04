@@ -24,16 +24,16 @@ create_course_types "VEX Robotics" "upcoming-schedule/Vex Robotics/Level 1-min.p
 create_course_types "AppInventor Mobile Apps" "$USERPROFILE/Downloads/stemex-curriculum/AppInventor/Level 1-min.png"
 create_course_types "A.I.& Machine Learning" "$USERPROFILE/Downloads/stemex-curriculum/A.I.& Machine Learning/Level 1-min.png"
 create_course_types "3D Design & Printing" "upcoming-schedule/3D_Design_Printing/Level 1-min.png"
-create_course_types
-# set "Micro:bits"
+
+create_course_types"Micro:bits"
 # set "upcoming-schedule/Micro_bit/Level 1-min.png"
 # set "output=Micro_bit"
 
-# set "AR/VR"
+create_course_types "AR/VR"
 # set "upcoming-schedule/AR_VR/Level 1-min.png"
 # set "output=AR_VR"
 
-# set "Smart City"
+create_course_types "Smart City"
 # set "upcoming-schedule/Smart City/Level 1-min.png"
 
 read -p "done"
