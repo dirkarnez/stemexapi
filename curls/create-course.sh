@@ -126,7 +126,9 @@ levels_0_lessons_0_misc_materials_0_file="$USERPROFILE/Downloads/stemex-curricul
 levels_0_lessons_0_misc_materials_1_file="$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/codi.jpg" 
 levels_0_lessons_0_misc_materials_2_file="$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/HelloCodi.aia" 
 create_course "AppInventor Mobile Apps" \ 
-    $icon_file $description
+    $icon_file \
+    $description \
+    curriculum_plan_file
 
 
 
