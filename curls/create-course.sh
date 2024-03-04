@@ -131,6 +131,7 @@ create_course "AppInventor Mobile Apps" \
     $curriculum_plan_file \
     $blog_entries_0_external_url \
     $blog_entries_0_title \
+    $youtube_video_entries_0_url \
 
 
 
