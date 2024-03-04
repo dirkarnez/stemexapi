@@ -110,6 +110,7 @@ function create_course () {
 # --output "%output%.json"
 
 
+icon_file=
  "AppInventor Mobile Apps"  "AppInventor Mobile Apps Development Introductory"
 
 
