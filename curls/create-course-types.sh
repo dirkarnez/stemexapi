@@ -8,11 +8,8 @@ function create_course_types () {
 
    echo "$course_desplay_name $course_icon_path $course_json_output"
    curl -X POST --location "https://localhost/api/curriculum-course-type" -b cookie.txt --insecure \
-      --form "description=$course_desplay_name" --form "icon_file=@$course_icon_path" --output "$course_json_output.json"
-   # set "description="
-# set "file="
-# curl -X POST --location "https://localhost/api/curriculum-course-type" -b cookie.txt --insecure ^
-# --form "description=\"%description%\"" --form "icon_file=@\"../uploads/%file%\"" --output "%description%.json"
+      --form "description=$course_desplay_name" \
+      --form "icon_file=@$course_icon_path" --output "$course_json_output.json"
 }
 
 create_course_types "Coding Minecraft" "$USERPROFILE/Downloads/stemex-curriculum/codingMinecraft/Level 1-min.png"
