@@ -125,7 +125,8 @@ levels_0_lessons_0_teacher_notes_0_file="$USERPROFILE/Downloads/stemex-curriculu
 levels_0_lessons_0_misc_materials_0_file="$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/Bee-Sound.mp3" 
 levels_0_lessons_0_misc_materials_1_file="$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/codi.jpg" 
 levels_0_lessons_0_misc_materials_2_file="$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/HelloCodi.aia" 
-create_course "AppInventor Mobile Apps" $icon_file $description
+create_course "AppInventor Mobile Apps" \ 
+    $icon_file $description
 
 
 
