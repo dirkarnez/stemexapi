@@ -6,8 +6,8 @@ function create_course () {
     parent_id=$(jq-windows-amd64.exe --raw-output '.id' "./$course_type_json_output.json")
     course_json_output=$(echo $description | sed 's/\//_/g' | sed 's/:/_/g')
 
-    echo "$$description"
-    
+    echo "$description"
+
     curl -X POST --location "https://localhost/api/curriculum-course" -b cookie.txt --insecure \
         --form "parent_id=$parent_id" \
         --form "icon_file=@$icon_file" \
