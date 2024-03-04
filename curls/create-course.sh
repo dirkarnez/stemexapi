@@ -13,7 +13,7 @@ function create_course () {
 
     curl -X POST --location "https://localhost/api/curriculum-course" -b cookie.txt --insecure \
         --form "parent_id=$parent_id" \
-        --form "icon_file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Level 2-Introductory-min.png" \
+        --form "icon_file=@$icon_file" \
         --form "description=$description" \
         --form "curriculum_plan_file=@$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/App Inventor Intro Curriculum Guide.pdf" \
         --form "youtube_video_entries.0.url=https://www.youtube.com/watch?v=zbpzr_hYwtg" \
@@ -32,7 +32,7 @@ function create_course () {
 }
 
 create_course "AppInventor Mobile Apps" \ 
-    $icon_file \
+     \
     $description \
     $curriculum_plan_file \
     $blog_entries_0_external_url \
