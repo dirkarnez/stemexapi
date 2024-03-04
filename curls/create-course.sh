@@ -128,7 +128,8 @@ levels_0_lessons_0_misc_materials_2_file="$USERPROFILE/Downloads/stemex-curricul
 create_course "AppInventor Mobile Apps" \ 
     $icon_file \
     $description \
-    curriculum_plan_file
+    $curriculum_plan_file \
+    $blog_entries_0_external_url \
 
 
 
