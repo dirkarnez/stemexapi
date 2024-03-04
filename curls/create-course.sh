@@ -132,6 +132,7 @@ create_course "AppInventor Mobile Apps" \
     $blog_entries_0_external_url \
     $blog_entries_0_title \
     $youtube_video_entries_0_url \
+    $levels_0_name \
 
 
 
