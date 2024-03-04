@@ -21,10 +21,9 @@ create_course_types "Lego Robotics" "upcoming-schedule/LEGO_Robotics/Level 1-min
 create_course_types "VEX Robotics" "upcoming-schedule/Vex Robotics/Level 1-min.png"
 create_course_types "AppInventor Mobile Apps" "$USERPROFILE/Downloads/stemex-curriculum/AppInventor/Level 1-min.png"
 create_course_types "A.I.& Machine Learning" "$USERPROFILE/Downloads/stemex-curriculum/A.I.& Machine Learning/Level 1-min.png"
-# set "output=A.I._Machine_Learning"
 
-# set "description=3D Design ^& Printing"
-# set "file=upcoming-schedule/3D_Design_Printing/Level 1-min.png"
+create_course_types "3D Design ^& Printing"
+# set "upcoming-schedule/3D_Design_Printing/Level 1-min.png"
 # set "output=3D_Design_Printing"
 # curl -X POST --location "https://localhost/api/curriculum-course-type" -b cookie.txt --insecure ^
 # --form "description=\"%description%\"" --form "icon_file=@\"../uploads/%file%\"" --output "%output%.json"
