@@ -13,8 +13,8 @@ function create_course_types () {
       --output "$course_json_output.json"
 }
 
-create_course_types "Coding Minecraft" "$USERPROFILE/Downloads/stemex-curriculum/codingMinecraft/Level 1-min.png"
-create_course_types "Coding Roblox" "$USERPROFILE/Downloads/stemex-curriculum/codingRoblox/Level 1-min.png"
+create_course_types "Coding Minecraft" "$USERPROFILE/Downloads/stemex-curriculum/Coding Minecraft/Level 1-min.png"
+create_course_types "Coding Roblox" "$USERPROFILE/Downloads/stemex-curriculum/Coding Roblox/Level 1-min.png"
 create_course_types "Coding Python" "$USERPROFILE/Downloads/stemex-curriculum/Coding Python/Level 1-min.png"
 create_course_types "Coding Scratch" "$USERPROFILE/Downloads/stemex-curriculum/Coding Scratch/Level 1-min.png"
 create_course_types "Cyber Virtual Robotics" "$USERPROFILE/Downloads/stemex-curriculum/Cyber Virtual Robotics/Level 1.png"
