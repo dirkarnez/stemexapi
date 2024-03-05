@@ -191,3 +191,10 @@ curl \
       }
 
       ```
+
+### Notes
+- `	Map(user, func(item User) UUIDEx {return item.ID})`
+- `Curriculm plan`
+- public files
+- lesson sorting
+- lesson deleting bugs

@@ -872,7 +872,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 						}
 						entityLesson.ID = lessonIDUUID
 					} else {
-						entityLesson.LessonNumber = lesson.LessonNumber // uint64(j + 1)
+						entityLesson.LessonNumber = uint64(j + 1) // lesson.LessonNumber is unsed intentionally
 						entityLesson.CourseLevelID = entityCourseLevel.ID
 					}
 
@@ -887,6 +887,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 					lessonDTO.ID = entityLesson.ID.ToString()
 					lessonDTO.LessonNumber = entityLesson.LessonNumber
 
+					var presentationNoteInsertedList []*model.CurriculumCourseLevelLessonResources
 					for k, presentationNote := range lesson.PresentationNotes {
 						entityPresentationNote := model.CurriculumCourseLevelLessonResources{}
 
@@ -928,9 +929,18 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 						presentationNoteDTO.ID = entityPresentationNote.ID.ToString()
 						presentationNoteDTO.ResourseID = entityPresentationNote.ResourseID.ToString()
 
+						presentationNoteInsertedList = append(presentationNoteInsertedList, &entityPresentationNote)
 						lessonDTO.PresentationNotes = append(lessonDTO.PresentationNotes, presentationNoteDTO)
 					}
 
+					tx.CurriculumCourseLevelLessonResources.
+						Where(tx.CurriculumCourseLevelLessonResources.LessonID.Eq(entityLesson.ID), tx.CurriculumCourseLevelLessonResources.ResourseTypeID.Eq(presentationNotesType.ID)).
+						Not(tx.CurriculumCourseLevelLessonResources.ID.In(lo.Map(presentationNoteInsertedList, func(presentationNoteInserted *model.CurriculumCourseLevelLessonResources, index int) driver.Valuer {
+							return presentationNoteInserted.ID
+						})...)).
+						Delete()
+
+					var studentNoteInsertedList []*model.CurriculumCourseLevelLessonResources
 					for k, studentNote := range lesson.StudentNotes {
 						entityStudentNote := model.CurriculumCourseLevelLessonResources{}
 
@@ -972,9 +982,18 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 						studentNoteDTO.ID = entityStudentNote.ID.ToString()
 						studentNoteDTO.ResourseID = entityStudentNote.ResourseID.ToString()
 
+						studentNoteInsertedList = append(studentNoteInsertedList, &entityStudentNote)
 						lessonDTO.StudentNotes = append(lessonDTO.StudentNotes, studentNoteDTO)
 					}
 
+					tx.CurriculumCourseLevelLessonResources.
+						Where(tx.CurriculumCourseLevelLessonResources.LessonID.Eq(entityLesson.ID), tx.CurriculumCourseLevelLessonResources.ResourseTypeID.Eq(studentNotesType.ID)).
+						Not(tx.CurriculumCourseLevelLessonResources.ID.In(lo.Map(studentNoteInsertedList, func(studentNoteInserted *model.CurriculumCourseLevelLessonResources, index int) driver.Valuer {
+							return studentNoteInserted.ID
+						})...)).
+						Delete()
+
+					var teacherNoteInsertedList []*model.CurriculumCourseLevelLessonResources
 					for k, teacherNote := range lesson.TeacherNotes {
 						entityTeacherNote := model.CurriculumCourseLevelLessonResources{}
 
@@ -1015,9 +1034,18 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 						teacherNoteDTO.ID = entityTeacherNote.ID.ToString()
 						teacherNoteDTO.ResourseID = entityTeacherNote.ResourseID.ToString()
 
+						teacherNoteInsertedList = append(teacherNoteInsertedList, &entityTeacherNote)
 						lessonDTO.TeacherNotes = append(lessonDTO.TeacherNotes, teacherNoteDTO)
 					}
 
+					tx.CurriculumCourseLevelLessonResources.
+						Where(tx.CurriculumCourseLevelLessonResources.LessonID.Eq(entityLesson.ID), tx.CurriculumCourseLevelLessonResources.ResourseTypeID.Eq(teacherNotesType.ID)).
+						Not(tx.CurriculumCourseLevelLessonResources.ID.In(lo.Map(teacherNoteInsertedList, func(teacherNoteInserted *model.CurriculumCourseLevelLessonResources, index int) driver.Valuer {
+							return teacherNoteInserted.ID
+						})...)).
+						Delete()
+
+					var miscMaterialInsertedList []*model.CurriculumCourseLevelLessonResources
 					for k, miscMaterial := range lesson.MiscMaterials {
 						entityMiscMaterial := model.CurriculumCourseLevelLessonResources{}
 
@@ -1058,8 +1086,16 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 						miscMaterialDTO.ID = entityMiscMaterial.ID.ToString()
 						miscMaterialDTO.ResourseID = entityMiscMaterial.ResourseID.ToString()
 
+						miscMaterialInsertedList = append(miscMaterialInsertedList, &entityMiscMaterial)
 						lessonDTO.MiscMaterials = append(lessonDTO.MiscMaterials, miscMaterialDTO)
 					}
+
+					tx.CurriculumCourseLevelLessonResources.
+						Where(tx.CurriculumCourseLevelLessonResources.LessonID.Eq(entityLesson.ID), tx.CurriculumCourseLevelLessonResources.ResourseTypeID.Eq(miscMaterialsType.ID)).
+						Not(tx.CurriculumCourseLevelLessonResources.ID.In(lo.Map(miscMaterialInsertedList, func(miscMaterialInserted *model.CurriculumCourseLevelLessonResources, index int) driver.Valuer {
+							return miscMaterialInserted.ID
+						})...)).
+						Delete()
 
 					lessonEntityList = append(lessonEntityList, &entityLesson)
 					returnLevels.Lessons = append(returnLevels.Lessons, lessonDTO)
