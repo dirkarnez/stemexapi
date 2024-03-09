@@ -9,6 +9,7 @@ import (
 	"github.com/dirkarnez/stemexapi/utils"
 	"gorm.io/driver/mysql"
 	"gorm.io/gen"
+	"gorm.io/gen/field"
 	"gorm.io/gorm"
 )
 
@@ -63,8 +64,6 @@ func main() {
 		// 	return err
 		// }
 		thefield := field.NewField(tx.ParentUserActivating.TableName(), tx.ParentUserActivating.ActivationKey.ColumnName().String())
-		
-		.IsNotNull().As("is_course")
 
 		tx.User.
 			UpdateFrom(tx.ParentUserActivating.Select(thefield).Where(tx.ParentUserActivating.ActivationKey.Eq(activationKey))).
