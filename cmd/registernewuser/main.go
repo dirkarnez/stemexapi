@@ -55,9 +55,11 @@ func main() {
 			return err
 		}
 
-		tx.User.UpdateFrom(tx.User.
+		tx.User.
 			LeftJoin(tx.ParentUserActivating, tx.User.ID.EqCol(tx.ParentUserActivating.UserID)).
-			Where(tx.ParentUserActivating.ActivationKey.Eq(activationKey))).
+			Where(tx.ParentUserActivating.ActivationKey.Eq(activationKey))
+
+		tx.User.UpdateFrom().
 			Update(tx.User.IsActivated, true)
 
 		u.Update(u.CompanyName, c.Select(c.Name).Where(c.ID.EqCol(u.CompanyID)))
