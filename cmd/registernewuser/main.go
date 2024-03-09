@@ -65,7 +65,7 @@ func main() {
 
 		len()
 
-		tx.User.UpdateFrom(ca.WithContext(ctx).Select(c.ID, c.Address, c.Phone).Where(c.ID.Gt(100))).
+		tx.User.UpdateFrom(tx.Select(c.ID, c.Address, c.Phone).Where(c.ID.Gt(100))).
 			Where(ua.CompanyID.EqCol(ca.ID)).
 			Update(tx.User.IsActivated, true)
 
