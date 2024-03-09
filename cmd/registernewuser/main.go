@@ -34,7 +34,7 @@ func main() {
 	q.Transaction(func(tx *query.Query) error {
 		var err error
 
-		userName := "stemex2"
+		userName := "stemex"
 		password := "password"
 		email := "porosil664@artgulin.com"
 
