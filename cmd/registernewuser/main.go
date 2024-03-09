@@ -55,14 +55,6 @@ func main() {
 			return err
 		}
 
-		users, err = .Find()
-		if err != nil {
-			// invalid key
-			return err
-		}
-
-		len()
-
 		tx.User.UpdateFrom(tx.User.
 			LeftJoin(tx.ParentUserActivating, tx.User.ID.EqCol(tx.ParentUserActivating.UserID)).
 			Where(tx.ParentUserActivating.ActivationKey.Eq(activationKey))).
