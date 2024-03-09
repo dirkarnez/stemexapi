@@ -70,8 +70,6 @@ func main() {
 			Where(tx.User.ID.EqCol(tx.ParentUserActivating.UserID)).
 			Update(tx.User.IsActivated.SetCol(thefield))
 
-			.IsNotNull()
-
 		// tx.User.UpdateFrom(tx.Select(c.ID, c.Address, c.Phone).Where(c.ID.Gt(100))).
 		// 	Where(ua.CompanyID.EqCol(ca.ID)).
 
