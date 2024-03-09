@@ -60,7 +60,7 @@ type StudentToUser struct {
 	BaseModel
 	UserID UUIDEx `gorm:"column:user_id;type:binary(16);not null"`
 	User   User   `gorm:"foreignKey:UserID;not null"`
-	Name   string `gorm:"column:user_name;type:varchar(15);unique;not null" json:"user_name"`
+	Name   string `gorm:"column:name;type:varchar(15);unique;not null" json:"name"`
 }
 
 type ParentUserActivating struct {
