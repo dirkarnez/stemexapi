@@ -66,7 +66,7 @@ func main() {
 		}
 
 		tx.User.Where(tx.User.ID.In(lo.Map(users, func(user *model.User, index int) driver.Valuer {
-			return levelEntity.ID
+			return user.ID
 		})...)).Update(tx.User.IsActivated, true)
 
 		// tx.User.UpdateFrom(tx.Select(c.ID, c.Address, c.Phone).Where(c.ID.Gt(100))).
