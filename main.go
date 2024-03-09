@@ -406,7 +406,10 @@ func main() {
 			var rule model.Role
 			var id = user.RoleID
 			if err := dbInstance.First(&rule, "id = ?", id).Error; err != nil {
-				ctx.WriteString(fmt.Sprintf("Hi %s!", userName))
+				ctx.JSON(iris.Map{
+					"user_name": user.FullName,
+					"role":      rule.Name,
+				})
 				return
 			}
 
