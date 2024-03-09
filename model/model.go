@@ -58,8 +58,8 @@ type User struct {
 
 type Parent struct {
 	BaseModel
-	UserID *UUIDEx `gorm:"column:user_id;type:binary(16)"`
-	User   *User   `gorm:"foreignKey:UserID"`
+	UserID UUIDEx `gorm:"column:user_id;type:binary(16)"`
+	User   User   `gorm:"foreignKey:UserID"`
 }
 
 type ParentUserActivating struct {
