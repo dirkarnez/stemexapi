@@ -1,12 +1,14 @@
 package main
 
 import (
+	"database/sql/driver"
 	"fmt"
 	"log"
 
 	"github.com/dirkarnez/stemexapi/model"
 	"github.com/dirkarnez/stemexapi/query"
 	"github.com/dirkarnez/stemexapi/utils"
+	"github.com/samber/lo"
 	"gorm.io/driver/mysql"
 	"gorm.io/gen"
 	"gorm.io/gorm"
@@ -63,7 +65,9 @@ func main() {
 		// 	return err
 		// }
 
-		tx.User.Update(tx.User.IsActivated, true)
+		tx.User.Where(tx.User.ID.In(lo.Map(levelEntityList, func(levelEntity *model.CurriculumCourseLevel, index int) driver.Valuer {
+			return levelEntity.ID
+		})...)).Update(tx.User.IsActivated, true)
 
 		// tx.User.UpdateFrom(tx.Select(c.ID, c.Address, c.Phone).Where(c.ID.Gt(100))).
 		// 	Where(ua.CompanyID.EqCol(ca.ID)).
