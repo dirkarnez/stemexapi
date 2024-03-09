@@ -57,12 +57,13 @@ func main() {
 
 		_, err = tx.User.
 			LeftJoin(tx.ParentUserActivating, tx.User.ID.EqCol(tx.ParentUserActivating.UserID)).
-			Where(tx.ParentUserActivating.ActivationKey.Eq(activationKey)).
-			Update(tx.User.IsActivated, true)
+			Where(tx.ParentUserActivating.ActivationKey.Eq(activationKey))
 		if err != nil {
 			// invalid key
 			return err
 		}
+
+		// Update(tx.User.IsActivated, true)
 
 		return nil
 	})
