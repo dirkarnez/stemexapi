@@ -67,7 +67,7 @@ type Parent struct {
 	IsDummy               bool    `gorm:"column:is_dummy;type:boolean;default:false" json:"is_dummy"`
 	IsActivated           bool    `gorm:"column:is_activated;type:boolean;default:false" json:"is_activated"`
 	RoleID                *UUIDEx `gorm:"column:role_id;type:binary(16)" json:"role_id"`
-	Role                  *Role   `gorm:"foreignKey:RoleID" json:"role"`
+	Role                  User    `gorm:"foreignKey:RoleID" json:"role"`
 }
 
 type ParentUserActivating struct {
