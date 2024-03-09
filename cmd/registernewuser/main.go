@@ -55,7 +55,7 @@ func main() {
 			return err
 		}
 
-		users, err = tx.User.
+		users, err = 
 			LeftJoin(, .EqCol(tx.ParentUserActivating.UserID)).
 			Where().Find()
 		if err != nil {
@@ -63,7 +63,7 @@ func main() {
 			return err
 		}
 
-		ua.UpdateFrom(tx.ParentUserActivating.Select(tx.ParentUserActivating.ActivationKey).Where(tx.ParentUserActivating.ActivationKey.Eq(activationKey))).
+		tx.User.UpdateFrom(tx.ParentUserActivating.Select(tx.ParentUserActivating.ActivationKey).Where(tx.ParentUserActivating.ActivationKey.Eq(activationKey))).
 			Where(tx.User.ID.EqCol(tx.ParentUserActivating.UserID)).Update(tx.User.IsActivated, true)
 
 
