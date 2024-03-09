@@ -413,15 +413,14 @@ func main() {
 				})
 				return
 			} else {
+				log.Println(rule.Name)
 
+				ctx.JSON(iris.Map{
+					"user_name": user.FullName,
+					"role":      rule.Name,
+				})
+				return
 			}
-
-			log.Println(rule.Name)
-
-			ctx.JSON(iris.Map{
-				"user_name": user.FullName,
-				"role":      rule.Name,
-			})
 
 			// if err := dbInstance.Debug().Create(&sales).Error; err != nil {
 			// 	log.Fatalln(err)
