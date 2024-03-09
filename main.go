@@ -407,7 +407,7 @@ func main() {
 			var id = user.RoleID
 			if err := dbInstance.First(&rule, "id = ?", id).Error; err != nil {
 				ctx.JSON(iris.Map{
-					"user_name": user.FullName,
+					"user_name": userName,
 					"role":      "",
 				})
 				return
