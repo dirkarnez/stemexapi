@@ -62,7 +62,7 @@ func main() {
 		// 	// invalid key
 		// 	return err
 		// }
-		field.NewField(tx.ParentUserActivating.TableName(), tx.ParentUserActivating.ActivationKey.ColumnName().String())
+		thefield := field.NewField(tx.ParentUserActivating.TableName(), tx.ParentUserActivating.ActivationKey.ColumnName().String())
 		
 		.IsNotNull().As("is_course")
 
