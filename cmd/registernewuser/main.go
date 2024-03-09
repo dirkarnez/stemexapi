@@ -55,19 +55,18 @@ func main() {
 			return err
 		}
 
-		users, err = 
-			LeftJoin(, .EqCol(tx.ParentUserActivating.UserID)).
-			Where().Find()
-		if err != nil {
-			// invalid key
-			return err
-		}
+		// users, err =
+		// 	LeftJoin(, .EqCol(tx.ParentUserActivating.UserID)).
+		// 	Where().Find()
+		// if err != nil {
+		// 	// invalid key
+		// 	return err
+		// }
 
 		tx.User.
 			UpdateFrom(tx.ParentUserActivating.Select(tx.ParentUserActivating.ActivationKey).Where(tx.ParentUserActivating.ActivationKey.Eq(activationKey))).
 			Where(tx.User.ID.EqCol(tx.ParentUserActivating.UserID)).
 			Update(tx.User.IsActivated.SetCol(tx.ParentUserActivating.ActivationKey.IsNotNull()))
-
 
 		// tx.User.UpdateFrom(tx.Select(c.ID, c.Address, c.Phone).Where(c.ID.Gt(100))).
 		// 	Where(ua.CompanyID.EqCol(ca.ID)).
