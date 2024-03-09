@@ -415,7 +415,7 @@ func main() {
 					})
 					return
 				} else {
-					return
+					return ctx.StopWithError(http.StatusForbidden, "")
 				}
 
 			}
