@@ -5,8 +5,8 @@ import (
 	"net/smtp"
 )
 
-func SendActivationHTMLEmail(to, subject, uuidString string) error {
-	return sendEmail(to, subject, fmt.Sprintf(`<html><body>Please click this <a href="%s" target="_blank">link</a> for activation</body></html>`, uuidString))
+func SendActivationHTMLEmail(toEmail, uuidString string) error {
+	return sendEmail(toEmail, "Activation", fmt.Sprintf(`<html><body>Please click this <a href="%s" target="_blank">link</a> for activation</body></html>`, uuidString))
 }
 
 func sendEmail(to, subject, body string) error {

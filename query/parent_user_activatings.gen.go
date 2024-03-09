@@ -31,12 +31,18 @@ func newParentUserActivating(db *gorm.DB, opts ...gen.DOOption) parentUserActiva
 	_parentUserActivating.CreatedAt = field.NewTime(tableName, "created_at")
 	_parentUserActivating.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_parentUserActivating.DeletedAt = field.NewField(tableName, "deleted_at")
-	_parentUserActivating.FullName = field.NewString(tableName, "full_name")
-	_parentUserActivating.UserName = field.NewString(tableName, "user_name")
-	_parentUserActivating.Password = field.NewString(tableName, "password")
-	_parentUserActivating.ContactNumber = field.NewString(tableName, "contact_number")
-	_parentUserActivating.Email = field.NewString(tableName, "email")
+	_parentUserActivating.UserID = field.NewField(tableName, "user_id")
 	_parentUserActivating.ActivationKey = field.NewString(tableName, "activation_key")
+	_parentUserActivating.User = parentUserActivatingBelongsToUser{
+		db: db.Session(&gorm.Session{}),
+
+		RelationField: field.NewRelation("User", "model.User"),
+		Role: struct {
+			field.RelationField
+		}{
+			RelationField: field.NewRelation("User.Role", "model.Role"),
+		},
+	}
 
 	_parentUserActivating.fillFieldMap()
 
@@ -51,12 +57,9 @@ type parentUserActivating struct {
 	CreatedAt     field.Time
 	UpdatedAt     field.Time
 	DeletedAt     field.Field
-	FullName      field.String
-	UserName      field.String
-	Password      field.String
-	ContactNumber field.String
-	Email         field.String
+	UserID        field.Field
 	ActivationKey field.String
+	User          parentUserActivatingBelongsToUser
 
 	fieldMap map[string]field.Expr
 }
@@ -77,11 +80,7 @@ func (p *parentUserActivating) updateTableName(table string) *parentUserActivati
 	p.CreatedAt = field.NewTime(table, "created_at")
 	p.UpdatedAt = field.NewTime(table, "updated_at")
 	p.DeletedAt = field.NewField(table, "deleted_at")
-	p.FullName = field.NewString(table, "full_name")
-	p.UserName = field.NewString(table, "user_name")
-	p.Password = field.NewString(table, "password")
-	p.ContactNumber = field.NewString(table, "contact_number")
-	p.Email = field.NewString(table, "email")
+	p.UserID = field.NewField(table, "user_id")
 	p.ActivationKey = field.NewString(table, "activation_key")
 
 	p.fillFieldMap()
@@ -99,17 +98,14 @@ func (p *parentUserActivating) GetFieldByName(fieldName string) (field.OrderExpr
 }
 
 func (p *parentUserActivating) fillFieldMap() {
-	p.fieldMap = make(map[string]field.Expr, 10)
+	p.fieldMap = make(map[string]field.Expr, 7)
 	p.fieldMap["id"] = p.ID
 	p.fieldMap["created_at"] = p.CreatedAt
 	p.fieldMap["updated_at"] = p.UpdatedAt
 	p.fieldMap["deleted_at"] = p.DeletedAt
-	p.fieldMap["full_name"] = p.FullName
-	p.fieldMap["user_name"] = p.UserName
-	p.fieldMap["password"] = p.Password
-	p.fieldMap["contact_number"] = p.ContactNumber
-	p.fieldMap["email"] = p.Email
+	p.fieldMap["user_id"] = p.UserID
 	p.fieldMap["activation_key"] = p.ActivationKey
+
 }
 
 func (p parentUserActivating) clone(db *gorm.DB) parentUserActivating {
@@ -120,6 +116,81 @@ func (p parentUserActivating) clone(db *gorm.DB) parentUserActivating {
 func (p parentUserActivating) replaceDB(db *gorm.DB) parentUserActivating {
 	p.parentUserActivatingDo.ReplaceDB(db)
 	return p
+}
+
+type parentUserActivatingBelongsToUser struct {
+	db *gorm.DB
+
+	field.RelationField
+
+	Role struct {
+		field.RelationField
+	}
+}
+
+func (a parentUserActivatingBelongsToUser) Where(conds ...field.Expr) *parentUserActivatingBelongsToUser {
+	if len(conds) == 0 {
+		return &a
+	}
+
+	exprs := make([]clause.Expression, 0, len(conds))
+	for _, cond := range conds {
+		exprs = append(exprs, cond.BeCond().(clause.Expression))
+	}
+	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
+	return &a
+}
+
+func (a parentUserActivatingBelongsToUser) WithContext(ctx context.Context) *parentUserActivatingBelongsToUser {
+	a.db = a.db.WithContext(ctx)
+	return &a
+}
+
+func (a parentUserActivatingBelongsToUser) Session(session *gorm.Session) *parentUserActivatingBelongsToUser {
+	a.db = a.db.Session(session)
+	return &a
+}
+
+func (a parentUserActivatingBelongsToUser) Model(m *model.ParentUserActivating) *parentUserActivatingBelongsToUserTx {
+	return &parentUserActivatingBelongsToUserTx{a.db.Model(m).Association(a.Name())}
+}
+
+type parentUserActivatingBelongsToUserTx struct{ tx *gorm.Association }
+
+func (a parentUserActivatingBelongsToUserTx) Find() (result *model.User, err error) {
+	return result, a.tx.Find(&result)
+}
+
+func (a parentUserActivatingBelongsToUserTx) Append(values ...*model.User) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Append(targetValues...)
+}
+
+func (a parentUserActivatingBelongsToUserTx) Replace(values ...*model.User) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Replace(targetValues...)
+}
+
+func (a parentUserActivatingBelongsToUserTx) Delete(values ...*model.User) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Delete(targetValues...)
+}
+
+func (a parentUserActivatingBelongsToUserTx) Clear() error {
+	return a.tx.Clear()
+}
+
+func (a parentUserActivatingBelongsToUserTx) Count() int64 {
+	return a.tx.Count()
 }
 
 type parentUserActivatingDo struct{ gen.DO }

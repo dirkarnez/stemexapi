@@ -145,7 +145,7 @@ func CreateOrUpdateUser(dbInstance *gorm.DB) context.Handler {
 			}
 
 			userToUpdateOrCreate.UserName = createOrUpdateUserDTO.UserName
-			userToUpdateOrCreate.RoleID = createOrUpdateUserDTO.RoleID
+			userToUpdateOrCreate.RoleID = &createOrUpdateUserDTO.RoleID
 
 			if err := tx.Save(&userToUpdateOrCreate).Error; err != nil {
 				return err

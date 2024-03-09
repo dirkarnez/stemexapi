@@ -220,37 +220,37 @@ func main() {
 			return
 		}
 
-		if err := dbInstance.Create(&model.User{FullName: "Singapore company 1", UserName: "singapore1", Password: "stemex", RoleID: partner.ID, IsActivated: true}).Error; err != nil {
+		if err := dbInstance.Create(&model.User{FullName: "Singapore company 1", UserName: "singapore1", Password: "stemex", RoleID: &partner.ID, IsActivated: true}).Error; err != nil {
 			log.Println("?????????????????????????????")
 			log.Fatalln(err)
 			return
 		}
 
-		if err := dbInstance.Create(&model.User{FullName: "Singapore company 2", UserName: "singapore2", Password: "stemex", RoleID: partner.ID, IsActivated: true}).Error; err != nil {
+		if err := dbInstance.Create(&model.User{FullName: "Singapore company 2", UserName: "singapore2", Password: "stemex", RoleID: &partner.ID, IsActivated: true}).Error; err != nil {
 			log.Println("?????????????????????????????")
 			log.Fatalln(err)
 			return
 		}
 
-		if err := dbInstance.Create(&model.User{FullName: "Singapore company 3", UserName: "singapore3", Password: "stemex", RoleID: partner.ID, IsActivated: true}).Error; err != nil {
+		if err := dbInstance.Create(&model.User{FullName: "Singapore company 3", UserName: "singapore3", Password: "stemex", RoleID: &partner.ID, IsActivated: true}).Error; err != nil {
 			log.Println("?????????????????????????????")
 			log.Fatalln(err)
 			return
 		}
 
-		if err := dbInstance.Create(&model.User{FullName: "Singapore company 4", UserName: "singapore4", Password: "stemex", RoleID: partner.ID, IsActivated: true}).Error; err != nil {
+		if err := dbInstance.Create(&model.User{FullName: "Singapore company 4", UserName: "singapore4", Password: "stemex", RoleID: &partner.ID, IsActivated: true}).Error; err != nil {
 			log.Println("?????????????????????????????")
 			log.Fatalln(err)
 			return
 		}
 
-		if err := dbInstance.Create(&model.User{FullName: "Singapore company 5", UserName: "singapore5", Password: "stemex", RoleID: partner.ID, IsActivated: true}).Error; err != nil {
+		if err := dbInstance.Create(&model.User{FullName: "Singapore company 5", UserName: "singapore5", Password: "stemex", RoleID: &partner.ID, IsActivated: true}).Error; err != nil {
 			log.Println("?????????????????????????????")
 			log.Fatalln(err)
 			return
 		}
 
-		if err := dbInstance.Create(&model.User{FullName: "Jovy", UserName: "jovy", Password: "stemex", RoleID: sales.ID, IsActivated: true}).Error; err != nil {
+		if err := dbInstance.Create(&model.User{FullName: "Jovy", UserName: "jovy", Password: "stemex", RoleID: &sales.ID, IsActivated: true}).Error; err != nil {
 			log.Println("?????????????????????????????")
 			log.Fatalln(err)
 			return
@@ -262,13 +262,13 @@ func main() {
 			return
 		}
 
-		if err := dbInstance.Create(&model.User{FullName: "Joe", UserName: "joe", Password: "stemex", RoleID: admin.ID, IsActivated: true}).Error; err != nil {
+		if err := dbInstance.Create(&model.User{FullName: "Joe", UserName: "joe", Password: "stemex", RoleID: &admin.ID, IsActivated: true}).Error; err != nil {
 			log.Println("?????????????????????????????")
 			log.Fatalln(err)
 			return
 		}
 
-		if err := dbInstance.Create(&model.User{FullName: "prospect123", UserName: "prospect123", Password: "stemex", RoleID: prospect.ID, IsActivated: true}).Error; err != nil {
+		if err := dbInstance.Create(&model.User{FullName: "prospect123", UserName: "prospect123", Password: "stemex", RoleID: &prospect.ID, IsActivated: true}).Error; err != nil {
 			log.Println("?????????????????????????????")
 			log.Fatalln(err)
 			return
@@ -280,7 +280,7 @@ func main() {
 			return
 		}
 
-		if err := dbInstance.Create(&model.User{FullName: "Loretta Leung", UserName: "leungloretta", Password: "stemex", RoleID: parent.ID, IsActivated: true}).Error; err != nil {
+		if err := dbInstance.Create(&model.User{FullName: "Loretta Leung", UserName: "leungloretta", Password: "stemex", RoleID: &parent.ID, IsActivated: true}).Error; err != nil {
 			log.Println("?????????????????????????????")
 			log.Fatalln(err)
 			return

@@ -6,6 +6,7 @@ import (
 
 	"github.com/dirkarnez/stemexapi/model"
 	"github.com/dirkarnez/stemexapi/query"
+	"github.com/dirkarnez/stemexapi/utils"
 	"gorm.io/driver/mysql"
 	"gorm.io/gen"
 	"gorm.io/gorm"
@@ -32,23 +33,37 @@ func main() {
 	fmt.Println(q)
 	q.Transaction(func(tx *query.Query) error {
 		var err error
-		
-		user, err = tx.User.Where(q...Eq("stemex")).Find()
+
+		userName := "stemex2"
+		password := "password"
+		email := "porosil664@artgulin.com"
+
+		newUser := model.User{UserName: userName, Password: password, Email: email, IsActivated: false}
+		err = tx.User.Not(gen.Exists(tx.User.Where(tx.User.UserName.Eq(userName)))).Create(&newUser)
 		if err != nil {
 			return err
 		}
 
-		// form
-		// insert + email IsActivated flase,  ParentUserActivating
-		// url with key
-		// insert + delete
-		// syucess
+		activationKey := model.NewUUIDEx().ToString()
+		err = tx.ParentUserActivating.Create(&model.ParentUserActivating{UserID: &newUser.ID, ActivationKey: activationKey})
+		if err != nil {
+			return err
+		}
 
-		
-		utils.Testing()
-		tx.ParentUserActivating.Create(&model.ParentUserActivating{})
+		err = utils.SendActivationHTMLEmail(newUser.Email, activationKey)
+		if err != nil {
+			return err
+		}
 
-		fmt.Scanln()
+		_, err = tx.User.
+			LeftJoin(tx.ParentUserActivating, tx.User.ID.EqCol(tx.ParentUserActivating.UserID)).
+			Where(tx.ParentUserActivating.ActivationKey.Eq(activationKey)).
+			Update(tx.User.IsActivated, true)
+		if err != nil {
+			// invalid key
+			return err
+		}
+
 		return nil
 	})
 
