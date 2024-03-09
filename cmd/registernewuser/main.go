@@ -63,7 +63,7 @@ func main() {
 			return err
 		}
 
-		ua.UpdateFrom(tx.ParentUserActivating.Select(tx.ParentUserActivating.UserID).Where(tx.ParentUserActivating.ActivationKey.Eq(activationKey))).
+		ua.UpdateFrom(tx.ParentUserActivating.Select(tx.ParentUserActivating.ActivationKey).Where(tx.ParentUserActivating.ActivationKey.Eq(activationKey))).
 			Where(tx.User.ID.EqCol(tx.ParentUserActivating.UserID)).
 			UpdateSimple(
 				ua.Address.SetCol(ca.Address),
