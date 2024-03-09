@@ -57,15 +57,15 @@ func main() {
 			return err
 		}
 
-		// users, err = tx.User.
-		// 	LeftJoin(tx.ParentUserActivating, tx.User.ID.EqCol(tx.ParentUserActivating.UserID)).
-		// 	Where(tx.ParentUserActivating.ActivationKey.Eq(activationKey)).Find()
-		// if err != nil {
-		// 	// invalid key
-		// 	return err
-		// }
+		users, err = tx.User.
+			LeftJoin(tx.ParentUserActivating, tx.User.ID.EqCol(tx.ParentUserActivating.UserID)).
+			Where(tx.ParentUserActivating.ActivationKey.Eq(activationKey)).Find()
+		if err != nil {
+			// invalid key
+			return err
+		}
 
-		tx.User.Where(tx.User.ID.In(lo.Map(levelEntityList, func(levelEntity *model.CurriculumCourseLevel, index int) driver.Valuer {
+		tx.User.Where(tx.User.ID.In(lo.Map(users, func(user *model.User, index int) driver.Valuer {
 			return levelEntity.ID
 		})...)).Update(tx.User.IsActivated, true)
 
