@@ -411,6 +411,7 @@ func main() {
 					"user_name": user.FullName,
 					"role":      "",
 				})
+				return
 
 			}
 
