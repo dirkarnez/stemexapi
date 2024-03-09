@@ -55,10 +55,9 @@ func main() {
 			return err
 		}
 
-		tx.User.
-			LeftJoin(tx.ParentUserActivating, tx.User.ID.EqCol(tx.ParentUserActivating.UserID)).
-			Where(tx.ParentUserActivating.ActivationKey.Eq(activationKey)).
-			Update(tx.User.IsActivated, true)
+		tx.User.Update(tx.User.IsActivated, true)
+		LeftJoin(tx.ParentUserActivating, tx.User.ID.EqCol(tx.ParentUserActivating.UserID)).
+		Where(tx.ParentUserActivating.ActivationKey.Eq(activationKey)).
 
 		//
 
