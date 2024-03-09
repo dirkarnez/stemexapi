@@ -63,11 +63,14 @@ func main() {
 			return err
 		}
 
-		len()
+		tx.UserUpdate(tx.User.IsActivated, true)
+		users
+
+		
 
 		tx.User.UpdateFrom(tx.Select(c.ID, c.Address, c.Phone).Where(c.ID.Gt(100))).
 			Where(ua.CompanyID.EqCol(ca.ID)).
-			Update(tx.User.IsActivated, true)
+			
 
 		//
 
