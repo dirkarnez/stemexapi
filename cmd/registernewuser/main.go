@@ -65,9 +65,11 @@ func main() {
 			return err
 		}
 
-		tx.User.Where(tx.User.ID.In(lo.Map(users, func(user *model.User, index int) driver.Valuer {
-			return user.ID
-		})...)).Update(tx.User.IsActivated, true)
+		tx.User.
+			Where(tx.User.ID.In(lo.Map(users, func(user *model.User, index int) driver.Valuer {
+				return user.ID
+			})...)).
+			Update(tx.User.IsActivated, true)
 
 		// tx.User.UpdateFrom(tx.Select(c.ID, c.Address, c.Phone).Where(c.ID.Gt(100))).
 		// 	Where(ua.CompanyID.EqCol(ca.ID)).
