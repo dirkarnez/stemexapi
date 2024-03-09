@@ -62,7 +62,7 @@ func main() {
 		// 	// invalid key
 		// 	return err
 		// }
-		field.NewField(tx.ParentUserActivating.ActivationKey.TableName(), q.CurriculumCourse.ID.ColumnName().String()).IsNotNull().As("is_course")
+		field.NewField(tx.ParentUserActivating.TableName(), tx.ParentUserActivating.ActivationKey.ColumnName().String()).IsNotNull().As("is_course")
 
 		tx.User.
 			UpdateFrom(tx.ParentUserActivating.Select(tx.ParentUserActivating.ActivationKey).Where(tx.ParentUserActivating.ActivationKey.Eq(activationKey))).
