@@ -411,7 +411,7 @@ func main() {
 				if err == gorm.ErrRecordNotFound {
 					ctx.JSON(iris.Map{
 						"user_name": user.FullName,
-						"role":      rule.Name,
+						"role":      "",
 					})
 				}
 				return
