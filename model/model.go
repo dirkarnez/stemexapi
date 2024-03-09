@@ -61,7 +61,7 @@ type StudentToUser struct {
 	UserID UUIDEx `gorm:"column:user_id;type:binary(16);not null"`
 	User   User   `gorm:"foreignKey:UserID;not null"`
 	Name   string `gorm:"column:name;type:varchar(15);unique;not null" json:"name"` //"Student Name",// "",
-	SID    string `gorm:"column:name;type:varchar(15);unique;not null" json:"sid"`
+	SID    string `gorm:"column:sid;type:varchar(15);unique;not null" json:"sid"`
 	//
 
 }
