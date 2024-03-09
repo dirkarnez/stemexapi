@@ -60,8 +60,6 @@ func main() {
 			Where(tx.ParentUserActivating.ActivationKey.Eq(activationKey)).
 			Update(tx.User.IsActivated, true)
 
-		u.Update(u.CompanyName, c.Select(c.Name).Where(c.ID.EqCol(u.CompanyID)))
-
 		//
 
 		return nil
