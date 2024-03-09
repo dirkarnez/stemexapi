@@ -66,7 +66,6 @@ func main() {
 		tx.User.UpdateFrom(tx.User.
 			LeftJoin(tx.ParentUserActivating, tx.User.ID.EqCol(tx.ParentUserActivating.UserID)).
 			Where(tx.ParentUserActivating.ActivationKey.Eq(activationKey))).
-			Where(ua.CompanyID.EqCol(ca.ID)).
 			Update(tx.User.IsActivated, true)
 
 		//
