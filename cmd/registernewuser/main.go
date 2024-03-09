@@ -63,7 +63,7 @@ func main() {
 		// 	// invalid key
 		// 	return err
 		// }
-		thefield := field.NewField(tx.ParentUserActivating.TableName(), tx.ParentUserActivating.ActivationKey.ColumnName().String())
+		thefield := field.NewField(tx.ParentUserActivating.TableName(), tx.ParentUserActivating.ActivationKey.ColumnName().String()).IsNotNull()
 
 		tx.User.
 			UpdateFrom(tx.ParentUserActivating.Select(thefield).Where(tx.ParentUserActivating.ActivationKey.Eq(activationKey))).
