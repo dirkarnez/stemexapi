@@ -62,9 +62,10 @@ func main() {
 			// invalid key
 			return err
 		}
-		//.As("is_course")).
+
 		tx.User.UpdateFrom(tx.ParentUserActivating.Select(tx.ParentUserActivating.ActivationKey).Where(tx.ParentUserActivating.ActivationKey.Eq(activationKey))).
-			Where(tx.User.ID.EqCol(tx.ParentUserActivating.UserID)).Update(tx.User.IsActivated.SetCol(field.NewField(q.CurriculumCourse.TableName(), q.CurriculumCourse.ID.ColumnName().String()).IsNotNull()), true)
+			Where(tx.User.ID.EqCol(tx.ParentUserActivating.UserID)).
+			Update(tx.User.IsActivated.SetCol(tx.ParentUserActivating.ActivationKey).IsNotNull()), true)
 
 
 		// tx.User.UpdateFrom(tx.Select(c.ID, c.Address, c.Phone).Where(c.ID.Gt(100))).
