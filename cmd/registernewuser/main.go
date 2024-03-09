@@ -65,7 +65,7 @@ func main() {
 
 		tx.User.UpdateFrom(tx.ParentUserActivating.Select(tx.ParentUserActivating.ActivationKey).Where(tx.ParentUserActivating.ActivationKey.Eq(activationKey))).
 			Where(tx.User.ID.EqCol(tx.ParentUserActivating.UserID)).
-			Update(tx.User.IsActivated.SetCol(tx.ParentUserActivating.ActivationKey).IsNotNull()), true)
+			Update(tx.User.IsActivated.SetCol(tx.ParentUserActivating.ActivationKey))
 
 
 		// tx.User.UpdateFrom(tx.Select(c.ID, c.Address, c.Phone).Where(c.ID.Gt(100))).
