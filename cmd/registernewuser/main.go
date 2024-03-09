@@ -63,7 +63,7 @@ func main() {
 			return err
 		}
 
-		ua.WithContext(ctx).UpdateFrom(ca.WithContext(ctx).Select(c.ID, c.Address, c.Phone).Where(c.ID.Gt(100))).
+		ua.UpdateFrom(ca.WithContext(ctx).Select(c.ID, c.Address, c.Phone).Where(c.ID.Gt(100))).
 			Where(tx.User.ID.EqCol(tx.ParentUserActivating.UserID)).
 			UpdateSimple(
 				ua.Address.SetCol(ca.Address),
