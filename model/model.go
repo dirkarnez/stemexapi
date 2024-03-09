@@ -56,7 +56,7 @@ type User struct {
 	Role                  *Role   `gorm:"foreignKey:RoleID" json:"role"`
 }
 
-type Parent struct {
+type StudentToUser struct {
 	BaseModel
 	UserID UUIDEx `gorm:"column:user_id;type:binary(16);not null"`
 	User   User   `gorm:"foreignKey:UserID;not null"`
