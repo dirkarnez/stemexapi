@@ -9,7 +9,6 @@ import (
 	"github.com/dirkarnez/stemexapi/utils"
 	"gorm.io/driver/mysql"
 	"gorm.io/gen"
-	"gorm.io/gen/field"
 	"gorm.io/gorm"
 )
 
@@ -56,19 +55,15 @@ func main() {
 			return err
 		}
 
-		// users, err =
-		// 	LeftJoin(, .EqCol(tx.ParentUserActivating.UserID)).
-		// 	Where().Find()
-		// if err != nil {
-		// 	// invalid key
-		// 	return err
-		// }
-		thefield := field.NewField(tx.ParentUserActivating.TableName(), tx.ParentUserActivating.ActivationKey.ColumnName().String()).IsNotNull()
+		users, err = tx.User.
+			LeftJoin(tx.ParentUserActivating, tx.User.ID.EqCol(tx.ParentUserActivating.UserID)).
+			Where(tx.ParentUserActivating.ActivationKey.Eq(activationKey)).Find()
+		if err != nil {
+			// invalid key
+			return err
+		}
 
-		tx.User.
-			UpdateFrom(tx.ParentUserActivating.Select(thefield).Where(tx.ParentUserActivating.ActivationKey.Eq(activationKey))).
-			Where(tx.User.ID.EqCol(tx.ParentUserActivating.UserID)).
-			Update(tx.User.IsActivated.SetCol(thefield))
+		tx.User.Update(tx.User.IsActivated, true)
 
 		// tx.User.UpdateFrom(tx.Select(c.ID, c.Address, c.Phone).Where(c.ID.Gt(100))).
 		// 	Where(ua.CompanyID.EqCol(ca.ID)).
