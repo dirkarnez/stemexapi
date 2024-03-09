@@ -406,10 +406,14 @@ func main() {
 			var rule model.Role
 			var id = user.RoleID
 			if err := dbInstance.First(&rule, "id = ?", id).Error; err != nil {
-				ctx.JSON(iris.Map{
-					"user_name": user.FullName,
-					"role":      rule.Name,
-				})
+				ctx.WriteString(fmt.Sprintf("Hi %s!", userName))
+
+				if err == gorm.ErrRecordNotFound {
+					ctx.JSON(iris.Map{
+						"user_name": user.FullName,
+						"role":      rule.Name,
+					})
+				}
 				return
 			}
 
