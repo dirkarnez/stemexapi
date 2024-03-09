@@ -63,8 +63,8 @@ func main() {
 			return err
 		}
 
-		tx.UserUpdate(tx.User.IsActivated, true)
-		users
+		tx.User.Update(tx.User.IsActivated, true)
+		
 
 		
 
