@@ -407,16 +407,10 @@ func main() {
 			var id = user.RoleID
 			if err := dbInstance.First(&rule, "id = ?", id).Error; err != nil {
 				ctx.WriteString(fmt.Sprintf("Hi %s!", userName))
-
-				if err == gorm.ErrRecordNotFound {
-					ctx.JSON(iris.Map{
-						"user_name": user.FullName,
-						"role":      "",
-					})
-					return
-				} else {
-					return ctx.StopWithError(http.StatusForbidden, "")
-				}
+				ctx.JSON(iris.Map{
+					"user_name": user.FullName,
+					"role":      "",
+				})
 
 			}
 
