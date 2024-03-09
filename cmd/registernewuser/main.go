@@ -67,9 +67,9 @@ func main() {
 		.IsNotNull().As("is_course")
 
 		tx.User.
-			UpdateFrom(tx.ParentUserActivating.Select(tx.ParentUserActivating.ActivationKey).Where(tx.ParentUserActivating.ActivationKey.Eq(activationKey))).
+			UpdateFrom(tx.ParentUserActivating.Select(thefield).Where(tx.ParentUserActivating.ActivationKey.Eq(activationKey))).
 			Where(tx.User.ID.EqCol(tx.ParentUserActivating.UserID)).
-			Update(tx.User.IsActivated.SetCol(.IsNotNull()))
+			Update(tx.User.IsActivated.SetCol(thefield.IsNotNull()))
 
 		// tx.User.UpdateFrom(tx.Select(c.ID, c.Address, c.Phone).Where(c.ID.Gt(100))).
 		// 	Where(ua.CompanyID.EqCol(ca.ID)).
