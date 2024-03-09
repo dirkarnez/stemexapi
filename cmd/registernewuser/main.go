@@ -57,13 +57,13 @@ func main() {
 
 		users, err = tx.User.
 			LeftJoin(, .EqCol(tx.ParentUserActivating.UserID)).
-			Where(tx.ParentUserActivating.ActivationKey.Eq(activationKey)).Find()
+			Where().Find()
 		if err != nil {
 			// invalid key
 			return err
 		}
 
-		ua.UpdateFrom(ca.WithContext(ctx).Select(c.ID, c.Address, c.Phone).Where(c.ID.Gt(100))).
+		ua.UpdateFrom(tx.ParentUserActivating.ActivationKey.Eq(activationKey)).
 			Where(tx.User.ID.EqCol(tx.ParentUserActivating.UserID)).
 			UpdateSimple(
 				ua.Address.SetCol(ca.Address),
