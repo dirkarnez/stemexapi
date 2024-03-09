@@ -413,8 +413,11 @@ func main() {
 						"user_name": user.FullName,
 						"role":      "",
 					})
+					return
+				} else {
+
 				}
-				return
+
 			}
 
 			log.Println(rule.Name)
