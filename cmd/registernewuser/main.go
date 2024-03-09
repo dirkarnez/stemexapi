@@ -64,7 +64,7 @@ func main() {
 		}
 
 		ua.WithContext(ctx).UpdateFrom(ca.WithContext(ctx).Select(c.ID, c.Address, c.Phone).Where(c.ID.Gt(100))).
-			Where(tx.ParentUserActivating.CompanyID.EqCol(ca.ID)).
+			Where(tx.ParentUserActivating.UserID.EqCol(ca.ID)).
 			UpdateSimple(
 				ua.Address.SetCol(ca.Address),
 				ua.Phone.SetCol(ca.Phone),
