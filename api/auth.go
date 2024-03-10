@@ -136,6 +136,14 @@ func Activation(dbInstance *gorm.DB) context.Handler {
 				return err
 			}
 
+			if len(users) > 1 {
+				return fmt.Errorf("Internal server error")
+			}
+			
+			if len(users) < 1 {
+				return fmt.Errorf("Invalid key")
+			}
+
 			_, err = tx.User.
 				Where(tx.User.ID.In(lo.Map(users, func(user *model.User, index int) driver.Valuer {
 					return user.ID
