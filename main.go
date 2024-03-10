@@ -40,7 +40,7 @@ func middlewareAuthorizedSPA(ctx iris.Context) {
 
 		if !auth && requestPath != "/login" {
 			if requestPath == "/register" || requestPath == "/activation" || strings.HasPrefix(requestPath, "/curriculum-embeded") {
-				ctx.Redirect(requestPath)
+				ctx.Redirect("/")
 			} else {
 				ctx.Redirect("/login")
 			}
