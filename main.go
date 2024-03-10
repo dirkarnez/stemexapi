@@ -38,15 +38,12 @@ func middlewareAuthorizedSPA(ctx iris.Context) {
 	if !strings.HasPrefix(requestPath, "/api/") && !strings.Contains(requestPath, ".") {
 		auth, _ := sessions.Get(ctx).GetBoolean("authenticated")
 
-		if !auth && requestPath != "/login" {
-			if requestPath == "/register" || requestPath == "/activation" || strings.HasPrefix(requestPath, "/curriculum-embeded") {
-				ctx.Redirect("/")
-			} else {
-				ctx.Redirect("/login")
-			}
-		} else if auth && requestPath == "/login" {
+		if !auth && requestPath != "/login" && requestPath != "/register" && requestPath != "/activation" && strings.HasPrefix(requestPath, "/curriculum-embeded") == false {
+			ctx.Redirect("/login")
+		} 
+		/*else if auth && requestPath == "/login" {
 			ctx.Redirect("/")
-		}
+		}*/
 	}
 	ctx.Next()
 }
