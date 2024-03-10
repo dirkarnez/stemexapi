@@ -34,6 +34,7 @@ func newUser(db *gorm.DB, opts ...gen.DOOption) user {
 	_user.FullName = field.NewString(tableName, "full_name")
 	_user.UserName = field.NewString(tableName, "user_name")
 	_user.Password = field.NewString(tableName, "password")
+	_user.ContactNumberAreaCode = field.NewString(tableName, "contact_number_area_code")
 	_user.ContactNumber = field.NewString(tableName, "contact_number")
 	_user.Email = field.NewString(tableName, "email")
 	_user.IsDummy = field.NewBool(tableName, "is_dummy")
@@ -53,20 +54,21 @@ func newUser(db *gorm.DB, opts ...gen.DOOption) user {
 type user struct {
 	userDo
 
-	ALL           field.Asterisk
-	ID            field.Field
-	CreatedAt     field.Time
-	UpdatedAt     field.Time
-	DeletedAt     field.Field
-	FullName      field.String
-	UserName      field.String
-	Password      field.String
-	ContactNumber field.String
-	Email         field.String
-	IsDummy       field.Bool
-	IsActivated   field.Bool
-	RoleID        field.Field
-	Role          userBelongsToRole
+	ALL                   field.Asterisk
+	ID                    field.Field
+	CreatedAt             field.Time
+	UpdatedAt             field.Time
+	DeletedAt             field.Field
+	FullName              field.String
+	UserName              field.String
+	Password              field.String
+	ContactNumberAreaCode field.String
+	ContactNumber         field.String
+	Email                 field.String
+	IsDummy               field.Bool
+	IsActivated           field.Bool
+	RoleID                field.Field
+	Role                  userBelongsToRole
 
 	fieldMap map[string]field.Expr
 }
@@ -90,6 +92,7 @@ func (u *user) updateTableName(table string) *user {
 	u.FullName = field.NewString(table, "full_name")
 	u.UserName = field.NewString(table, "user_name")
 	u.Password = field.NewString(table, "password")
+	u.ContactNumberAreaCode = field.NewString(table, "contact_number_area_code")
 	u.ContactNumber = field.NewString(table, "contact_number")
 	u.Email = field.NewString(table, "email")
 	u.IsDummy = field.NewBool(table, "is_dummy")
@@ -111,7 +114,7 @@ func (u *user) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (u *user) fillFieldMap() {
-	u.fieldMap = make(map[string]field.Expr, 13)
+	u.fieldMap = make(map[string]field.Expr, 14)
 	u.fieldMap["id"] = u.ID
 	u.fieldMap["created_at"] = u.CreatedAt
 	u.fieldMap["updated_at"] = u.UpdatedAt
@@ -119,6 +122,7 @@ func (u *user) fillFieldMap() {
 	u.fieldMap["full_name"] = u.FullName
 	u.fieldMap["user_name"] = u.UserName
 	u.fieldMap["password"] = u.Password
+	u.fieldMap["contact_number_area_code"] = u.ContactNumberAreaCode
 	u.fieldMap["contact_number"] = u.ContactNumber
 	u.fieldMap["email"] = u.Email
 	u.fieldMap["is_dummy"] = u.IsDummy
