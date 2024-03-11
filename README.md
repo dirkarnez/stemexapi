@@ -132,6 +132,9 @@ curl \
 - [ ] Build variant
 - [ ] [dirkarnez/stemexdocs](https://github.com/dirkarnez/stemexdocs)
 - [ ] test cases (instead of postman)
+- [ ] [iris/_examples/request-ratelimit/rate-middleware/main.go at main · kataras/iris](https://github.com/kataras/iris/blob/main/_examples/request-ratelimit/rate-middleware/main.go)
+- [ ] [iris/_examples/auth/recaptcha at main · kataras/iris · GitHub](https://github.com/kataras/iris/tree/main/_examples/auth/recaptcha)
+- [ ] [iris/_examples/websocket/socketio/main.go at main · kataras/iris · GitHub](https://github.com/kataras/iris/blob/main/_examples/websocket/socketio/main.go)
 - [ ] gorm wrapper
   - ```go
     import (
@@ -191,7 +194,10 @@ curl \
       }
 
       ```
-
+  - status code
+    ```go
+    	ctx.StopWithStatus(iris.StatusForbidden)
+    ``` 
 ### Notes
 - `	Map(user, func(item User) UUIDEx {return item.ID})`
 - `Curriculm plan`
