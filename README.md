@@ -127,6 +127,7 @@ curl \
 - [ ] [dirkarnez/queueserver](https://github.com/dirkarnez/queueserver)
 - [ ] oauth?
 - [ ] no server side redirects
+- [ ] Find my password
 - [ ] [dirkarnez/go-json-customized-marshall](https://github.com/dirkarnez/go-json-customized-marshall)
 - [ ] [dirkarnez/stemexfaker](https://github.com/dirkarnez/stemexfaker)
 - [ ] Build variant
