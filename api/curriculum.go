@@ -619,6 +619,12 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 		// course_levels[*].Lessons[*].TeacherNotes(id, file_name, file)
 		// course_levels[*].Lessons[*].MiscMaterials(id, file_name, file)
 		// course id
+		var testing dto.CurriculumCourseForm
+		errTesting := utils.FormMultipartParse(ctx.Request(), &testing)
+		if errTesting != nil {
+			ctx.StopWithError(iris.StatusInternalServerError, errTesting)
+			return
+		}
 
 		var returnForm dto.CurriculumCourseForm
 		var form dto.CurriculumCourseForm
