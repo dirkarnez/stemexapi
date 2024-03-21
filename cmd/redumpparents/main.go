@@ -90,6 +90,7 @@ func main() {
 				user.IsActivated = true
 				user.IsDummy = false
 				user.RoleID = &parentRole.ID
+
 				err = tx.User.Create(user)
 				if err != nil {
 					return err
