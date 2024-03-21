@@ -4,23 +4,14 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/dirkarnez/stemexapi/db"
 	"github.com/dirkarnez/stemexapi/model"
 	"github.com/dirkarnez/stemexapi/query"
-	"gorm.io/driver/mysql"
-	"gorm.io/gen"
 	"gorm.io/gen/field"
-	"gorm.io/gorm"
 )
 
-// Dynamic SQL
-type Querier interface {
-	// SELECT * FROM @@table WHERE name = @name{{if role !=""}} AND role = @role{{end}}
-	FilterWithNameAndRole(name, role string) ([]gen.T, error)
-}
-
 func main() {
-	dsn := "webadmin:password@tcp(ec2-43-198-151-195.ap-east-1.compute.amazonaws.com:3306)/testing?charset=utf8mb4&parseTime=True"
-	dbInstance, dbInstanceErr := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	dbInstance, dbInstanceErr := db.InitConntection()
 	if dbInstanceErr != nil {
 		log.Fatal(dbInstanceErr.Error())
 	}

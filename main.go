@@ -16,6 +16,7 @@ import (
 	casbinModel "github.com/casbin/casbin/v2/model"
 	gormadapter "github.com/casbin/gorm-adapter/v3"
 	"github.com/dirkarnez/stemexapi/api"
+	"github.com/dirkarnez/stemexapi/db"
 	"github.com/dirkarnez/stemexapi/model"
 	"github.com/dirkarnez/stemexapi/utils"
 	"github.com/gorilla/securecookie"
@@ -23,9 +24,6 @@ import (
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/sessions"
 	"gopkg.in/yaml.v2"
-
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
 )
 
 var (
@@ -40,7 +38,7 @@ func middlewareAuthorizedSPA(ctx iris.Context) {
 
 		if !auth && requestPath != "/login" && requestPath != "/register" && requestPath != "/activation" && strings.HasPrefix(requestPath, "/curriculum-embeded") == false {
 			ctx.Redirect("/login")
-		} 
+		}
 		/*else if auth && requestPath == "/login" {
 			ctx.Redirect("/")
 		}*/
@@ -110,14 +108,8 @@ func main() {
 
 	app.Use(withCookieOptions)
 
-	dsn := "webadmin:password@tcp(ec2-43-198-151-195.ap-east-1.compute.amazonaws.com:3306)/testing?charset=utf8mb4&parseTime=True"
-	dbInstance, dbInstanceErr := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-	if dbInstanceErr != nil {
-		log.Fatal(dbInstanceErr.Error())
-	}
-	if dbInstance != nil {
-		fmt.Println("Connected!")
-	}
+	dbInstance, dbError := db.InitConntection()
+	utils.CheckError(dbError)
 
 	dbInstance = dbInstance.Debug()
 

@@ -4,10 +4,9 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/dirkarnez/stemexapi/db"
 	"github.com/dirkarnez/stemexapi/model"
-	"gorm.io/driver/mysql"
 	"gorm.io/gen"
-	"gorm.io/gorm"
 )
 
 // Dynamic SQL
@@ -22,8 +21,7 @@ func main() {
 		Mode:    gen.WithoutContext | gen.WithDefaultQuery | gen.WithQueryInterface, // generate mode
 	})
 
-	dsn := "webadmin:password@tcp(ec2-43-198-151-195.ap-east-1.compute.amazonaws.com:3306)/testing?charset=utf8mb4&parseTime=True"
-	dbInstance, dbInstanceErr := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	dbInstance, dbInstanceErr := db.InitConntection()
 	if dbInstanceErr != nil {
 		log.Fatal(dbInstanceErr.Error())
 	}
