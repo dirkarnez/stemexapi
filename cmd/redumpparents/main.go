@@ -2,33 +2,44 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"regexp"
 	"strings"
 
 	"github.com/antchfx/jsonquery"
+	"github.com/dirkarnez/stemexapi/db"
+	"github.com/dirkarnez/stemexapi/model"
+	"github.com/dirkarnez/stemexapi/query"
+	"gorm.io/gen"
 )
 
 func main() {
-	// dbInstance, dbInstanceErr := db.InitConntection()
-	// if dbInstanceErr != nil {
-	// 	log.Fatal(dbInstanceErr.Error())
-	// }
-	// if dbInstance != nil {
-	// 	fmt.Println("Connected!")
-	// }
+	dbInstance, dbInstanceErr := db.InitConntection()
+	if dbInstanceErr != nil {
+		log.Fatal(dbInstanceErr.Error())
+	}
+	if dbInstance != nil {
+		fmt.Println("Connected!")
+	}
 
-	// dbInstance = dbInstance.Debug()
-	//var q = query.Use(dbInstance)
+	dbInstance = dbInstance.Debug()
+	var q = query.Use(dbInstance)
 
-	// var user []*model.User
-	// q.Transaction(func(tx *query.Query) error {
-	// 	var err error
-	// 	user, err = tx.User.Where(q.User.Password.Eq("stemex")).Find()
-	// 	if err != nil {
-	// 		return err
-	// 	}
-	// 	return nil
-	// })
+	var user []*model.User
+	q.Transaction(func(tx *query.Query) error {
+		var err error
+
+		userName := "stemex"
+		password := "password"
+		email := "porosil664@artgulin.com"
+
+		newUser := model.User{UserName: userName, Password: password, Email: email, IsActivated: true}
+		err = tx.User.Not(gen.Exists(tx.User.Where(tx.User.UserName.Eq(userName)))).Create(&newUser)
+		if err != nil {
+			return err
+		}
+		return nil
+	})
 
 	// var curriculumEntry *model.CurriculumEntry = nil
 	// err := q.Transaction(func(tx *query.Query) error {
@@ -104,25 +115,8 @@ func main() {
 			fmt.Println(userName, password, sid, studentName, parentContactNumber, areaCode, parentEmail)
 		}
 
-		// create students per record, with associate with new or existing parent user
+		// create students per record, with associate with new or existing parent user matched by email
 	}
-	/*
-		{
-			"range": "Form!A1:Z1000",
-			"majorDimension": "ROWS",
-			"values": [
-			  [
-				"Username",
-				"Password",
-				"SID",
-				"Student Name",
-				"Parent Contact Number",
-				"Parent Email",
-				"Green Highlight = Working Accs",
-				"Yellow Highlight = Having Class with us now or in the future",
-				"White Highlight = Not Ready Accs Yet"
-			  ],
-	*/
 
 	// var curriculumEntryList []*model.CurriculumEntry
 	// err := q.Transaction(func(tx *query.Query) error {
