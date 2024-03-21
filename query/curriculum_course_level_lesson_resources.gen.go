@@ -6,7 +6,6 @@ package query
 
 import (
 	"context"
-	"strings"
 
 	"github.com/dirkarnez/stemexapi/model"
 	"gorm.io/gorm"
@@ -483,27 +482,6 @@ type ICurriculumCourseLevelLessonResourcesDo interface {
 	Returning(value interface{}, columns ...string) ICurriculumCourseLevelLessonResourcesDo
 	UnderlyingDB() *gorm.DB
 	schema.Tabler
-
-	FilterWithNameAndRole(name string, role string) (result []model.CurriculumCourseLevelLessonResources, err error)
-}
-
-// SELECT * FROM @@table WHERE name = @name{{if role !=""}} AND role = @role{{end}}
-func (c curriculumCourseLevelLessonResourcesDo) FilterWithNameAndRole(name string, role string) (result []model.CurriculumCourseLevelLessonResources, err error) {
-	var params []interface{}
-
-	var generateSQL strings.Builder
-	params = append(params, name)
-	generateSQL.WriteString("SELECT * FROM curriculum_course_level_lesson_resources WHERE name = ? ")
-	if role != "" {
-		params = append(params, role)
-		generateSQL.WriteString("AND role = ? ")
-	}
-
-	var executeSQL *gorm.DB
-	executeSQL = c.UnderlyingDB().Raw(generateSQL.String(), params...).Find(&result) // ignore_security_alert
-	err = executeSQL.Error
-
-	return
 }
 
 func (c curriculumCourseLevelLessonResourcesDo) Debug() ICurriculumCourseLevelLessonResourcesDo {

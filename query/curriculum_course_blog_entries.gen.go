@@ -6,7 +6,6 @@ package query
 
 import (
 	"context"
-	"strings"
 
 	"github.com/dirkarnez/stemexapi/model"
 	"gorm.io/gorm"
@@ -258,27 +257,6 @@ type ICurriculumCourseBlogEntriesDo interface {
 	Returning(value interface{}, columns ...string) ICurriculumCourseBlogEntriesDo
 	UnderlyingDB() *gorm.DB
 	schema.Tabler
-
-	FilterWithNameAndRole(name string, role string) (result []model.CurriculumCourseBlogEntries, err error)
-}
-
-// SELECT * FROM @@table WHERE name = @name{{if role !=""}} AND role = @role{{end}}
-func (c curriculumCourseBlogEntriesDo) FilterWithNameAndRole(name string, role string) (result []model.CurriculumCourseBlogEntries, err error) {
-	var params []interface{}
-
-	var generateSQL strings.Builder
-	params = append(params, name)
-	generateSQL.WriteString("SELECT * FROM curriculum_course_blog_entries WHERE name = ? ")
-	if role != "" {
-		params = append(params, role)
-		generateSQL.WriteString("AND role = ? ")
-	}
-
-	var executeSQL *gorm.DB
-	executeSQL = c.UnderlyingDB().Raw(generateSQL.String(), params...).Find(&result) // ignore_security_alert
-	err = executeSQL.Error
-
-	return
 }
 
 func (c curriculumCourseBlogEntriesDo) Debug() ICurriculumCourseBlogEntriesDo {

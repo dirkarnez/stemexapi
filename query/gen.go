@@ -29,6 +29,7 @@ var (
 	File                                 *file
 	ParentUserActivating                 *parentUserActivating
 	Role                                 *role
+	StudentToUser                        *studentToUser
 	User                                 *user
 	UserActivity                         *userActivity
 )
@@ -47,6 +48,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	File = &Q.File
 	ParentUserActivating = &Q.ParentUserActivating
 	Role = &Q.Role
+	StudentToUser = &Q.StudentToUser
 	User = &Q.User
 	UserActivity = &Q.UserActivity
 }
@@ -66,6 +68,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		File:                                 newFile(db, opts...),
 		ParentUserActivating:                 newParentUserActivating(db, opts...),
 		Role:                                 newRole(db, opts...),
+		StudentToUser:                        newStudentToUser(db, opts...),
 		User:                                 newUser(db, opts...),
 		UserActivity:                         newUserActivity(db, opts...),
 	}
@@ -86,6 +89,7 @@ type Query struct {
 	File                                 file
 	ParentUserActivating                 parentUserActivating
 	Role                                 role
+	StudentToUser                        studentToUser
 	User                                 user
 	UserActivity                         userActivity
 }
@@ -107,6 +111,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		File:                                 q.File.clone(db),
 		ParentUserActivating:                 q.ParentUserActivating.clone(db),
 		Role:                                 q.Role.clone(db),
+		StudentToUser:                        q.StudentToUser.clone(db),
 		User:                                 q.User.clone(db),
 		UserActivity:                         q.UserActivity.clone(db),
 	}
@@ -135,6 +140,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		File:                                 q.File.replaceDB(db),
 		ParentUserActivating:                 q.ParentUserActivating.replaceDB(db),
 		Role:                                 q.Role.replaceDB(db),
+		StudentToUser:                        q.StudentToUser.replaceDB(db),
 		User:                                 q.User.replaceDB(db),
 		UserActivity:                         q.UserActivity.replaceDB(db),
 	}
@@ -153,6 +159,7 @@ type queryCtx struct {
 	File                                 IFileDo
 	ParentUserActivating                 IParentUserActivatingDo
 	Role                                 IRoleDo
+	StudentToUser                        IStudentToUserDo
 	User                                 IUserDo
 	UserActivity                         IUserActivityDo
 }
@@ -171,6 +178,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		File:                                 q.File.WithContext(ctx),
 		ParentUserActivating:                 q.ParentUserActivating.WithContext(ctx),
 		Role:                                 q.Role.WithContext(ctx),
+		StudentToUser:                        q.StudentToUser.WithContext(ctx),
 		User:                                 q.User.WithContext(ctx),
 		UserActivity:                         q.UserActivity.WithContext(ctx),
 	}

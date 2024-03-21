@@ -51,3 +51,9 @@ func (my UUIDEx) ToString() string {
 	u := uuid.UUID(my)
 	return strings.ReplaceAll(u.String(), "-", "")
 }
+
+func (my UUIDEx) IsEmpty() bool {
+	u, _ := uuid.FromBytes([]byte{})
+	empty := UUIDEx(u).ToString()
+	return my.ToString() == empty
+}

@@ -6,7 +6,6 @@ package query
 
 import (
 	"context"
-	"strings"
 
 	"github.com/dirkarnez/stemexapi/model"
 	"gorm.io/gorm"
@@ -250,27 +249,6 @@ type IUserActivityDo interface {
 	Returning(value interface{}, columns ...string) IUserActivityDo
 	UnderlyingDB() *gorm.DB
 	schema.Tabler
-
-	FilterWithNameAndRole(name string, role string) (result []model.UserActivity, err error)
-}
-
-// SELECT * FROM @@table WHERE name = @name{{if role !=""}} AND role = @role{{end}}
-func (u userActivityDo) FilterWithNameAndRole(name string, role string) (result []model.UserActivity, err error) {
-	var params []interface{}
-
-	var generateSQL strings.Builder
-	params = append(params, name)
-	generateSQL.WriteString("SELECT * FROM user_activities WHERE name = ? ")
-	if role != "" {
-		params = append(params, role)
-		generateSQL.WriteString("AND role = ? ")
-	}
-
-	var executeSQL *gorm.DB
-	executeSQL = u.UnderlyingDB().Raw(generateSQL.String(), params...).Find(&result) // ignore_security_alert
-	err = executeSQL.Error
-
-	return
 }
 
 func (u userActivityDo) Debug() IUserActivityDo {
