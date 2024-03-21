@@ -65,15 +65,13 @@ func main() {
 				areaCode = ""
 			}
 
-			parentEmail := removeAllSpaces(getString(n, 5))
+			parentEmail := strings.ToLower(removeAllSpaces(getString(n, 5)))
 
-			// GreenHigh := n[6].Value().(string)
-			// userName := n[7].Value().(string)
-			// userName := n[8].Value().(string)
-
-			// := len(n)
-			//v := n.Value().(string)
 			if userName == "stemex.demo2023" || userName == "20220872.stemex" {
+				continue
+			}
+
+			if len(n) < 5 {
 				continue
 			}
 
@@ -84,7 +82,7 @@ func main() {
 
 			user, _ := tx.User.Where(tx.User.Email.Eq(parentEmail)).FirstOrInit()
 			if user.ID.IsEmpty() {
-				user.UserName = ""
+				user.UserName = parentEmail
 				user.Password = ""
 				user.ContactNumberAreaCode = areaCode
 				user.ContactNumber = parentContactNumber
@@ -92,6 +90,10 @@ func main() {
 				user.IsActivated = true
 				user.IsDummy = false
 				user.RoleID = &parentRole.ID
+				err = tx.User.Create(user)
+				if err != nil {
+					return err
+				}
 			}
 
 			// create students per record, with associate with new or existing parent user matched by email
