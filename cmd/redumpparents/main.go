@@ -2,26 +2,21 @@ package main
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/antchfx/jsonquery"
-	"github.com/dirkarnez/stemexapi/db"
-	"github.com/dirkarnez/stemexapi/model"
-	"github.com/dirkarnez/stemexapi/query"
-	"gorm.io/gen/field"
 )
 
 func main() {
-	dbInstance, dbInstanceErr := db.InitConntection()
-	if dbInstanceErr != nil {
-		log.Fatal(dbInstanceErr.Error())
-	}
-	if dbInstance != nil {
-		fmt.Println("Connected!")
-	}
+	// dbInstance, dbInstanceErr := db.InitConntection()
+	// if dbInstanceErr != nil {
+	// 	log.Fatal(dbInstanceErr.Error())
+	// }
+	// if dbInstance != nil {
+	// 	fmt.Println("Connected!")
+	// }
 
-	dbInstance = dbInstance.Debug()
-	var q = query.Use(dbInstance)
+	// dbInstance = dbInstance.Debug()
+	//var q = query.Use(dbInstance)
 
 	// var user []*model.User
 	// q.Transaction(func(tx *query.Query) error {
@@ -64,8 +59,39 @@ func main() {
 
 	// fmt.Printf("curriculumEntry %+v, err = %+v", curriculumEntry, err)
 
-	jsonquery.LoadURL("https://sheets.googleapis.com/v4/spreadsheets/1mRMBmxKuReGqp9MvcTiv-Z-QcxSDsHUHKwnxPORcj2Y/values/Form?key=AIzaSyBAuyTYKGijZn3jkwoMDlw0ZsR8JR5iOno")
+	var getString = func(nodeList []*jsonquery.Node, index int) string {
+		length := len(nodeList)
+		if length > index {
+			return nodeList[index].Value().(string)
+		} else {
+			return ""
+		}
+	}
 
+	var list []*jsonquery.Node
+	doc, _ := jsonquery.LoadURL("https://sheets.googleapis.com/v4/spreadsheets/1mRMBmxKuReGqp9MvcTiv-Z-QcxSDsHUHKwnxPORcj2Y/values/Form?key=AIzaSyBAuyTYKGijZn3jkwoMDlw0ZsR8JR5iOno")
+	list, _ = jsonquery.QueryAll(doc, "values/*")
+	for _, n := range list[1:] {
+		n := jsonquery.Find(n, "/*")
+
+		userName := getString(n, 0)
+		password := getString(n, 1)
+		sid := getString(n, 2)
+		studentName := getString(n, 3)
+		parentContactNumber := getString(n, 4)
+		parentEmail := getString(n, 5)
+
+		// GreenHigh := n[6].Value().(string)
+		// userName := n[7].Value().(string)
+		// userName := n[8].Value().(string)
+
+		// := len(n)
+		//v := n.Value().(string)
+		if userName != "stemex.demo2023" && userName != "20220872.stemex" {
+			fmt.Println(userName, password, sid, studentName, parentContactNumber, parentEmail)
+		}
+		//fmt.Print(v)
+	}
 	/*
 		{
 			"range": "Form!A1:Z1000",
@@ -84,23 +110,23 @@ func main() {
 			  ],
 	*/
 
-	var curriculumEntryList []*model.CurriculumEntry
-	err := q.Transaction(func(tx *query.Query) error {
+	// var curriculumEntryList []*model.CurriculumEntry
+	// err := q.Transaction(func(tx *query.Query) error {
 
-		// create a new generic field map to `generic_a`
-		f := field.NewField("curriculum_courses", "id")
-		// `table_name`.`generic` IS NULL
-		//f.IsNotNull()
+	// 	// create a new generic field map to `generic_a`
+	// 	f := field.NewField("curriculum_courses", "id")
+	// 	// `table_name`.`generic` IS NULL
+	// 	//f.IsNotNull()
 
-		var err error
-		curriculumEntryList, err = tx.CurriculumEntry.
-			Select(q.CurriculumEntry.ALL, f.IsNotNull().As("is_course")).
-			LeftJoin(q.CurriculumCourse, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.ID)).
-			Where(q.CurriculumEntry.ID.Eq(model.NewUUIDEx())).
-			Group(q.CurriculumEntry.ID).
-			Find()
-		return err
-	})
-	fmt.Printf("curriculumEntryList %+v, err = %+v", len(curriculumEntryList), err)
+	// 	var err error
+	// 	curriculumEntryList, err = tx.CurriculumEntry.
+	// 		Select(q.CurriculumEntry.ALL, f.IsNotNull().As("is_course")).
+	// 		LeftJoin(q.CurriculumCourse, q.CurriculumEntry.ID.EqCol(q.CurriculumCourse.ID)).
+	// 		Where(q.CurriculumEntry.ID.Eq(model.NewUUIDEx())).
+	// 		Group(q.CurriculumEntry.ID).
+	// 		Find()
+	// 	return err
+	// })
+	// fmt.Printf("curriculumEntryList %+v, err = %+v", len(curriculumEntryList), err)
 
 }
