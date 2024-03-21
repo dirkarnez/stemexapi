@@ -5,13 +5,12 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/dirkarnez/stemexapi/db"
 	"github.com/dirkarnez/stemexapi/model"
 	"github.com/dirkarnez/stemexapi/query"
 	"github.com/dirkarnez/stemexapi/utils"
 	"github.com/samber/lo"
-	"gorm.io/driver/mysql"
 	"gorm.io/gen"
-	"gorm.io/gorm"
 )
 
 // Dynamic SQL
@@ -21,8 +20,7 @@ type Querier interface {
 }
 
 func main() {
-	dsn := "webadmin:password@tcp(ec2-43-198-151-195.ap-east-1.compute.amazonaws.com:3306)/testing?charset=utf8mb4&parseTime=True"
-	dbInstance, dbInstanceErr := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	dbInstance, dbInstanceErr := db.InitConntection()
 	if dbInstanceErr != nil {
 		log.Fatal(dbInstanceErr.Error())
 	}
@@ -32,7 +30,7 @@ func main() {
 
 	dbInstance = dbInstance.Debug()
 	var q = query.Use(dbInstance)
-	fmt.Println(q)
+
 	q.Transaction(func(tx *query.Query) error {
 		var err error
 
@@ -41,7 +39,7 @@ func main() {
 		email := "porosil664@artgulin.com"
 
 		newUser := model.User{UserName: userName, Password: password, Email: email, IsActivated: false}
-		err = tx.User.Not(gen.Exists(tx.User.Where(tx.User.UserName.Eq(userName)))).Create(&newUser)
+		err = tx.User.Create(&newUser)
 		if err != nil {
 			return err
 		}
