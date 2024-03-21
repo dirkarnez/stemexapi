@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"regexp"
+	"strings"
 
 	"github.com/antchfx/jsonquery"
 )
@@ -68,18 +70,29 @@ func main() {
 		}
 	}
 
+	// globalObj[0].content.values.slice(1).filter(a => a[0] != "stemex.demo2023" && a[0] != "20220872.stemex")
 	var list []*jsonquery.Node
 	doc, _ := jsonquery.LoadURL("https://sheets.googleapis.com/v4/spreadsheets/1mRMBmxKuReGqp9MvcTiv-Z-QcxSDsHUHKwnxPORcj2Y/values/Form?key=AIzaSyBAuyTYKGijZn3jkwoMDlw0ZsR8JR5iOno")
 	list, _ = jsonquery.QueryAll(doc, "values/*")
 	for _, n := range list[1:] {
 		n := jsonquery.Find(n, "/*")
 
+		reg, _ := regexp.Compile("s+")
+
 		userName := getString(n, 0)
 		password := getString(n, 1)
 		sid := getString(n, 2)
 		studentName := getString(n, 3)
-		parentContactNumber := getString(n, 4)
-		parentEmail := getString(n, 5)
+		parentContactNumber := reg.ReplaceAllString(getString(n, 4), "")
+
+		var areaCode string
+		if strings.HasPrefix(parentContactNumber, "+852") || strings.HasPrefix(parentContactNumber, "852") {
+			areaCode = "852"
+		} else {
+			areaCode = ""
+		}
+
+		parentEmail := reg.ReplaceAllString(getString(n, 5), "")
 
 		// GreenHigh := n[6].Value().(string)
 		// userName := n[7].Value().(string)
@@ -88,9 +101,10 @@ func main() {
 		// := len(n)
 		//v := n.Value().(string)
 		if userName != "stemex.demo2023" && userName != "20220872.stemex" {
-			fmt.Println(userName, password, sid, studentName, parentContactNumber, parentEmail)
+			fmt.Println(userName, password, sid, studentName, parentContactNumber, areaCode, parentEmail)
 		}
-		//fmt.Print(v)
+
+		// create students per record, with associate with new or existing parent user
 	}
 	/*
 		{
