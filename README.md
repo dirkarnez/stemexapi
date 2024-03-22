@@ -122,6 +122,7 @@ curl \
   ```
 
 ### TODOs
+- [ ] login: check unactivated too (send ativation -> activated send random password), unactivated unloginable
 - [ ] https://github.com/gin-gonic/gin/blob/master/binding/multipart_form_mapping_test.go
 - [ ] do not create parent table, but create a mapping table for hubsapot key
 - [ ] [dirkarnez/queueserver](https://github.com/dirkarnez/queueserver)

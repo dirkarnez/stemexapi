@@ -87,7 +87,7 @@ func main() {
 				user.ContactNumberAreaCode = areaCode
 				user.ContactNumber = parentContactNumber
 				user.Email = parentEmail
-				user.IsActivated = true
+				user.IsActivated = false //
 				user.IsDummy = false
 				user.RoleID = &parentRole.ID
 
