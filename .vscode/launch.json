@@ -24,6 +24,13 @@
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/cmd/redumpparents/main.go"
+        },
+        {
+            "name": "Launch hubspot",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/cmd/hubspot/main.go"
         }
     ]
 }

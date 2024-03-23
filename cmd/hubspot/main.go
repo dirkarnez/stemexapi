@@ -8,7 +8,7 @@ import (
 
 func main() {
 	httpClient := &http.Client{}
-	services.SearchDeal(httpClient)
+	services.SearchDealIDList(httpClient, "20220014.stemex")
 }
 
 /*

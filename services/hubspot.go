@@ -4,12 +4,21 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 	"strings"
+
+	"github.com/antchfx/jsonquery"
+	"github.com/samber/lo"
 )
 
-func SearchDeal(httpClient *http.Client, studentId string) ([]byte, error) {
+func hubspotHeader() http.Header {
+	headers := http.Header{}
+	headers.Add("Content-Type", "application/json")
+	headers.Add("Authorization", "Bearer pat-na1-20d567d6-1d88-4e04-bf49-5c6d78c53c4d")
+	return headers
+}
+
+func SearchDealIDList(httpClient *http.Client, studentId string) ([]string, error) {
 	if len(strings.TrimSpace(studentId)) < 1 {
 		return nil, fmt.Errorf("student id is nil or empty")
 	}
@@ -47,8 +56,7 @@ func SearchDeal(httpClient *http.Client, studentId string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", "Bearer pat-na1-20d567d6-1d88-4e04-bf49-5c6d78c53c4d")
+	req.Header = hubspotHeader()
 
 	resp, err := httpClient.Do(req)
 	if err != nil {
@@ -56,9 +64,23 @@ func SearchDeal(httpClient *http.Client, studentId string) ([]byte, error) {
 	}
 	defer resp.Body.Close()
 
-	body, err := io.ReadAll(resp.Body)
+	node, err := jsonquery.Parse(resp.Body)
 	if err != nil {
 		return nil, err
 	}
-	return body, nil
+
+	objectIDList, err := jsonquery.QueryAll(node, "/results/*/properties/hs_object_id")
+	if err != nil {
+		return nil, err
+	}
+
+	l := len(objectIDList)
+
+	list := lo.Map(objectIDList, func(node *jsonquery.Node, index int) string {
+		return node.Value().(string)
+	})
+
+	fmt.Println(l, list)
+
+	return list, nil
 }
