@@ -69,7 +69,10 @@ func SearchDealIDList(httpClient *http.Client, studentId string) ([]string, erro
 		return nil, err
 	}
 
-	objectIDList, err := jsonquery.QueryAll(node, "/results/*/properties/hs_object_id")
+	// hs_object_id
+	// new_course_name
+	// zoom_link
+	objectIDList, err := jsonquery.QueryAll(node, "/results/*")
 	if err != nil {
 		return nil, err
 	}
@@ -77,7 +80,11 @@ func SearchDealIDList(httpClient *http.Client, studentId string) ([]string, erro
 	l := len(objectIDList)
 
 	list := lo.Map(objectIDList, func(node *jsonquery.Node, index int) string {
-		return node.Value().(string)
+		new_course_nameNode := jsonquery.FindOne(node, "/properties/new_course_name/text()")
+		hs_object_idNode := jsonquery.FindOne(node, "/properties/hs_object_id/text()")
+		course_datesNode := jsonquery.FindOne(node, "/properties/course_dates/text()")
+		a := new_course_nameNode.Value().(string)
+		return a
 	})
 
 	fmt.Println(l, list)
