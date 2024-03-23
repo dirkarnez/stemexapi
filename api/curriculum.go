@@ -4,7 +4,6 @@ import (
 	"database/sql/driver"
 	"fmt"
 	"mime/multipart"
-	"net/http"
 
 	"github.com/dirkarnez/stemexapi/dto"
 	"github.com/dirkarnez/stemexapi/model"
@@ -48,7 +47,7 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 		if len(parentID) > 0 {
 			parentUUID, err := model.ValidUUIDExFromIDString(parentID)
 			if err != nil {
-				ctx.StopWithError(http.StatusNotFound, fmt.Errorf("invalid id"))
+				ctx.StopWithError(iris.StatusNotFound, fmt.Errorf("invalid id"))
 				return
 			}
 			parentUUIDPtr = &parentUUID
@@ -119,7 +118,7 @@ func GetCurriculumTree(dbInstance *gorm.DB) context.Handler {
 		// if len(id) != 0 {
 		// 	IDUUID, err = model.ValidUUIDExFromIDString(id)
 		// 	if err != nil {
-		// 		ctx.StopWithStatus(http.StatusNotFound)
+		// 		ctx.StopWithStatus(iris.StatusNotFound)
 		// 		return
 		// 	}
 
@@ -224,7 +223,7 @@ func GetCurriculumCourseType(dbInstance *gorm.DB) context.Handler {
 		if len(ID) != 0 {
 			idUUID, err := model.ValidUUIDExFromIDString(ID)
 			if err != nil {
-				ctx.StopWithError(http.StatusNotFound, fmt.Errorf("invalid id"))
+				ctx.StopWithError(iris.StatusNotFound, fmt.Errorf("invalid id"))
 				return
 			}
 			idUUIDPtr = &idUUID
@@ -255,7 +254,7 @@ func GetCurriculumCourseType(dbInstance *gorm.DB) context.Handler {
 // 		parentID := ctx.URLParam("parent-id")
 
 // 		if len(parentID) < 1 {
-// 			ctx.StopWithStatus(http.StatusForbidden)
+// 			ctx.StopWithStatus(iris.StatusForbidden)
 // 			return
 // 		}
 
@@ -403,13 +402,13 @@ func GetCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.
 		var q = query.Use(dbInstance)
 
 		if len(ID) == 0 {
-			ctx.StopWithError(http.StatusNotFound, fmt.Errorf("no id"))
+			ctx.StopWithError(iris.StatusNotFound, fmt.Errorf("no id"))
 			return
 		}
 
 		idUUID, err := model.ValidUUIDExFromIDString(ID)
 		if err != nil {
-			ctx.StopWithError(http.StatusNotFound, fmt.Errorf("invalid id"))
+			ctx.StopWithError(iris.StatusNotFound, fmt.Errorf("invalid id"))
 			return
 		}
 
@@ -571,7 +570,7 @@ func GetCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.
 		})
 
 		if err != nil {
-			ctx.StopWithError(http.StatusNotFound, err)
+			ctx.StopWithError(iris.StatusNotFound, err)
 		} else {
 			returnForm.ID = (*curriculumEntry).ID.ToString()
 			returnForm.Description = (*curriculumEntry).Description
@@ -1356,13 +1355,13 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 // 		parentID := ctx.URLParam("parent-id")
 
 // 		if len(parentID) < 1 {
-// 			ctx.StopWithStatus(http.StatusForbidden)
+// 			ctx.StopWithStatus(iris.StatusForbidden)
 // 			return
 // 		}
 
 // 		parentIDUUIDEx, err := model.ValidUUIDExFromIDString(parentID)
 // 		if err != nil {
-// 			ctx.StopWithStatus(http.StatusNotFound)
+// 			ctx.StopWithStatus(iris.StatusNotFound)
 // 			return
 // 		}
 

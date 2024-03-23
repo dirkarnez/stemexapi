@@ -47,7 +47,7 @@ func GetResourceByID(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.Hand
 		// 	Model(&model.File{}).
 		// 	Where(&param).
 		// 	First(&file).Error; err != nil {
-		// 	ctx.StopWithStatus(http.StatusNotFound)
+		// 	ctx.StopWithStatus(iris.StatusNotFound)
 		// 	return
 		// }
 

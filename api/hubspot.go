@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 
@@ -20,7 +20,7 @@ func SearchDeal(httpClient *http.Client) context.Handler {
 		log.Println("studentId", studentId)
 
 		if len(studentId) < 1 {
-			ctx.StopWithStatus(http.StatusForbidden)
+			ctx.StopWithStatus(iris.StatusForbidden)
 			return
 		}
 
@@ -68,7 +68,7 @@ func SearchDeal(httpClient *http.Client) context.Handler {
 		checkErr(err)
 		defer resp.Body.Close()
 
-		body, err := ioutil.ReadAll(resp.Body)
+		body, err := io.ReadAll(resp.Body)
 		checkErr(err)
 
 		ctx.JSON(iris.Map{
@@ -84,7 +84,7 @@ func GetDeals(httpClient *http.Client) context.Handler {
 		log.Println("dealId", dealId)
 
 		if len(dealId) < 1 {
-			ctx.StopWithStatus(http.StatusForbidden)
+			ctx.StopWithStatus(iris.StatusForbidden)
 			return
 		}
 
@@ -103,7 +103,7 @@ func GetDeals(httpClient *http.Client) context.Handler {
 		checkErr(err)
 		defer resp.Body.Close()
 
-		body, err := ioutil.ReadAll(resp.Body)
+		body, err := io.ReadAll(resp.Body)
 		checkErr(err)
 
 		ctx.JSON(iris.Map{
@@ -119,7 +119,7 @@ func GetAttachment(httpClient *http.Client) context.Handler {
 		log.Println("dealId", dealId)
 
 		if len(dealId) < 1 {
-			ctx.StopWithStatus(http.StatusForbidden)
+			ctx.StopWithStatus(iris.StatusForbidden)
 			return
 		}
 
@@ -191,7 +191,7 @@ func GetAttachment(httpClient *http.Client) context.Handler {
 				checkErr(err)
 				defer respC.Body.Close()
 
-				respCBody, err := ioutil.ReadAll(respC.Body)
+				respCBody, err := io.ReadAll(respC.Body)
 				checkErr(err)
 
 				var attachment Attachment

@@ -3,7 +3,6 @@ package api
 import (
 	"database/sql/driver"
 	"fmt"
-	"net/http"
 
 	"github.com/dirkarnez/stemexapi/model"
 	"github.com/dirkarnez/stemexapi/query"
@@ -111,7 +110,7 @@ func Register(dbInstance *gorm.DB) context.Handler {
 			return nil
 		})
 		if err != nil {
-			ctx.StopWithError(http.StatusInternalServerError, err)
+			ctx.StopWithError(iris.StatusInternalServerError, err)
 		} else {
 			ctx.JSON(iris.Map{"status": iris.StatusOK})
 		}
@@ -137,11 +136,11 @@ func Activation(dbInstance *gorm.DB) context.Handler {
 			}
 
 			if len(users) > 1 {
-				return fmt.Errorf("Internal server error")
+				return fmt.Errorf("internal server error")
 			}
-			
+
 			if len(users) < 1 {
-				return fmt.Errorf("Invalid key")
+				return fmt.Errorf("invalid activation key")
 			}
 
 			_, err = tx.User.
@@ -152,7 +151,7 @@ func Activation(dbInstance *gorm.DB) context.Handler {
 			return err
 		})
 		if err != nil {
-			ctx.StopWithError(http.StatusInternalServerError, err)
+			ctx.StopWithError(iris.StatusInternalServerError, err)
 		} else {
 			ctx.JSON(iris.Map{"status": iris.StatusOK})
 		}
