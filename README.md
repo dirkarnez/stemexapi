@@ -71,7 +71,7 @@ last minute offer
   - [Postman API Platform | Sign Up for Free](https://www.postman.com/)
 
 
-### API test cases
+### API test cases (https://github.com/dirkarnez/internal-stemex-api/blob/main/index.js)
 ```
 curl \
 -X POST https://api.hubapi.com/crm/v3/objects/deals/search \
