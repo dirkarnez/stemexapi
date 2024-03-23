@@ -4,10 +4,10 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"strings"
 
-	"github.com/antchfx/jsonquery"
 	"github.com/samber/lo"
 )
 
@@ -18,7 +18,21 @@ func hubspotHeader() http.Header {
 	return headers
 }
 
-func SearchDealIDList(httpClient *http.Client, studentId string) ([]string, error) {
+// var animals []Animal
+// err := json.Unmarshal(jsonBlob, &animals)
+
+type B struct {
+	Properties struct {
+		NewCourseName string `json:"new_course_name"`
+		HSObjectId    string `json:"hs_object_id"`
+	} `json:"properties"`
+}
+
+type A struct {
+	Results []B `json:"results"`
+}
+
+func SearchDealIDList(httpClient *http.Client, studentId string) (*A, error) {
 	if len(strings.TrimSpace(studentId)) < 1 {
 		return nil, fmt.Errorf("student id is nil or empty")
 	}
@@ -63,31 +77,22 @@ func SearchDealIDList(httpClient *http.Client, studentId string) ([]string, erro
 		return nil, err
 	}
 	defer resp.Body.Close()
-
-	node, err := jsonquery.Parse(resp.Body)
+	bytes, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
 
-	// hs_object_id
-	// new_course_name
-	// zoom_link
-	objectIDList, err := jsonquery.QueryAll(node, "/results/*")
+	var a A
+	err = json.Unmarshal(bytes, &a)
 	if err != nil {
 		return nil, err
 	}
 
-	l := len(objectIDList)
+	return &a, nil
+}
 
-	list := lo.Map(objectIDList, func(node *jsonquery.Node, index int) string {
-		new_course_nameNode := jsonquery.FindOne(node, "/properties/new_course_name/text()")
-		hs_object_idNode := jsonquery.FindOne(node, "/properties/hs_object_id/text()")
-		course_datesNode := jsonquery.FindOne(node, "/properties/course_dates/text()")
-		a := new_course_nameNode.Value().(string)
-		return a
+func AToDealIDList(a A) []string {
+	return lo.Map(a.Results, func(node B, index int) string {
+		return node.Properties.HSObjectId
 	})
-
-	fmt.Println(l, list)
-
-	return list, nil
 }
