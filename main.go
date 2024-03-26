@@ -377,7 +377,9 @@ func main() {
 		party.Post("/upload", middlewareAuthorizedAPI, api.UploadFile(s3, dbInstance))
 
 		party.Get("/deals/getDeal", middlewareAuthorizedAPI, api.GetDeals(httpClient))
-		party.Get("/deals/search", middlewareAuthorizedAPI, api.SearchDeal(httpClient))
+
+		party.Get("/students-to-user", middlewareAuthorizedAPI, api.GetStudentsToUser(httpClient, dbInstance))
+		party.Get("/student-deals", middlewareAuthorizedAPI, api.SearchDealIDList(httpClient, dbInstance))
 
 		party.Get("/attachment/getAttachment", middlewareAuthorizedAPI, api.GetAttachment(httpClient))
 

@@ -8,19 +8,68 @@ import (
 	"net/http"
 
 	"github.com/antchfx/jsonquery"
+	"github.com/dirkarnez/stemexapi/model"
+	"github.com/dirkarnez/stemexapi/query"
 	"github.com/dirkarnez/stemexapi/services"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/context"
+	"github.com/kataras/iris/v12/sessions"
+	"gorm.io/gorm"
 )
 
 // /api/deals/search
-func SearchDeal(httpClient *http.Client) context.Handler {
+func SearchDealIDList(httpClient *http.Client, dbInstance *gorm.DB) context.Handler {
 	return func(ctx iris.Context) {
-		bytes, err := services.SearchDealIDList(httpClient, ctx.URLParam("studentId"))
+		userName := sessions.Get(ctx).GetString("user_name")
+		studentID := ctx.URLParam("student-id")
+
+		studentIDUUID, err := model.ValidUUIDExFromIDString(studentID)
+		if err != nil {
+			ctx.StopWithStatus(iris.StatusNotFound)
+			return
+		}
+
+		log.Println(userName, studentID)
+
+		var q = query.Use(dbInstance)
+
+		var studentsToUser *model.StudentToUser
+		q.Transaction(func(tx *query.Query) error {
+			studentsToUser, err = tx.StudentToUser.Where(tx.StudentToUser.ID.Eq(studentIDUUID)).First()
+			return err
+		})
+
+		response, err := services.SearchDealIDList(httpClient, studentsToUser.GoogleSheetUserName)
+		if err != nil {
+			ctx.StopWithStatus(iris.StatusNotFound)
+		} else {
+			ctx.JSON(response)
+		}
+	}
+}
+
+func GetStudentsToUser(httpClient *http.Client, dbInstance *gorm.DB) context.Handler {
+	return func(ctx iris.Context) {
+		userName := sessions.Get(ctx).GetString("user_name")
+
+		log.Println(userName)
+
+		var q = query.Use(dbInstance)
+
+		var err error
+		var studentsToUser []*model.StudentToUser
+		err = q.Transaction(func(tx *query.Query) error {
+			studentsToUser, err = tx.StudentToUser.LeftJoin(tx.User, tx.StudentToUser.UserID.EqCol(tx.User.ID)).
+				Where(tx.User.Email.Eq(userName)).
+				Find()
+			return err
+		})
+
 		if err != nil {
 			ctx.StopWithStatus(iris.StatusForbidden)
 		} else {
-			ctx.JSON(bytes)
+			// ctx.JSON(bytes)
+			ctx.JSON(studentsToUser)
 		}
 	}
 }
