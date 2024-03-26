@@ -16,7 +16,7 @@ import (
 // /api/deals/search
 func SearchDeal(httpClient *http.Client) context.Handler {
 	return func(ctx iris.Context) {
-		bytes, err := services.SearchDeal(httpClient, ctx.URLParam("studentId"))
+		bytes, err := services.SearchDealIDList(httpClient, ctx.URLParam("studentId"))
 		if err != nil {
 			ctx.StopWithStatus(iris.StatusForbidden)
 		} else {

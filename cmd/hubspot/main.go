@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/dirkarnez/stemexapi/services"
@@ -8,7 +9,12 @@ import (
 
 func main() {
 	httpClient := &http.Client{}
-	services.SearchDealIDList(httpClient, "20220014.stemex")
+	a, err := services.SearchDealIDList(httpClient, "20220014.stemex")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	b := *a
+	log.Println(b)
 }
 
 /*
