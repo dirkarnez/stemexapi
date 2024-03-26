@@ -23,6 +23,7 @@ type B struct {
 	Properties struct {
 		NewCourseName string `json:"new_course_name"`
 		HSObjectId    string `json:"hs_object_id"`
+		CourseDates   string `json:"course_dates"`
 	} `json:"properties"`
 }
 

@@ -381,7 +381,7 @@ func main() {
 		party.Get("/students-to-user", middlewareAuthorizedAPI, api.GetStudentsToUser(httpClient, dbInstance))
 		party.Get("/student-deals", middlewareAuthorizedAPI, api.SearchDealIDList(httpClient, dbInstance))
 
-		party.Get("/attachment/getAttachment", middlewareAuthorizedAPI, api.GetAttachment(httpClient))
+		party.Get("/student-deal-attachments", middlewareAuthorizedAPI, api.GetAttachment(httpClient))
 
 		party.Get("/secret", middlewareAuthorizedAPI, func(ctx iris.Context) {
 			userName := sessions.Get(ctx).GetString("user_name")

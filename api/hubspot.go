@@ -111,8 +111,8 @@ func GetDeals(httpClient *http.Client) context.Handler {
 
 func GetAttachment(httpClient *http.Client) context.Handler {
 	return func(ctx iris.Context) {
-		dealId := ctx.URLParam("dealId")
-		log.Println("dealId", dealId)
+		dealId := ctx.URLParam("deal-id")
+		log.Println("deal-id", dealId)
 
 		if len(dealId) < 1 {
 			ctx.StopWithStatus(iris.StatusForbidden)
