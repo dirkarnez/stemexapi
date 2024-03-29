@@ -1470,11 +1470,19 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 						var k = 0
 						for {
 							var presentationNotesIDKey = fmt.Sprintf(`levels[%d].lessons[%d].presentation_notes[%d].id`, i, j, k)
+							var presentationNotesFileKey = fmt.Sprintf(`levels[%d].lessons[%d].presentation_notes[%d].file`, i, j, k)
 							presentationNotesIDKeyExists := curriculumEntryFormData.KeyExists(presentationNotesIDKey)
+							presentationNotesFileKeyExists := curriculumEntryFormData.KeyExists(presentationNotesFileKey)
 
-							if presentationNotesIDKeyExists {
+							if presentationNotesIDKeyExists || presentationNotesFileKeyExists {
+								file, fileErr := curriculumEntryFormData.GetFileBytes(presentationNotesFileKey)
+								if fileErr != nil {
+									return nil, fileErr
+								}
+
 								lesson.PresentationNotes = append(lesson.PresentationNotes, dto.CurriculumCourseLevelLessonResources{
-									ID: curriculumEntryFormData.Get(presentationNotesIDKey),
+									ID:   curriculumEntryFormData.Get(presentationNotesIDKey),
+									File: file,
 								})
 								k = k + 1
 							} else {
@@ -1485,6 +1493,7 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 						k = 0
 						for {
 							var studentNotesIDKey = fmt.Sprintf(`levels[%d].lessons[%d].student_notes[%d].id`, i, j, k)
+							// file
 							lesson.StudentNotes = append(lesson.StudentNotes, dto.CurriculumCourseLevelLessonResources{})
 						}
 
