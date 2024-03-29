@@ -3,6 +3,7 @@ package api
 import (
 	"database/sql/driver"
 	"fmt"
+	"net/http"
 
 	"github.com/albrow/forms"
 	"github.com/dirkarnez/stemexapi/dto"
@@ -660,7 +661,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 		// 	IconFile               *multipart.FileHeader                     `form:"icon_file"`
 		// 	Description            string                                    `form:"description" json:"description"`
 		// 	ParentID               string                                    `form:"parent_id" json:"parent_id"`
-		// 	CourseID               string                                    `form:"course_id" json:"course_id"`
+		// 	CourseID               string                                    `form:"course_id" json:"course_id"`MapRequestToCurriculumCourseForm
 		// 	CurriculumPlanID       string                                    `form:"curriculum_plan_id" json:"curriculum_plan_id"`
 		// 	CurriculumPlanFileName string                                    `form:"curriculum_plan_file_name" json:"curriculum_plan_file_name"` // uploaded
 		// 	BlogEntries            []dto.CurriculumCourseBlogEntries         `form:"blog_entries" json:"blog_entries"`
@@ -669,130 +670,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 		// }
 
 		var returnForm dto.CurriculumCourseForm
-		var form dto.CurriculumCourseForm
-
-		// Parse request data.
-		curriculumEntryFormData, errParse := forms.Parse(ctx.Request())
-		if errParse != nil {
-			ctx.StopWithError(iris.StatusInternalServerError, errParse)
-			return
-		}
-
-		val := curriculumEntryFormData.Validator()
-		val.Require("description")
-		if !val.HasErrors() {
-			var iconFileErr error
-			form.ID = curriculumEntryFormData.Get("id")
-			form.IconID = curriculumEntryFormData.Get("icon_id")
-			form.IconFile, iconFileErr = curriculumEntryFormData.GetFileBytes("icon_file")
-			form.Description = curriculumEntryFormData.Get("description")
-			if iconFileErr != nil {
-				fmt.Println(iconFileErr)
-			}
-
-			var i = 0
-
-			for {
-				var blogEntriesIDKey = fmt.Sprintf(`blog_entries[%d].id`, i)
-				var blogEntriesTitleey = fmt.Sprintf(`blog_entries[%d].title`, i)
-				var blogEntriesExternalURLKey = fmt.Sprintf(`blog_entries[%d].external_url`, i)
-				k := curriculumEntryFormData.KeyExists(blogEntriesIDKey)
-				j := curriculumEntryFormData.KeyExists(blogEntriesTitleey)
-				l := curriculumEntryFormData.KeyExists(blogEntriesExternalURLKey)
-
-				if k || j || l {
-					// title := curriculumEntryFormData.Get(blogEntriesIDKey)
-					// fmt.Println(description, title)
-					form.BlogEntries = append(form.BlogEntries, dto.CurriculumCourseBlogEntries{
-						ID:          curriculumEntryFormData.Get(blogEntriesIDKey),
-						Title:       curriculumEntryFormData.Get(blogEntriesTitleey),
-						ExternalURL: curriculumEntryFormData.Get(blogEntriesExternalURLKey),
-					})
-					i = i + 1
-				} else {
-					break
-				}
-			}
-
-			i = 0
-
-			for {
-
-				var levelsIDKey = fmt.Sprintf(`levels[%d].id`, i)
-				var levelsNameKey = fmt.Sprintf(`levels[%d].name`, i)
-				var levelsIconFileKey = fmt.Sprintf(`levels[%d].icon_file`, i)
-				var levelsDescriptionKey = fmt.Sprintf(`levels[%d].description`, i)
-				m := curriculumEntryFormData.KeyExists(levelsIDKey)
-				n := curriculumEntryFormData.KeyExists(levelsNameKey)
-				o := curriculumEntryFormData.KeyExists(levelsIconFileKey)
-				p := curriculumEntryFormData.KeyExists(levelsDescriptionKey)
-
-				if m || n || o || p {
-					// title := curriculumEntryFormData.Get(blogEntriesIDKey)
-					// fmt.Println(description, title)
-					level := dto.CurriculumCourseLevels{
-						ID:          curriculumEntryFormData.Get(levelsIDKey),
-						Name:        curriculumEntryFormData.Get(levelsNameKey),
-						IconID:      curriculumEntryFormData.Get(levelsIconFileKey),
-						Description: curriculumEntryFormData.Get(levelsDescriptionKey),
-					}
-					var j = 0
-					for {
-						var lessonsIDKey = fmt.Sprintf(`levels[%d].lessons[%d].id`, i, j)
-						// var levelsNameKey = fmt.Sprintf(`levels[%d].name`, i)
-						// var levelsIconFileKey = fmt.Sprintf(`levels[%d].icon_file`, i)
-						// var levelsDescriptionKey = fmt.Sprintf(`levels[%d].description`, i)
-						m := curriculumEntryFormData.KeyExists(lessonsIDKey)
-						// n := curriculumEntryFormData.KeyExists(levelsNameKey)
-						// o := curriculumEntryFormData.KeyExists(levelsIconFileKey)
-						// p := curriculumEntryFormData.KeyExists(levelsDescriptionKey)
-
-						if m {
-							lesson := dto.CurriculumCourseLevelLessons{}
-							lesson.ID = curriculumEntryFormData.Get(lessonsIDKey)
-
-							var k = 0
-							for {
-								var presentationNotesIDKey = fmt.Sprintf(`levels[%d].lessons[%d].presentation_notes[%d].id`, i, j, k)
-								
-								lesson.PresentationNotes = append(lesson.PresentationNotes, dto.CurriculumCourseLevelLessonResources{})
-							}
-
-							k = 0
-							for {
-								var studentNotesIDKey = fmt.Sprintf(`levels[%d].lessons[%d].student_notes[%d].id`, i, j, k)
-								lesson.StudentNotes = append(lesson.StudentNotes, dto.CurriculumCourseLevelLessonResources{})
-							}
-
-							k = 0
-							for {
-								var teacherNotesIDKey = fmt.Sprintf(`levels[%d].lessons[%d].teacher_notes[%d].id`, i, j, k)
-								lesson.TeacherNotes = append(lesson.TeacherNotes, dto.CurriculumCourseLevelLessonResources{})
-							}
-
-							k = 0
-							for {
-								var miscMaterialsIDKey = fmt.Sprintf(`levels[%d].lessons[%d].misc_materials[%d].id`, i, j, k)
-								lesson.MiscMaterials = append(lesson.MiscMaterials, dto.CurriculumCourseLevelLessonResources{})
-							}
-
-							level.Lessons = append(level.Lessons, lesson)
-							j = j + 1
-						} else {
-							break
-						}
-					}
-
-					form.Levels = append(form.Levels, level)
-					i = i + 1
-				} else {
-					break
-				}
-			}
-
-			f, _ := curriculumEntryFormData.GetFileBytes(`[0].lessons[0].presentation_notes[0].file`)
-			fmt.Println(f)
-		}
+		var form = MapRequestToCurriculumCourseForm(ctx.Request())
 
 		// errTesting := utils.FormMultipartParse(ctx.Request(), &testing)
 		// if errTesting != nil {
@@ -1504,3 +1382,138 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 // 		})
 // 	}
 // }
+
+func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseForm, error) {
+	var form dto.CurriculumCourseForm
+	// Parse request data.
+	curriculumEntryFormData, err := forms.Parse(req)
+	if err != nil {
+		// ctx.StopWithError(iris.StatusInternalServerError, errParse)
+		// return
+		return nil, err
+	}
+
+	val := curriculumEntryFormData.Validator()
+	val.Require("description")
+	if !val.HasErrors() {
+		var iconFileErr error
+		form.ID = curriculumEntryFormData.Get("id")
+		form.IconID = curriculumEntryFormData.Get("icon_id")
+		form.IconFile, iconFileErr = curriculumEntryFormData.GetFileBytes("icon_file")
+		form.Description = curriculumEntryFormData.Get("description")
+		if iconFileErr != nil {
+			fmt.Println(iconFileErr)
+		}
+
+		var i = 0
+
+		for {
+			var blogEntriesIDKey = fmt.Sprintf(`blog_entries[%d].id`, i)
+			var blogEntriesTitleKey = fmt.Sprintf(`blog_entries[%d].title`, i)
+			var blogEntriesExternalURLKey = fmt.Sprintf(`blog_entries[%d].external_url`, i)
+			blogEntriesIDKeyExists := curriculumEntryFormData.KeyExists(blogEntriesIDKey)
+			blogEntriesTitleKeyExists := curriculumEntryFormData.KeyExists(blogEntriesTitleKey)
+			blogEntriesExternalURLKeyExists := curriculumEntryFormData.KeyExists(blogEntriesExternalURLKey)
+
+			if blogEntriesIDKeyExists || blogEntriesTitleKeyExists || blogEntriesExternalURLKeyExists {
+				// title := curriculumEntryFormData.Get(blogEntriesIDKey)
+				// fmt.Println(description, title)
+				form.BlogEntries = append(form.BlogEntries, dto.CurriculumCourseBlogEntries{
+					ID:          curriculumEntryFormData.Get(blogEntriesIDKey),
+					Title:       curriculumEntryFormData.Get(blogEntriesTitleKey),
+					ExternalURL: curriculumEntryFormData.Get(blogEntriesExternalURLKey),
+				})
+				i = i + 1
+			} else {
+				break
+			}
+		}
+
+		i = 0
+
+		for {
+			var levelsIDKey = fmt.Sprintf(`levels[%d].id`, i)
+			var levelsNameKey = fmt.Sprintf(`levels[%d].name`, i)
+			var levelsIconFileKey = fmt.Sprintf(`levels[%d].icon_file`, i)
+			var levelsDescriptionKey = fmt.Sprintf(`levels[%d].description`, i)
+			levelsIDKeyExists := curriculumEntryFormData.KeyExists(levelsIDKey)
+			levelsNameKeyExists := curriculumEntryFormData.KeyExists(levelsNameKey)
+			levelsIconFileKeyExists := curriculumEntryFormData.KeyExists(levelsIconFileKey)
+			levelsDescriptionKeyExists := curriculumEntryFormData.KeyExists(levelsDescriptionKey)
+
+			if levelsIDKeyExists || levelsNameKeyExists || levelsIconFileKeyExists || levelsDescriptionKeyExists {
+				// title := curriculumEntryFormData.Get(blogEntriesIDKey)
+				// fmt.Println(description, title)
+				level := dto.CurriculumCourseLevels{
+					ID:          curriculumEntryFormData.Get(levelsIDKey),
+					Name:        curriculumEntryFormData.Get(levelsNameKey),
+					IconID:      curriculumEntryFormData.Get(levelsIconFileKey),
+					Description: curriculumEntryFormData.Get(levelsDescriptionKey),
+				}
+
+				var j = 0
+				for {
+					var lessonsIDKey = fmt.Sprintf(`levels[%d].lessons[%d].id`, i, j)
+					// var levelsNameKey = fmt.Sprintf(`levels[%d].name`, i)
+					// var levelsIconFileKey = fmt.Sprintf(`levels[%d].icon_file`, i)
+					// var levelsDescriptionKey = fmt.Sprintf(`levels[%d].description`, i)
+					lessonsIDKeyExists := curriculumEntryFormData.KeyExists(lessonsIDKey)
+					// n := curriculumEntryFormData.KeyExists(levelsNameKey)
+					// o := curriculumEntryFormData.KeyExists(levelsIconFileKey)
+					// p := curriculumEntryFormData.KeyExists(levelsDescriptionKey)
+
+					if lessonsIDKeyExists {
+						lesson := dto.CurriculumCourseLevelLessons{
+							ID: curriculumEntryFormData.Get(lessonsIDKey),
+						}
+
+						var k = 0
+						for {
+							var presentationNotesIDKey = fmt.Sprintf(`levels[%d].lessons[%d].presentation_notes[%d].id`, i, j, k)
+							presentationNotesIDKeyExists := curriculumEntryFormData.KeyExists(presentationNotesIDKey)
+
+							if presentationNotesIDKeyExists {
+								lesson.PresentationNotes = append(lesson.PresentationNotes, dto.CurriculumCourseLevelLessonResources{
+									ID: curriculumEntryFormData.Get(presentationNotesIDKey),
+								})
+								k = k + 1
+							} else {
+								break
+							}
+						}
+
+						k = 0
+						for {
+							var studentNotesIDKey = fmt.Sprintf(`levels[%d].lessons[%d].student_notes[%d].id`, i, j, k)
+							lesson.StudentNotes = append(lesson.StudentNotes, dto.CurriculumCourseLevelLessonResources{})
+						}
+
+						k = 0
+						for {
+							var teacherNotesIDKey = fmt.Sprintf(`levels[%d].lessons[%d].teacher_notes[%d].id`, i, j, k)
+							lesson.TeacherNotes = append(lesson.TeacherNotes, dto.CurriculumCourseLevelLessonResources{})
+						}
+
+						k = 0
+						for {
+							var miscMaterialsIDKey = fmt.Sprintf(`levels[%d].lessons[%d].misc_materials[%d].id`, i, j, k)
+							lesson.MiscMaterials = append(lesson.MiscMaterials, dto.CurriculumCourseLevelLessonResources{})
+						}
+
+						level.Lessons = append(level.Lessons, lesson)
+						j = j + 1
+					} else {
+						break
+					}
+				}
+
+				form.Levels = append(form.Levels, level)
+				i = i + 1
+			} else {
+				break
+			}
+		}
+
+		fmt.Println(f)
+	}
+}
