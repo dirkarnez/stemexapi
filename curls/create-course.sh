@@ -8,30 +8,24 @@ function create_course () {
     course_json_output=$(echo $description | sed 's/\//_/g' | sed 's/:/_/g')
     # $USERPROFILE/Downloads/curl/curl.exe
     
-            # --form "levels[0].lessons[0].lesson_number=1" \
-        # --form "levels[0].lessons[0].presentation_notes.0.id=" \
-        # --form "levels[0].lessons[0].presentation_notes.0.file=@$levels_0_lessons_0_presentation_notes_0_file" \
-        # --form "levels[0].lessons[0].student_notes[0].id=" \
-        # --form "levels[0].lessons[0].student_notes[0].file=@$levels_0_lessons_0_student_notes_0_file" \
-        # --form "levels[0].lessons[0].teacher_notes[0].id=" \
-        # --form "levels[0].lessons[0].teacher_notes[0].file=@$levels_0_lessons_0_teacher_notes_0_file" \
-        # --form "levels[0].lessons[0].misc_materials.0.id=" \
-        # --form "levels[0].lessons[0].misc_materials.0.file=@$levels_0_lessons_0_misc_materials_0_file" \
-        # --form "levels[0].lessons[0].misc_materials.1.id=" \
-        # --form "levels[0].lessons[0].misc_materials.1.file=@$levels_0_lessons_0_misc_materials_1_file" \
-        # --form "levels[0].lessons[0].misc_materials.2.id=" \
-        # --form "levels[0].lessons[0].misc_materials.2.file=@$levels_0_lessons_0_misc_materials_2_file" \
-        # --form "levels[0].name=$levels_0_name" \
-        # --form "levels[0].icon_file=@$levels_0_icon_file" \
-        # --form "levels[0].description=$levels_0_description" \
+
     /C/Windows/System32/curl.exe -X POST --location "https://localhost/api/curriculum-course" -b cookie.txt --insecure \
         --form "parent_id=$parent_id" \
         --form "description=$description" \
         --form "icon_file=@$icon_file" \
         --form "curriculum_plan_file=@$curriculum_plan_file" \
-        --form "blog_entries.0.external_url=$blog_entries_0_external_url" \
-        --form "blog_entries.0.title=$blog_entries_0_title" \
+        --form "blog_entries[0].external_url=$blog_entries_0_external_url" \
+        --form "blog_entries[0].title=$blog_entries_0_title" \
         --form "levels[0].id=$levels_0_name" \
+        --form "levels[0].name=$levels_0_name" \
+        --form "levels[0].icon_file=@$levels_0_icon_file" \
+        --form "levels[0].description=$levels_0_description" \
+        --form "levels[0].lessons[0].presentation_notes.0.file=@$levels_0_lessons_0_presentation_notes_0_file" \
+        --form "levels[0].lessons[0].student_notes[0].file=@$levels_0_lessons_0_student_notes_0_file" \
+        --form "levels[0].lessons[0].teacher_notes[0].file=@$levels_0_lessons_0_teacher_notes_0_file" \
+        --form "levels[0].lessons[0].misc_materials[0].file=@$levels_0_lessons_0_misc_materials_0_file" \
+        --form "levels[0].lessons[0].misc_materials[1].file=@$levels_0_lessons_0_misc_materials_1_file" \
+        --form "levels[0].lessons[0].misc_materials[2].file=@$levels_0_lessons_0_misc_materials_2_file" \
         --output "$course_json_output.json"
 }
 

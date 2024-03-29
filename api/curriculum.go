@@ -686,18 +686,24 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			form.IconID = curriculumEntryFormData.Get("icon_id")
 			form.IconFile, iconFileErr = curriculumEntryFormData.GetFileBytes("icon_file")
 			form.Description = curriculumEntryFormData.Get("description")
-
 			if iconFileErr != nil {
 				fmt.Println(iconFileErr)
 			}
 
-			// var i = 0
-			// var key = fmt.Sprintf(`blog_entries[%d].title`, i)
-			// for curriculumEntryFormData.KeyExists(key) {
-			// 	title := curriculumEntryFormData.Get(key)
-			// 	// fmt.Println(description, title)
-			// 	i++
-			// }
+			var i = 0
+			var blogEntriesIDKey = fmt.Sprintf(`blog_entries[%d].id`, i)
+			var blogEntriesTitleey = fmt.Sprintf(`blog_entries[%d].title`, i)
+			var blogEntriesExternalURLKey = fmt.Sprintf(`blog_entries[%d].external_url`, i)
+			for curriculumEntryFormData.KeyExists(blogEntriesIDKey) || curriculumEntryFormData.KeyExists(blogEntriesTitleey) || curriculumEntryFormData.KeyExists(blogEntriesExternalURLKey) {
+				// title := curriculumEntryFormData.Get(blogEntriesIDKey)
+				// fmt.Println(description, title)
+				form.BlogEntries = append(form.BlogEntries, dto.CurriculumCourseBlogEntries{
+					ID:          curriculumEntryFormData.Get(blogEntriesIDKey),
+					Title:       curriculumEntryFormData.Get(blogEntriesTitleey),
+					ExternalURL: curriculumEntryFormData.Get(blogEntriesExternalURLKey),
+				})
+				i++
+			}
 
 		}
 
