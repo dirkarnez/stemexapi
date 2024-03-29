@@ -42,7 +42,7 @@ func NewUUIDEx() UUIDEx {
 func ValidUUIDExFromIDString(id string) (UUIDEx, error) {
 	uuidParsed, err := uuid.Parse(id)
 	if err != nil {
-		return NewUUIDEx(), err
+		return UUIDEx(uuid.Nil), err
 	}
 	return UUIDEx(uuidParsed), nil
 }
@@ -53,7 +53,6 @@ func (my UUIDEx) ToString() string {
 }
 
 func (my UUIDEx) IsEmpty() bool {
-	u, _ := uuid.FromBytes([]byte{})
-	empty := UUIDEx(u).ToString()
-	return my.ToString() == empty
+	empty := UUIDEx(uuid.Nil).ToString()
+	return strings.TrimSpace(my.ToString()) == empty
 }
