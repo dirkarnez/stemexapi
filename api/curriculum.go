@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/albrow/forms"
+	"github.com/dirkarnez/stemexapi/datatypes"
 	"github.com/dirkarnez/stemexapi/dto"
 	"github.com/dirkarnez/stemexapi/model"
 	"github.com/dirkarnez/stemexapi/query"
@@ -1467,29 +1468,6 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 							ID: curriculumEntryFormData.Get(lessonsIDKey),
 						}
 
-						var k = 0
-						for {
-							var presentationNotesIDKey = fmt.Sprintf(`levels[%d].lessons[%d].presentation_notes[%d].id`, i, j, k)
-							var presentationNotesFileKey = fmt.Sprintf(`levels[%d].lessons[%d].presentation_notes[%d].file`, i, j, k)
-							presentationNotesIDKeyExists := curriculumEntryFormData.KeyExists(presentationNotesIDKey)
-							presentationNotesFileKeyExists := curriculumEntryFormData.KeyExists(presentationNotesFileKey)
-
-							if presentationNotesIDKeyExists || presentationNotesFileKeyExists {
-								file, fileErr := curriculumEntryFormData.GetFileBytes(presentationNotesFileKey)
-								if fileErr != nil {
-									return nil, fileErr
-								}
-
-								lesson.PresentationNotes = append(lesson.PresentationNotes, dto.CurriculumCourseLevelLessonResources{
-									ID:   curriculumEntryFormData.Get(presentationNotesIDKey),
-									File: file,
-								})
-								k = k + 1
-							} else {
-								break
-							}
-						}
-
 						k = 0
 						for {
 							var studentNotesIDKey = fmt.Sprintf(`levels[%d].lessons[%d].student_notes[%d].id`, i, j, k)
@@ -1525,4 +1503,64 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 
 		fmt.Println(f)
 	}
+}
+
+func B[T, K any](target *T, data *forms.Data, pairsForString []datatypes.Pair[string, func(string)], pairsForFileBytes []datatypes.Pair[string, func(([]byte)]) error {
+	var k = 0
+	for {
+		keysForString := lo.Map(pairsForString, func(pair datatypes.Pair[string, func(string)], index int) string {
+			return fmt.Sprintf(pair.First, k)
+		})
+
+		keysFileBytes := lo.Map(pairsForFileBytes, func(pair datatypes.Pair[string, func(string)], index int) string {
+			return fmt.Sprintf(pair.First, k)
+		})
+
+		if lo.SomeBy(keysForString, func(key string) bool {
+			return data.KeyExists(key)
+		}) || lo.SomeBy(keysFileBytes, func(key string) bool {
+			return data.FileExists(key)
+		}) {
+			lo.ForEach(pairsForString, func(pair datatypes.Pair[string, func(string)], index int) {
+				pair.Second(data.Get(keysForString[index]))
+			})
+
+			lo.ForEach(pairsForFileBytes, func(pair datatypes.Pair[string, func([]byte)], index int) {
+				file, err := data.GetFileBytes(keysFileBytes[index])
+				if err != nil {
+					return err
+				} else {
+					pair.Second(file)
+				}
+			})
+		}
+
+	// 	var presentationNotesIDKey = fmt.Sprintf("levels[%d].lessons[%d].presentation_notes[%d].id", i, j, k)
+
+	// 	var presentationNotesFileKey = fmt.Sprintf(`levels[%d].lessons[%d].presentation_notes[%d].file`, i, j, k)
+	// 	var presentationNotesNameKey = fmt.Sprintf(`levels[%d].lessons[%d].presentation_notes[%d].name`, i, j, k)
+	// 	var presentationNotesResourceIdKey = fmt.Sprintf(`levels[%d].lessons[%d].presentation_notes[%d].resource_id`, i, j, k)
+
+	// 	presentationNotesIDKeyExists := data.KeyExists(presentationNotesIDKey)
+	// 	presentationNotesFileKeyExists := data.KeyExists(presentationNotesFileKey)
+	// 	presentationNotesNameKeyExists := data.KeyExists(presentationNotesNameKey)
+	// 	presentationNotesResourceIdKeyExists := data.KeyExists(presentationNotesResourceIdKey)
+
+	// 	if presentationNotesIDKeyExists || presentationNotesFileKeyExists || presentationNotesNameKeyExists || presentationNotesResourceIdKeyExists {
+	// 		file, fileErr := data.GetFileBytes(presentationNotesFileKey)
+	// 		if fileErr != nil {
+	// 			return nil, fileErr
+	// 		}
+	// 		pairs[0].Second(&dto.CurriculumCourseLevelLessonResources{}, data.Get(presentationNotesIDKey))
+	// 		// dto.CurriculumCourseLevelLessonResources{
+	// 		// 	ID:         data.Get(presentationNotesIDKey),
+	// 		// 	File:       file,
+	// 		// 	Name:       data.Get(presentationNotesNameKey),
+	// 		// 	ResourseID: data.Get(presentationNotesResourceIdKey),
+	// 		// }
+	// 		k = k + 1
+	// 	} else {
+	// 		break
+	// 	}
+	// }
 }
