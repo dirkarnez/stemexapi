@@ -3,8 +3,8 @@ package api
 import (
 	"database/sql/driver"
 	"fmt"
-	"mime/multipart"
 
+	"github.com/albrow/forms"
 	"github.com/dirkarnez/stemexapi/dto"
 	"github.com/dirkarnez/stemexapi/model"
 	"github.com/dirkarnez/stemexapi/query"
@@ -654,36 +654,68 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			// } `form:"lessons" json:"lessons"`
 		}
 
-		var testing struct {
-			ID                     string                                    `form:"id" json:"id"`
-			IconID                 string                                    `form:"icon_id" json:"icon_id"`
-			IconFile               *multipart.FileHeader                     `form:"icon_file"`
-			Description            string                                    `form:"description" json:"description"`
-			ParentID               string                                    `form:"parent_id" json:"parent_id"`
-			CourseID               string                                    `form:"course_id" json:"course_id"`
-			CurriculumPlanID       string                                    `form:"curriculum_plan_id" json:"curriculum_plan_id"`
-			CurriculumPlanFileName string                                    `form:"curriculum_plan_file_name" json:"curriculum_plan_file_name"` // uploaded
-			BlogEntries            []dto.CurriculumCourseBlogEntries         `form:"blog_entries" json:"blog_entries"`
-			YoutubeVideoEntries    []dto.CurriculumCourseYoutubeVideoEntries `form:"youtube_video_entries" json:"youtube_video_entries"`
-			Levels                 []A                                       `form:"levels"`
-		}
-		errTesting := utils.FormMultipartParse(ctx.Request(), &testing)
-		if errTesting != nil {
-			ctx.StopWithError(iris.StatusInternalServerError, errTesting)
-			return
-		}
+		// var testing struct {
+		// 	ID                     string                                    `form:"id" json:"id"`
+		// 	IconID                 string                                    `form:"icon_id" json:"icon_id"`
+		// 	IconFile               *multipart.FileHeader                     `form:"icon_file"`
+		// 	Description            string                                    `form:"description" json:"description"`
+		// 	ParentID               string                                    `form:"parent_id" json:"parent_id"`
+		// 	CourseID               string                                    `form:"course_id" json:"course_id"`
+		// 	CurriculumPlanID       string                                    `form:"curriculum_plan_id" json:"curriculum_plan_id"`
+		// 	CurriculumPlanFileName string                                    `form:"curriculum_plan_file_name" json:"curriculum_plan_file_name"` // uploaded
+		// 	BlogEntries            []dto.CurriculumCourseBlogEntries         `form:"blog_entries" json:"blog_entries"`
+		// 	YoutubeVideoEntries    []dto.CurriculumCourseYoutubeVideoEntries `form:"youtube_video_entries" json:"youtube_video_entries"`
+		// 	Levels                 []A                                       `form:"levels"`
+		// }
 
 		var returnForm dto.CurriculumCourseForm
 		var form dto.CurriculumCourseForm
-		err := ctx.ReadForm(&form)
-		if err != nil {
-			ctx.StopWithError(iris.StatusInternalServerError, err)
+
+		// Parse request data.
+		curriculumEntryFormData, errParse := forms.Parse(ctx.Request())
+		if errParse != nil {
+			ctx.StopWithError(iris.StatusInternalServerError, errParse)
 			return
 		}
 
+		val := curriculumEntryFormData.Validator()
+		val.Require("description")
+		if !val.HasErrors() {
+			var iconFileErr error
+			form.ID = curriculumEntryFormData.Get("id")
+			form.IconID = curriculumEntryFormData.Get("icon_id")
+			form.IconFile, iconFileErr = curriculumEntryFormData.GetFileBytes("icon_file")
+			form.Description = curriculumEntryFormData.Get("description")
+
+			if iconFileErr != nil {
+				fmt.Println(iconFileErr)
+			}
+
+			// var i = 0
+			// var key = fmt.Sprintf(`blog_entries[%d].title`, i)
+			// for curriculumEntryFormData.KeyExists(key) {
+			// 	title := curriculumEntryFormData.Get(key)
+			// 	// fmt.Println(description, title)
+			// 	i++
+			// }
+
+		}
+
+		// errTesting := utils.FormMultipartParse(ctx.Request(), &testing)
+		// if errTesting != nil {
+		// 	ctx.StopWithError(iris.StatusInternalServerError, errTesting)
+		// 	return
+		// }
+
+		// err := ctx.ReadForm(&form)
+		// if err != nil {
+		// 	ctx.StopWithError(iris.StatusInternalServerError, err)
+		// 	return
+		// }
+
 		var q = query.Use(dbInstance)
 		var curriculumEntry model.CurriculumEntry = model.CurriculumEntry{}
-		err = q.Transaction(func(tx *query.Query) error {
+		err := q.Transaction(func(tx *query.Query) error {
 			if len(form.ID) > 1 {
 				IDUUID, err := model.ValidUUIDExFromIDString(form.ID)
 				if err != nil {
@@ -716,7 +748,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			// // Get the max post value size passed via iris.WithPostMaxMemory.
 			maxSize := ctx.Application().ConfigurationReadOnly().GetPostMaxMemory()
 
-			err = ctx.Request().ParseMultipartForm(maxSize)
+			err := ctx.Request().ParseMultipartForm(maxSize)
 			if err != nil {
 				return err
 			}

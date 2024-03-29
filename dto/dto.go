@@ -1,7 +1,6 @@
 package dto
 
 import (
-	"mime/multipart"
 	"time"
 
 	"github.com/dirkarnez/stemexapi/model"
@@ -94,15 +93,16 @@ type FileManagement struct {
 }
 
 type CurriculumCourseForm struct {
-	ID                     string                                `form:"id" json:"id"`
-	IconID                 string                                `form:"icon_id" json:"icon_id"`
-	IconFile               *multipart.FileHeader                 `form:"icon_file"`
-	Description            string                                `form:"description" json:"description"`
-	ParentID               string                                `form:"parent_id" json:"parent_id"`
-	CourseID               string                                `form:"course_id" json:"course_id"`
-	CurriculumPlanID       string                                `form:"curriculum_plan_id" json:"curriculum_plan_id"`
-	CurriculumPlanFileName string                                `form:"curriculum_plan_file_name" json:"curriculum_plan_file_name"` // uploaded
-	BlogEntries            []CurriculumCourseBlogEntries         `form:"blog_entries" json:"blog_entries"`
-	YoutubeVideoEntries    []CurriculumCourseYoutubeVideoEntries `form:"youtube_video_entries" json:"youtube_video_entries"`
-	Levels                 []CurriculumCourseLevels              `form:"levels" json:"levels"`
+	ID                     string                                `json:"id"`
+	IconID                 string                                `json:"icon_id"`
+	IconFile               []byte                                `json:"-"`
+	Description            string                                `json:"description"`
+	ParentID               string                                `json:"parent_id"`
+	CourseID               string                                `json:"course_id"`
+	CurriculumPlanID       string                                `json:"curriculum_plan_id"`
+	CurriculumPlanFile     []byte                                `json:"-"`
+	CurriculumPlanFileName string                                `json:"curriculum_plan_file_name"` // uploaded
+	BlogEntries            []CurriculumCourseBlogEntries         `json:"blog_entries"`
+	YoutubeVideoEntries    []CurriculumCourseYoutubeVideoEntries `json:"youtube_video_entries"`
+	Levels                 []CurriculumCourseLevels              `json:"levels"`
 }
