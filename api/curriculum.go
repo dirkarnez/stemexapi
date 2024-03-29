@@ -1454,7 +1454,9 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 
 				var j = 0
 				for {
-					var lessonsIDKey = fmt.Sprintf(`levels[%d].lessons[%d].id`, i, j)
+					var lessonsIDKey = fmt.Sprintf(`levels[%d].lessons[%d]`, i, j)
+
+					var lessonsIDKey = fmt.Sprintf(`%`, i, j)
 					// var levelsNameKey = fmt.Sprintf(`levels[%d].name`, i)
 					// var levelsIconFileKey = fmt.Sprintf(`levels[%d].icon_file`, i)
 					// var levelsDescriptionKey = fmt.Sprintf(`levels[%d].description`, i)
@@ -1468,12 +1470,22 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 							ID: curriculumEntryFormData.Get(lessonsIDKey),
 						}
 
+
 						k = 0
 						for {
 							var studentNotesIDKey = fmt.Sprintf(`levels[%d].lessons[%d].student_notes[%d].id`, i, j, k)
 							// file
 							lesson.StudentNotes = append(lesson.StudentNotes, dto.CurriculumCourseLevelLessonResources{})
 						}
+
+						B(curriculumEntryFormData, []datatypes.Pair[string, func(string, int)]{
+							{First: lessonsIDKey},
+						}, []datatypes.Pair[string, func(string, int)] {
+
+						})
+
+						
+
 
 						k = 0
 						for {
@@ -1505,11 +1517,11 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 	}
 }
 
-func B[T, K any](target *T, data *forms.Data, pairsForString []datatypes.Pair[string, func(string)], pairsForFileBytes []datatypes.Pair[string, func(([]byte)]) error {
+func B[T, K any](data *forms.Data, pairsForString []datatypes.Pair[string, func(string, int)], pairsForFileBytes []datatypes.Pair[string, func([]byte, int)]) error {
 	var k = 0
 	for {
-		keysForString := lo.Map(pairsForString, func(pair datatypes.Pair[string, func(string)], index int) string {
-			return fmt.Sprintf(pair.First, k)
+		keysPairForString := lo.Map[[]datatypes.Pair[string, func(string, int)], datatypes.Pair[string, int]](pairsForString, func(pair datatypes.Pair[string, func(string)], _ int)  {
+			return datatypes.Pair[string, int]{First: fmt.Sprintf(`%s[0]`, pair.First, k), Second: k}
 		})
 
 		keysFileBytes := lo.Map(pairsForFileBytes, func(pair datatypes.Pair[string, func(string)], index int) string {
@@ -1521,12 +1533,12 @@ func B[T, K any](target *T, data *forms.Data, pairsForString []datatypes.Pair[st
 		}) || lo.SomeBy(keysFileBytes, func(key string) bool {
 			return data.FileExists(key)
 		}) {
-			lo.ForEach(pairsForString, func(pair datatypes.Pair[string, func(string)], index int) {
-				pair.Second(data.Get(keysForString[index]))
+			lo.ForEach(pairsForString, func(pair datatypes.Pair[string, func(string, int)], index int) {
+				pair.Second(data.Get(keysPairForString[index].First), keysPairForString[index].Second)
 			})
 
-			lo.ForEach(pairsForFileBytes, func(pair datatypes.Pair[string, func([]byte)], index int) {
-				file, err := data.GetFileBytes(keysFileBytes[index])
+			lo.ForEach(pairsForFileBytes, func(pair datatypes.Pair[string, func([]byte, int)], index int) {
+				file, err := data.GetFileBytes(keysFileBytes[index].First)
 				if err != nil {
 					return err
 				} else {
