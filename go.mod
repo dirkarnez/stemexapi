@@ -3,6 +3,7 @@ module github.com/dirkarnez/stemexapi
 go 1.21
 
 require (
+	github.com/albrow/forms v0.3.3
 	github.com/antchfx/jsonquery v1.3.3
 	github.com/aws/aws-sdk-go-v2 v1.24.1
 	github.com/aws/aws-sdk-go-v2/config v1.26.5
