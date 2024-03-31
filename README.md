@@ -122,7 +122,9 @@ curl \
   ```
 
 ### TODOs
-- [ ] login: check unactivated too (send ativation -> activated send random password), unactivated unloginable
+- [ ] Area code
+- [ ] ~login: check unactivated too (send ativation -> activated send random password), unactivated unloginable~
+  - do not check unactivated. parents set activated and "stemex" as password. "Couldn’t find your Account. Make sure correct user name and password"
 - [ ] https://github.com/gin-gonic/gin/blob/master/binding/multipart_form_mapping_test.go
 - [ ] do not create parent table, but create a mapping table for hubsapot key
 - [ ] [dirkarnez/queueserver](https://github.com/dirkarnez/queueserver)
