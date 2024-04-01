@@ -1412,6 +1412,7 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 			var blogEntriesIDKey = fmt.Sprintf(`blog_entries[%d].id`, i)
 			var blogEntriesTitleKey = fmt.Sprintf(`blog_entries[%d].title`, i)
 			var blogEntriesExternalURLKey = fmt.Sprintf(`blog_entries[%d].external_url`, i)
+
 			blogEntriesIDKeyExists := curriculumEntryFormData.KeyExists(blogEntriesIDKey)
 			blogEntriesTitleKeyExists := curriculumEntryFormData.KeyExists(blogEntriesTitleKey)
 			blogEntriesExternalURLKeyExists := curriculumEntryFormData.KeyExists(blogEntriesExternalURLKey)
@@ -1443,8 +1444,6 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 			levelsDescriptionKeyExists := curriculumEntryFormData.KeyExists(levelsDescriptionKey)
 
 			if levelsIDKeyExists || levelsNameKeyExists || levelsIconFileKeyExists || levelsDescriptionKeyExists {
-				// title := curriculumEntryFormData.Get(blogEntriesIDKey)
-				// fmt.Println(description, title)
 				level := dto.CurriculumCourseLevels{
 					ID:          curriculumEntryFormData.Get(levelsIDKey),
 					Name:        curriculumEntryFormData.Get(levelsNameKey),
