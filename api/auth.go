@@ -78,6 +78,7 @@ func Register(dbInstance *gorm.DB) context.Handler {
 		type RegisterForm struct {
 			UserName      string `json:"user_name"`
 			Password      string `json:"password"`
+			AreaCode      string `json:"area_code"`
 			Email         string `json:"email"`
 			ContactNumber string `json:"contact_number"`
 		}
@@ -86,7 +87,7 @@ func Register(dbInstance *gorm.DB) context.Handler {
 
 		var q = query.Use(dbInstance)
 		err := q.Transaction(func(tx *query.Query) error {
-			newUser := model.User{UserName: registerForm.UserName, Password: registerForm.Password, Email: registerForm.Email, ContactNumber: registerForm.ContactNumber, IsActivated: false}
+			newUser := model.User{UserName: registerForm.UserName, Password: registerForm.Password, Email: registerForm.Email, ContactNumberAreaCode: registerForm.AreaCode, ContactNumber: registerForm.ContactNumber, IsActivated: false}
 			err := tx.User.Not(gen.Exists(tx.User.Where(tx.User.UserName.Eq(registerForm.UserName)))).Create(&newUser)
 			if err != nil {
 				return err
