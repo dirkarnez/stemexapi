@@ -1456,74 +1456,79 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 				for {
 					var lessonsArrayKey = fmt.Sprintf(`levels[%d].lessons[%d]`, i, j)
 
-					var lessonsIDKey = fmt.Sprintf(`%s.id`, lessonsArrayKey, j)
+					// var lessonsIDKey = fmt.Sprintf(`%s.id`, lessonsArrayKey)
+					// var lessonsNameKey = fmt.Sprintf(`%s.name`, lessonsArrayKey)
 
-					lessonsIDKeyExists := curriculumEntryFormData.KeyExists(lessonsIDKey)
+					// --form "levels[0].lessons[0].presentation_notes[0].file=@$levels_0_lessons_0_presentation_notes_0_file" \
+
+					// lessonsIDKeyExists := curriculumEntryFormData.KeyExists(lessonsIDKey)
+					// lessonsNameKeyExists := curriculumEntryFormData.KeyExists(lessonsNameKey)
+
 					// n := curriculumEntryFormData.KeyExists(levelsNameKey)
 					// o := curriculumEntryFormData.KeyExists(levelsIconFileKey)
 					// p := curriculumEntryFormData.KeyExists(levelsDescriptionKey)
 
-					if lessonsIDKeyExists {
-						lesson := dto.CurriculumCourseLevelLessons{
-							ID: curriculumEntryFormData.Get(lessonsIDKey),
-						}
+					lesson := dto.CurriculumCourseLevelLessons{}
 
-						// k = 0
-						// for {
-						var studentNotesArrayKey = lessonsArrayKey + ".student_notes[%d]"
-						//var presentationNotesArrayKey = lessonsArrayKey + ".presentation_notes[%d]"
+					// k = 0
+					// for {
+					var studentNotesArrayKey = lessonsArrayKey + ".student_notes[%d]"
+					//var presentationNotesArrayKey = lessonsArrayKey + ".presentation_notes[%d]"
 
-						B(curriculumEntryFormData, func() *dto.CurriculumCourseLevelLessonResources { return &dto.CurriculumCourseLevelLessonResources{} },
-							[]datatypes.Pair[string, func(*dto.CurriculumCourseLevelLessonResources, string)]{{
-								First: studentNotesArrayKey + ".id",
-								Second: func(ccllr *dto.CurriculumCourseLevelLessonResources, s string) {
-									ccllr.ID = s
-								},
-							}, {}},
-							[]datatypes.Pair[string, func(*dto.CurriculumCourseLevelLessonResources, []byte)]{{}, {}},
-							func(dto *dto.CurriculumCourseLevelLessonResources) {
-								lesson.StudentNotes = append(lesson.StudentNotes, *dto)
-							})
+					B(curriculumEntryFormData, func() *dto.CurriculumCourseLevelLessonResources { return &dto.CurriculumCourseLevelLessonResources{} },
+						[]datatypes.Pair[string, func(*dto.CurriculumCourseLevelLessonResources, string)]{{
+							First: studentNotesArrayKey + ".id",
+							Second: func(ccllr *dto.CurriculumCourseLevelLessonResources, s string) {
+								ccllr.Name = s
+							},
+						}},
+						[]datatypes.Pair[string, func(*dto.CurriculumCourseLevelLessonResources, []byte)]{{
+							First: studentNotesArrayKey + ".file",
+							Second: func(ccllr *dto.CurriculumCourseLevelLessonResources, b []byte) {
+								ccllr.File = b
+							},
+						}},
+						func(dto *dto.CurriculumCourseLevelLessonResources) {
+							lesson.StudentNotes = append(lesson.StudentNotes, *dto)
+						})
 
-						// 	// file
-						// 	lesson.StudentNotes = append(lesson.StudentNotes, dto.CurriculumCourseLevelLessonResources{})
-						// }
+					// 	// file
+					// 	lesson.StudentNotes = append(lesson.StudentNotes, dto.CurriculumCourseLevelLessonResources{})
+					// }
 
-						// var presentationNotesIDKey = fmt.Sprintf("levels[%d].lessons[%d].presentation_notes[%d].id", i, j, k)
-						// B(curriculumEntryFormData, func() {
-						// 	return &dto.CurriculumCourseLevelLessonResources{}
-						// }, []datatypes.Pair[string, func(string)]{
-						// 	{
-						// 		First: lessonsIDKey + `presentation_notes[%d].id`,
-						// 		Second: func(data string) {
-						// 			res.ID = data
-						// 		},
-						// 	},
-						// }
+					// var presentationNotesIDKey = fmt.Sprintf("levels[%d].lessons[%d].presentation_notes[%d].id", i, j, k)
+					// B(curriculumEntryFormData, func() {
+					// 	return &dto.CurriculumCourseLevelLessonResources{}
+					// }, []datatypes.Pair[string, func(string)]{
+					// 	{
+					// 		First: lessonsIDKey + `presentation_notes[%d].id`,
+					// 		Second: func(data string) {
+					// 			res.ID = data
+					// 		},
+					// 	},
+					// }
 
-						// , []datatypes.Pair[string, func(string, int)] {
+					// , []datatypes.Pair[string, func(string, int)] {
 
-						// }, func() {
-						// 	lesson.StudentNotes = append(lesson.StudentNotes, dto.CurriculumCourseLevelLessonResources{})
-						// })
+					// }, func() {
+					// 	lesson.StudentNotes = append(lesson.StudentNotes, dto.CurriculumCourseLevelLessonResources{})
+					// })
 
-						// k = 0
-						// for {
-						// 	var teacherNotesIDKey = fmt.Sprintf(`levels[%d].lessons[%d].teacher_notes[%d].id`, i, j, k)
-						// 	lesson.TeacherNotes = append(lesson.TeacherNotes, dto.CurriculumCourseLevelLessonResources{})
-						// }
+					// k = 0
+					// for {
+					// 	var teacherNotesIDKey = fmt.Sprintf(`levels[%d].lessons[%d].teacher_notes[%d].id`, i, j, k)
+					// 	lesson.TeacherNotes = append(lesson.TeacherNotes, dto.CurriculumCourseLevelLessonResources{})
+					// }
 
-						// k = 0
-						// for {
-						// 	var miscMaterialsIDKey = fmt.Sprintf(`levels[%d].lessons[%d].misc_materials[%d].id`, i, j, k)
-						// 	lesson.MiscMaterials = append(lesson.MiscMaterials, dto.CurriculumCourseLevelLessonResources{})
-						// }
+					// k = 0
+					// for {
+					// 	var miscMaterialsIDKey = fmt.Sprintf(`levels[%d].lessons[%d].misc_materials[%d].id`, i, j, k)
+					// 	lesson.MiscMaterials = append(lesson.MiscMaterials, dto.CurriculumCourseLevelLessonResources{})
+					// }
 
-						level.Lessons = append(level.Lessons, lesson)
-						j = j + 1
-					} else {
-						break
-					}
+					level.Lessons = append(level.Lessons, lesson)
+					j = j + 1
+
 				}
 
 				form.Levels = append(form.Levels, level)
@@ -1543,13 +1548,13 @@ func B[N any](data *forms.Data, onNewItem func() *N, pairsForString []datatypes.
 
 	for {
 		keysForString := lo.Map(pairsForString, func(pair datatypes.Pair[string, func(*N, string)], index int) string {
-			return fmt.Sprintf(`%s[%d]`, pair.First, k)
+			return fmt.Sprintf(pair.First, k)
 		})
 
 		fmt.Println(keysForString)
 
 		keysForFileBytes := lo.Map(pairsForFileBytes, func(pair datatypes.Pair[string, func(*N, []byte)], index int) string {
-			return fmt.Sprintf(`%s[%d]`, pair.First, k)
+			return fmt.Sprintf(pair.First, k)
 		})
 
 		if lo.SomeBy(keysForString, func(key string) bool {
@@ -1560,11 +1565,14 @@ func B[N any](data *forms.Data, onNewItem func() *N, pairsForString []datatypes.
 			n = onNewItem()
 
 			lo.ForEach(pairsForString, func(pair datatypes.Pair[string, func(*N, string)], index int) {
-				pair.Second(n, data.Get(keysForString[index]))
+				var key = keysForString[index]
+				var d = data.Get(key)
+				pair.Second(n, d)
 			})
 
 			lo.ForEach(pairsForFileBytes, func(pair datatypes.Pair[string, func(*N, []byte)], index int) {
-				file, err := data.GetFileBytes(keysForFileBytes[index])
+				var key = keysForFileBytes[index]
+				file, err := data.GetFileBytes(key)
 				if err != nil {
 					errReturn = err
 					return
