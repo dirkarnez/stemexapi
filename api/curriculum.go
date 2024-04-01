@@ -1541,13 +1541,13 @@ func MapFormArray[N any](data *forms.Data, onNewItem func() *N, pairsForString [
 			n = onNewItem()
 
 			lo.ForEach(pairsForString, func(pair datatypes.Pair[string, func(*N, string)], index int) {
-				var key = keysForString[index]
-				var d = data.Get(key)
-				pair.Second(n, d)
+				key := keysForString[index]
+				content := data.Get(key)
+				pair.Second(n, content)
 			})
 
 			lo.ForEach(pairsForFileBytes, func(pair datatypes.Pair[string, func(*N, *multipart.FileHeader)], index int) {
-				var key = keysForFileBytes[index]
+				key := keysForFileBytes[index]
 				file := data.GetFile(key)
 				pair.Second(n, file)
 			})
