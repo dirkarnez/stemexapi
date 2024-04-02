@@ -1395,6 +1395,24 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 		return nil, err
 	}
 
+	mapFunc := func(baseKey string, callback func(dto *dto.CurriculumCourseLevelLessonResources)) {
+		MapFormArray(curriculumEntryFormData, func() *dto.CurriculumCourseLevelLessonResources { return &dto.CurriculumCourseLevelLessonResources{} },
+			[]datatypes.Pair[string, func(*dto.CurriculumCourseLevelLessonResources, string)]{{
+				First: baseKey + ".id",
+				Second: func(ccllr *dto.CurriculumCourseLevelLessonResources, s string) {
+					ccllr.Name = s
+				},
+			}},
+			[]datatypes.Pair[string, func(*dto.CurriculumCourseLevelLessonResources, *multipart.FileHeader)]{{
+				First: baseKey + ".file",
+				Second: func(ccllr *dto.CurriculumCourseLevelLessonResources, b *multipart.FileHeader) {
+					//ccllr.File = b
+				},
+			}},
+			callback,
+		)
+	}
+
 	val := curriculumEntryFormData.Validator()
 	val.Require("description")
 	if !val.HasErrors() {
@@ -1459,24 +1477,6 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 				var j = 0
 				for {
 					var lessonsArrayKey = fmt.Sprintf(`levels[%d].lessons[%d]`, i, j)
-
-					mapDifferentTypesOfResources := func(baseKey string, callback func(dto *dto.CurriculumCourseLevelLessonResources)) {
-						MapFormArray(curriculumEntryFormData, func() *dto.CurriculumCourseLevelLessonResources { return &dto.CurriculumCourseLevelLessonResources{} },
-							[]datatypes.Pair[string, func(*dto.CurriculumCourseLevelLessonResources, string)]{{
-								First: baseKey + ".id",
-								Second: func(ccllr *dto.CurriculumCourseLevelLessonResources, s string) {
-									ccllr.Name = s
-								},
-							}},
-							[]datatypes.Pair[string, func(*dto.CurriculumCourseLevelLessonResources, *multipart.FileHeader)]{{
-								First: baseKey + ".file",
-								Second: func(ccllr *dto.CurriculumCourseLevelLessonResources, b *multipart.FileHeader) {
-									//ccllr.File = b
-								},
-							}},
-							callback,
-						)
-					}
 
 					presentationNotes := []dto.CurriculumCourseLevelLessonResources{}
 					studentNotes := []dto.CurriculumCourseLevelLessonResources{}
