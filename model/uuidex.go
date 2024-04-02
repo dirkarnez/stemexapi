@@ -39,7 +39,7 @@ func NewUUIDEx() UUIDEx {
 	return UUIDEx(uuid.New())
 }
 
-func ValidUUIDExFromIDString(id string) (UUIDEx, error) {
+func ValidUUIDExPointerFromIDString(id string) (UUIDEx, error) {
 	trimmed := strings.TrimSpace(id)
 	if len(trimmed) > 1 {
 		uuidParsed, err := uuid.Parse(trimmed)
