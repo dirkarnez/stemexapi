@@ -22,7 +22,7 @@ func MapCurriculumCourseFormToCurriculumEntry(form *dto.CurriculumCourseForm, cu
 		return err
 	}
 
-	OverrideFileID(curriculumEntry, form.IconFile, func(file *model.File, entity *model.CurriculumEntry) model.UUIDEx {
+	OverrideFileID(curriculumEntry, form.IconFile, func(file *model.File, entity *model.CurriculumEntry) {
 		return entry.IconID = (*file).ID
 	})
 
@@ -41,7 +41,7 @@ func MapCurriculumCourseFormToCurriculumEntry(form *dto.CurriculumCourseForm, cu
 	return nil
 }
 
-func OverrideFileID[V any](entity *V, file *multipart.FileHeader, onComplete func(*model.File, *V) model.UUIDEx) {
+func OverrideFileID[V any](entity *V, file *multipart.FileHeader, onComplete func(*model.File, *V)) {
 	//if file ok, then save the file, override the id
 	if file.Size > 0 && len(strings.TrimSpace(file.Filename)) > 0 {
 		onComplete(&model.File{}, entity)
