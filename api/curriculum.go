@@ -9,6 +9,7 @@ import (
 	"github.com/albrow/forms"
 	"github.com/dirkarnez/stemexapi/datatypes"
 	"github.com/dirkarnez/stemexapi/dto"
+	"github.com/dirkarnez/stemexapi/mappings"
 	"github.com/dirkarnez/stemexapi/model"
 	"github.com/dirkarnez/stemexapi/query"
 	"github.com/dirkarnez/stemexapi/utils"
@@ -613,6 +614,8 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 
 		var q = query.Use(dbInstance)
 		curriculumEntry := model.CurriculumEntry{}
+
+		err := mappings.MapCurriculumCourseFormToCurriculumEntry(&form, &curriculumEntry)
 
 		err := q.Transaction(func(tx *query.Query) error {
 
