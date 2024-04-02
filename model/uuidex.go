@@ -46,7 +46,6 @@ func ValidUUIDExFromIDString(id string) (*UUIDEx, error) {
 		if err != nil {
 			return nil, err
 		} else {
-			validUUIDex := 
 			return &(UUIDEx(uuidParsed)), nil
 		}
 	} else {
