@@ -1585,33 +1585,4 @@ func MapFormArray[N any](data *forms.Data, onNewItem func() *N, pairsForString [
 			break
 		}
 	}
-
-	// 	var presentationNotesIDKey = fmt.Sprintf("levels[%d].lessons[%d].presentation_notes[%d].id", i, j, k)
-
-	// 	var presentationNotesFileKey = fmt.Sprintf(`levels[%d].lessons[%d].presentation_notes[%d].file`, i, j, k)
-	// 	var presentationNotesNameKey = fmt.Sprintf(`levels[%d].lessons[%d].presentation_notes[%d].name`, i, j, k)
-	// 	var presentationNotesResourceIdKey = fmt.Sprintf(`levels[%d].lessons[%d].presentation_notes[%d].resource_id`, i, j, k)
-
-	// 	presentationNotesIDKeyExists := data.KeyExists(presentationNotesIDKey)
-	// 	presentationNotesFileKeyExists := data.KeyExists(presentationNotesFileKey)
-	// 	presentationNotesNameKeyExists := data.KeyExists(presentationNotesNameKey)
-	// 	presentationNotesResourceIdKeyExists := data.KeyExists(presentationNotesResourceIdKey)
-
-	// 	if presentationNotesIDKeyExists || presentationNotesFileKeyExists || presentationNotesNameKeyExists || presentationNotesResourceIdKeyExists {
-	// 		file, fileErr := data.GetFileBytes(presentationNotesFileKey)
-	// 		if fileErr != nil {
-	// 			return nil, fileErr
-	// 		}
-	// 		pairs[0].Second(&dto.CurriculumCourseLevelLessonResources{}, data.Get(presentationNotesIDKey))
-	// 		// dto.CurriculumCourseLevelLessonResources{
-	// 		// 	ID:         data.Get(presentationNotesIDKey),
-	// 		// 	File:       file,
-	// 		// 	Name:       data.Get(presentationNotesNameKey),
-	// 		// 	ResourseID: data.Get(presentationNotesResourceIdKey),
-	// 		// }
-	// 		k = k + 1
-	// 	} else {
-	// 		break
-	// 	}
-	// }
 }
