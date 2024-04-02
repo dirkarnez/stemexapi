@@ -1,2 +1,2 @@
 package mappings
-func MapCurriculumCourseForm
+func MapCurriculumCourseFormTo
