@@ -1395,7 +1395,7 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 		return nil, err
 	}
 
-	mapFunc := func(baseKey string, callback func(dto *dto.CurriculumCourseLevelLessonResources)) {
+	mapFunc := func[T](baseKey string, callback func(dto *dto.CurriculumCourseLevelLessonResources)) {
 		MapFormArray(curriculumEntryFormData, func() *dto.CurriculumCourseLevelLessonResources { return &dto.CurriculumCourseLevelLessonResources{} },
 			[]datatypes.Pair[string, func(*dto.CurriculumCourseLevelLessonResources, string)]{{
 				First: baseKey + ".id",
@@ -1425,9 +1425,11 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 		form.CurriculumPlanFile = curriculumEntryFormData.GetFile("curriculum_plan_file")
 		form.CurriculumPlanFileName = curriculumEntryFormData.Get("curriculum_plan_file_name")
 
-		CurriculumCourseYoutubeVideoEntries
+		
 
 		var youtubeVideoEntriesBaseKey = "youtube_video_entries[%d]"
+
+		mapFunc(curriculumEntryFormData, func(dto *dto.CurriculumCourseLevelLessonResources) {})
 
 		var i = 0
 
