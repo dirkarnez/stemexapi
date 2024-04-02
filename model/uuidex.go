@@ -39,6 +39,9 @@ func NewUUIDEx() UUIDEx {
 	return UUIDEx(uuid.New())
 }
 
+/*
+return either
+*/
 func ValidUUIDExPointerFromIDString(id string) (*UUIDEx, error) {
 	trimmed := strings.TrimSpace(id)
 	if len(trimmed) > 1 {
