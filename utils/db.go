@@ -48,7 +48,7 @@ func SaveUpload(fileHeader *multipart.FileHeader, prefixes []string, s3 *StemexS
 	}
 }
 
-func SaveUploadV2(fileHeader *multipart.FileHeader, uuidptr *model.UUIDEx, prefixes []string, s3 *StemexS3Client, q *query.Query, ctx iris.Context) (*model.File, error) {
+func SaveUploadV2(fileHeader *multipart.FileHeader, uuidptr *model.UUIDEx, prefixes []string, s3 *StemexS3Client, q *query.Query) (*model.File, error) {
 	if fileHeader == nil {
 		return nil, fmt.Errorf("nil fileHeader")
 	}
