@@ -44,9 +44,8 @@ func MapCurriculumCourseFormToCurriculumEntry(form *dto.CurriculumCourseForm, cu
 func OverrideFileID[V any](entity *V, file *multipart.FileHeader, onComplete func(*model.File, *V)) {
 	//if file ok, then save the file, override the id
 
-	 //no id, no file -> nothing
-	 //no id, has file -> add nee
 	 
+	 //no id, has file -> add nee
 	 //has id, has file -> overwrite file
 
 	if file.Size > 0 && len(strings.TrimSpace(file.Filename)) > 0 {
@@ -57,6 +56,7 @@ func OverrideFileID[V any](entity *V, file *multipart.FileHeader, onComplete fun
 		onComplete(&model.File{}, entity)
 	} else {
 		// no file
+		//no id, no file -> nothing
 		//has id, no file -> delete old file
 	}
 }
