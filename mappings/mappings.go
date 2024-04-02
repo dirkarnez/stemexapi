@@ -24,7 +24,7 @@ func MapCurriculumCourseFormToCurriculumEntry(form *dto.CurriculumCourseForm, cu
 	}
 
 	OverrideFileID(curriculumEntry, form.IconFile, func(entry *model.CurriculumEntry) {
-		entry.IconID = 
+		return entry.IconID
 	})
 
 	if err == nil {
