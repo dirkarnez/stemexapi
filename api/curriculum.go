@@ -620,14 +620,14 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				return fmt.Errorf("no description")
 			}
 
-			var erra error
+			var err error
 
-			curriculumEntry.ID, erra = model.ValidUUIDExFromIDString(form.ID)
-			if erra != nil {
-				return erra
+			curriculumEntry.ID, err = model.ValidUUIDExFromIDString(form.ID)
+			if err != nil {
+				return err
 			}
 
-			curriculumEntry.ParentID, erra = model.ValidUUIDExPointerFromIDString(form.ParentID)
+			curriculumEntry.ParentID, err = model.ValidUUIDExPointerFromIDString(form.ParentID)
 			if erra != nil {
 				return erra
 			}
