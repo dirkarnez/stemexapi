@@ -1395,7 +1395,7 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 		return nil, err
 	}
 
-	mapFunc := func[T any](baseKey string, callback func(dto *dto.CurriculumCourseLevelLessonResources)) {
+	mapFunc := func[T any](baseKey string, callback func(dto *T)) {
 		MapFormArray(curriculumEntryFormData, func() *dto.CurriculumCourseLevelLessonResources { return &dto.CurriculumCourseLevelLessonResources{} },
 			[]datatypes.Pair[string, func(*dto.CurriculumCourseLevelLessonResources, string)]{{
 				First: baseKey + ".id",
