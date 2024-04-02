@@ -1418,8 +1418,8 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 			}},
 			[]datatypes.Pair[string, func(*dto.CurriculumCourseYoutubeVideoEntries, *multipart.FileHeader)]{{
 				First: youtubeVideoEntriesBaseKey + ".file",
-				Second: func(ccllr *dto.CurriculumCourseYoutubeVideoEntries, b *multipart.FileHeader) {
-					dto.ID = s
+				Second: func(dto *dto.CurriculumCourseYoutubeVideoEntries, b *multipart.FileHeader) {
+					dto.URL = s
 				},
 			}},
 			callback,
