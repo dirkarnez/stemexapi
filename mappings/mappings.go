@@ -42,7 +42,7 @@ func MapCurriculumCourseFormToCurriculumEntry(form *dto.CurriculumCourseForm, cu
 	return nil
 }
 
-func OverrideFileID[V any](entity *V, file *multipart.FileHeader, pkGetter func(item V) model.UUIDEx) {
+func OverrideFileID[V any](entity *V, file *multipart.FileHeader, idGetter func(item V) model.UUIDEx) {
 	//if file ok, then save the file, override the id
 	if file.Size > 0 && len(strings.TrimSpace(file.Filename)) > 0 {
 
