@@ -44,6 +44,10 @@ func MapCurriculumCourseFormToCurriculumEntry(form *dto.CurriculumCourseForm, cu
 func OverrideFileID[V any](entity *V, file *multipart.FileHeader, onComplete func(*model.File, *V)) {
 	//if file ok, then save the file, override the id
 	if file.Size > 0 && len(strings.TrimSpace(file.Filename)) > 0 {
+				file, err := utils.SaveUploadV2(iconFileHeader, &curriculumEntry.IconID, []string{utils.PrefixCourseResourses, curriculumEntry.Description}, s3, tx, ctx)
+		if err != nil {
+			return err
+		}
 		onComplete(&model.File{}, entity)
 	}
 }
