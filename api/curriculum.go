@@ -1445,7 +1445,7 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 						dto.URL = s
 					},
 				}},
-			[]datatypes.Pair[string, func(*dto.CurriculumCourseYoutubeVideoEntries, *multipart.FileHeader)]{},
+			[]datatypes.Pair[string, func(*dto.CurriculumCourseBlogEntries, *multipart.FileHeader)]{},
 			func(n *dto.CurriculumCourseYoutubeVideoEntries) {
 				form.YoutubeVideoEntries = append(form.YoutubeVideoEntries, *n)
 			},
