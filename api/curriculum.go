@@ -1398,14 +1398,19 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 	val := curriculumEntryFormData.Validator()
 	val.Require("description")
 	if !val.HasErrors() {
-		var iconFileErr error
 		form.ID = curriculumEntryFormData.Get("id")
 		form.IconID = curriculumEntryFormData.Get("icon_id")
-		form.IconFile, iconFileErr = curriculumEntryFormData.GetFileBytes("icon_file")
-		form.Description = curriculumEntryFormData.Get("description")
-		if iconFileErr != nil {
-			return nil, iconFileErr
-		}
+		form.IconFile = curriculumEntryFormData.GetFile("icon_file")
+		form.ParentID = curriculumEntryFormData.Get("parent_id")
+		form.CourseID = curriculumEntryFormData.Get("course_id")
+		form.CurriculumPlanID = curriculumEntryFormData.Get("curriculum_plan_id")
+		form.CurriculumPlanFile = curriculumEntryFormData.Get("curriculum_plan_file")
+		form.CurriculumPlanFileName = curriculumEntryFormData.Get("curriculum_plan_file_name")
+		
+		
+		
+		
+		CurriculumCourseYoutubeVideoEntries youtube_video_entries
 
 		var i = 0
 
