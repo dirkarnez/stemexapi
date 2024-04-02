@@ -1411,7 +1411,7 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 
 		var i = 0
 
-		youtubeVideoEntriesBaseKey = "youtube_video_entries"
+		youtubeVideoEntriesBaseKey = "youtube_video_entries[%d]"
 
 		for {
 			var blogEntriesIDKey = fmt.Sprintf(`blog_entries[%d].id`, i)
