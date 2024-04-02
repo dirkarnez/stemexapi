@@ -1406,13 +1406,12 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 		form.CurriculumPlanID = curriculumEntryFormData.Get("curriculum_plan_id")
 		form.CurriculumPlanFile = curriculumEntryFormData.Get("curriculum_plan_file")
 		form.CurriculumPlanFileName = curriculumEntryFormData.Get("curriculum_plan_file_name")
-		
-		
-		
-		
-		CurriculumCourseYoutubeVideoEntries youtube_video_entries
+
+		CurriculumCourseYoutubeVideoEntries
 
 		var i = 0
+
+		youtubeVideoEntriesBaseKey = "youtube_video_entries"
 
 		for {
 			var blogEntriesIDKey = fmt.Sprintf(`blog_entries[%d].id`, i)
