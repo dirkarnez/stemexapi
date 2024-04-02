@@ -621,22 +621,6 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				return fmt.Errorf("no description")
 			}
 
-			var err error
-			curriculumEntry.ID, err = model.ValidUUIDExFromIDString(form.ID)
-			if err != nil {
-				return err
-			}
-
-			curriculumEntry.ParentID, err = model.ValidUUIDExPointerFromIDString(form.ParentID)
-			if err != nil {
-				return err
-			}
-
-			curriculumEntry.IconID, err = model.ValidUUIDExFromIDString(form.IconID)
-			if err != nil {
-				return err
-			}
-
 			// // Get the max post value size passed via iris.WithPostMaxMemory.
 			maxSize := ctx.Application().ConfigurationReadOnly().GetPostMaxMemory()
 
