@@ -615,11 +615,11 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 		var curriculumEntry model.CurriculumEntry = model.CurriculumEntry{}
 		err := q.Transaction(func(tx *query.Query) error {
 			if len(form.ID) > 1 {
-				IDUUID, err := model.ValidUUIDExFromIDString(form.ID)
+				IDUUID, err := 
 				if err != nil {
 					return err
 				}
-				curriculumEntry.ID = IDUUID
+				curriculumEntry.ID = model.ValidUUIDExFromIDString(form.ID)
 			}
 
 			curriculumEntry.Description = form.Description
