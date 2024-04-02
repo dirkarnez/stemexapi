@@ -1397,11 +1397,6 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 
 	val := curriculumEntryFormData.Validator()
 	val.Require("description")
-	val.Require("description")
-	val.Require("description")
-	val.Require("description")
-	val.Require("description")
-	val.Require("description")
 
 	if !val.HasErrors() {
 		form.ID = curriculumEntryFormData.Get("id")
