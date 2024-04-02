@@ -50,7 +50,7 @@ func ValidUUIDExPointerFromIDString(id string) (*UUIDEx, error) {
 			return &uuidex, nil
 		}
 	} else {
-		return UUIDEx(uuid.Nil), nil
+		return nil, nil
 	}
 }
 func ValidUUIDExFromIDString(id string) (UUIDEx, error) {
