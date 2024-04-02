@@ -635,8 +635,9 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				curriculumEntry.ParentID = &ParentIDUUID
 			}
 
+			var erra error
 			if len(form.IconID) > 1 {
-				curriculumEntry.IconID, erra := model.ValidUUIDExFromIDString(form.IconID)
+				curriculumEntry.IconID, erra = model.ValidUUIDExFromIDString(form.IconID)
 				if erra != nil {
 					return erra
 				}
