@@ -47,7 +47,7 @@ func OverrideFileID[V any](entity *V, file *multipart.FileHeader, onComplete fun
 	 //no id, no file -> nothing
 	 //no id, has file -> add nee
 	 //has id, no file -> delete old file
-	 //has id, has file -> update by id
+	 //has id, has file -> overwrite by id
 
 	if file.Size > 0 && len(strings.TrimSpace(file.Filename)) > 0 {
 		file, err := utils.SaveUploadV2(iconFileHeader, &curriculumEntry.IconID, []string{utils.PrefixCourseResourses, curriculumEntry.Description}, s3, tx, ctx)
