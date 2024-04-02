@@ -1395,24 +1395,6 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 		return nil, err
 	}
 
-	mapFunc := func[T any](baseKey string, callback func(dto *T)) {
-		MapFormArray(curriculumEntryFormData, func() *dto.CurriculumCourseLevelLessonResources { return &dto.CurriculumCourseLevelLessonResources{} },
-			[]datatypes.Pair[string, func(*dto.CurriculumCourseLevelLessonResources, string)]{{
-				First: baseKey + ".id",
-				Second: func(ccllr *dto.CurriculumCourseLevelLessonResources, s string) {
-					ccllr.Name = s
-				},
-			}},
-			[]datatypes.Pair[string, func(*dto.CurriculumCourseLevelLessonResources, *multipart.FileHeader)]{{
-				First: baseKey + ".file",
-				Second: func(ccllr *dto.CurriculumCourseLevelLessonResources, b *multipart.FileHeader) {
-					//ccllr.File = b
-				},
-			}},
-			callback,
-		)
-	}
-
 	val := curriculumEntryFormData.Validator()
 	val.Require("description")
 	if !val.HasErrors() {
@@ -1425,11 +1407,9 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 		form.CurriculumPlanFile = curriculumEntryFormData.GetFile("curriculum_plan_file")
 		form.CurriculumPlanFileName = curriculumEntryFormData.Get("curriculum_plan_file_name")
 
-		
+		CurriculumCourseYoutubeVideoEntries
 
 		var youtubeVideoEntriesBaseKey = "youtube_video_entries[%d]"
-
-		mapFunc(curriculumEntryFormData, func(dto *dto.CurriculumCourseLevelLessonResources) {})
 
 		var i = 0
 
@@ -1480,24 +1460,42 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 				for {
 					var lessonsArrayKey = fmt.Sprintf(`levels[%d].lessons[%d]`, i, j)
 
+					mapDifferentTypesOfResources := func(baseKey string, callback func(dto *dto.CurriculumCourseLevelLessonResources)) {
+						MapFormArray(curriculumEntryFormData, func() *dto.CurriculumCourseLevelLessonResources { return &dto.CurriculumCourseLevelLessonResources{} },
+							[]datatypes.Pair[string, func(*dto.CurriculumCourseLevelLessonResources, string)]{{
+								First: baseKey + ".id",
+								Second: func(ccllr *dto.CurriculumCourseLevelLessonResources, s string) {
+									ccllr.Name = s
+								},
+							}},
+							[]datatypes.Pair[string, func(*dto.CurriculumCourseLevelLessonResources, *multipart.FileHeader)]{{
+								First: baseKey + ".file",
+								Second: func(ccllr *dto.CurriculumCourseLevelLessonResources, b *multipart.FileHeader) {
+									//ccllr.File = b
+								},
+							}},
+							callback,
+						)
+					}
+
 					presentationNotes := []dto.CurriculumCourseLevelLessonResources{}
 					studentNotes := []dto.CurriculumCourseLevelLessonResources{}
 					teacherNotes := []dto.CurriculumCourseLevelLessonResources{}
 					miscMaterials := []dto.CurriculumCourseLevelLessonResources{}
 
-					mapFunc(lessonsArrayKey+".presentation_notes[%d]", func(dto *dto.CurriculumCourseLevelLessonResources) {
+					mapDifferentTypesOfResources(lessonsArrayKey+".presentation_notes[%d]", func(dto *dto.CurriculumCourseLevelLessonResources) {
 						presentationNotes = append(presentationNotes, *dto)
 					})
 
-					mapFunc(lessonsArrayKey+".student_notes[%d]", func(dto *dto.CurriculumCourseLevelLessonResources) {
+					mapDifferentTypesOfResources(lessonsArrayKey+".student_notes[%d]", func(dto *dto.CurriculumCourseLevelLessonResources) {
 						studentNotes = append(studentNotes, *dto)
 					})
 
-					mapFunc(lessonsArrayKey+".teacher_notes[%d]", func(dto *dto.CurriculumCourseLevelLessonResources) {
+					mapDifferentTypesOfResources(lessonsArrayKey+".teacher_notes[%d]", func(dto *dto.CurriculumCourseLevelLessonResources) {
 						teacherNotes = append(teacherNotes, *dto)
 					})
 
-					mapFunc(lessonsArrayKey+".misc_materials[%d]", func(dto *dto.CurriculumCourseLevelLessonResources) {
+					mapDifferentTypesOfResources(lessonsArrayKey+".misc_materials[%d]", func(dto *dto.CurriculumCourseLevelLessonResources) {
 						miscMaterials = append(miscMaterials, *dto)
 					})
 
