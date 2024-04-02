@@ -21,7 +21,6 @@ func MapCurriculumCourseFormToCurriculumEntry(form *dto.CurriculumCourseForm, cu
 	}
 
 	form.IconFile
-	_, iconFileHeader, err := ctx.Request().FormFile("icon_file")
 	if err == nil {
 		file, err := utils.SaveUploadV2(iconFileHeader, &curriculumEntry.IconID, []string{utils.PrefixCourseResourses, curriculumEntry.Description}, s3, tx, ctx)
 		if err != nil {
