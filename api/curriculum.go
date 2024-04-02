@@ -1442,7 +1442,7 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 				{
 					First: blogEntriesBaseKey + ".title",
 					Second: func(dto *dto.CurriculumCourseBlogEntries, s string) {
-						dto.URL = s
+						dto.Title = s
 					},
 				}},
 			[]datatypes.Pair[string, func(*dto.CurriculumCourseBlogEntries, *multipart.FileHeader)]{},
@@ -1467,7 +1467,7 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 				// fmt.Println(description, title)
 				form.BlogEntries = append(form.BlogEntries, dto.CurriculumCourseBlogEntries{
 					ID:          curriculumEntryFormData.Get(blogEntriesIDKey),
-					Title:       curriculumEntryFormData.Get(blogEntriesTitleKey),
+					:       curriculumEntryFormData.Get(blogEntriesTitleKey),
 					ExternalURL: curriculumEntryFormData.Get(blogEntriesExternalURLKey),
 				})
 				i = i + 1
