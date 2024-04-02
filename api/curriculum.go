@@ -621,7 +621,6 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			}
 
 			var err error
-
 			curriculumEntry.ID, err = model.ValidUUIDExFromIDString(form.ID)
 			if err != nil {
 				return err
