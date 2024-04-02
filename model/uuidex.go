@@ -52,6 +52,19 @@ func ValidUUIDExFromIDString(id string) (UUIDEx, error) {
 		return UUIDEx(uuid.Nil), nil
 	}
 }
+func ValidUUIDExFromIDString(id string) (UUIDEx, error) {
+	trimmed := strings.TrimSpace(id)
+	if len(trimmed) > 1 {
+		uuidParsed, err := uuid.Parse(trimmed)
+		if err != nil {
+			return UUIDEx(uuid.Nil), err
+		} else {
+			return UUIDEx(uuidParsed), nil
+		}
+	} else {
+		return UUIDEx(uuid.Nil), nil
+	}
+}
 
 func (my UUIDEx) ToString() string {
 	u := uuid.UUID(my)
