@@ -1412,13 +1412,13 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 		MapFormArray(curriculumEntryFormData, func() *dto.CurriculumCourseYoutubeVideoEntries { return &dto.CurriculumCourseYoutubeVideoEntries{} },
 			[]datatypes.Pair[string, func(*dto.CurriculumCourseYoutubeVideoEntries, string)]{{
 				First: youtubeVideoEntriesBaseKey + ".id",
-				Second: func(ccllr *dto.CurriculumCourseLevelLessonResources, s string) {
+				Second: func(ccllr *dto.CurriculumCourseYoutubeVideoEntries, s string) {
 					ccllr.Name = s
 				},
 			}},
-			[]datatypes.Pair[string, func(*dto.CurriculumCourseLevelLessonResources, *multipart.FileHeader)]{{
+			[]datatypes.Pair[string, func(*dto.CurriculumCourseYoutubeVideoEntries, *multipart.FileHeader)]{{
 				First: youtubeVideoEntriesBaseKey + ".file",
-				Second: func(ccllr *dto.CurriculumCourseLevelLessonResources, b *multipart.FileHeader) {
+				Second: func(ccllr *dto.CurriculumCourseYoutubeVideoEntries, b *multipart.FileHeader) {
 					//ccllr.File = b
 				},
 			}},
