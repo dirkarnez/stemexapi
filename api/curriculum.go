@@ -1404,7 +1404,7 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 		form.ParentID = curriculumEntryFormData.Get("parent_id")
 		form.CourseID = curriculumEntryFormData.Get("course_id")
 		form.CurriculumPlanID = curriculumEntryFormData.Get("curriculum_plan_id")
-		form.CurriculumPlanFile = curriculumEntryFormData.Get("curriculum_plan_file")
+		form.CurriculumPlanFile = curriculumEntryFormData.GetFile("curriculum_plan_file")
 		form.CurriculumPlanFileName = curriculumEntryFormData.Get("curriculum_plan_file_name")
 
 		CurriculumCourseYoutubeVideoEntries
