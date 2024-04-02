@@ -1483,19 +1483,19 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 					teacherNotes := []dto.CurriculumCourseLevelLessonResources{}
 					miscMaterials := []dto.CurriculumCourseLevelLessonResources{}
 
-					mapDifferentTypesOfResources(lessonsArrayKey+".presentation_notes[%d]", func(dto *dto.CurriculumCourseLevelLessonResources) {
+					mapFunc(lessonsArrayKey+".presentation_notes[%d]", func(dto *dto.CurriculumCourseLevelLessonResources) {
 						presentationNotes = append(presentationNotes, *dto)
 					})
 
-					mapDifferentTypesOfResources(lessonsArrayKey+".student_notes[%d]", func(dto *dto.CurriculumCourseLevelLessonResources) {
+					mapFunc(lessonsArrayKey+".student_notes[%d]", func(dto *dto.CurriculumCourseLevelLessonResources) {
 						studentNotes = append(studentNotes, *dto)
 					})
 
-					mapDifferentTypesOfResources(lessonsArrayKey+".teacher_notes[%d]", func(dto *dto.CurriculumCourseLevelLessonResources) {
+					mapFunc(lessonsArrayKey+".teacher_notes[%d]", func(dto *dto.CurriculumCourseLevelLessonResources) {
 						teacherNotes = append(teacherNotes, *dto)
 					})
 
-					mapDifferentTypesOfResources(lessonsArrayKey+".misc_materials[%d]", func(dto *dto.CurriculumCourseLevelLessonResources) {
+					mapFunc(lessonsArrayKey+".misc_materials[%d]", func(dto *dto.CurriculumCourseLevelLessonResources) {
 						miscMaterials = append(miscMaterials, *dto)
 					})
 
