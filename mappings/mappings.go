@@ -1,2 +1,5 @@
 package mappings
-func MapCurriculumCourseFormTo
+
+import "github.com/dirkarnez/stemexapi/model"
+
+func MapCurriculumCourseFormToCurriculumEntry(entry *model.CurriculumEntry)
