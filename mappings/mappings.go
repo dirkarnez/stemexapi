@@ -26,6 +26,6 @@ func MapCurriculumCourseFormToCurriculumEntry(form *dto.CurriculumCourseForm, cu
 	return nil
 }
 
-func OverrideFileID[V any](predicate func(item V) model.UUIDEx) {
+func OverrideFileID[V any](pkGetter func(item V) model.UUIDEx) {
 
 }
