@@ -6,8 +6,9 @@ import (
 )
 
 func MapCurriculumCourseFormToCurriculumEntry(form *dto.CurriculumCourseForm, curriculumEntry *model.CurriculumEntry) error {
-	var err error
 	curriculumEntry.Description = form.Description
+	var err error
+
 	curriculumEntry.ID, err = model.ValidUUIDExFromIDString(form.ID)
 	if err != nil {
 		return err
