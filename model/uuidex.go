@@ -44,7 +44,7 @@ func ValidUUIDExFromIDString(id string) (UUIDEx, error) {
 	if len(trimmed > 1) {
 
 	}
-	uuidParsed, err := uuid.Parse(id)
+	uuidParsed, err := uuid.Parse(trimmed)
 	if err != nil {
 		return UUIDEx(uuid.Nil), err
 	}
