@@ -40,7 +40,8 @@ func NewUUIDEx() UUIDEx {
 }
 
 func ValidUUIDExFromIDString(id string) (UUIDEx, error) {
-	if len(strings.TrimSpace(id) > 1) {
+	trimmed := strings.TrimSpace(id)
+	if len(trimmed > 1) {
 
 	}
 	uuidParsed, err := uuid.Parse(id)
