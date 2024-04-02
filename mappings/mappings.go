@@ -1,6 +1,8 @@
 package mappings
 
 import (
+	"mime/multipart"
+
 	"github.com/dirkarnez/stemexapi/dto"
 	"github.com/dirkarnez/stemexapi/model"
 	"github.com/dirkarnez/stemexapi/utils"
@@ -20,7 +22,9 @@ func MapCurriculumCourseFormToCurriculumEntry(form *dto.CurriculumCourseForm, cu
 		return err
 	}
 
+	OverrideFileID()
 	form.IconFile
+
 	if err == nil {
 		file, err := utils.SaveUploadV2(iconFileHeader, &curriculumEntry.IconID, []string{utils.PrefixCourseResourses, curriculumEntry.Description}, s3, tx, ctx)
 		if err != nil {
@@ -36,6 +40,6 @@ func MapCurriculumCourseFormToCurriculumEntry(form *dto.CurriculumCourseForm, cu
 	return nil
 }
 
-func OverrideFileID[V any](pkGetter func(item V) model.UUIDEx) {
+func OverrideFileID[V any](file *multipart.FileHeader, pkGetter func(item V) model.UUIDEx) {
 
 }
