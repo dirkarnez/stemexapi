@@ -1451,8 +1451,6 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 						dto.ExternalURL = s
 					},
 				},
-				
-			
 			},
 			[]datatypes.Pair[string, func(*dto.CurriculumCourseBlogEntries, *multipart.FileHeader)]{},
 			func(n *dto.CurriculumCourseBlogEntries) {
@@ -1461,31 +1459,6 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 		)
 
 		var i = 0
-
-		for {
-			var blogEntriesIDKey = fmt.Sprintf(`blog_entries[%d].id`, i)
-			var blogEntriesTitleKey = fmt.Sprintf(`blog_entries[%d].title`, i)
-			var blogEntriesExternalURLKey = fmt.Sprintf(`blog_entries[%d].`, i)
-
-			blogEntriesIDKeyExists := curriculumEntryFormData.KeyExists(blogEntriesIDKey)
-			blogEntriesTitleKeyExists := curriculumEntryFormData.KeyExists(blogEntriesTitleKey)
-			blogEntriesExternalURLKeyExists := curriculumEntryFormData.KeyExists(blogEntriesExternalURLKey)
-
-			if blogEntriesIDKeyExists || blogEntriesTitleKeyExists || blogEntriesExternalURLKeyExists {
-				// title := curriculumEntryFormData.Get(blogEntriesIDKey)
-				// fmt.Println(description, title)
-				form.BlogEntries = append(form.BlogEntries, dto.CurriculumCourseBlogEntries{
-					ID:          curriculumEntryFormData.Get(blogEntriesIDKey),
-					:       curriculumEntryFormData.Get(blogEntriesTitleKey),
-					: curriculumEntryFormData.Get(blogEntriesExternalURLKey),
-				})
-				i = i + 1
-			} else {
-				break
-			}
-		}
-
-		i = 0
 
 		for {
 			var levelsIDKey = fmt.Sprintf(`levels[%d].id`, i)
