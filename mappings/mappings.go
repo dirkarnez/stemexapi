@@ -2,6 +2,7 @@ package mappings
 
 import (
 	"mime/multipart"
+	"strings"
 
 	"github.com/dirkarnez/stemexapi/dto"
 	"github.com/dirkarnez/stemexapi/model"
@@ -41,5 +42,7 @@ func MapCurriculumCourseFormToCurriculumEntry(form *dto.CurriculumCourseForm, cu
 
 func OverrideFileID[V any](file *multipart.FileHeader, pkGetter func(item V) model.UUIDEx) {
 	//if file ok, then save the file, override the id
-	if file.Size > 0
+	if file.Size > 0 && len(strings.TrimSpace(file.Filename)) > 0 {
+
+	}
 }
