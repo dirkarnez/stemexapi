@@ -611,18 +611,6 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 		var returnForm dto.CurriculumCourseForm
 		var form, _ = MapRequestToCurriculumCourseForm(ctx.Request())
 
-		// errTesting := utils.FormMultipartParse(ctx.Request(), &testing)
-		// if errTesting != nil {
-		// 	ctx.StopWithError(iris.StatusInternalServerError, errTesting)
-		// 	return
-		// }
-
-		// err := ctx.ReadForm(&form)
-		// if err != nil {
-		// 	ctx.StopWithError(iris.StatusInternalServerError, err)
-		// 	return
-		// }
-
 		var q = query.Use(dbInstance)
 		var curriculumEntry model.CurriculumEntry = model.CurriculumEntry{}
 		err := q.Transaction(func(tx *query.Query) error {
