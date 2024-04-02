@@ -616,8 +616,8 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 		curriculumEntry := model.CurriculumEntry{}
 
 		err := mappings.MapCurriculumCourseFormToCurriculumEntry(form, &curriculumEntry)
-		if err != nil
-			return fmt.Errorf("no description")
+		if err != nil {
+			return err
 		}
 
 		err = q.Transaction(func(tx *query.Query) error {
