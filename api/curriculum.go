@@ -1424,7 +1424,9 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 					},
 				}},
 			[]datatypes.Pair[string, func(*dto.CurriculumCourseYoutubeVideoEntries, *multipart.FileHeader)]{},
-			callback,
+			func(n *dto.CurriculumCourseYoutubeVideoEntries) {
+
+			},
 		)
 
 		var i = 0
