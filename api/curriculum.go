@@ -612,7 +612,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 		var form, _ = MapRequestToCurriculumCourseForm(ctx.Request())
 
 		var q = query.Use(dbInstance)
-		var curriculumEntry model.CurriculumEntry = model.CurriculumEntry{}
+		curriculumEntry := model.CurriculumEntry{}
 		err := q.Transaction(func(tx *query.Query) error {
 			curriculumEntry.Description = form.Description
 
