@@ -1446,7 +1446,7 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 					},
 				},
 				{
-					First: blogEntriesBaseKey + ".title",
+					First: blogEntriesBaseKey + ".external_url",
 					Second: func(dto *dto.CurriculumCourseBlogEntries, s string) {
 						dto.ExternalURL = s
 					},
@@ -1465,7 +1465,7 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 		for {
 			var blogEntriesIDKey = fmt.Sprintf(`blog_entries[%d].id`, i)
 			var blogEntriesTitleKey = fmt.Sprintf(`blog_entries[%d].title`, i)
-			var blogEntriesExternalURLKey = fmt.Sprintf(`blog_entries[%d].external_url`, i)
+			var blogEntriesExternalURLKey = fmt.Sprintf(`blog_entries[%d].`, i)
 
 			blogEntriesIDKeyExists := curriculumEntryFormData.KeyExists(blogEntriesIDKey)
 			blogEntriesTitleKeyExists := curriculumEntryFormData.KeyExists(blogEntriesTitleKey)
