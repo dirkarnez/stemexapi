@@ -55,5 +55,7 @@ func OverrideFileID[V any](entity *V, file *multipart.FileHeader, onComplete fun
 			return err
 		}
 		onComplete(&model.File{}, entity)
+	} else {
+		// no file
 	}
 }
