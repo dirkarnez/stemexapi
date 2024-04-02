@@ -40,5 +40,5 @@ func MapCurriculumCourseFormToCurriculumEntry(form *dto.CurriculumCourseForm, cu
 }
 
 func OverrideFileID[V any](file *multipart.FileHeader, pkGetter func(item V) model.UUIDEx) {
-	//
+	//if file ok, then save the file, override the id
 }
