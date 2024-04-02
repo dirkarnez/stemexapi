@@ -1397,7 +1397,7 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 
 	val := curriculumEntryFormData.Validator()
 	val.Require("description")
-	val.RequireFile("description")
+	val.Require("description")
 	val.Require("description")
 	val.Require("description")
 	val.Require("description")
