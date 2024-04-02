@@ -636,11 +636,10 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			}
 
 			if len(form.IconID) > 1 {
-				curriculumEntry.IconID, err := model.ValidUUIDExFromIDString(form.IconID)
+				curriculumEntry.IconID, err = model.ValidUUIDExFromIDString(form.IconID)
 				if err != nil {
 					return err
 				}
-				 = IconIDUUID
 			}
 
 			// // Get the max post value size passed via iris.WithPostMaxMemory.
