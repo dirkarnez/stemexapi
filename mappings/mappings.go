@@ -23,5 +23,5 @@ func MapCurriculumCourseFormToCurriculumEntry(form *dto.CurriculumCourseForm, cu
 	if err != nil {
 		return err
 	}
-
+	return nil
 }
