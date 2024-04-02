@@ -1411,6 +1411,22 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 
 		var youtubeVideoEntriesBaseKey = "youtube_video_entries[%d]"
 
+		MapFormArray(curriculumEntryFormData, func() *dto.CurriculumCourseLevelLessonResources { return &dto.CurriculumCourseLevelLessonResources{} },
+			[]datatypes.Pair[string, func(*dto.CurriculumCourseLevelLessonResources, string)]{{
+				First: baseKey + ".id",
+				Second: func(ccllr *dto.CurriculumCourseLevelLessonResources, s string) {
+					ccllr.Name = s
+				},
+			}},
+			[]datatypes.Pair[string, func(*dto.CurriculumCourseLevelLessonResources, *multipart.FileHeader)]{{
+				First: baseKey + ".file",
+				Second: func(ccllr *dto.CurriculumCourseLevelLessonResources, b *multipart.FileHeader) {
+					//ccllr.File = b
+				},
+			}},
+			callback,
+		)
+
 		var i = 0
 
 		for {
