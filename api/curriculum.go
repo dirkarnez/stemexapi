@@ -622,41 +622,6 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 		// course_levels[*].Lessons[*].TeacherNotes(id, file_name, file)
 		// course_levels[*].Lessons[*].MiscMaterials(id, file_name, file)
 		// course id
-		type A struct {
-			ID string `form:"id" json:"id"`
-			// Name        string `form:"name" json:"name"`
-			// IconID      string `form:"icon_id" json:"icon_id"`
-			// Description string `form:"description" json:"description"`
-			// Lessons     []struct {
-			// 	ID string `form:"id" json:"id"`
-			// 	// LessonNumber      uint64 `json:"lesson_number" form:"lesson_number"`
-			// 	PresentationNotes []struct {
-			// 		ID         string                `form:"id" json:"id"`
-			// 		ResourseID string                `form:"resource_id" json:"resource_id"`
-			// 		Name       string                `form:"name" json:"name" `
-			// 		File       *multipart.FileHeader `form:"file"`
-			// 	} `form:"presentation_notes" json:"presentation_notes"`
-			// 	// StudentNotes []struct {
-			// 	// 	ID         string                `json:"id" form:"id"`
-			// 	// 	ResourseID string                `json:"resource_id" form:"resource_id"`
-			// 	// 	Name       string                `json:"name" form:"name"`
-			// 	// 	File       *multipart.FileHeader `form:"file"`
-			// 	// } `json:"student_notes" form:"student_notes"`
-			// 	// TeacherNotes []struct {
-			// 	// 	ID         string                `json:"id" form:"id"`
-			// 	// 	ResourseID string                `json:"resource_id" form:"resource_id"`
-			// 	// 	Name       string                `json:"name" form:"name"`
-			// 	// 	File       *multipart.FileHeader `form:"file"`
-			// 	// } `json:"teacher_notes" form:"teacher_notes"`
-			// 	// MiscMaterials []struct {
-			// 	// 	ID         string                `form:"id" json:"id"`
-			// 	// 	ResourseID string                `form:"resource_id" json:"resource_id" `
-			// 	// 	Name       string                `json:"name" form:"name"`
-			// 	// 	File       *multipart.FileHeader `form:"file"`
-			// 	// } `json:"misc_materials" form:"misc_materials"`
-			// } `form:"lessons" json:"lessons"`
-		}
-
 		// var testing struct {
 		// 	ID                     string                                    `form:"id" json:"id"`
 		// 	IconID                 string                                    `form:"icon_id" json:"icon_id"`
