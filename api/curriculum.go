@@ -615,6 +615,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 		var curriculumEntry model.CurriculumEntry = model.CurriculumEntry{}
 		err := q.Transaction(func(tx *query.Query) error {
 			curriculumEntry.Description = form.Description
+
 			if len(curriculumEntry.Description) < 1 {
 				return fmt.Errorf("no description")
 			}
