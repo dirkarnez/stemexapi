@@ -608,34 +608,6 @@ func GetCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.
 
 func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.Handler {
 	return func(ctx iris.Context) {
-		// type InformationEntry struct {
-		// 	IconID string `form:"icon_id"`
-		// 	//IconFile []byte/**multipart.FileHeader*/ `form:"icon_file"`
-		// 	Title   string `form:"title"`
-		// 	Content string `form:"content"`
-		// }
-		//IconFile/**multipart.FileHeader */ []byte                                           `form:"icon_file"`
-		// (2) ['curriculum_plan_file', File]
-		// course_levels[*].icon_file
-		// course_levels[*].Lessons[*].PresentationNotes(id, file_name, file)
-		// course_levels[*].Lessons[*].StudentNotes(id, file_name, file)
-		// course_levels[*].Lessons[*].TeacherNotes(id, file_name, file)
-		// course_levels[*].Lessons[*].MiscMaterials(id, file_name, file)
-		// course id
-		// var testing struct {
-		// 	ID                     string                                    `form:"id" json:"id"`
-		// 	IconID                 string                                    `form:"icon_id" json:"icon_id"`
-		// 	IconFile               *multipart.FileHeader                     `form:"icon_file"`
-		// 	Description            string                                    `form:"description" json:"description"`
-		// 	ParentID               string                                    `form:"parent_id" json:"parent_id"`
-		// 	CourseID               string                                    `form:"course_id" json:"course_id"`MapRequestToCurriculumCourseForm
-		// 	CurriculumPlanID       string                                    `form:"curriculum_plan_id" json:"curriculum_plan_id"`
-		// 	CurriculumPlanFileName string                                    `form:"curriculum_plan_file_name" json:"curriculum_plan_file_name"` // uploaded
-		// 	BlogEntries            []dto.CurriculumCourseBlogEntries         `form:"blog_entries" json:"blog_entries"`
-		// 	YoutubeVideoEntries    []dto.CurriculumCourseYoutubeVideoEntries `form:"youtube_video_entries" json:"youtube_video_entries"`
-		// 	Levels                 []A                                       `form:"levels"`
-		// }
-
 		var returnForm dto.CurriculumCourseForm
 		var form, _ = MapRequestToCurriculumCourseForm(ctx.Request())
 
