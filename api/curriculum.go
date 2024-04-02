@@ -1419,7 +1419,7 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 				},
 				{
 					First: youtubeVideoEntriesBaseKey + ".file",
-					Second: func(dto *dto.CurriculumCourseYoutubeVideoEntries, b *multipart.FileHeader) {
+					Second: func(dto *dto.CurriculumCourseYoutubeVideoEntries, s string) {
 						dto.URL = s
 					},
 				}},
