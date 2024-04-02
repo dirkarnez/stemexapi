@@ -617,7 +617,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 
 		err := mappings.MapCurriculumCourseFormToCurriculumEntry(form, &curriculumEntry)
 		if err != nil {
-			return err
+			return ctx.StopWithError(iris.StatusBadRequest, err)
 		}
 
 		err = q.Transaction(func(tx *query.Query) error {
