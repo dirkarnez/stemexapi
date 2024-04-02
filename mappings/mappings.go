@@ -46,7 +46,7 @@ func OverrideFileID[V any](entity *V, file *multipart.FileHeader, onComplete fun
 
 	 //no id, no file -> nothing
 	 //no id, has file -> add nee
-	 //has id, no file -> delete old file
+	 
 	 //has id, has file -> overwrite file
 
 	if file.Size > 0 && len(strings.TrimSpace(file.Filename)) > 0 {
@@ -57,5 +57,6 @@ func OverrideFileID[V any](entity *V, file *multipart.FileHeader, onComplete fun
 		onComplete(&model.File{}, entity)
 	} else {
 		// no file
+		//has id, no file -> delete old file
 	}
 }
