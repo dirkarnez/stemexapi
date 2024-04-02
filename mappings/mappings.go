@@ -23,7 +23,9 @@ func MapCurriculumCourseFormToCurriculumEntry(form *dto.CurriculumCourseForm, cu
 		return err
 	}
 
-	OverrideFileID(form.IconFile)
+	OverrideFileID(curriculumEntry, form.IconFile, func(fileID model.UUIDEx,  entry *model.CurriculumEntry) {
+		entry.IconID = 
+	})
 
 	if err == nil {
 		file, err := utils.SaveUploadV2(iconFileHeader, &curriculumEntry.IconID, []string{utils.PrefixCourseResourses, curriculumEntry.Description}, s3, tx, ctx)
