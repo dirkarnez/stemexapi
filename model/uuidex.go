@@ -51,7 +51,6 @@ func ValidUUIDExFromIDString(id string) (UUIDEx, error) {
 	} else {
 
 	}
-
 }
 
 func (my UUIDEx) ToString() string {
