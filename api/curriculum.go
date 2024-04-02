@@ -1440,7 +1440,7 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 					},
 				},
 				{
-					First: youtubeVideoEntriesBaseKey + ".file",
+					First: youtubeVideoEntriesBaseKey + ".title",
 					Second: func(dto *dto.CurriculumCourseBlogEntries, s string) {
 						dto.URL = s
 					},
