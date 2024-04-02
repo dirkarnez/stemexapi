@@ -1402,6 +1402,7 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 	val.Require("description")
 	val.Require("description")
 	val.Require("description")
+
 	if !val.HasErrors() {
 		form.ID = curriculumEntryFormData.Get("id")
 		form.IconID = curriculumEntryFormData.Get("icon_id")
