@@ -1,14 +1,13 @@
 package mappings
 
 import (
-	"mime/multipart"
-	"strings"
-
 	"github.com/dirkarnez/stemexapi/dto"
 	"github.com/dirkarnez/stemexapi/model"
+	"github.com/dirkarnez/stemexapi/query"
+	"github.com/dirkarnez/stemexapi/utils"
 )
 
-func MapCurriculumCourseFormToCurriculumEntry(form *dto.CurriculumCourseForm, curriculumEntry *model.CurriculumEntry) error {
+func MapCurriculumCourseFormToCurriculumEntry(form *dto.CurriculumCourseForm, curriculumEntry *model.CurriculumEntry, s3 *utils.StemexS3Client, txOrQ *query.Query) error {
 	curriculumEntry.Description = form.Description
 
 	var err error
@@ -22,40 +21,17 @@ func MapCurriculumCourseFormToCurriculumEntry(form *dto.CurriculumCourseForm, cu
 		return err
 	}
 
-	OverrideFileID(curriculumEntry, form.IconFile, func(fileID *model.UUIDEx, entity *model.CurriculumEntry) {
-		return entry.IconID = *fileID
-	})
-
-	// if err == nil {
-	// 	file, err := utils.SaveUploadV2(iconFileHeader, &curriculumEntry.IconID, []string{utils.PrefixCourseResourses, curriculumEntry.Description}, s3, tx, ctx)
-	// 	if err != nil {
-	// 		return err
-	// 	}
-	// 	curriculumEntry.IconID = file.ID
-	// }
-
-	curriculumEntry.IconID, err = model.ValidUUIDExFromIDString(form.IconID)
+	iconIDNilablePtr, err := model.ValidUUIDExPointerFromIDString(form.IconID)
 	if err != nil {
 		return err
 	}
-	return nil
-}
 
-func OverrideFileID[V any](entity *V, file *multipart.FileHeader, onComplete func(*model.File, *V)) {
-	//if file ok, then save the file, override the id
-
-
-	if file.Size > 0 && len(strings.TrimSpace(file.Filename)) > 0 {
-		//no id, has file -> add nee
-		//has id, has file -> overwrite file
-		file, err := utils.SaveUploadV2(iconFileHeader, &curriculumEntry.IconID, []string{utils.PrefixCourseResourses, curriculumEntry.Description}, s3, tx, ctx)
-		if err != nil {
-			return err
-		}
-		onComplete(&model.File{}, entity)
-	} else {
-		// no file
-		//no id, no file -> nothing
-		//has id, no file -> delete old file
+	file, err := utils.SaveUploadV2(form.IconFile, iconIDNilablePtr, []string{utils.PrefixCourseResourses, curriculumEntry.Description}, s3, txOrQ)
+	if err != nil {
+		return err
 	}
+
+	curriculumEntry.IconID = file.ID
+
+	return nil
 }

@@ -39,9 +39,12 @@ func NewUUIDEx() UUIDEx {
 	return UUIDEx(uuid.New())
 }
 
+// return nil if empty string
 func ValidUUIDExPointerFromIDString(id string) (*UUIDEx, error) {
 	trimmed := strings.TrimSpace(id)
-	if len(trimmed) > 1 {
+	if len(trimmed) == 0 {
+		return nil, nil
+	} else {
 		uuidParsed, err := uuid.Parse(trimmed)
 		if err != nil {
 			return nil, err
@@ -49,22 +52,21 @@ func ValidUUIDExPointerFromIDString(id string) (*UUIDEx, error) {
 			uuidex := UUIDEx(uuidParsed)
 			return &uuidex, nil
 		}
-	} else {
-		return nil, nil
 	}
 }
 
+// return nil if empty string
 func ValidUUIDExFromIDString(id string) (UUIDEx, error) {
 	trimmed := strings.TrimSpace(id)
-	if len(trimmed) > 1 {
+	if len(trimmed) == 0 {
+		return UUIDEx(uuid.Nil), nil
+	} else {
 		uuidParsed, err := uuid.Parse(trimmed)
 		if err != nil {
 			return UUIDEx(uuid.Nil), err
 		} else {
 			return UUIDEx(uuidParsed), nil
 		}
-	} else {
-		return UUIDEx(uuid.Nil), nil
 	}
 }
 

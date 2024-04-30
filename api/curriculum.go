@@ -613,31 +613,16 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 		var form, _ = MapRequestToCurriculumCourseForm(ctx.Request())
 
 		var q = query.Use(dbInstance)
-		curriculumEntry := model.CurriculumEntry{}
 
-		err := mappings.MapCurriculumCourseFormToCurriculumEntry(form, &curriculumEntry)
-		if err != nil {
-			ctx.StopWithError(iris.StatusBadRequest, err)
-			return
-		}
+		err := q.Transaction(func(tx *query.Query) error {
+			curriculumEntry := model.CurriculumEntry{}
 
-		err = q.Transaction(func(tx *query.Query) error {
-
-			if len(curriculumEntry.Description) < 1 {
-				return fmt.Errorf("no description")
-			}
-
-			// // Get the max post value size passed via iris.WithPostMaxMemory.
-			maxSize := ctx.Application().ConfigurationReadOnly().GetPostMaxMemory()
-
-			err := ctx.Request().ParseMultipartForm(maxSize)
+			err := mappings.MapCurriculumCourseFormToCurriculumEntry(form, &curriculumEntry, s3, tx)
 			if err != nil {
 				return err
 			}
 
-			err = tx.CurriculumEntry.Clauses(clause.OnConflict{
-				UpdateAll: true,
-			}).Create(&curriculumEntry)
+			err = tx.CurriculumEntry.Clauses(clause.OnConflict{UpdateAll: true}).Create(&curriculumEntry)
 			if err != nil {
 				return err
 			}

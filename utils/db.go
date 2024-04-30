@@ -9,7 +9,6 @@ import (
 
 	"github.com/dirkarnez/stemexapi/model"
 	"github.com/dirkarnez/stemexapi/query"
-	"github.com/google/uuid"
 	"github.com/kataras/iris/v12"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -48,8 +47,12 @@ func SaveUpload(fileHeader *multipart.FileHeader, prefixes []string, s3 *StemexS
 	}
 }
 
+func IsFileHeaderNonEmpty(file *multipart.FileHeader) bool {
+	return file != nil && file.Size > 0 && len(strings.TrimSpace(file.Filename)) > 0
+}
+
 func SaveUploadV2(fileHeader *multipart.FileHeader, uuidptr *model.UUIDEx, prefixes []string, s3 *StemexS3Client, txOrQ *query.Query) (*model.File, error) {
-	if fileHeader == nil {
+	if !IsFileHeaderNonEmpty(fileHeader) {
 		return nil, fmt.Errorf("nil fileHeader")
 	}
 
@@ -60,21 +63,24 @@ func SaveUploadV2(fileHeader *multipart.FileHeader, uuidptr *model.UUIDEx, prefi
 		return nil, err
 	}
 	defer multipartFile.Close()
+
 	err = s3.UploadFile(objectKey, multipartFile)
 	if err != nil {
 		return nil, err
 	}
+
+	//no id, has file -> create
+	//has id, has file -> update
+	//
+	//no id, no file -> nothing
+	//has id, no file -> delete
 	var file = model.File{FileNameUploaded: fileHeader.Filename, ObjectKey: objectKey}
 
-	if uuidptr != nil {
-		if (*uuidptr) != model.UUIDEx(uuid.Nil) {
-			file.ID = *uuidptr
-		}
+	if uuidptr != nil && !(*uuidptr).IsEmpty() {
+		file.ID = *uuidptr
 	}
 
-	err = q.File.Clauses(clause.OnConflict{
-		UpdateAll: true,
-	}).Create(&file)
+	err = txOrQ.File.Clauses(clause.OnConflict{UpdateAll: true}).Create(&file)
 
 	if err != nil {
 		return nil, err
