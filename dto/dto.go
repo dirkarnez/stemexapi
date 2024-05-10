@@ -33,11 +33,12 @@ type CurriculumCourseYoutubeVideoEntries struct {
 }
 
 type CurriculumCourseLevels struct {
-	ID          string                         `json:"id" form:"id"`
-	Name        string                         `json:"name" form:"name"`
-	IconID      string                         `json:"icon_id" form:"icon_id"`
-	Description string                         `json:"description" form:"description"`
-	Lessons     []CurriculumCourseLevelLessons `json:"lessons" form:"lessons"`
+	ID          string                         `json:"id"`
+	Name        string                         `json:"name"`
+	IconID      string                         `json:"icon_id"`
+	Title       string                         `json:"title"`
+	Description string                         `json:"description"`
+	Lessons     []CurriculumCourseLevelLessons `json:"lessons"`
 }
 
 type CurriculumCourseLevelLessons struct {
@@ -50,10 +51,10 @@ type CurriculumCourseLevelLessons struct {
 }
 
 type CurriculumCourseLevelLessonResources struct {
-	ID         string `json:"id"`
-	ResourseID string `json:"resource_id"`
-	Name       string `json:"name" form:"name"`
-	File       []byte `json:"-"`
+	ID         string                `json:"id"`
+	ResourseID string                `json:"resource_id"`
+	Name       string                `json:"name"`
+	File       *multipart.FileHeader `json:"-"`
 }
 
 type CurriculumCourseBlogEntries struct {

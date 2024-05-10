@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"mime/multipart"
 	"net/http"
+	"strings"
 
 	"github.com/albrow/forms"
 	"github.com/dirkarnez/stemexapi/datatypes"
@@ -622,39 +623,30 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				return err
 			}
 
+			s3Prefix := []string{utils.PrefixCourseResourses, strings.ToLower(curriculumEntry.Description)}
+
 			err = tx.CurriculumEntry.Clauses(clause.OnConflict{UpdateAll: true}).Create(&curriculumEntry)
 			if err != nil {
 				return err
 			}
 
 			/* associations: CurriculumCourse */
-			var curriculumCourse = model.CurriculumCourse{}
-			if len(form.CourseID) > 1 {
-				courseIDUUID, err := model.ValidUUIDExFromIDString(form.CourseID)
-				if err != nil {
-					return err
-				}
-				curriculumCourse.ID = courseIDUUID
+			var curriculumCourse = model.CurriculumCourse{EntryID: curriculumEntry.ID}
+			curriculumCourse.ID, err = model.ValidUUIDExFromIDString(form.CourseID)
+			if err != nil {
+				return err
 			}
 
-			if len(form.CurriculumPlanID) > 1 {
-				curriculumPlanIDUUID, err := model.ValidUUIDExFromIDString(form.CurriculumPlanID)
-				if err != nil {
-					return err
-				}
-				curriculumCourse.CurriculumPlanID = curriculumPlanIDUUID
+			curriculumCourse.CurriculumPlanID, err = model.ValidUUIDExFromIDString(form.CurriculumPlanID)
+			if err != nil {
+				return err
 			}
 
-			_, curriculumPlanFileHeader, err := ctx.Request().FormFile("curriculum_plan_file")
-			if err == nil {
-				file, err := utils.SaveUploadV2(curriculumPlanFileHeader, &curriculumCourse.CurriculumPlanID, []string{utils.PrefixCourseResourses, curriculumEntry.Description}, s3, tx, ctx)
-				if err != nil {
-					return err
-				}
-				curriculumCourse.CurriculumPlanID = file.ID
+			file, err := utils.SaveUploadV2(form.CurriculumPlanFile, &curriculumCourse.CurriculumPlanID, s3Prefix, s3, tx)
+			if err != nil {
+				return err
 			}
-
-			curriculumCourse.EntryID = curriculumEntry.ID
+			curriculumCourse.CurriculumPlanID = file.ID
 
 			err = tx.CurriculumCourse.Clauses(clause.OnConflict{
 				UpdateAll: true,
@@ -780,7 +772,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 
 				_, levelIconFileHeader, err := ctx.Request().FormFile(fmt.Sprintf("levels.%d.icon_file", i))
 				if err == nil {
-					file, err := utils.SaveUploadV2(levelIconFileHeader, &entityCourseLevel.IconID, []string{utils.PrefixCourseResourses, curriculumEntry.Description}, s3, tx, ctx)
+					file, err := utils.SaveUploadV2(levelIconFileHeader, &entityCourseLevel.IconID, s3Prefix, s3, tx)
 					if err != nil {
 						return err
 					}
@@ -852,7 +844,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 
 						_, presentationNoteFileHeader, err := ctx.Request().FormFile(fmt.Sprintf("levels.%d.lessons.%d.presentation_notes.%d.file", i, j, k))
 						if err == nil {
-							file, err := utils.SaveUploadV2(presentationNoteFileHeader, &entityPresentationNote.ResourseID, []string{utils.PrefixCourseResourses, curriculumEntry.Description}, s3, tx, ctx)
+							file, err := utils.SaveUploadV2(presentationNoteFileHeader, &entityPresentationNote.ResourseID, s3Prefix, s3, tx)
 							if err != nil {
 								return err
 							}
@@ -905,7 +897,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 
 						_, studentNoteFileHeader, err := ctx.Request().FormFile(fmt.Sprintf("levels.%d.lessons.%d.student_notes.%d.file", i, j, k))
 						if err == nil {
-							file, err := utils.SaveUploadV2(studentNoteFileHeader, &entityStudentNote.ResourseID, []string{utils.PrefixCourseResourses, curriculumEntry.Description}, s3, tx, ctx)
+							file, err := utils.SaveUploadV2(studentNoteFileHeader, &entityStudentNote.ResourseID, s3Prefix, s3, tx)
 							if err != nil {
 								return err
 							}
@@ -958,7 +950,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 
 						_, teacherNoteFileHeader, err := ctx.Request().FormFile(fmt.Sprintf("levels.%d.lessons.%d.teacher_notes.%d.file", i, j, k))
 						if err == nil {
-							file, err := utils.SaveUploadV2(teacherNoteFileHeader, &entityTeacherNote.ResourseID, []string{utils.PrefixCourseResourses, curriculumEntry.Description}, s3, tx, ctx)
+							file, err := utils.SaveUploadV2(teacherNoteFileHeader, &entityTeacherNote.ResourseID, s3Prefix, s3, tx)
 							if err != nil {
 								return err
 							}
@@ -1010,7 +1002,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 
 						_, miscMaterialFileHeader, err := ctx.Request().FormFile(fmt.Sprintf("levels.%d.lessons.%d.misc_materials.%d.file", i, j, k))
 						if err == nil {
-							file, err := utils.SaveUploadV2(miscMaterialFileHeader, &entityMiscMaterial.ResourseID, []string{utils.PrefixCourseResourses, curriculumEntry.Description}, s3, tx, ctx)
+							file, err := utils.SaveUploadV2(miscMaterialFileHeader, &entityMiscMaterial.ResourseID, s3Prefix, s3, tx)
 							if err != nil {
 								return err
 							}
@@ -1349,16 +1341,19 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 			var levelsIDKey = fmt.Sprintf(`levels[%d].id`, i)
 			var levelsNameKey = fmt.Sprintf(`levels[%d].name`, i)
 			var levelsIconFileKey = fmt.Sprintf(`levels[%d].icon_file`, i)
+			var levelsTitleKey = fmt.Sprintf(`levels[%d].title`, i)
 			var levelsDescriptionKey = fmt.Sprintf(`levels[%d].description`, i)
 			levelsIDKeyExists := curriculumEntryFormData.KeyExists(levelsIDKey)
 			levelsNameKeyExists := curriculumEntryFormData.KeyExists(levelsNameKey)
+			levelsTitleKeyExists := curriculumEntryFormData.KeyExists(levelsTitleKey)
 			levelsIconFileKeyExists := curriculumEntryFormData.KeyExists(levelsIconFileKey)
 			levelsDescriptionKeyExists := curriculumEntryFormData.KeyExists(levelsDescriptionKey)
 
-			if levelsIDKeyExists || levelsNameKeyExists || levelsIconFileKeyExists || levelsDescriptionKeyExists {
+			if levelsIDKeyExists || levelsNameKeyExists || levelsTitleKeyExists || levelsIconFileKeyExists || levelsDescriptionKeyExists {
 				level := dto.CurriculumCourseLevels{
 					ID:          curriculumEntryFormData.Get(levelsIDKey),
 					Name:        curriculumEntryFormData.Get(levelsNameKey),
+					Title:       curriculumEntryFormData.Get(levelsTitleKey),
 					IconID:      curriculumEntryFormData.Get(levelsIconFileKey),
 					Description: curriculumEntryFormData.Get(levelsDescriptionKey),
 				}
@@ -1378,7 +1373,7 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 							[]datatypes.Pair[string, func(*dto.CurriculumCourseLevelLessonResources, *multipart.FileHeader)]{{
 								First: baseKey + ".file",
 								Second: func(ccllr *dto.CurriculumCourseLevelLessonResources, b *multipart.FileHeader) {
-									//ccllr.File = b
+									ccllr.File = b
 								},
 							}},
 							callback,

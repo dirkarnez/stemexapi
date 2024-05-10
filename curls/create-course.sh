@@ -1,13 +1,22 @@
 #!/bin/bash
 export PATH="/mingw64/bin:/usr/local/bin:/usr/bin:/bin:$USERPROFILE/Downloads"
 
+function validation () {
+    echo "validating"
+    if [ ! -f $icon_file ]; then 
+        read -p "validation error"; 
+        exit 1
+    fi 
+}
+
 # https://localhost/api/curriculum-course?id=
 function create_course () {
     course_type_json_output=$(echo $1 | sed 's/\//_/g' | sed 's/:/_/g')
-    parent_id=$(jq-windows-amd64.exe --raw-output '.id' "./$course_type_json_output.json")
+    export parent_id=$(jq-windows-amd64.exe --raw-output '.id' "./$course_type_json_output.json")
     course_json_output=$(echo $description | sed 's/\//_/g' | sed 's/:/_/g')
     # $USERPROFILE/Downloads/curl/curl.exe
-    
+
+    validation;
 
     /C/Windows/System32/curl.exe -X POST --location "https://localhost/api/curriculum-course" -b cookie.txt --insecure \
         --form "parent_id=$parent_id" \
@@ -16,9 +25,9 @@ function create_course () {
         --form "curriculum_plan_file=@$curriculum_plan_file" \
         --form "blog_entries[0].external_url=$blog_entries_0_external_url" \
         --form "blog_entries[0].title=$blog_entries_0_title" \
-        --form "levels[0].id=$levels_0_name" \
         --form "levels[0].name=$levels_0_name" \
         --form "levels[0].icon_file=@$levels_0_icon_file" \
+        --form "levels[0].title=$levels_0_title" \
         --form "levels[0].description=$levels_0_description" \
         --form "levels[0].lessons[0].presentation_notes[0].file=@$levels_0_lessons_0_presentation_notes_0_file" \
         --form "levels[0].lessons[0].student_notes[0].file=@$levels_0_lessons_0_student_notes_0_file" \
@@ -107,22 +116,26 @@ function create_course () {
 # --form "description=\"%description%\"" \
 # --output "%output%.json"
 
+# 
 
-export icon_file="$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Level 2-Introductory-min.png"
+export prefix="$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory"
+
+export icon_file="$prefix/icon.png"
 export description="AppInventor Mobile Apps Development Introductory"
-export curriculum_plan_file="$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/App Inventor Intro Curriculum Guide.pdf"
+export curriculum_plan_file="$prefix/App Inventor Intro Curriculum Guide.pdf"
 export blog_entries_0_external_url="https://hk.stemex.org/self-control-app/" 
 export blog_entries_0_title="從小培養孩子的自控能力 3款提升自控能力的電子應用程式" 
 export youtube_video_entries_0_url="https://www.youtube.com/watch?v=zbpzr_hYwtg"
 export levels_0_name="A"
-export levels_0_icon_file="$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Level 3-Introductory A-min.png" 
-export levels_0_description="HelloPurr: Tap the Kitty, Hear Him Meow', 'HelloPurr is a simple app that you can build in a very fun way. You will create a button that has a picture of your favorite cat on it, and then program the button so that when it is clicked a "meow" sound plays with some vibrations." 
-export levels_0_lessons_0_presentation_notes_0_file="$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/App Inventor Introductory [L1-HelloCodi].pptx" 
-export levels_0_lessons_0_student_notes_0_file="$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/App Inventor Intro _Lesson1_Student Notes.pdf" 
-export levels_0_lessons_0_teacher_notes_0_file="$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/App Inventor Intro _Lesson1_Teacher Notes.txt" 
-export levels_0_lessons_0_misc_materials_0_file="$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/Bee-Sound.mp3" 
-export levels_0_lessons_0_misc_materials_1_file="$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/codi.jpg" 
-export levels_0_lessons_0_misc_materials_2_file="$USERPROFILE/Downloads/stemex-curriculum/AppInventor/STEMex_AppInventor_Introductory/Lesson 1/HelloCodi.aia" 
+export levels_0_icon_file="$prefix/level_a_icon.png" 
+export levels_0_title=$(<"$prefix/level_a_title.txt")
+export levels_0_description=$(<"$prefix/level_a_content.txt")
+export levels_0_lessons_0_presentation_notes_0_file="$prefix/Lesson 1/App Inventor Introductory [L1-HelloCodi].pptx" 
+export levels_0_lessons_0_student_notes_0_file="$prefix/Lesson 1/App Inventor Intro _Lesson1_Student Notes.pdf" 
+export levels_0_lessons_0_teacher_notes_0_file="$prefix/Lesson 1/App Inventor Intro _Lesson1_Teacher Notes.txt" 
+export levels_0_lessons_0_misc_materials_0_file="$prefix/Lesson 1/Bee-Sound.mp3" 
+export levels_0_lessons_0_misc_materials_1_file="$prefix/Lesson 1/codi.jpg" 
+export levels_0_lessons_0_misc_materials_2_file="$prefix/Lesson 1/HelloCodi.aia" 
 
 create_course "AppInventor Mobile Apps"
 

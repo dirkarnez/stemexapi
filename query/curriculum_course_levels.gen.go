@@ -32,6 +32,7 @@ func newCurriculumCourseLevel(db *gorm.DB, opts ...gen.DOOption) curriculumCours
 	_curriculumCourseLevel.DeletedAt = field.NewField(tableName, "deleted_at")
 	_curriculumCourseLevel.Name = field.NewString(tableName, "name")
 	_curriculumCourseLevel.IconID = field.NewField(tableName, "icon_id")
+	_curriculumCourseLevel.Title = field.NewString(tableName, "content")
 	_curriculumCourseLevel.Description = field.NewString(tableName, "description")
 	_curriculumCourseLevel.CourseID = field.NewField(tableName, "course_id")
 	_curriculumCourseLevel.Icon = curriculumCourseLevelBelongsToIcon{
@@ -79,6 +80,7 @@ type curriculumCourseLevel struct {
 	DeletedAt   field.Field
 	Name        field.String
 	IconID      field.Field
+	Title       field.String
 	Description field.String
 	CourseID    field.Field
 	Icon        curriculumCourseLevelBelongsToIcon
@@ -106,6 +108,7 @@ func (c *curriculumCourseLevel) updateTableName(table string) *curriculumCourseL
 	c.DeletedAt = field.NewField(table, "deleted_at")
 	c.Name = field.NewString(table, "name")
 	c.IconID = field.NewField(table, "icon_id")
+	c.Title = field.NewString(table, "content")
 	c.Description = field.NewString(table, "description")
 	c.CourseID = field.NewField(table, "course_id")
 
@@ -124,13 +127,14 @@ func (c *curriculumCourseLevel) GetFieldByName(fieldName string) (field.OrderExp
 }
 
 func (c *curriculumCourseLevel) fillFieldMap() {
-	c.fieldMap = make(map[string]field.Expr, 10)
+	c.fieldMap = make(map[string]field.Expr, 11)
 	c.fieldMap["id"] = c.ID
 	c.fieldMap["created_at"] = c.CreatedAt
 	c.fieldMap["updated_at"] = c.UpdatedAt
 	c.fieldMap["deleted_at"] = c.DeletedAt
 	c.fieldMap["name"] = c.Name
 	c.fieldMap["icon_id"] = c.IconID
+	c.fieldMap["content"] = c.Title
 	c.fieldMap["description"] = c.Description
 	c.fieldMap["course_id"] = c.CourseID
 
