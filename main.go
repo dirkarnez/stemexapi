@@ -74,8 +74,8 @@ func main() {
 	app.Use(cors.New(cors.Options{
 		AllowedOrigins:   []string{"*"},
 		AllowedHeaders:   []string{"Content-Type"},
-		AllowedMethods:   []string{"GET", "POST", "PUT", "HEAD"},
-		ExposedHeaders:   []string{"X-Header"},
+		AllowedMethods:   []string{"*"},
+		// ExposedHeaders:   []string{"X-Header"},
 		MaxAge:           int((24 * time.Hour).Seconds()),
 		AllowCredentials: true,
 		Debug:            true,
