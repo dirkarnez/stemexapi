@@ -72,9 +72,9 @@ func main() {
 	//	app.Use(iris.NoCache)
 
 	app.Use(cors.New(cors.Options{
-		AllowedOrigins:   []string{"*"},
-		AllowedHeaders:   []string{"Content-Type"},
-		AllowedMethods:   []string{"GET", "HEAD", "OPTIONS", "PUT", "PATCH", "POST", "DELETE"},
+		AllowedOrigins: []string{"*"},
+		AllowedHeaders: []string{"Content-Type"},
+		AllowedMethods: []string{"GET", "HEAD", "OPTIONS", "PUT", "PATCH", "POST", "DELETE"},
 		// ExposedHeaders:   []string{"X-Header"},
 		MaxAge:           int((24 * time.Hour).Seconds()),
 		AllowCredentials: true,
@@ -438,7 +438,7 @@ func main() {
 		SPA:       true,
 	})
 
-	const port = 443
+	const port = 4443
 
 	log.Printf("Listening on %d\n", port)
 
