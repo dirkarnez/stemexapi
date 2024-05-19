@@ -72,10 +72,10 @@ func main() {
 	//	app.Use(iris.NoCache)
 
 	app.Use(cors.New(cors.Options{
-		AllowedOrigins: []string{"*"},
-		AllowedHeaders: []string{"Content-Type"},
-		AllowedMethods: []string{"GET", "HEAD", "OPTIONS", "PUT", "PATCH", "POST", "DELETE"},
-		// ExposedHeaders:   []string{"X-Header"},
+		AllowedOrigins:   []string{"*"},
+		AllowedHeaders:   []string{"Content-Type"},
+		AllowedMethods:   []string{"GET", "HEAD", "OPTIONS", "PUT", "PATCH", "POST", "DELETE"},
+		ExposedHeaders:   []string{"X-Header"},
 		MaxAge:           int((24 * time.Hour).Seconds()),
 		AllowCredentials: true,
 		Debug:            true,
