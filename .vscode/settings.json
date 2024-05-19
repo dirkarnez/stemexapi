@@ -16,7 +16,7 @@
             "path": "${env:windir}\\System32\\cmd.exe",
             "env": { 
                 "GOROOT": "${env:USERPROFILE}\\Downloads\\go1.21.0.windows-amd64\\go",
-                "GOPATH": "$ENV{USERPROFILE}\\Downloads\\gopath",
+                "GOPATH": "${env:USERPROFILE}\\Downloads\\gopath",
                 "PATH": "${env:GOROOT}\\bin"
             }
         }
