@@ -10,9 +10,16 @@
         //     //    "${env:APPDATA}\\PowerShell\\custom-init.ps1"
         //     ]
         // }
-        "bash": {
-            "path": "${env:USERPROFILE}\\Downloads\\PortableGit\\git-bash.exe"
+        // "bash": {
+        //     "path": "${env:USERPROFILE}\\Downloads\\PortableGit\\git-bash.exe",
+        "Command Prompt": {
+            "path": "${env:windir}\\System32\\cmd.exe",
+            "env": { 
+                "GOROOT": "${env:USERPROFILE}\\Downloads\\go1.21.0.windows-amd64\\go",
+                "GOPATH": "$ENV{USERPROFILE}\\Downloads\\gopath",
+                "PATH": "${env:GOROOT}\\bin"
+            }
         }
     },
-    "terminal.integrated.defaultProfile.windows": "bash"
+    "terminal.integrated.defaultProfile.windows": "Command Prompt"
 }
