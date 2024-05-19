@@ -1,7 +1,18 @@
 {
     "terminal.integrated.profiles.windows": {
+        "PowerShell": null,
+        "Windows PowerShell": null,
+        // "Custom Init": {
+        //     "path": "pwsh.exe",
+        //     "args": [
+        //     //    "-noexit",
+        //     //    "-file",
+        //     //    "${env:APPDATA}\\PowerShell\\custom-init.ps1"
+        //     ]
+        // }
         "bash": {
             "path": "${env:USERPROFILE}\\Downloads\\PortableGit\\git-bash.exe"
         }
-    }
+    },
+    "terminal.integrated.defaultProfile.windows": "bash"
 }
