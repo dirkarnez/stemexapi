@@ -1,4 +1,4 @@
-package main
+package redumpparents
 
 import (
 	"fmt"
