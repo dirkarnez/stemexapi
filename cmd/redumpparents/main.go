@@ -6,7 +6,6 @@ import (
 
 	"github.com/dirkarnez/stemexapi/db"
 	"github.com/dirkarnez/stemexapi/query"
-	C:\Users\stude\Downloads\stemexapi\cmd\redumpparents\\redumpparents.go
 	"github.com/dirkarnez/stemexapi/cmd/redumpparents/redumpparents"
 )
 
@@ -22,6 +21,7 @@ func main() {
 	dbInstance = dbInstance.Debug()
 	var q = query.Use(dbInstance)
 
+	redumpparents
 	if err != nil {
 		fmt.Println("err!")
 	}
