@@ -686,8 +686,8 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				Where(tx.CurriculumCourseBlogEntries.EntryID.Eq(curriculumEntry.ID)).
 				Not(tx.CurriculumCourseBlogEntries.ID.In(lo.Map(blogs, func(blog *model.CurriculumCourseBlogEntries, index int) driver.Valuer {
 					return blog.ID
-				})...)).
-				Delete()
+				})...)).Unscoped()
+			Delete()
 
 			for _, saved := range blogs {
 				returnForm.BlogEntries = append(returnForm.BlogEntries, dto.CurriculumCourseBlogEntries{
