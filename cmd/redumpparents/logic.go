@@ -12,6 +12,11 @@ import (
 	"github.com/dirkarnez/stemexapi/query"
 )
 
+func Redumpparents() {
+	
+}
+
+
 var getString = func(nodeList []*jsonquery.Node, index int) string {
 	length := len(nodeList)
 	if length > index {
@@ -25,6 +30,7 @@ var removeAllSpaces = func(str string) string {
 	reg, _ := regexp.Compile(`\s+`)
 	return reg.ReplaceAllString(str, "")
 }
+
 
 // globalObj[0].content.values.slice(1).filter(a => a[0] != "stemex.demo2023" && a[0] != "20220872.stemex")
 var list []*jsonquery.Node
