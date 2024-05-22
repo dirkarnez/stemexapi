@@ -10,7 +10,7 @@ import (
 	"github.com/dirkarnez/stemexapi/query"
 )
 
-func Redumpparents() {
+func RedumpParents() {
 	var getString = func(nodeList []*jsonquery.Node, index int) string {
 		length := len(nodeList)
 		if length > index {
