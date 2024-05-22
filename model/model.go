@@ -49,7 +49,7 @@ type User struct {
 	UserName              string  `gorm:"column:user_name;type:varchar(255);unique;not null" json:"user_name"`
 	Password              string  `gorm:"column:password;type:varchar(15);not null" json:"-"`
 	ContactNumberAreaCode string  `gorm:"column:contact_number_area_code;type:varchar(15);default:852" json:"contact_number_area_code"`
-	ContactNumber         string  `gorm:"column:contact_number;type:varchar(15);not null" json:"contact_number"`
+	ContactNumber         string  `gorm:"column:contact_number;type:varchar(500);not null" json:"contact_number"`
 	Email                 string  `gorm:"column:email;type:varchar(255);unique;not null" json:"email"`
 	IsDummy               bool    `gorm:"column:is_dummy;type:boolean;default:false" json:"is_dummy"`
 	IsActivated           bool    `gorm:"column:is_activated;type:boolean;default:false" json:"is_activated"`
