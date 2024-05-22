@@ -1043,6 +1043,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				}
 
 				tx.CurriculumCourseLevelLesson.
+					Unscoped().
 					Where(tx.CurriculumCourseLevelLesson.CourseLevelID.Eq(entityCourseLevel.ID)).
 					Not(tx.CurriculumCourseLevelLesson.ID.In(lo.Map(lessonEntityList, func(lessonEntity *model.CurriculumCourseLevelLesson, index int) driver.Valuer {
 						return lessonEntity.ID
@@ -1054,6 +1055,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			}
 
 			tx.CurriculumCourseLevel.
+				Unscoped().
 				Where(tx.CurriculumCourseLevel.CourseID.Eq(curriculumCourse.ID)).
 				Not(tx.CurriculumCourseLevel.ID.In(lo.Map(levelEntityList, func(levelEntity *model.CurriculumCourseLevel, index int) driver.Valuer {
 					return levelEntity.ID
