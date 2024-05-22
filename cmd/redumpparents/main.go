@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/dirkarnez/stemexapi/cmd/redumpparents/redumpparents"
 	"github.com/dirkarnez/stemexapi/db"
 	"github.com/dirkarnez/stemexapi/query"
-	"github.com/dirkarnez/stemexapi/cmd/redumpparents/redumpparents"
 )
 
 func main() {
@@ -21,7 +21,7 @@ func main() {
 	dbInstance = dbInstance.Debug()
 	var q = query.Use(dbInstance)
 
-	redumpparents
+	err := redumpparents.RedumpParents(q)
 	if err != nil {
 		fmt.Println("err!")
 	}
