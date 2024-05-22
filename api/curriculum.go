@@ -925,6 +925,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 					}
 
 					tx.CurriculumCourseLevelLessonResources.
+						Unscoped().
 						Where(tx.CurriculumCourseLevelLessonResources.LessonID.Eq(entityLesson.ID), tx.CurriculumCourseLevelLessonResources.ResourseTypeID.Eq(studentNotesType.ID)).
 						Not(tx.CurriculumCourseLevelLessonResources.ID.In(lo.Map(studentNoteInsertedList, func(studentNoteInserted *model.CurriculumCourseLevelLessonResources, index int) driver.Valuer {
 							return studentNoteInserted.ID
@@ -977,6 +978,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 					}
 
 					tx.CurriculumCourseLevelLessonResources.
+						Unscoped().
 						Where(tx.CurriculumCourseLevelLessonResources.LessonID.Eq(entityLesson.ID), tx.CurriculumCourseLevelLessonResources.ResourseTypeID.Eq(teacherNotesType.ID)).
 						Not(tx.CurriculumCourseLevelLessonResources.ID.In(lo.Map(teacherNoteInsertedList, func(teacherNoteInserted *model.CurriculumCourseLevelLessonResources, index int) driver.Valuer {
 							return teacherNoteInserted.ID
