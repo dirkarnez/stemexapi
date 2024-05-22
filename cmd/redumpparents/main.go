@@ -6,6 +6,8 @@ import (
 
 	"github.com/dirkarnez/stemexapi/db"
 	"github.com/dirkarnez/stemexapi/query"
+
+	"github.com/dirkarnez/stemexapi/query"
 )
 
 func main() {
@@ -19,5 +21,9 @@ func main() {
 
 	dbInstance = dbInstance.Debug()
 	var q = query.Use(dbInstance)
+
+	if err != nil {
+		fmt.Println("err!")
+	}
 
 }
