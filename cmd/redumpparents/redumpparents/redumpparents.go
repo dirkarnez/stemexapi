@@ -10,7 +10,7 @@ import (
 	"github.com/dirkarnez/stemexapi/query"
 )
 
-func RedumpParents() {
+func RedumpParents(txOrQ *query.Query) {
 	var getString = func(nodeList []*jsonquery.Node, index int) string {
 		length := len(nodeList)
 		if length > index {
