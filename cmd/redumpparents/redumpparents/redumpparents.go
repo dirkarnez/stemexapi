@@ -31,7 +31,7 @@ func RedumpParents(txOrQ *query.Query) error {
 	list, _ = jsonquery.QueryAll(doc, "values/*")
 
 	// var user []*model.User
-	err := txOrQ.Transaction(func(tx *query.Query) error {
+	return txOrQ.Transaction(func(tx *query.Query) error {
 		parentRole, err := tx.Role.Where(tx.Role.Name.Eq("parent")).First()
 		if err != nil {
 			return fmt.Errorf("parent role not exist")
@@ -93,8 +93,4 @@ func RedumpParents(txOrQ *query.Query) error {
 		}
 		return nil
 	})
-
-	if err != nil {
-		fmt.Println("err!")
-	}
 }
