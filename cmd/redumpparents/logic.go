@@ -1,4 +1,16 @@
+package main
 
+import (
+	"fmt"
+	"log"
+	"regexp"
+	"strings"
+
+	"github.com/antchfx/jsonquery"
+	"github.com/dirkarnez/stemexapi/db"
+	"github.com/dirkarnez/stemexapi/model"
+	"github.com/dirkarnez/stemexapi/query"
+)
 
 var getString = func(nodeList []*jsonquery.Node, index int) string {
 	length := len(nodeList)
