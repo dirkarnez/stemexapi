@@ -721,7 +721,8 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				return err
 			}
 
-			tx.CurriculumCourseYoutubeVideoEntries.Unscoped().
+			tx.CurriculumCourseYoutubeVideoEntries.
+				Unscoped().
 				Where(tx.CurriculumCourseYoutubeVideoEntries.EntryID.Eq(curriculumEntry.ID)).
 				Not(tx.CurriculumCourseYoutubeVideoEntries.ID.In(lo.Map(youtubes, func(youtube *model.CurriculumCourseYoutubeVideoEntries, index int) driver.Valuer {
 					return youtube.ID
