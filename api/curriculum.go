@@ -1280,6 +1280,7 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 		form.IconID = curriculumEntryFormData.Get("icon_id")
 		form.IconFile = curriculumEntryFormData.GetFile("icon_file")
 		form.ParentID = curriculumEntryFormData.Get("parent_id")
+		form.Description = curriculumEntryFormData.Get("description")
 		form.CourseID = curriculumEntryFormData.Get("course_id")
 		form.CurriculumPlanID = curriculumEntryFormData.Get("curriculum_plan_id")
 		form.CurriculumPlanFile = curriculumEntryFormData.GetFile("curriculum_plan_file")

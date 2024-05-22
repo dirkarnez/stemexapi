@@ -8,7 +8,7 @@ function create_course_type () {
 
    echo "$course_desplay_name $course_icon_path $course_type_json_output"
 
-   /C/Windows/System32/curl.exe -X POST --location "https://localhost/api/curriculum-course-type" -b cookie.txt --insecure \
+   /C/Windows/System32/curl.exe -X POST --location "https://localhost:4443/api/curriculum-course-type" -b cookie.txt --insecure \
       --form "description=$course_desplay_name" \
       --form "icon_file=@$course_icon_path" \
       --output "$course_type_json_output.json"

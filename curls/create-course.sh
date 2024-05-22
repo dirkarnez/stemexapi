@@ -18,7 +18,7 @@ function create_course () {
 
     validation;
 
-    /C/Windows/System32/curl.exe -X POST --location "https://localhost/api/curriculum-course" -b cookie.txt --insecure \
+    /C/Windows/System32/curl.exe -X POST --location "https://localhost:4443/api/curriculum-course" -b cookie.txt --insecure \
         --form "parent_id=$parent_id" \
         --form "description=$description" \
         --form "icon_file=@$icon_file" \
