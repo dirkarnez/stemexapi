@@ -6,8 +6,8 @@ import (
 
 	"github.com/dirkarnez/stemexapi/db"
 	"github.com/dirkarnez/stemexapi/query"
-
-	"github.com/dirkarnez/stemexapi/query"
+	C:\Users\stude\Downloads\stemexapi\cmd\redumpparents\\redumpparents.go
+	"github.com/dirkarnez/stemexapi/cmd/redumpparents/redumpparents"
 )
 
 func main() {
