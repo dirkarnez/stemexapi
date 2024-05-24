@@ -449,11 +449,12 @@ func main() {
 		SPA:       true,
 	})
 
-	port := 443
+	var port int
 
 	if runtime.GOOS == "windows" {
-		// local development
-		port = 4437
+		port = 4437 // local development
+	} else {
+		port = 443
 	}
 
 	log.Printf("Listening on %d\n", port)
