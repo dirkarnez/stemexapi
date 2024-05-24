@@ -16,8 +16,10 @@ import (
 	casbinModel "github.com/casbin/casbin/v2/model"
 	gormadapter "github.com/casbin/gorm-adapter/v3"
 	"github.com/dirkarnez/stemexapi/api"
+	"github.com/dirkarnez/stemexapi/cmd/redumpparents/redumpparents"
 	"github.com/dirkarnez/stemexapi/db"
 	"github.com/dirkarnez/stemexapi/model"
+	"github.com/dirkarnez/stemexapi/query"
 	"github.com/dirkarnez/stemexapi/utils"
 	"github.com/gorilla/securecookie"
 	"github.com/iris-contrib/middleware/cors"
@@ -295,6 +297,14 @@ func main() {
 
 		if err := dbInstance.Create(&model.CurriculumCourseLessonResourceType{Name: "misc_materials"}).Error; err != nil {
 			log.Println("?????????????????????????????")
+			log.Fatalln(err)
+			return
+		}
+
+		var q = query.Use(dbInstance)
+
+		err := redumpparents.RedumpParents(q)
+		if err != nil {
 			log.Fatalln(err)
 			return
 		}
