@@ -36,7 +36,7 @@ type CurriculumCourseLevels struct {
 	ID          string                         `json:"id"`
 	Name        string                         `json:"name"`
 	IconID      string                         `json:"icon_id"`
-	Icon        *multipart.FileHeader          `json:"-"`
+	IconFile    *multipart.FileHeader          `json:"-"`
 	Title       string                         `json:"title"`
 	Description string                         `json:"description"`
 	Lessons     []CurriculumCourseLevelLessons `json:"lessons"`

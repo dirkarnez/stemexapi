@@ -29,6 +29,7 @@ function create_course () {
         --form "levels[0].icon_file=@$levels_0_icon_file" \
         --form "levels[0].title=$levels_0_title" \
         --form "levels[0].description=$levels_0_description" \
+        --form "levels[0].lessons[0].lesson_number=1" \
         --form "levels[0].lessons[0].presentation_notes[0].file=@$levels_0_lessons_0_presentation_notes_0_file" \
         --form "levels[0].lessons[0].student_notes[0].file=@$levels_0_lessons_0_student_notes_0_file" \
         --form "levels[0].lessons[0].teacher_notes[0].file=@$levels_0_lessons_0_teacher_notes_0_file" \

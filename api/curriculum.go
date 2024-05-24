@@ -779,7 +779,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 					return err
 				}
 
-				iconFile, err := utils.SaveUploadV2(level.Icon, &entityCourseLevel.IconID, s3Prefix, s3, tx)
+				iconFile, err := utils.SaveUploadV2(level.IconFile, &entityCourseLevel.IconID, s3Prefix, s3, tx)
 				if err != nil {
 					return err
 				}
@@ -1389,21 +1389,24 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 		for {
 			var levelsIDKey = fmt.Sprintf(`levels[%d].id`, i)
 			var levelsNameKey = fmt.Sprintf(`levels[%d].name`, i)
+			var levelsIconIDKey = fmt.Sprintf(`levels[%d].icon_id`, i)
 			var levelsIconFileKey = fmt.Sprintf(`levels[%d].icon_file`, i)
 			var levelsTitleKey = fmt.Sprintf(`levels[%d].title`, i)
 			var levelsDescriptionKey = fmt.Sprintf(`levels[%d].description`, i)
 			levelsIDKeyExists := curriculumEntryFormData.KeyExists(levelsIDKey)
 			levelsNameKeyExists := curriculumEntryFormData.KeyExists(levelsNameKey)
 			levelsTitleKeyExists := curriculumEntryFormData.KeyExists(levelsTitleKey)
+			levelsIconIDKeyExists := curriculumEntryFormData.KeyExists(levelsIconIDKey)
 			levelsIconFileKeyExists := curriculumEntryFormData.KeyExists(levelsIconFileKey)
 			levelsDescriptionKeyExists := curriculumEntryFormData.KeyExists(levelsDescriptionKey)
 
-			if levelsIDKeyExists || levelsNameKeyExists || levelsTitleKeyExists || levelsIconFileKeyExists || levelsDescriptionKeyExists {
+			if levelsIDKeyExists || levelsNameKeyExists || levelsTitleKeyExists || levelsIconIDKeyExists || levelsIconFileKeyExists || levelsDescriptionKeyExists {
 				level := dto.CurriculumCourseLevels{
 					ID:          curriculumEntryFormData.Get(levelsIDKey),
 					Name:        curriculumEntryFormData.Get(levelsNameKey),
 					Title:       curriculumEntryFormData.Get(levelsTitleKey),
-					IconID:      curriculumEntryFormData.Get(levelsIconFileKey),
+					IconFile:    curriculumEntryFormData.GetFile(levelsIconFileKey),
+					IconID:      curriculumEntryFormData.Get(levelsIconIDKey),
 					Description: curriculumEntryFormData.Get(levelsDescriptionKey),
 				}
 
