@@ -448,7 +448,7 @@ func main() {
 		SPA:       true,
 	})
 
-	const port = 4443
+	const port = 4437
 
 	log.Printf("Listening on %d\n", port)
 
