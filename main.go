@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"time"
 
@@ -448,7 +449,12 @@ func main() {
 		SPA:       true,
 	})
 
-	const port = 4437
+	port := 443
+
+	if runtime.GOOS == "windows" {
+		// local development
+		port = 4437
+	}
 
 	log.Printf("Listening on %d\n", port)
 
