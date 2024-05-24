@@ -18,13 +18,16 @@ function create_course () {
 
     validation;
 
-    /C/Windows/System32/curl.exe -X POST --location "https://localhost:4443/api/curriculum-course" -b cookie.txt --insecure \
+    # /C/Windows/System32/curl.exe 
+
+    /mingw64/bin/curl -X POST --location "https://localhost:4443/api/curriculum-course" -b cookie.txt --insecure \
         --form "parent_id=$parent_id" \
         --form "description=$description" \
         --form "icon_file=@$icon_file" \
         --form "curriculum_plan_file=@$curriculum_plan_file" \
         --form "blog_entries[0].external_url=$blog_entries_0_external_url" \
         --form "blog_entries[0].title=$blog_entries_0_title" \
+        --form "youtube_video_entries[0].url=$youtube_video_entries_0_url" \
         --form "levels[0].name=$levels_0_name" \
         --form "levels[0].icon_file=@$levels_0_icon_file" \
         --form "levels[0].title=$levels_0_title" \
@@ -125,7 +128,8 @@ export icon_file="$prefix/icon.png"
 export description="AppInventor Mobile Apps Development Introductory"
 export curriculum_plan_file="$prefix/App Inventor Intro Curriculum Guide.pdf"
 export blog_entries_0_external_url="https://hk.stemex.org/self-control-app/" 
-export blog_entries_0_title="從小培養孩子的自控能力 3款提升自控能力的電子應用程式" 
+export blog_entries_0_title=$(<"$prefix/blog-title.txt")
+echo $blog_entries_0_title
 export youtube_video_entries_0_url="https://www.youtube.com/watch?v=zbpzr_hYwtg"
 export levels_0_name="A"
 export levels_0_icon_file="$prefix/level_a_icon.png" 

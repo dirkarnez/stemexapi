@@ -473,6 +473,7 @@ func GetCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.
 					ID:          courseLevel.ID.ToString(),
 					Name:        courseLevel.Name,
 					Description: courseLevel.Description,
+					Title:       courseLevel.Title,
 					IconID:      courseLevel.IconID.ToString(),
 				}
 
@@ -692,6 +693,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 
 			for _, saved := range blogs {
 				returnForm.BlogEntries = append(returnForm.BlogEntries, dto.CurriculumCourseBlogEntries{
+					ID:          saved.ID.ToString(),
 					ExternalURL: saved.ExternalURL,
 					Title:       saved.Title,
 				})
@@ -731,6 +733,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 
 			for _, saved := range youtubes {
 				returnForm.YoutubeVideoEntries = append(returnForm.YoutubeVideoEntries, dto.CurriculumCourseYoutubeVideoEntries{
+					ID:  saved.ID.ToString(),
 					URL: saved.URL,
 				})
 			}
@@ -787,6 +790,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 
 				entityCourseLevel.CourseID = curriculumCourse.ID
 				entityCourseLevel.Name = level.Name
+				entityCourseLevel.Title = level.Title
 				entityCourseLevel.Description = level.Description
 
 				err = tx.CurriculumCourseLevel.Clauses(clause.OnConflict{
@@ -800,6 +804,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 				returnLevels.ID = entityCourseLevel.ID.ToString()
 				returnLevels.Name = entityCourseLevel.Name
 				returnLevels.IconID = entityCourseLevel.IconID.ToString()
+				returnLevels.Title = entityCourseLevel.Title
 				returnLevels.Description = entityCourseLevel.Description
 
 				var lessonEntityList []*model.CurriculumCourseLevelLesson
@@ -1344,7 +1349,7 @@ func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseF
 					},
 				},
 				{
-					First: youtubeVideoEntriesBaseKey + ".file",
+					First: youtubeVideoEntriesBaseKey + ".url",
 					Second: func(dto *dto.CurriculumCourseYoutubeVideoEntries, s string) {
 						dto.URL = s
 					},
