@@ -2,6 +2,7 @@ package api
 
 import (
 	"bytes"
+	"fmt"
 
 	"github.com/dirkarnez/stemexapi/model"
 	"github.com/dirkarnez/stemexapi/utils"
@@ -57,6 +58,7 @@ func GetResourceByID(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.Hand
 		if err != nil {
 			ctx.StopWithError(iris.StatusInternalServerError, err)
 		}
+		ctx.Header("Content-Disposition", fmt.Sprintf("attachment; filename=%s", file.FileNameUploaded))
 		// filepath.Join(path...)
 		ctx.ServeContent(bytes.NewReader(data), file.FileNameUploaded, file.UpdatedAt)
 
