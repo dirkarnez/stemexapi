@@ -76,9 +76,7 @@ func CreateOrUpdateCurriculumCourse(form *dto.CurriculumCourseForm, s3 *utils.St
 			blogs = append(blogs, &entity)
 		}
 
-		err = tx.CurriculumCourseBlogEntries.Clauses(clause.OnConflict{
-			UpdateAll: true,
-		}).Create(blogs...)
+		err = tx.CurriculumCourseBlogEntries.Clauses(clause.OnConflict{UpdateAll: true}).Create(blogs...)
 		if err != nil {
 			return err
 		}
@@ -91,26 +89,24 @@ func CreateOrUpdateCurriculumCourse(form *dto.CurriculumCourseForm, s3 *utils.St
 			})...)).
 			Delete()
 
-		for _, saved := range blogs {
-			returnForm.BlogEntries = append(returnForm.BlogEntries, dto.CurriculumCourseBlogEntries{
+		returnForm.BlogEntries = lo.Map(blogs, func(saved *model.CurriculumCourseBlogEntries, index int) dto.CurriculumCourseBlogEntries {
+			return dto.CurriculumCourseBlogEntries{
 				ID:          saved.ID.ToString(),
 				ExternalURL: saved.ExternalURL,
 				Title:       saved.Title,
-			})
-		}
+			}
+		})
 
 		/* associations: CurriculumCourseYoutubeVideoEntries*/
 		var youtubes []*model.CurriculumCourseYoutubeVideoEntries
 		for _, dto := range form.YoutubeVideoEntries {
 			entity := model.CurriculumCourseYoutubeVideoEntries{}
 
-			if len(dto.ID) > 1 {
-				IDUUID, err := model.ValidUUIDExFromIDString(dto.ID)
-				if err != nil {
-					return err
-				}
-				entity.ID = IDUUID
+			entity.ID, err = model.ValidUUIDExFromIDString(dto.ID)
+			if err != nil {
+				return err
 			}
+
 			entity.URL = dto.URL
 			entity.EntryID = &curriculumEntry.ID
 			youtubes = append(youtubes, &entity)
@@ -131,12 +127,12 @@ func CreateOrUpdateCurriculumCourse(form *dto.CurriculumCourseForm, s3 *utils.St
 			})...)).
 			Delete()
 
-		for _, saved := range youtubes {
-			returnForm.YoutubeVideoEntries = append(returnForm.YoutubeVideoEntries, dto.CurriculumCourseYoutubeVideoEntries{
+		returnForm.YoutubeVideoEntries = lo.Map(youtubes, func(saved *model.CurriculumCourseYoutubeVideoEntries, index int) dto.CurriculumCourseYoutubeVideoEntries {
+			return dto.CurriculumCourseYoutubeVideoEntries{
 				ID:  saved.ID.ToString(),
 				URL: saved.URL,
-			})
-		}
+			}
+		})
 
 		presentationNotesType, _ := tx.CurriculumCourseLessonResourceType.Where(
 			tx.CurriculumCourseLessonResourceType.Name.Eq("presentation_notes"),
@@ -159,14 +155,10 @@ func CreateOrUpdateCurriculumCourse(form *dto.CurriculumCourseForm, s3 *utils.St
 		for _, level := range form.Levels {
 			entityCourseLevel := model.CurriculumCourseLevel{}
 
-			if len(level.ID) > 1 {
-				IDUUID, err := model.ValidUUIDExFromIDString(level.ID)
-				if err != nil {
-					return err
-				}
-				entityCourseLevel.ID = IDUUID
+			entityCourseLevel.ID, err = model.ValidUUIDExFromIDString(level.ID)
+			if err != nil {
+				return err
 			}
-
 			// level.IconID
 			// _, levelIconFileHeader, err := ctx.Request().FormFile(fmt.Sprintf("levels.%d.icon_file", i))
 			// if err == nil {
@@ -211,20 +203,15 @@ func CreateOrUpdateCurriculumCourse(form *dto.CurriculumCourseForm, s3 *utils.St
 			for _, lesson := range level.Lessons {
 				entityLesson := model.CurriculumCourseLevelLesson{}
 
-				if len(lesson.ID) > 1 {
-					lessonIDUUID, err := model.ValidUUIDExFromIDString(lesson.ID)
-					if err != nil {
-						return err
-					}
-					entityLesson.ID = lessonIDUUID
-				} else {
-					entityLesson.LessonNumber = lesson.LessonNumber
-					entityLesson.CourseLevelID = entityCourseLevel.ID
+				entityLesson.ID, err = model.ValidUUIDExFromIDString(lesson.ID)
+				if err != nil {
+					return err
 				}
 
-				err = tx.CurriculumCourseLevelLesson.Clauses(clause.OnConflict{
-					UpdateAll: true,
-				}).Create(&entityLesson)
+				entityLesson.LessonNumber = lesson.LessonNumber
+				entityLesson.CourseLevelID = entityCourseLevel.ID
+
+				err = tx.CurriculumCourseLevelLesson.Clauses(clause.OnConflict{UpdateAll: true}).Create(&entityLesson)
 				if err != nil {
 					return err
 				}
@@ -237,12 +224,9 @@ func CreateOrUpdateCurriculumCourse(form *dto.CurriculumCourseForm, s3 *utils.St
 				for _, presentationNote := range lesson.PresentationNotes {
 					entityPresentationNote := model.CurriculumCourseLevelLessonResources{}
 
-					if len(presentationNote.ID) > 1 {
-						presentationNoteIDUUID, err := model.ValidUUIDExFromIDString(presentationNote.ID)
-						if err != nil {
-							return err
-						}
-						entityPresentationNote.ID = presentationNoteIDUUID
+					entityPresentationNote.ID, err = model.ValidUUIDExFromIDString(presentationNote.ID)
+					if err != nil {
+						return err
 					}
 
 					entityPresentationNote.ResourseID, err = model.ValidUUIDExFromIDString(presentationNote.ResourseID)
@@ -259,9 +243,7 @@ func CreateOrUpdateCurriculumCourse(form *dto.CurriculumCourseForm, s3 *utils.St
 					entityPresentationNote.LessonID = entityLesson.ID
 					entityPresentationNote.ResourseTypeID = presentationNotesType.ID
 
-					err = tx.CurriculumCourseLevelLessonResources.Clauses(clause.OnConflict{
-						UpdateAll: true,
-					}).Create(&entityPresentationNote)
+					err = tx.CurriculumCourseLevelLessonResources.Clauses(clause.OnConflict{UpdateAll: true}).Create(&entityPresentationNote)
 					if err != nil {
 						return err
 					}
@@ -286,30 +268,10 @@ func CreateOrUpdateCurriculumCourse(form *dto.CurriculumCourseForm, s3 *utils.St
 				for _, studentNote := range lesson.StudentNotes {
 					entityStudentNote := model.CurriculumCourseLevelLessonResources{}
 
-					if len(studentNote.ID) > 1 {
-						studentNoteIDUUID, err := model.ValidUUIDExFromIDString(studentNote.ID)
-						if err != nil {
-							return err
-						}
-						entityStudentNote.ID = studentNoteIDUUID
+					entityStudentNote.ID, err = model.ValidUUIDExFromIDString(studentNote.ID)
+					if err != nil {
+						return err
 					}
-
-					// if len(studentNote.ResourseID) > 1 {
-					// 	entityStudentNoteResourseIDUUID, err := model.ValidUUIDExFromIDString(studentNote.ResourseID)
-					// 	if err != nil {
-					// 		return err
-					// 	}
-					// 	entityStudentNote.ResourseID = entityStudentNoteResourseIDUUID
-					// }
-
-					// _, studentNoteFileHeader, err := ctx.Request().FormFile(fmt.Sprintf("levels.%d.lessons.%d.student_notes.%d.file", i, j, k))
-					// if err == nil {
-					// 	file, err := utils.SaveUploadV2(studentNoteFileHeader, &entityStudentNote.ResourseID, s3Prefix, s3, tx)
-					// 	if err != nil {
-					// 		return err
-					// 	}
-					// 	entityStudentNote.ResourseID = file.ID
-					// }
 
 					entityStudentNote.ResourseID, err = model.ValidUUIDExFromIDString(studentNote.ResourseID)
 					if err != nil {
@@ -325,9 +287,7 @@ func CreateOrUpdateCurriculumCourse(form *dto.CurriculumCourseForm, s3 *utils.St
 					entityStudentNote.LessonID = entityLesson.ID
 					entityStudentNote.ResourseTypeID = studentNotesType.ID
 
-					err = tx.CurriculumCourseLevelLessonResources.Clauses(clause.OnConflict{
-						UpdateAll: true,
-					}).Create(&entityStudentNote)
+					err = tx.CurriculumCourseLevelLessonResources.Clauses(clause.OnConflict{UpdateAll: true}).Create(&entityStudentNote)
 					if err != nil {
 						return err
 					}
@@ -352,31 +312,10 @@ func CreateOrUpdateCurriculumCourse(form *dto.CurriculumCourseForm, s3 *utils.St
 				for _, teacherNote := range lesson.TeacherNotes {
 					entityTeacherNote := model.CurriculumCourseLevelLessonResources{}
 
-					if len(teacherNote.ID) > 1 {
-						teacherNoteIDUUID, err := model.ValidUUIDExFromIDString(teacherNote.ID)
-						if err != nil {
-							return err
-						}
-						entityTeacherNote.ID = teacherNoteIDUUID
+					entityTeacherNote.ID, err = model.ValidUUIDExFromIDString(teacherNote.ID)
+					if err != nil {
+						return err
 					}
-
-					/*if len(teacherNote.ResourseID) > 1 {
-						teacherNoteResourseIDUUID, err := model.ValidUUIDExFromIDString(teacherNote.ResourseID)
-						if err != nil {
-							return err
-						}
-						entityTeacherNote.ResourseID = teacherNoteResourseIDUUID
-					}
-
-					_, teacherNoteFileHeader, err := ctx.Request().FormFile(fmt.Sprintf("levels.%d.lessons.%d.teacher_notes.%d.file", i, j, k))
-					if err == nil {
-						file, err := utils.SaveUploadV2(teacherNoteFileHeader, &entityTeacherNote.ResourseID, s3Prefix, s3, tx)
-						if err != nil {
-							return err
-						}
-						entityTeacherNote.ResourseID = file.ID
-					}
-					*/
 
 					entityTeacherNote.ResourseID, err = model.ValidUUIDExFromIDString(teacherNote.ResourseID)
 					if err != nil {
@@ -425,26 +364,6 @@ func CreateOrUpdateCurriculumCourse(form *dto.CurriculumCourseForm, s3 *utils.St
 						}
 						entityMiscMaterial.ID = miscMaterialIDUUID
 					}
-
-					/*
-						if len(miscMaterial.ResourseID) > 1 {
-							miscMaterialResourseIDUUID, err := model.ValidUUIDExFromIDString(miscMaterial.ResourseID)
-							if err != nil {
-								return err
-							}
-							entityMiscMaterial.ResourseID = miscMaterialResourseIDUUID
-						}
-
-						_, miscMaterialFileHeader, err := ctx.Request().FormFile(fmt.Sprintf("levels.%d.lessons.%d.misc_materials.%d.file", i, j, k))
-						if err == nil {
-							file, err := utils.SaveUploadV2(miscMaterialFileHeader, &entityMiscMaterial.ResourseID, s3Prefix, s3, tx)
-							if err != nil {
-								return err
-							}
-							entityMiscMaterial.ResourseID = file.ID
-						}
-
-					*/
 
 					entityMiscMaterial.ResourseID, err = model.ValidUUIDExFromIDString(miscMaterial.ResourseID)
 					if err != nil {
