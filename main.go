@@ -17,8 +17,10 @@ import (
 	casbinModel "github.com/casbin/casbin/v2/model"
 	gormadapter "github.com/casbin/gorm-adapter/v3"
 	"github.com/dirkarnez/stemexapi/api"
+	"github.com/dirkarnez/stemexapi/bo"
 	"github.com/dirkarnez/stemexapi/cmd/redumpparents/redumpparents"
 	"github.com/dirkarnez/stemexapi/db"
+	"github.com/dirkarnez/stemexapi/dto"
 	"github.com/dirkarnez/stemexapi/model"
 	"github.com/dirkarnez/stemexapi/query"
 	"github.com/dirkarnez/stemexapi/utils"
@@ -308,6 +310,14 @@ func main() {
 		if err != nil {
 			log.Fatalln(err)
 			return
+		}
+
+		dto, err := bo.CreateOrUpdateCurriculumCourse(&dto.CurriculumCourseForm{BlogEntries: []dto.CurriculumCourseBlogEntries{{Title: "你"}}}, utils.NewStemexS3Client(), q)
+		if err != nil {
+			log.Fatal(err)
+			return
+		} else {
+			fmt.Printf("%+v", dto)
 		}
 	}
 

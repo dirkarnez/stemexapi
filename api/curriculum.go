@@ -614,7 +614,7 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 			return
 		}
 
-		returnForm, err := bo.WIP(form, s3, dbInstance)
+		returnForm, err := bo.CreateOrUpdateCurriculumCourse(form, s3, query.Use(dbInstance))
 		if err != nil {
 			ctx.StopWithError(iris.StatusInternalServerError, err)
 		} else {

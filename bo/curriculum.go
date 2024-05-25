@@ -10,15 +10,13 @@ import (
 	"github.com/dirkarnez/stemexapi/query"
 	"github.com/dirkarnez/stemexapi/utils"
 	"github.com/samber/lo"
-	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
 
-func WIP(form *dto.CurriculumCourseForm, s3 *utils.StemexS3Client, dbInstance *gorm.DB) (*dto.CurriculumCourseForm, error) {
-	var q = query.Use(dbInstance)
+func CreateOrUpdateCurriculumCourse(form *dto.CurriculumCourseForm, s3 *utils.StemexS3Client, txOrQ *query.Query) (*dto.CurriculumCourseForm, error) {
 	var returnForm dto.CurriculumCourseForm
 
-	err := q.Transaction(func(tx *query.Query) error {
+	err := txOrQ.Transaction(func(tx *query.Query) error {
 		curriculumEntry := model.CurriculumEntry{}
 
 		err := mappings.MapCurriculumCourseFormToCurriculumEntry(form, &curriculumEntry, s3, tx)
