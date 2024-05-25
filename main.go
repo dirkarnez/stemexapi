@@ -28,6 +28,7 @@ import (
 	"github.com/iris-contrib/middleware/cors"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/sessions"
+	"github.com/samber/lo"
 	"gopkg.in/yaml.v2"
 )
 
@@ -306,18 +307,51 @@ func main() {
 
 		var q = query.Use(dbInstance)
 
-		err := redumpparents.RedumpParents(q)
+		p := fmt.Sprintf(`%s\Downloads\stemex-curriculum\AppInventor\STEMex_AppInventor_Introductory\Lesson 1\Misc Materials\*`, os.Getenv("USERPROFILE"))
+		files, err := filepath.Glob(p)
 		if err != nil {
-			log.Fatalln(err)
+			fmt.Println("Error:", err)
 			return
 		}
+		fmt.Println(len(files))
 
-		dto, err := bo.CreateOrUpdateCurriculumCourse(&dto.CurriculumCourseForm{BlogEntries: []dto.CurriculumCourseBlogEntries{{Title: "你"}}}, utils.NewStemexS3Client(), q)
+		dto, err := bo.CreateOrUpdateCurriculumCourse(&dto.CurriculumCourseForm{
+			BlogEntries: []dto.CurriculumCourseBlogEntries{{Title: "你"}},
+			Levels: lo.Map(files, func(filename string, i int) dto.CurriculumCourseLevels {
+				return dto.CurriculumCourseLevels{
+					Lessons: lo.Map(files, func(filename string, i int) dto.CurriculumCourseLevelLessons {
+						return dto.CurriculumCourseLevelLessons{
+							LessonNumber: 1,
+							PresentationNotes: lo.Map(files, func(filename string, i int) dto.CurriculumCourseLevelLessonResources {
+								return dto.CurriculumCourseLevelLessonResources{}
+							}),
+							TeacherNotes: lo.Map(files, func(filename string, i int) dto.CurriculumCourseLevelLessonResources {
+								return dto.CurriculumCourseLevelLessonResources{}
+							}),
+							StudentNotes: lo.Map(files, func(filename string, i int) dto.CurriculumCourseLevelLessonResources {
+								return dto.CurriculumCourseLevelLessonResources{}
+							}),
+							MiscMaterials: lo.Map(files, func(filename string, i int) dto.CurriculumCourseLevelLessonResources {
+								return dto.CurriculumCourseLevelLessonResources{}
+							}),
+						}
+					}),
+				}
+			}),
+		},
+			utils.NewStemexS3Client(), q)
+
 		if err != nil {
 			log.Fatal(err)
 			return
 		} else {
 			fmt.Printf("%+v", dto)
+		}
+
+		err = redumpparents.RedumpParents(q)
+		if err != nil {
+			log.Fatalln(err)
+			return
 		}
 	}
 
