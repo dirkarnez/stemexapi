@@ -1,9 +1,7 @@
 package main
 
-import (
-	"github.com/dirkarnez/stemexapi/api"
-)
+import "github.com/dirkarnez/stemexapi/bo"
 
 func main() {
-	api.WIP(nil)
+	bo.WIP(nil)
 }
