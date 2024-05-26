@@ -309,9 +309,10 @@ func main() {
 
 		prefix := fmt.Sprintf(`%s\Downloads\stemex-curriculum`, os.Getenv("USERPROFILE"))
 
-		var addCourse = func(rootDir string) error {
+		var addCourse = func(rootDir, parentID, iconFile, curriculumPlanFile string, blogs []dto.CurriculumCourseBlogEntries, youtube []dto.CurriculumCourseYoutubeVideoEntries) error {
 			var lessonCount uint64 = 0
 			for {
+				// only do increment when exists
 				lessonFolder := fmt.Sprintf(`%s\%s\Lesson %d`, prefix, rootDir, lessonCount+1)
 				_, err := os.Stat(lessonFolder)
 				if os.IsNotExist(err) {
@@ -321,17 +322,20 @@ func main() {
 				}
 			}
 
+			os.Open(iconFile)
 			files := []string{}
 			dto, err := bo.CreateOrUpdateCurriculumCourse(&dto.CurriculumCourseForm{
-				ParentID:           "",
-				IconFile:           nil,
-				CurriculumPlanFile: nil,
-				BlogEntries: lo.Map(files, func(filename string, i int) dto.CurriculumCourseBlogEntries {
-					return dto.CurriculumCourseBlogEntries{Title: "你", ExternalURL: ""}
-				}),
-				YoutubeVideoEntries: lo.Map(files, func(filename string, i int) dto.CurriculumCourseYoutubeVideoEntries {
-					return dto.CurriculumCourseYoutubeVideoEntries{URL: ""}
-				}),
+				ParentID:            parentID,
+				IconFile:            iconFile,
+				CurriculumPlanFile:  curriculumPlanFile,
+				BlogEntries:         blogs,
+				YoutubeVideoEntries: youtube,
+				// BlogEntries: lo.Map(files, func(filename string, i int) dto.CurriculumCourseBlogEntries {
+				// 	return dto.CurriculumCourseBlogEntries{Title: "你", ExternalURL: ""}
+				// }),
+				// YoutubeVideoEntries: lo.Map(files, func(filename string, i int) dto.CurriculumCourseYoutubeVideoEntries {
+				// 	return dto.CurriculumCourseYoutubeVideoEntries{URL: ""}
+				// }),
 				Levels: lo.Map(files, func(filename string, i int) dto.CurriculumCourseLevels {
 					return dto.CurriculumCourseLevels{
 						Name:        "",
@@ -367,30 +371,22 @@ func main() {
 								LessonNumber: lessonNumber,
 								PresentationNotes: lo.Map(lessonNumberPresentationNotes, func(filename string, i int) dto.CurriculumCourseLevelLessonResources {
 									return dto.CurriculumCourseLevelLessonResources{
-										ResourseID: "",
-										Name:       "",
-										File:       nil,
+										File: nil,
 									}
 								}),
 								TeacherNotes: lo.Map(lessonNumberTeacherNotes, func(filename string, i int) dto.CurriculumCourseLevelLessonResources {
 									return dto.CurriculumCourseLevelLessonResources{
-										ResourseID: "",
-										Name:       "",
-										File:       nil,
+										File: nil,
 									}
 								}),
 								StudentNotes: lo.Map(lessonNumberStudentNotes, func(filename string, i int) dto.CurriculumCourseLevelLessonResources {
 									return dto.CurriculumCourseLevelLessonResources{
-										ResourseID: "",
-										Name:       "",
-										File:       nil,
+										File: nil,
 									}
 								}),
 								MiscMaterials: lo.Map(lessonNumberMiscMaterials, func(filename string, i int) dto.CurriculumCourseLevelLessonResources {
 									return dto.CurriculumCourseLevelLessonResources{
-										ResourseID: "",
-										Name:       "",
-										File:       nil,
+										File: nil,
 									}
 								}),
 							}
@@ -409,11 +405,16 @@ func main() {
 			return nil
 		}
 
-		err := addCourse( /*"AppInventor",*/
+		// AppInventor
+		err := addCourse(
 			`AppInventor\STEMex_AppInventor_Introductory`,
-			// "App Inventor Intro Curriculum Guide.pdf",
-			// "icon.png",
+			"",
+			"icon.png",
+			"App Inventor Intro Curriculum Guide.pdf",
+			[]dto.CurriculumCourseBlogEntries{{Title: "你", ExternalURL: ""}},
+			[]dto.CurriculumCourseYoutubeVideoEntries{{URL: ""}},
 		)
+
 		if err != nil {
 			log.Fatalln(err)
 			return

@@ -1,6 +1,8 @@
 package utils
 
 import (
+	"bytes"
+	"mime/multipart"
 	"net/http"
 
 	"github.com/albrow/forms"
@@ -64,4 +66,29 @@ func FormMultipartParseV2[T any](req *http.Request, stuctPointer *T) error {
 	// Now you can either copy the file over to your server using io.Copy,
 	// upload the file to something like amazon S3, or do whatever you want
 	// with it.
+}
+
+// func FileToMultipartFileHeader(filePath string) (*multipart.FileHeader, error) {
+// 	os.Open(filePath)
+
+// 	result := multipart.FileHeader{
+// 		Filename: "",
+// 		Header:   textproto.MIMEHeader{},
+// 		Size:     0,
+// 	}
+
+// 	return &result, nil
+// }
+
+func byteToFileHeader(filePath string, filename string) (multipart.FileHeader, error) {
+	var data []byte
+	file := bytes.NewReader(data)
+	return multipart.FileHeader{
+		Filename: filename,
+		Size:     int64(len(data)),
+		Header: map[string][]string{
+			"Content-Type": {http.DetectContentType(data)},
+		},
+		Content: file,
+	}, nil
 }
