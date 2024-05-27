@@ -2,8 +2,12 @@ package utils
 
 import (
 	"bytes"
+	"fmt"
+	"io"
 	"mime/multipart"
 	"net/http"
+	"os"
+	"path/filepath"
 
 	"github.com/albrow/forms"
 	"github.com/gin-gonic/gin/binding"
@@ -80,15 +84,64 @@ func FormMultipartParseV2[T any](req *http.Request, stuctPointer *T) error {
 // 	return &result, nil
 // }
 
-func byteToFileHeader(filePath string, filename string) (multipart.FileHeader, error) {
-	var data []byte
-	file := bytes.NewReader(data)
-	return multipart.FileHeader{
-		Filename: filename,
-		Size:     int64(len(data)),
-		Header: map[string][]string{
-			"Content-Type": {http.DetectContentType(data)},
-		},
-		Content: file,
-	}, nil
+// func byteToFileHeader(filePath string, filename string) (multipart.FileHeader, error) {
+// 	var data []byte
+// 	file := bytes.NewReader(data)
+
+// 	multipart.NewReader(msg.Body, params["boundary"]
+// 	// return multipart.FileHeader{
+// 	// 	Filename: filename,
+// 	// 	Size:     int64(len(data)),
+// 	// 	Header: map[string][]string{
+// 	// 		"Content-Type": {http.DetectContentType(data)},
+// 	// 	},
+// 	// 	Content: file,
+// 	// }, nil
+// }
+
+func CreateMultipartFileHeader(filePath string) (*multipart.FileHeader, error) {
+	// open the file
+	file, err := os.Open(filePath)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	// create a buffer to hold the file in memory
+	var buff bytes.Buffer
+	buffWriter := io.Writer(&buff)
+
+	// create a new form and create a new file field
+	formWriter := multipart.NewWriter(buffWriter)
+	formPart, err := formWriter.CreateFormFile("file", filepath.Base(file.Name()))
+	if err != nil {
+		return nil, err
+	}
+
+	// copy the content of the file to the form's file field
+	if _, err := io.Copy(formPart, file); err != nil {
+		return nil, err
+	}
+
+	// close the form writer after the copying process is finished
+	// I don't use defer in here to avoid unexpected EOF error
+	formWriter.Close()
+
+	// transform the bytes buffer into a form reader
+	buffReader := bytes.NewReader(buff.Bytes())
+	formReader := multipart.NewReader(buffReader, formWriter.Boundary())
+
+	// read the form components with max stored memory of 1MB
+	multipartForm, err := formReader.ReadForm(1 << 20)
+	if err != nil {
+		return nil, err
+	}
+
+	// return the multipart file header
+	files, exists := multipartForm.File["file"]
+	if !exists || len(files) == 0 {
+		return nil, fmt.Errorf("multipart file not exists")
+	}
+
+	return files[0], nil
 }
