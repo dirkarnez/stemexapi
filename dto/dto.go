@@ -37,6 +37,7 @@ type CurriculumCourseLevels struct {
 	Name        string                         `json:"name"`
 	IconID      string                         `json:"icon_id"`
 	IconFile    *multipart.FileHeader          `json:"-"`
+	IconPath    string                         `json:"-"` // migration only
 	Title       string                         `json:"title"`
 	Description string                         `json:"description"`
 	Lessons     []CurriculumCourseLevelLessons `json:"lessons"`

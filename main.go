@@ -17,10 +17,10 @@ import (
 	casbinModel "github.com/casbin/casbin/v2/model"
 	gormadapter "github.com/casbin/gorm-adapter/v3"
 	"github.com/dirkarnez/stemexapi/api"
-	"github.com/dirkarnez/stemexapi/bo"
 	"github.com/dirkarnez/stemexapi/cmd/redumpparents/redumpparents"
 	"github.com/dirkarnez/stemexapi/db"
 	"github.com/dirkarnez/stemexapi/dto"
+	"github.com/dirkarnez/stemexapi/migration"
 	"github.com/dirkarnez/stemexapi/model"
 	"github.com/dirkarnez/stemexapi/query"
 	"github.com/dirkarnez/stemexapi/utils"
@@ -28,7 +28,6 @@ import (
 	"github.com/iris-contrib/middleware/cors"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/sessions"
-	"github.com/samber/lo"
 	"gopkg.in/yaml.v2"
 )
 
@@ -309,99 +308,33 @@ func main() {
 
 		prefix := fmt.Sprintf(`%s\Downloads\stemex-curriculum`, os.Getenv("USERPROFILE"))
 
-		var addCourse = func(rootDir, parentID, iconFilePath, curriculumPlanFilePath string,
-			blogs []dto.CurriculumCourseBlogEntries,
-			youtube []dto.CurriculumCourseYoutubeVideoEntries,
-			levels []dto.CurriculumCourseLevels,
-		) error {
-			var lessonCount uint64 = 0
-			for {
-				// only do increment when exists
-				lessonFolder := fmt.Sprintf(`%s\%s\Lesson %d`, prefix, rootDir, lessonCount+1)
-				_, err := os.Stat(lessonFolder)
-				if os.IsNotExist(err) {
-					break
-				} else {
-					lessonCount++
-				}
-			}
-
-			iconFile, err := utils.CreateMultipartFileHeader(iconFilePath)
-			if err != nil {
-				log.Println("?????????????????????????????")
-				log.Fatalln(err)
-			}
-
-			curriculumPlanFile, err := utils.CreateMultipartFileHeader(curriculumPlanFilePath)
-			if err != nil {
-				log.Println("?????????????????????????????")
-				log.Fatalln(err)
-			}
-
-			// files := []string{}
-			lo.ForEach(levels, func(level dto.CurriculumCourseLevels, index int) {
-				level.Lessons = lo.Map(make([]uint64, lessonCount), func(lessonNumber uint64, i int) dto.CurriculumCourseLevelLessons {
-					var getFiles = func(folderName string) []dto.CurriculumCourseLevelLessonResources {
-						filePaths, err := filepath.Glob(fmt.Sprintf(`%s\%s\Lesson %d\%s\*`, prefix, rootDir, lessonNumber, folderName))
-						if err != nil {
-							log.Fatal(err)
-						}
-
-						return lo.Map(filePaths, func(filePath string, i int) dto.CurriculumCourseLevelLessonResources {
-							file, err := utils.CreateMultipartFileHeader(filePath)
-							if err != nil {
-								log.Fatalln(err)
-							}
-
-							return dto.CurriculumCourseLevelLessonResources{
-								File: file,
-							}
-						})
-					}
-
-					return dto.CurriculumCourseLevelLessons{
-						LessonNumber:      lessonNumber,
-						PresentationNotes: getFiles("Presentation Notes"),
-						TeacherNotes:      getFiles("Teacher Notes"),
-						StudentNotes:      getFiles("Student Notes"),
-						MiscMaterials:     getFiles("Misc Materials"),
-					}
-				})
-			})
-
-			dto, err := bo.CreateOrUpdateCurriculumCourse(&dto.CurriculumCourseForm{
-				ParentID:            parentID,
-				IconFile:            iconFile,
-				CurriculumPlanFile:  curriculumPlanFile,
-				BlogEntries:         blogs,
-				YoutubeVideoEntries: youtube,
-				Levels:              levels,
-			},
-				utils.NewStemexS3Client(), q)
-
-			if err != nil {
-				return err
-			} else {
-				fmt.Printf("%+v", dto)
-			}
-
-			return nil
-		}
-
 		// AppInventor
-		err := addCourse(
-			`AppInventor\STEMex_AppInventor_Introductory`,
+		err := migration.AddCourse(
+			q,
+			s3,
+			prefix,
+			`AppInventor\STEMex_AppInventor_Introductory_A`,
 			"",
 			"icon.png",
 			"App Inventor Intro Curriculum Guide.pdf",
-			[]dto.CurriculumCourseBlogEntries{{Title: "你", ExternalURL: ""}},
-			[]dto.CurriculumCourseYoutubeVideoEntries{{URL: ""}},
+			[]dto.CurriculumCourseBlogEntries{
+				{Title: "從小培養孩子的自控能力 3款提升自控能力的電子應用程式", ExternalURL: "https://hk.stemex.org/self-control-app/"},
+			},
+			[]dto.CurriculumCourseYoutubeVideoEntries{
+				{URL: "https://www.youtube.com/embed/zbpzr_hYwtg"},
+			},
 			[]dto.CurriculumCourseLevels{
 				{
-					Name:        "",
-					IconFile:    nil,
-					Title:       "",
-					Description: "",
+					Name:        "A",
+					IconPath:    "level_a_icon.png",
+					Title:       "HelloPurr: Tap the Kitty, Hear Him Meow",
+					Description: `HelloPurr is a simple app that you can build in a very fun way. You will create a button that has a picture of your favorite cat on it, and then program the button so that when it is clicked a "meow" sound plays with some vibrations.`,
+				},
+				{
+					Name:        "B",
+					IconPath:    "level_b_icon.png",
+					Title:       "Piccall",
+					Description: "PicCall shows you how you can use App Inventor to make apps that do actual things, like calling friends. We will learn about how real-life applications work and are programmed.",
 				},
 			},
 		)
