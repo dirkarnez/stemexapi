@@ -17,7 +17,6 @@ import (
 	casbinModel "github.com/casbin/casbin/v2/model"
 	gormadapter "github.com/casbin/gorm-adapter/v3"
 	"github.com/dirkarnez/stemexapi/api"
-	"github.com/dirkarnez/stemexapi/cmd/redumpparents/redumpparents"
 	"github.com/dirkarnez/stemexapi/db"
 	"github.com/dirkarnez/stemexapi/dto"
 	"github.com/dirkarnez/stemexapi/migration"
@@ -308,47 +307,161 @@ func main() {
 
 		prefix := fmt.Sprintf(`%s\Downloads\stemex-curriculum`, os.Getenv("USERPROFILE"))
 
-		// AppInventor
-		err := migration.AddCourse(
-			q,
-			s3,
-			prefix,
-			`AppInventor\STEMex_AppInventor_Introductory_A`,
-			"",
-			"icon.png",
-			"App Inventor Intro Curriculum Guide.pdf",
-			[]dto.CurriculumCourseBlogEntries{
-				{Title: "從小培養孩子的自控能力 3款提升自控能力的電子應用程式", ExternalURL: "https://hk.stemex.org/self-control-app/"},
-			},
-			[]dto.CurriculumCourseYoutubeVideoEntries{
-				{URL: "https://www.youtube.com/embed/zbpzr_hYwtg"},
-			},
-			[]dto.CurriculumCourseLevels{
-				{
-					Name:        "A",
-					IconPath:    "level_a_icon.png",
-					Title:       "HelloPurr: Tap the Kitty, Hear Him Meow",
-					Description: `HelloPurr is a simple app that you can build in a very fun way. You will create a button that has a picture of your favorite cat on it, and then program the button so that when it is clicked a "meow" sound plays with some vibrations.`,
-				},
-				{
-					Name:        "B",
-					IconPath:    "level_b_icon.png",
-					Title:       "Piccall",
-					Description: "PicCall shows you how you can use App Inventor to make apps that do actual things, like calling friends. We will learn about how real-life applications work and are programmed.",
-				},
-			},
-		)
+		{
+			courseTypeDTO, err := migration.AddCourseType(q, s3, prefix, `AppInventor`, "AppInventor Mobile Apps", `Level 1-min.png`)
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
 
-		if err != nil {
-			log.Fatalln(err)
-			return
+			// AppInventor
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				`AppInventor\Introductory`,
+				courseTypeDTO.ID,
+				"AppInventor Mobile Apps Development Introductory",
+				"icon.png",
+				"App Inventor Intro Curriculum Guide.pdf",
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: "從小培養孩子的自控能力 3款提升自控能力的電子應用程式", ExternalURL: "https://hk.stemex.org/self-control-app/"},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: "https://www.youtube.com/watch?v=zbpzr_hYwtg"},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    "level_a_icon.png",
+						Title:       "HelloPurr: Tap the Kitty, Hear Him Meow",
+						Description: `HelloPurr is a simple app that you can build in a very fun way. You will create a button that has a picture of your favorite cat on it, and then program the button so that when it is clicked a "meow" sound plays with some vibrations.`,
+					},
+					{
+						Name:        "B",
+						IconPath:    "level_b_icon.png",
+						Title:       "Piccall",
+						Description: "PicCall shows you how you can use App Inventor to make apps that do actual things, like calling friends. We will learn about how real-life applications work and are programmed.",
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+		}
+		{
+			courseTypeDTO, err := migration.AddCourseType(q, s3, prefix, `3D_Design_Printing`, "", `Level 1-min.png`)
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+			log.Printf("%s", courseTypeDTO.Description)
 		}
 
-		err = redumpparents.RedumpParents(q)
-		if err != nil {
-			log.Fatalln(err)
-			return
+		{
+			courseTypeDTO, err := migration.AddCourseType(q, s3, prefix, "Coding Minecraft", "Coding Minecraft", "Level 1-min.png")
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+			log.Printf("%s", courseTypeDTO.Description)
 		}
+		{
+			courseTypeDTO, err := migration.AddCourseType(q, s3, prefix, "Coding Roblox", "Coding Roblox", "Level 1-min.png")
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+			log.Printf("%s", courseTypeDTO.Description)
+		}
+		{
+			courseTypeDTO, err := migration.AddCourseType(q, s3, prefix, "Coding Python", "Coding Python", "Level 1-min.png")
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+			log.Printf("%s", courseTypeDTO.Description)
+		}
+		{
+			courseTypeDTO, err := migration.AddCourseType(q, s3, prefix, "Coding Scratch", "Coding Scratch", "Level 1-min.png")
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+			log.Printf("%s", courseTypeDTO.Description)
+		}
+		{
+			courseTypeDTO, err := migration.AddCourseType(q, s3, prefix, "Cyber Virtual Robotics", "Cyber Virtual Robotics", "Level 1.png")
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+			log.Printf("%s", courseTypeDTO.Description)
+		}
+		{
+			courseTypeDTO, err := migration.AddCourseType(q, s3, prefix, "Lego Robotics", "Lego Robotics", "Level 1-min.png")
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+			log.Printf("%s", courseTypeDTO.Description)
+		}
+		{
+			courseTypeDTO, err := migration.AddCourseType(q, s3, prefix, "VEX Robotics", "Vex Robotics", "Level 1-min.png")
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+			log.Printf("%s", courseTypeDTO.Description)
+		}
+		{
+			courseTypeDTO, err := migration.AddCourseType(q, s3, prefix, "A.I.& Machine Learning", "A.I.& Machine Learning", "Level 1-min.png")
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+			log.Printf("%s", courseTypeDTO.Description)
+		}
+		{
+			courseTypeDTO, err := migration.AddCourseType(q, s3, prefix, "3D_Design_Printing", "3D Design & Printing", "Level 1-min.png")
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+			log.Printf("%s", courseTypeDTO.Description)
+		}
+		{
+			courseTypeDTO, err := migration.AddCourseType(q, s3, prefix, "Micro_bit", "Micro:bits", "Level 1-min.png")
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+			log.Printf("%s", courseTypeDTO.Description)
+		}
+		{
+			courseTypeDTO, err := migration.AddCourseType(q, s3, prefix, "AR_VR", "AR/VR", "Level 1-min.png")
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+			log.Printf("%s", courseTypeDTO.Description)
+		}
+		{
+			courseTypeDTO, err := migration.AddCourseType(q, s3, prefix, "Smart City", "Smart City", "Level 1-min.png")
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+			log.Printf("%s", courseTypeDTO.Description)
+		}
+
+		// err = redumpparents.RedumpParents(q)
+		// if err != nil {
+		// 	log.Fatalln(err)
+		// 	return
+		// }
 	}
 
 	// if !dbInstance.Migrator().HasTable(&model.Role{}) {

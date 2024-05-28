@@ -284,99 +284,17 @@ func GetCurriculumCourseType(dbInstance *gorm.DB) context.Handler {
 
 func CreateOrUpdateCurriculumCourseType(s3 *utils.StemexS3Client, dbInstance *gorm.DB) context.Handler {
 	return func(ctx iris.Context) {
-		var entryToSave = model.CurriculumEntry{}
-		type Form struct {
-			ID     string `form:"id"  json:"id"`
-			IconID string `form:"icon_id"  json:"icon_id"`
-			//IconFile/**multipart.FileHeader */ []byte                                           `form:"icon_file"`
-			Description string `form:"description"  json:"description"`
-			ParentID    string `form:"parent_id"  json:"parent_id"`
+
+		form, err := MapRequestToCurriculumCourseTypeForm(ctx.Request())
+		if err != nil {
+			ctx.StopWithError(iris.StatusInternalServerError, err)
+			return
 		}
 
-		err := dbInstance.Transaction(func(tx *gorm.DB) error {
-			// type InformationEntry struct {
-			// 	IconID string `form:"icon_id"`
-			// 	//IconFile []byte/**multipart.FileHeader*/ `form:"icon_file"`
-			// 	Title   string `form:"title"`
-			// 	Content string `form:"content"`
-			// }
-
-			var form Form
-			err := ctx.ReadForm(&form)
-			if err != nil {
-				return err
-			}
-
-			if len(form.ID) > 1 {
-				IDUUID, err := model.ValidUUIDExFromIDString(form.ID)
-				if err != nil {
-					return err
-				}
-				tx.First(&entryToSave, "`id` = ?", IDUUID)
-			}
-
-			entryToSave.Description = form.Description
-
-			if len(form.IconID) > 1 {
-				IconIDUUID, err := model.ValidUUIDExFromIDString(form.IconID)
-				entryToSave.IconID = IconIDUUID
-				if err != nil {
-					return err
-				}
-			}
-
-			// // Get the max post value size passed via iris.WithPostMaxMemory.
-			maxSize := ctx.Application().ConfigurationReadOnly().GetPostMaxMemory()
-
-			err = ctx.Request().ParseMultipartForm(maxSize)
-			if err != nil {
-				return err
-			}
-
-			_, iconFileHeader, err := ctx.Request().FormFile("icon_file")
-			if err == nil {
-				file, err := utils.SaveUpload(iconFileHeader, []string{utils.PrefixCourseResourses, entryToSave.Description}, s3, tx, ctx)
-				if err != nil {
-					return err
-				}
-				entryToSave.IconID = file.ID
-			}
-
-			if len(form.ParentID) > 1 && form.ParentID != "null" {
-				parentIDUUID, err := model.ValidUUIDExFromIDString(form.ParentID)
-				if err != nil {
-					return err
-				}
-				entryToSave.ParentID = &parentIDUUID
-
-				tx.Model(&model.CurriculumEntry{}).
-					Select("MAX(`seq_no_same_level`)").
-					Where("`parent_id` = ?", *entryToSave.ParentID).
-					Group("`parent_id`").
-					Scan(&entryToSave.SeqNoSameLevel)
-				entryToSave.SeqNoSameLevel = entryToSave.SeqNoSameLevel + 1
-			}
-
-			if err := tx.Save(&entryToSave).Error; err != nil {
-				return err
-			}
-
-			// // return nil will commit the whole transaction
-			return nil
-		})
-
+		returnForm, err := bo.CreateOrUpdateCurriculumCourseType(form, s3, query.Use(dbInstance))
 		if err != nil {
 			ctx.StopWithError(iris.StatusInternalServerError, err)
 		} else {
-			var returnForm Form
-			returnForm.Description = entryToSave.Description
-			returnForm.ID = entryToSave.ID.ToString()
-			returnForm.IconID = entryToSave.IconID.ToString()
-
-			if entryToSave.ParentID != nil {
-				returnForm.ParentID = (*entryToSave.ParentID).ToString()
-			}
-
 			ctx.JSON(returnForm)
 		}
 	}
@@ -658,6 +576,29 @@ func CreateOrUpdateCurriculumCourse(s3 *utils.StemexS3Client, dbInstance *gorm.D
 // 		})
 // 	}
 // }
+
+func MapRequestToCurriculumCourseTypeForm(req *http.Request) (*dto.CurriculumCourseTypeForm, error) {
+	var form dto.CurriculumCourseTypeForm
+	// Parse request data.
+	curriculumEntryFormData, err := forms.Parse(req)
+	if err != nil {
+		// ctx.StopWithError(iris.StatusInternalServerError, errParse)
+		// return
+		return nil, err
+	}
+
+	val := curriculumEntryFormData.Validator()
+	val.Require("description")
+
+	if !val.HasErrors() {
+		form.ID = curriculumEntryFormData.Get("id")
+		form.IconID = curriculumEntryFormData.Get("icon_id")
+		form.IconFile = curriculumEntryFormData.GetFile("icon_file")
+		form.ParentID = curriculumEntryFormData.Get("parent_id")
+		form.Description = curriculumEntryFormData.Get("description")
+	}
+	return &form, nil
+}
 
 func MapRequestToCurriculumCourseForm(req *http.Request) (*dto.CurriculumCourseForm, error) {
 	var form dto.CurriculumCourseForm

@@ -2,6 +2,7 @@ package bo
 
 import (
 	"database/sql/driver"
+	"fmt"
 	"strings"
 
 	"github.com/dirkarnez/stemexapi/dto"
@@ -12,6 +13,130 @@ import (
 	"github.com/samber/lo"
 	"gorm.io/gorm/clause"
 )
+
+func CreateOrUpdateCurriculumCourseType(form *dto.CurriculumCourseTypeForm, s3 *utils.StemexS3Client, txOrQ *query.Query) (*dto.CurriculumCourseTypeForm, error) {
+	var returnForm dto.CurriculumCourseTypeForm
+
+	err := txOrQ.Transaction(func(tx *query.Query) error {
+		curriculumEntry := model.CurriculumEntry{}
+
+		err := mappings.MapCurriculumCourseTypeFormToCurriculumEntry(form, &curriculumEntry, s3, tx)
+		if err != nil {
+			return err
+		}
+
+		err = tx.CurriculumEntry.Clauses(clause.OnConflict{UpdateAll: true}).Create(&curriculumEntry)
+		if err != nil {
+			return err
+		} else {
+			returnForm.ID = curriculumEntry.ID.ToString()
+			returnForm.Description = curriculumEntry.Description
+			returnForm.IconID = curriculumEntry.IconID.ToString()
+			if curriculumEntry.ParentID != nil {
+				returnForm.ParentID = (*curriculumEntry.ParentID).ToString()
+			}
+
+			return nil
+		}
+	})
+
+	if err != nil {
+		return nil, err
+	} else {
+		return &returnForm, nil
+	}
+
+	// var entryToSave = model.CurriculumEntry{}
+
+	// err := dbInstance.Transaction(func(tx *gorm.DB) error {
+	// 	// type InformationEntry struct {
+	// 	// 	IconID string `form:"icon_id"`
+	// 	// 	//IconFile []byte/**multipart.FileHeader*/ `form:"icon_file"`
+	// 	// 	Title   string `form:"title"`
+	// 	// 	Content string `form:"content"`
+	// 	// }
+
+	// 	var form dto.CurriculumCourseTypeForm
+	// 	err := ctx.ReadForm(&form)
+	// 	if err != nil {
+	// 		return err
+	// 	}
+
+	// 	// if len(form.ID) > 1 {
+
+	// 	// }
+
+	// 	entryToSave.ID, err = model.ValidUUIDExFromIDString(form.ID)
+	// 	if err != nil {
+	// 		return err
+	// 	}
+	// 	tx.First(&entryToSave, "`id` = ?", entryToSave.ID)
+
+	// 	entryToSave.Description = form.Description
+	// 	entryToSave.IconID, err = model.ValidUUIDExFromIDString(form.IconID)
+	// 	if err != nil {
+	// 		return err
+	// 	}
+
+	// 	// // Get the max post value size passed via iris.WithPostMaxMemory.
+	// 	maxSize := ctx.Application().ConfigurationReadOnly().GetPostMaxMemory()
+
+	// 	err = ctx.Request().ParseMultipartForm(maxSize)
+	// 	if err != nil {
+	// 		return err
+	// 	}
+
+	// 	_, iconFileHeader, err := ctx.Request().FormFile("icon_file")
+	// 	entryToSave.IconID, err = model.ValidUUIDExFromIDString(form.IconID)
+	// 	if err != nil {
+	// 		return err
+	// 	}
+
+	// 	file, err := utils.SaveUploadV2(iconFileHeader, &entryToSave.IconID, []string{utils.PrefixCourseResourses, strings.ToLower(entryToSave.Description)}, s3, query.Use(tx))
+	// 	if err != nil {
+	// 		return fmt.Errorf("CurriculumPlanFile: %s", err.Error())
+	// 	}
+	// 	entryToSave.IconID = file.ID
+
+	// 	if len(form.ParentID) > 1 && form.ParentID != "null" {
+	// 		parentIDUUID, err := model.ValidUUIDExFromIDString(form.ParentID)
+	// 		if err != nil {
+	// 			return err
+	// 		}
+	// 		entryToSave.ParentID = &parentIDUUID
+
+	// 		tx.Model(&model.CurriculumEntry{}).
+	// 			Select("MAX(`seq_no_same_level`)").
+	// 			Where("`parent_id` = ?", *entryToSave.ParentID).
+	// 			Group("`parent_id`").
+	// 			Scan(&entryToSave.SeqNoSameLevel)
+	// 		entryToSave.SeqNoSameLevel = entryToSave.SeqNoSameLevel + 1
+	// 	}
+
+	// 	if err := tx.Save(&entryToSave).Error; err != nil {
+	// 		return err
+	// 	}
+
+	// 	// // return nil will commit the whole transaction
+	// 	return nil
+	// })
+
+	// if err != nil {
+	// 	ctx.StopWithError(iris.StatusInternalServerError, err)
+	// } else {
+	// 	var returnForm dto.CurriculumCourseTypeForm
+	// 	returnForm.Description = entryToSave.Description
+	// 	returnForm.ID = entryToSave.ID.ToString()
+	// 	returnForm.IconID = entryToSave.IconID.ToString()
+
+	// 	if entryToSave.ParentID != nil {
+	// 		returnForm.ParentID = (*entryToSave.ParentID).ToString()
+	// 	}
+
+	// 	ctx.JSON(returnForm)
+	// }
+	// return
+}
 
 func CreateOrUpdateCurriculumCourse(form *dto.CurriculumCourseForm, s3 *utils.StemexS3Client, txOrQ *query.Query) (*dto.CurriculumCourseForm, error) {
 	var returnForm dto.CurriculumCourseForm
@@ -45,13 +170,11 @@ func CreateOrUpdateCurriculumCourse(form *dto.CurriculumCourseForm, s3 *utils.St
 
 		file, err := utils.SaveUploadV2(form.CurriculumPlanFile, &curriculumCourse.CurriculumPlanID, s3Prefix, s3, tx)
 		if err != nil {
-			return err
+			return fmt.Errorf("CurriculumPlanFile: %s", err.Error())
 		}
 		curriculumCourse.CurriculumPlanID = file.ID
 
-		err = tx.CurriculumCourse.Clauses(clause.OnConflict{
-			UpdateAll: true,
-		}).Create(&curriculumCourse)
+		err = tx.CurriculumCourse.Clauses(clause.OnConflict{UpdateAll: true}).Create(&curriculumCourse)
 		if err != nil {
 			return err
 		}
@@ -62,13 +185,9 @@ func CreateOrUpdateCurriculumCourse(form *dto.CurriculumCourseForm, s3 *utils.St
 		var blogs []*model.CurriculumCourseBlogEntries
 		for _, dto := range form.BlogEntries {
 			entity := model.CurriculumCourseBlogEntries{}
-
-			if len(dto.ID) > 1 {
-				IDUUID, err := model.ValidUUIDExFromIDString(dto.ID)
-				if err != nil {
-					return err
-				}
-				entity.ID = IDUUID
+			entity.ID, err = model.ValidUUIDExFromIDString(dto.ID)
+			if err != nil {
+				return err
 			}
 			entity.ExternalURL = dto.ExternalURL
 			entity.Title = dto.Title
@@ -112,9 +231,7 @@ func CreateOrUpdateCurriculumCourse(form *dto.CurriculumCourseForm, s3 *utils.St
 			youtubes = append(youtubes, &entity)
 		}
 
-		err = tx.CurriculumCourseYoutubeVideoEntries.Clauses(clause.OnConflict{
-			UpdateAll: true,
-		}).Create(youtubes...)
+		err = tx.CurriculumCourseYoutubeVideoEntries.Clauses(clause.OnConflict{UpdateAll: true}).Create(youtubes...)
 		if err != nil {
 			return err
 		}
@@ -159,15 +276,6 @@ func CreateOrUpdateCurriculumCourse(form *dto.CurriculumCourseForm, s3 *utils.St
 			if err != nil {
 				return err
 			}
-			// level.IconID
-			// _, levelIconFileHeader, err := ctx.Request().FormFile(fmt.Sprintf("levels.%d.icon_file", i))
-			// if err == nil {
-			// 	file, err := utils.SaveUploadV2(form., &entityCourseLevel.IconID, s3Prefix, s3, tx)
-			// 	if err != nil {
-			// 		return err
-			// 	}
-			// 	entityCourseLevel.IconID = file.ID
-			// }
 
 			entityCourseLevel.IconID, err = model.ValidUUIDExFromIDString(level.IconID)
 			if err != nil {
@@ -176,7 +284,7 @@ func CreateOrUpdateCurriculumCourse(form *dto.CurriculumCourseForm, s3 *utils.St
 
 			iconFile, err := utils.SaveUploadV2(level.IconFile, &entityCourseLevel.IconID, s3Prefix, s3, tx)
 			if err != nil {
-				return err
+				return fmt.Errorf("iconFile: %s", err.Error())
 			}
 			entityCourseLevel.IconID = iconFile.ID
 
@@ -185,9 +293,7 @@ func CreateOrUpdateCurriculumCourse(form *dto.CurriculumCourseForm, s3 *utils.St
 			entityCourseLevel.Title = level.Title
 			entityCourseLevel.Description = level.Description
 
-			err = tx.CurriculumCourseLevel.Clauses(clause.OnConflict{
-				UpdateAll: true,
-			}).Create(&entityCourseLevel)
+			err = tx.CurriculumCourseLevel.Clauses(clause.OnConflict{UpdateAll: true}).Create(&entityCourseLevel)
 			if err != nil {
 				return err
 			}
@@ -236,7 +342,7 @@ func CreateOrUpdateCurriculumCourse(form *dto.CurriculumCourseForm, s3 *utils.St
 
 					file, err := utils.SaveUploadV2(presentationNote.File, &entityPresentationNote.ResourseID, s3Prefix, s3, tx)
 					if err != nil {
-						return err
+						return fmt.Errorf("presentationNote: %s", err.Error())
 					}
 					entityPresentationNote.ResourseID = file.ID
 
@@ -280,7 +386,7 @@ func CreateOrUpdateCurriculumCourse(form *dto.CurriculumCourseForm, s3 *utils.St
 
 					file, err := utils.SaveUploadV2(studentNote.File, &entityStudentNote.ResourseID, s3Prefix, s3, tx)
 					if err != nil {
-						return err
+						return fmt.Errorf("studentNote: %s", err.Error())
 					}
 					entityStudentNote.ResourseID = file.ID
 
@@ -324,15 +430,13 @@ func CreateOrUpdateCurriculumCourse(form *dto.CurriculumCourseForm, s3 *utils.St
 
 					file, err := utils.SaveUploadV2(teacherNote.File, &entityTeacherNote.ResourseID, s3Prefix, s3, tx)
 					if err != nil {
-						return err
+						return fmt.Errorf("teacherNote: %s", err.Error())
 					}
 					entityTeacherNote.ResourseID = file.ID
 
 					entityTeacherNote.LessonID = entityLesson.ID
 					entityTeacherNote.ResourseTypeID = teacherNotesType.ID
-					err = tx.CurriculumCourseLevelLessonResources.Clauses(clause.OnConflict{
-						UpdateAll: true,
-					}).Create(&entityTeacherNote)
+					err = tx.CurriculumCourseLevelLessonResources.Clauses(clause.OnConflict{UpdateAll: true}).Create(&entityTeacherNote)
 					if err != nil {
 						return err
 					}
@@ -372,16 +476,14 @@ func CreateOrUpdateCurriculumCourse(form *dto.CurriculumCourseForm, s3 *utils.St
 
 					file, err := utils.SaveUploadV2(miscMaterial.File, &entityMiscMaterial.ResourseID, s3Prefix, s3, tx)
 					if err != nil {
-						return err
+						return fmt.Errorf("miscMaterial: %s", err.Error())
 					}
 					entityMiscMaterial.ResourseID = file.ID
 
 					entityMiscMaterial.LessonID = entityLesson.ID
 					entityMiscMaterial.ResourseTypeID = miscMaterialsType.ID
 
-					err = tx.CurriculumCourseLevelLessonResources.Clauses(clause.OnConflict{
-						UpdateAll: true,
-					}).Create(&entityMiscMaterial)
+					err = tx.CurriculumCourseLevelLessonResources.Clauses(clause.OnConflict{UpdateAll: true}).Create(&entityMiscMaterial)
 					if err != nil {
 						return err
 					}

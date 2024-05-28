@@ -14,22 +14,20 @@ import (
 )
 
 func AddCourse(qOrTx *query.Query, s3 *utils.StemexS3Client,
-	prefix, rootDir, parentID, iconFilePath, curriculumPlanFilePath string,
+	prefix, rootDir, parentID, description, iconFilePath, curriculumPlanFilePath string,
 	blogs []dto.CurriculumCourseBlogEntries,
 	youtube []dto.CurriculumCourseYoutubeVideoEntries,
 	levels []dto.CurriculumCourseLevels,
-) error {
-	var lessonCount uint64 = 0
-	for {
-		// only do increment when exists
-		lessonFolder := fmt.Sprintf(`%s\%s\Lesson %d`, prefix, rootDir, lessonCount+1)
-		_, err := os.Stat(lessonFolder)
-		if os.IsNotExist(err) {
-			break
-		} else {
-			lessonCount++
-		}
-	}
+) (*dto.CurriculumCourseForm, error) {
+	// coursesRoot := fmt.Sprintf(`%s\%s\*`, prefix, rootDir)
+	// coursesRootFolders, err := filepath.Glob(coursesRoot)
+	// if err != nil {
+	// 	log.Println("?????????????????????????????")
+	// 	log.Fatalln(err)
+	// }
+
+	// a := filepath.Base(coursesRootFolders[0])
+	// fmt.Println(a)
 
 	iconFile, err := utils.CreateMultipartFileHeader(fmt.Sprintf(`%s\%s\%s`, prefix, rootDir, iconFilePath))
 	if err != nil {
@@ -45,58 +43,68 @@ func AddCourse(qOrTx *query.Query, s3 *utils.StemexS3Client,
 
 	// files := []string{}
 
-	lo.ForEach(levels, func(level dto.CurriculumCourseLevels, index int) {
-		iconFile, err := utils.CreateMultipartFileHeader(fmt.Sprintf(`%s\%s\%s`, prefix, rootDir, level.IconPath))
+	for i := range levels {
+		var lessonCount uint64 = 0
+		for {
+			// only do increment when exists
+			lessonFolder := fmt.Sprintf(`%s\%s\%s\Lesson %d`, prefix, rootDir, levels[i].Name, lessonCount+1)
+			_, err := os.Stat(lessonFolder)
+			if os.IsNotExist(err) {
+				break
+			} else {
+				lessonCount++
+			}
+		}
+
+		iconFilePath := fmt.Sprintf(`%s\%s\%s\%s`, prefix, rootDir, levels[i].Name, levels[i].IconPath)
+		levels[i].IconFile, err = utils.CreateMultipartFileHeader(iconFilePath)
 		if err != nil {
 			log.Fatalln(err)
 		}
 
-		level.IconFile = iconFile
-		level.Lessons = lo.Map(make([]uint64, lessonCount), func(lessonNumber uint64, i int) dto.CurriculumCourseLevelLessons {
-			var getFiles = func(folderName string) []dto.CurriculumCourseLevelLessonResources {
-				filePaths, err := filepath.Glob(fmt.Sprintf(`%s\%s\Lesson %d\%s\*`, prefix, rootDir, lessonNumber, folderName))
-				if err != nil {
-					log.Fatal(err)
+		levels[i].Lessons = func(j int) []dto.CurriculumCourseLevelLessons {
+			return lo.Map(make([]uint64, lessonCount), func(_ uint64, i int) dto.CurriculumCourseLevelLessons {
+				var lessonNumber uint64 = uint64(i) + 1
+
+				var getFiles = func(folderName string) []dto.CurriculumCourseLevelLessonResources {
+					dir := fmt.Sprintf(`%s\%s\%s\Lesson %d\%s\*`, prefix, rootDir, levels[j].Name, lessonNumber, folderName)
+					filePaths, err := filepath.Glob(dir)
+					if err != nil {
+						log.Fatal(err)
+					}
+
+					return lo.Map(filePaths, func(filePath string, i int) dto.CurriculumCourseLevelLessonResources {
+						file, err := utils.CreateMultipartFileHeader(filePath)
+						if err != nil {
+							log.Fatalln(err)
+						}
+
+						return dto.CurriculumCourseLevelLessonResources{
+							File: file,
+						}
+					})
 				}
 
-				return lo.Map(filePaths, func(filePath string, i int) dto.CurriculumCourseLevelLessonResources {
-					file, err := utils.CreateMultipartFileHeader(filePath)
-					if err != nil {
-						log.Fatalln(err)
-					}
-
-					return dto.CurriculumCourseLevelLessonResources{
-						File: file,
-					}
-				})
-			}
-
-			return dto.CurriculumCourseLevelLessons{
-				LessonNumber:      lessonNumber,
-				PresentationNotes: getFiles("Presentation Notes"),
-				TeacherNotes:      getFiles("Teacher Notes"),
-				StudentNotes:      getFiles("Student Notes"),
-				MiscMaterials:     getFiles("Misc Materials"),
-			}
-		})
-	})
+				return dto.CurriculumCourseLevelLessons{
+					LessonNumber:      lessonNumber,
+					PresentationNotes: getFiles("Presentation Notes"),
+					TeacherNotes:      getFiles("Teacher Notes"),
+					StudentNotes:      getFiles("Student Notes"),
+					MiscMaterials:     getFiles("Misc Materials"),
+				}
+			})
+		}(i)
+	}
 
 	dtoInput := dto.CurriculumCourseForm{
 		ParentID:            parentID,
 		IconFile:            iconFile,
+		Description:         description,
 		CurriculumPlanFile:  curriculumPlanFile,
 		BlogEntries:         blogs,
 		YoutubeVideoEntries: youtube,
 		Levels:              levels,
 	}
 
-	dtoOutput, err := bo.CreateOrUpdateCurriculumCourse(&dtoInput, s3, qOrTx)
-
-	if err != nil {
-		return err
-	} else {
-		fmt.Printf("%+v", dtoOutput)
-	}
-
-	return nil
+	return bo.CreateOrUpdateCurriculumCourse(&dtoInput, s3, qOrTx)
 }

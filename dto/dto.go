@@ -111,3 +111,11 @@ type CurriculumCourseForm struct {
 	YoutubeVideoEntries    []CurriculumCourseYoutubeVideoEntries `json:"youtube_video_entries"`
 	Levels                 []CurriculumCourseLevels              `json:"levels"`
 }
+
+type CurriculumCourseTypeForm struct {
+	ID          string                `json:"id"`
+	IconID      string                `json:"icon_id"`
+	IconFile    *multipart.FileHeader `json:"-"`
+	Description string                `json:"description"`
+	ParentID    string                `json:"parent_id"`
+}
