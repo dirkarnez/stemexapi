@@ -83,6 +83,15 @@ func (b StemexS3Client) DownloadFile(objectKey string) ([]byte, error) {
 	// return err
 }
 
+// DownloadFile gets an object from a bucket and stores it in a local file.
+func (b StemexS3Client) DeleteFile(objectKey string) error {
+	_, err := b.s3Client.DeleteObject(context.TODO(), &s3.DeleteObjectInput{
+		Bucket: aws.String(b.bucketName),
+		Key:    aws.String(objectKey),
+	})
+	return err
+}
+
 func NewStemexS3Client() *StemexS3Client {
 	opts := [](func(*config.LoadOptions) error){
 		config.WithRegion("ap-east-1"),
