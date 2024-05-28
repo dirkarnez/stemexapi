@@ -25,6 +25,20 @@ func CreateOrUpdateCurriculumCourseType(form *dto.CurriculumCourseTypeForm, s3 *
 			return err
 		}
 
+		s3Prefix := []string{utils.PrefixCourseResourses, strings.ToLower(curriculumEntry.Description)}
+
+		curriculumEntry.IconID, err = model.ValidUUIDExFromIDString(form.IconID)
+		if err != nil {
+			return err
+		}
+
+		file, err := utils.SaveUploadV2(form.IconFile, &curriculumEntry.IconID, s3Prefix, s3, txOrQ)
+		if err != nil {
+			return fmt.Errorf("form.IconFile %s", err.Error())
+		}
+
+		curriculumEntry.IconID = file.ID
+
 		err = tx.CurriculumEntry.Clauses(clause.OnConflict{UpdateAll: true}).Create(&curriculumEntry)
 		if err != nil {
 			return err
@@ -151,6 +165,18 @@ func CreateOrUpdateCurriculumCourse(form *dto.CurriculumCourseForm, s3 *utils.St
 
 		s3Prefix := []string{utils.PrefixCourseResourses, strings.ToLower(curriculumEntry.Description)}
 
+		curriculumEntry.IconID, err = model.ValidUUIDExFromIDString(form.IconID)
+		if err != nil {
+			return err
+		}
+
+		file, err := utils.SaveUploadV2(form.IconFile, &curriculumEntry.IconID, s3Prefix, s3, txOrQ)
+		if err != nil {
+			return fmt.Errorf("form.IconFile %s", err.Error())
+		}
+
+		curriculumEntry.IconID = file.ID
+
 		err = tx.CurriculumEntry.Clauses(clause.OnConflict{UpdateAll: true}).Create(&curriculumEntry)
 		if err != nil {
 			return err
@@ -163,16 +189,18 @@ func CreateOrUpdateCurriculumCourse(form *dto.CurriculumCourseForm, s3 *utils.St
 			return err
 		}
 
-		curriculumCourse.CurriculumPlanID, err = model.ValidUUIDExFromIDString(form.CurriculumPlanID)
-		if err != nil {
-			return err
-		}
+		if form.CurriculumPlanFile != nil {
+			curriculumCourse.CurriculumPlanID, err = model.ValidUUIDExPointerFromIDString(form.CurriculumPlanID)
+			if err != nil {
+				return err
+			}
 
-		file, err := utils.SaveUploadV2(form.CurriculumPlanFile, &curriculumCourse.CurriculumPlanID, s3Prefix, s3, tx)
-		if err != nil {
-			return fmt.Errorf("CurriculumPlanFile: %s", err.Error())
+			file, err = utils.SaveUploadV2(form.CurriculumPlanFile, curriculumCourse.CurriculumPlanID, s3Prefix, s3, tx)
+			if err != nil {
+				return fmt.Errorf("CurriculumPlanFile: %s", err.Error())
+			}
+			curriculumCourse.CurriculumPlanID = &file.ID
 		}
-		curriculumCourse.CurriculumPlanID = file.ID
 
 		err = tx.CurriculumCourse.Clauses(clause.OnConflict{UpdateAll: true}).Create(&curriculumCourse)
 		if err != nil {

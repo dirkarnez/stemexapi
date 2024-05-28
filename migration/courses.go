@@ -3,6 +3,7 @@ package migration
 import (
 	"fmt"
 	"log"
+	"mime/multipart"
 	"os"
 	"path/filepath"
 
@@ -14,7 +15,7 @@ import (
 )
 
 func AddCourse(qOrTx *query.Query, s3 *utils.StemexS3Client,
-	prefix, rootDir, parentID, description, iconFilePath, curriculumPlanFilePath string,
+	prefix, rootDir, parentID, description, iconFilePath string, curriculumPlanFilePath *string,
 	blogs []dto.CurriculumCourseBlogEntries,
 	youtube []dto.CurriculumCourseYoutubeVideoEntries,
 	levels []dto.CurriculumCourseLevels,
@@ -35,10 +36,13 @@ func AddCourse(qOrTx *query.Query, s3 *utils.StemexS3Client,
 		log.Fatalln(err)
 	}
 
-	curriculumPlanFile, err := utils.CreateMultipartFileHeader(fmt.Sprintf(`%s\%s\%s`, prefix, rootDir, curriculumPlanFilePath))
-	if err != nil {
-		log.Println("?????????????????????????????")
-		log.Fatalln(err)
+	var curriculumPlanFile *multipart.FileHeader = nil
+	if curriculumPlanFilePath != nil {
+		curriculumPlanFile, err = utils.CreateMultipartFileHeader(fmt.Sprintf(`%s\%s\%s`, prefix, rootDir, *curriculumPlanFilePath))
+		if err != nil {
+			log.Println("?????????????????????????????")
+			log.Fatalln(err)
+		}
 	}
 
 	// files := []string{}
@@ -85,13 +89,15 @@ func AddCourse(qOrTx *query.Query, s3 *utils.StemexS3Client,
 					})
 				}
 
-				return dto.CurriculumCourseLevelLessons{
+				dto := dto.CurriculumCourseLevelLessons{
 					LessonNumber:      lessonNumber,
 					PresentationNotes: getFiles("Presentation Notes"),
 					TeacherNotes:      getFiles("Teacher Notes"),
 					StudentNotes:      getFiles("Student Notes"),
 					MiscMaterials:     getFiles("Misc Materials"),
 				}
+
+				return dto
 			})
 		}(i)
 	}

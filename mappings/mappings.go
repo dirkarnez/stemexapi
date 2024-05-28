@@ -1,9 +1,6 @@
 package mappings
 
 import (
-	"fmt"
-	"strings"
-
 	"github.com/dirkarnez/stemexapi/dto"
 	"github.com/dirkarnez/stemexapi/model"
 	"github.com/dirkarnez/stemexapi/query"
@@ -24,18 +21,6 @@ func MapCurriculumCourseTypeFormToCurriculumEntry(form *dto.CurriculumCourseType
 		return err
 	}
 
-	iconIDNilablePtr, err := model.ValidUUIDExPointerFromIDString(form.IconID)
-	if err != nil {
-		return err
-	}
-
-	file, err := utils.SaveUploadV2(form.IconFile, iconIDNilablePtr, []string{utils.PrefixCourseResourses, strings.ToLower(curriculumEntry.Description)}, s3, txOrQ)
-	if err != nil {
-		return fmt.Errorf("form.IconFile %s", err.Error())
-	}
-
-	curriculumEntry.IconID = file.ID
-
 	return nil
 }
 
@@ -52,18 +37,6 @@ func MapCurriculumCourseFormToCurriculumEntry(form *dto.CurriculumCourseForm, cu
 	if err != nil {
 		return err
 	}
-
-	iconIDNilablePtr, err := model.ValidUUIDExPointerFromIDString(form.IconID)
-	if err != nil {
-		return err
-	}
-
-	file, err := utils.SaveUploadV2(form.IconFile, iconIDNilablePtr, []string{utils.PrefixCourseResourses, strings.ToLower(curriculumEntry.Description)}, s3, txOrQ)
-	if err != nil {
-		return fmt.Errorf("form.IconFile %s", err.Error())
-	}
-
-	curriculumEntry.IconID = file.ID
 
 	return nil
 }

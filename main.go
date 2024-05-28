@@ -314,6 +314,7 @@ func main() {
 				return
 			}
 
+			curriculumPlanPath := "App Inventor Intro Curriculum Guide.pdf"
 			_, err = migration.AddCourse(
 				q,
 				s3,
@@ -322,7 +323,7 @@ func main() {
 				courseTypeDTO.ID,
 				"AppInventor Mobile Apps Development Introductory",
 				"icon.png",
-				"App Inventor Intro Curriculum Guide.pdf",
+				&curriculumPlanPath,
 				[]dto.CurriculumCourseBlogEntries{
 					{Title: "從小培養孩子的自控能力 3款提升自控能力的電子應用程式", ExternalURL: "https://hk.stemex.org/self-control-app/"},
 				},
@@ -350,6 +351,7 @@ func main() {
 				return
 			}
 
+			curriculumPlanPath = "App Inventor Intermediate A Curriculum Guide.pdf"
 			_, err = migration.AddCourse(
 				q,
 				s3,
@@ -358,7 +360,7 @@ func main() {
 				courseTypeDTO.ID,
 				"AppInventor Mobile Apps Development Intermediate",
 				"Level 2-Intermediate-min.png",
-				"App Inventor Intermediate A Curriculum Guide.pdf",
+				&curriculumPlanPath,
 				[]dto.CurriculumCourseBlogEntries{
 					{Title: "從小培養孩子的自控能力 3款提升自控能力的電子應用程式", ExternalURL: "https://hk.stemex.org/self-control-app/"},
 				},
@@ -376,7 +378,43 @@ func main() {
 						Name:        "B",
 						IconPath:    "Level 3-Intermediate B-min.png",
 						Title:       "Snow Globe",
-						Description: "In this project you will create a virtual “Snow Globe” that displays snowflakes falling randomly on New York City at night whenever you shake your Android device. You will be introduced to the “Any Component” advanced feature in App Inventor which is used to give collective behaviors to components of the same type",
+						Description: `In this project you will create a virtual "Snow Globe" that displays snowflakes falling randomly on New York City at night whenever you shake your Android device. You will be introduced to the “Any Component” advanced feature in App Inventor which is used to give collective behaviors to components of the same type`,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				`AppInventor\Advanced`,
+				courseTypeDTO.ID,
+				"AppInventor Mobile Apps Development Advanced",
+				"Level 2-Advance-min.png",
+				nil,
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: "從小培養孩子的自控能力 3款提升自控能力的電子應用程式", ExternalURL: "https://hk.stemex.org/self-control-app/"},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: "https://www.youtube.com/watch?v=zbpzr_hYwtg"},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    "Level 3-Advance A-min.png",
+						Title:       "Android, Where's My Car?",
+						Description: `Time to use the advanced features for app inventors to remember where you parked your car in case you go to a new location and are not familiar with it. With your very own app and your mobile device we can pinpoint and remember it using the sensors in our devices.`,
+					},
+					{
+						Name:        "B",
+						IconPath:    "Level 3-Advance B-min.png",
+						Title:       "Firebase Authentication in App Inventor Using Javascript",
+						Description: `The kids will learn what firebase is and set up for it and how we use it for authentication purposes in google and update any number of apps with fresh data, how data is managed in it.`,
 					},
 				},
 			)
@@ -444,47 +482,47 @@ func main() {
 			log.Printf("%s", courseTypeDTO.Description)
 		}
 		{
-			courseTypeDTO, err := migration.AddCourseType(q, s3, prefix, "A.I. & Machine Learning", `A.I. & Machine Learning`, "Level 1-min.png")
+			_, err := migration.AddCourseType(q, s3, prefix, "A.I. & Machine Learning", `A.I. & Machine Learning`, "Level 1-min.png")
 			if err != nil {
 				log.Fatalln(err)
 				return
 			}
 			//
-			_, err = migration.AddCourse(
-				q,
-				s3,
-				prefix,
-				`A.I. & Machine Learning\Introductory`,
-				courseTypeDTO.ID,
-				"AppInventor Mobile Apps Development Introductory",
-				"icon.png",
-				"App Inventor Intro Curriculum Guide.pdf",
-				[]dto.CurriculumCourseBlogEntries{
-					{Title: "從小培養孩子的自控能力 3款提升自控能力的電子應用程式", ExternalURL: "https://hk.stemex.org/self-control-app/"},
-				},
-				[]dto.CurriculumCourseYoutubeVideoEntries{
-					{URL: "https://www.youtube.com/watch?v=zbpzr_hYwtg"},
-				},
-				[]dto.CurriculumCourseLevels{
-					{
-						Name:        "A",
-						IconPath:    "level_a_icon.png",
-						Title:       "HelloPurr: Tap the Kitty, Hear Him Meow",
-						Description: `HelloPurr is a simple app that you can build in a very fun way. You will create a button that has a picture of your favorite cat on it, and then program the button so that when it is clicked a "meow" sound plays with some vibrations.`,
-					},
-					{
-						Name:        "B",
-						IconPath:    "level_b_icon.png",
-						Title:       "Piccall",
-						Description: "PicCall shows you how you can use App Inventor to make apps that do actual things, like calling friends. We will learn about how real-life applications work and are programmed.",
-					},
-				},
-			)
+			// _, err = migration.AddCourse(
+			// 	q,
+			// 	s3,
+			// 	prefix,
+			// 	`A.I. & Machine Learning\Introductory`,
+			// 	courseTypeDTO.ID,
+			// 	"AppInventor Mobile Apps Development Introductory",
+			// 	"icon.png",
+			// 	"App Inventor Intro Curriculum Guide.pdf",
+			// 	[]dto.CurriculumCourseBlogEntries{
+			// 		{Title: "從小培養孩子的自控能力 3款提升自控能力的電子應用程式", ExternalURL: "https://hk.stemex.org/self-control-app/"},
+			// 	},
+			// 	[]dto.CurriculumCourseYoutubeVideoEntries{
+			// 		{URL: "https://www.youtube.com/watch?v=zbpzr_hYwtg"},
+			// 	},
+			// 	[]dto.CurriculumCourseLevels{
+			// 		{
+			// 			Name:        "A",
+			// 			IconPath:    "level_a_icon.png",
+			// 			Title:       "HelloPurr: Tap the Kitty, Hear Him Meow",
+			// 			Description: `HelloPurr is a simple app that you can build in a very fun way. You will create a button that has a picture of your favorite cat on it, and then program the button so that when it is clicked a "meow" sound plays with some vibrations.`,
+			// 		},
+			// 		{
+			// 			Name:        "B",
+			// 			IconPath:    "level_b_icon.png",
+			// 			Title:       "Piccall",
+			// 			Description: "PicCall shows you how you can use App Inventor to make apps that do actual things, like calling friends. We will learn about how real-life applications work and are programmed.",
+			// 		},
+			// 	},
+			// )
 
-			if err != nil {
-				log.Fatalln(err)
-				return
-			}
+			// if err != nil {
+			// 	log.Fatalln(err)
+			// 	return
+			// }
 		}
 		{
 			courseTypeDTO, err := migration.AddCourseType(q, s3, prefix, "3D_Design_Printing", `3D Design & Printing`, "Level 1-min.png")
