@@ -744,29 +744,30 @@ func main() {
 				`Level 2-Elementary-min.png`,
 				nil,
 				[]dto.CurriculumCourseBlogEntries{
-					{Title: ``, ExternalURL: ``},
+					{Title: `JAVA YOUR WAY THROUGH MINECRAFT!`, ExternalURL: `https://hk.stemex.org/java-your-way-through-minecraft/`},
+					{Title: `Minecraft 編程 - 怎樣提升孩子`, ExternalURL: `https://hk.stemex.org/minecraft-kids/`},
 				},
 				[]dto.CurriculumCourseYoutubeVideoEntries{
-					{URL: ``},
+					{URL: `https://www.youtube.com/watch?v=0SLnKsFWwFA`},
 				},
 				[]dto.CurriculumCourseLevels{
 					{
 						Name:        "A",
 						IconPath:    `elementry1.png`,
-						Title:       ``,
-						Description: ``,
+						Title:       `Medieval Machinations Redstone`,
+						Description: `This course will introduce students to use Redstone, electrical circuitry, in a Medieval Theme. Students make mine carts to gather resources, collaborate to build their kingdom and to defend their castle. They are going to experience a lot of creation, adventure and exploration.`,
 					},
 					{
 						Name:        "B",
 						IconPath:    `Level 3-Elementary B.png`,
-						Title:       ``,
-						Description: ``,
+						Title:       `Theme Park`,
+						Description: `Everyone loves amusement theme parks. Students will have to navigate a number of engineering and teamwork challenges. They draft blueprints and plan for their parks build and create it collaboratively. They will play around and make it as much like the process of designing a real amusement park.`,
 					},
 					{
 						Name:        "C",
 						IconPath:    `Level 3-Elementary C.png`,
-						Title:       ``,
-						Description: ``,
+						Title:       `Travelling Into the Future`,
+						Description: `Minecraft is a versatile and fantasy game in which players are immersed in a world made up of various kinds of blocks. In order to use blocks, players must gather resources from the world they are in and can use them to craft new materials, tools or potions. In this lesson, students will be introduced to Minecraft in a future world that will teach them the basics of playing Minecraft and will teach them to work as a team to overcome obstacles and build a survival area in a new area.`,
 					},
 				},
 			)
@@ -786,17 +787,18 @@ func main() {
 				`Level 2-Introductory-min.png`,
 				nil,
 				[]dto.CurriculumCourseBlogEntries{
-					{Title: ``, ExternalURL: ``},
+					{Title: `JAVA YOUR WAY THROUGH MINECRAFT!`, ExternalURL: `https://hk.stemex.org/java-your-way-through-minecraft/`},
+					{Title: `Minecraft 編程 - 怎樣提升孩子`, ExternalURL: `https://hk.stemex.org/minecraft-kids/`},
 				},
 				[]dto.CurriculumCourseYoutubeVideoEntries{
-					{URL: ``},
+					{URL: `https://www.youtube.com/watch?v=vMkAZw6nFK4`},
 				},
 				[]dto.CurriculumCourseLevels{
 					{
 						Name:        "A",
 						IconPath:    `Level 3-Introductory-min.jpg`,
-						Title:       ``,
-						Description: ``,
+						Title:       `Sheep City`,
+						Description: `Changing arrow's explosive power, bounciness of golden block, game mode and difficulties…from basic programming components to more complex changes, students will have fun changing/programming the Minecraft worlds to their like.`,
 					},
 				},
 			)
@@ -816,41 +818,42 @@ func main() {
 				`Level 2-Intermediate-min.png`,
 				nil,
 				[]dto.CurriculumCourseBlogEntries{
-					{Title: ``, ExternalURL: ``},
+					{Title: `JAVA YOUR WAY THROUGH MINECRAFT!`, ExternalURL: `https://hk.stemex.org/java-your-way-through-minecraft/`},
+					{Title: `Minecraft 編程 - 怎樣提升孩子`, ExternalURL: `https://hk.stemex.org/minecraft-kids/`},
 				},
 				[]dto.CurriculumCourseYoutubeVideoEntries{
-					{URL: ``},
+					{URL: `https://www.youtube.com/watch?v=DofLMIvBQ5k`},
 				},
 				[]dto.CurriculumCourseLevels{
 					{
 						Name:        "A",
 						IconPath:    `Level 3-Intermediate A.jpg`,
-						Title:       ``,
-						Description: ``,
+						Title:       `Heist and Seek`,
+						Description: `Be the player to mine the most blocks in this timed hunt for stolen goods! Watch out, there’s a bank robber in town and they’ve hidden their stolen goods all over the map! It’s your job to go head to head against the other players and find the most boxes to win! Use loops, conditionals, and timers to add players into different teams and add different rounds into a treasure hunt game.`,
 					},
 					{
 						Name:        "B",
 						IconPath:    `Level 3-Intermediate B-min.jpg`,
-						Title:       ``,
-						Description: ``,
+						Title:       `Spartan School`,
+						Description: `Build an infinite mob arena game, to fight alone or with friends! Oh, and did we mention you’ll be fighting blazes whilst you do it? Want to be the greatest Minecraft Spartan warrior of all time? Learn programming basics while creating wave after wave of mobs to fight in a Spartan training arena. Learn programming basics such as loops, methods and variables to create this mob fighting mini-game. Battle increasingly harder waves of enemies that multiply every round.`,
 					},
 					{
 						Name:        "C",
 						IconPath:    `Level 3-Intermediate C-min.jpg`,
-						Title:       ``,
-						Description: ``,
+						Title:       `EggWars`,
+						Description: `Battle your friends to have the last egg still intact and become champion of the server! Details to tend to include notification on eggs being placed and eggs being broken, signals on game start, building base for eggs, etc. This course will allow you to expand your knowledge of adding rules to a PVP game, as well as learn more about structure generation and for loops.`,
 					},
 					{
 						Name:        "D",
 						IconPath:    `Level 3-Intermediate D-min.jpg`,
-						Title:       ``,
-						Description: ``,
+						Title:       `Rise Of The Werebunnies`,
+						Description: `Create a multiplayer fight for survival, complete with exploding eggs! Beware! The moon is full and the werebunnies are out…This course shows you how to split players into different teams and add a scoring system. This course uses loops and conditionals to split players into different teams with different characteristics, then gives players scores when they defeat their enemy.`,
 					},
 					{
 						Name:        "E",
 						IconPath:    `Level 3-Intermediate E-min.png`,
-						Title:       ``,
-						Description: ``,
+						Title:       `Hungary Games`,
+						Description: `Build your own hungry games style server to make the game how you want it to be! Adding game rules, timers and a shrinking border with code to make your Hungry Games world perilous for any victims trapped inside! This course will show you how to develop a PVP server. You will use conditionals and loops to create gamephrases so you can control the fate of your players in the arena.`,
 					},
 				},
 			)
@@ -870,10 +873,11 @@ func main() {
 				`Level 2-Advanced-min.png`,
 				nil,
 				[]dto.CurriculumCourseBlogEntries{
-					{Title: ``, ExternalURL: ``},
+					{Title: `JAVA YOUR WAY THROUGH MINECRAFT!`, ExternalURL: `https://hk.stemex.org/java-your-way-through-minecraft/`},
+					{Title: `Minecraft 編程 - 怎樣提升孩子`, ExternalURL: `https://hk.stemex.org/minecraft-kids/`},
 				},
 				[]dto.CurriculumCourseYoutubeVideoEntries{
-					{URL: ``},
+					{URL: `https://www.youtube.com/watch?v=DofLMIvBQ5k`},
 				},
 				[]dto.CurriculumCourseLevels{
 					{
