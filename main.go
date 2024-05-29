@@ -829,13 +829,13 @@ func main() {
 						Name:        "A",
 						IconPath:    `Level 3-Intermediate A.jpg`,
 						Title:       `Heist and Seek`,
-						Description: `Be the player to mine the most blocks in this timed hunt for stolen goods! Watch out, there’s a bank robber in town and they’ve hidden their stolen goods all over the map! It’s your job to go head to head against the other players and find the most boxes to win! Use loops, conditionals, and timers to add players into different teams and add different rounds into a treasure hunt game.`,
+						Description: `Be the player to mine the most blocks in this timed hunt for stolen goods! Watch out, there's a bank robber in town and they've hidden their stolen goods all over the map! It's your job to go head to head against the other players and find the most boxes to win! Use loops, conditionals, and timers to add players into different teams and add different rounds into a treasure hunt game.`,
 					},
 					{
 						Name:        "B",
 						IconPath:    `Level 3-Intermediate B-min.jpg`,
 						Title:       `Spartan School`,
-						Description: `Build an infinite mob arena game, to fight alone or with friends! Oh, and did we mention you’ll be fighting blazes whilst you do it? Want to be the greatest Minecraft Spartan warrior of all time? Learn programming basics while creating wave after wave of mobs to fight in a Spartan training arena. Learn programming basics such as loops, methods and variables to create this mob fighting mini-game. Battle increasingly harder waves of enemies that multiply every round.`,
+						Description: `Build an infinite mob arena game, to fight alone or with friends! Oh, and did we mention you'll be fighting blazes whilst you do it? Want to be the greatest Minecraft Spartan warrior of all time? Learn programming basics while creating wave after wave of mobs to fight in a Spartan training arena. Learn programming basics such as loops, methods and variables to create this mob fighting mini-game. Battle increasingly harder waves of enemies that multiply every round.`,
 					},
 					{
 						Name:        "C",
@@ -882,15 +882,15 @@ func main() {
 				[]dto.CurriculumCourseLevels{
 					{
 						Name:        "A",
-						IconPath:    `Level 3-Advance A-min.png`,
-						Title:       ``,
-						Description: ``,
+						IconPath:    `Level 3-Advanced A-min.png`,
+						Title:       `Haunted Mansion`,
+						Description: `Troll your friend with three spooky mode to scare them in a haunted house! Feeling scary wary and want things a little odd? Come on in and join the fun and make this little mod. It's not one for the cowards, it's a spooktacular affair! With zombies, traps and so much more, you'll be a horror extraordinaire! Create three troll mods using more complex programming constructs including intervals and return types. Make a zombie track you, a leaky lava room and an infinite staircase in this spooky single player mod.`,
 					},
 					{
 						Name:        "B",
-						IconPath:    `Level 3-Advance B-min.png`,
-						Title:       ``,
-						Description: ``,
+						IconPath:    `Level 3-Advanced B-min.png`,
+						Title:       `Flappy Block`,
+						Description: `Rack up a high score and try not touch the lava in our 3D version of Floppy Bird in Minecraft. Think you've mastered Floppy Bird? Think again! Try our 3D Minecraft version, complete with the original flapping motion. This course shows you how to create unlimited obstacle courses using methods, variables and for loops, so do your best to rack up the highest score possible without touching the lava!`,
 					},
 				},
 			)
@@ -910,23 +910,24 @@ func main() {
 				`Level 2-Master-min.png`,
 				nil,
 				[]dto.CurriculumCourseBlogEntries{
-					{Title: ``, ExternalURL: ``},
+					{Title: `JAVA YOUR WAY THROUGH MINECRAFT!`, ExternalURL: `https://hk.stemex.org/java-your-way-through-minecraft/`},
+					{Title: `Minecraft 編程 - 怎樣提升孩子`, ExternalURL: `https://hk.stemex.org/minecraft-kids/`},
 				},
 				[]dto.CurriculumCourseYoutubeVideoEntries{
-					{URL: ``},
+					{URL: `https://www.youtube.com/watch?v=DofLMIvBQ5k`},
 				},
 				[]dto.CurriculumCourseLevels{
 					{
 						Name:        "A",
 						IconPath:    `Level 3-Master A-min.png`,
-						Title:       ``,
-						Description: ``,
+						Title:       `Dances to the Moosic`,
+						Description: `Create a cow themed nightclub where your players have to dance in time to the moo-sic! Anyone who says going to a disco full of cows isn't fun has either never tried it, or is just wrong. In this course, you will be using Java syntax code to make music and getting your players to dance to the beat till the cows come home. This course involves randomizing events and adding a score system to detect the movement of players in a cow-themed dancing game.`,
 					},
 					{
 						Name:        "B",
 						IconPath:    `Level 3-Master B-min.png`,
-						Title:       ``,
-						Description: ``,
+						Title:       `Swoop De Loop`,
+						Description: `Learn how to create rings using mathematical knowledge which give players a superboost when gliding. Swoop around the map using elytra and get a much needed boost every time you surge through a hoop! Learn how to use Java syntax to code hoops that you can place in any world!`,
 					},
 				},
 			)
@@ -944,6 +945,186 @@ func main() {
 				return
 			}
 			log.Printf("%s", courseTypeDTO.Description)
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				`Coding Python\Introductory`,
+				courseTypeDTO.ID,
+				`Coding Python Introductory`,
+				`Level 2-Introductory-min.png`,
+				nil, // Python Introductory A (Level 1) Curriculum Guide.pdf and Python Introductory B (Level 2) Curriculum Guide.pdf should be combined
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: `甚麼是Python? Python 容易被學習嗎?`, ExternalURL: `https://hk.stemex.org/?s=python`},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: `https://www.youtube.com/watch?v=hh3W_tjPGlI`},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    `Level 3-Introductory A-min.png`,
+						Title:       `Python Turtle`,
+						Description: `What is AI? How does a machine learn? Let your kids start to know more about Python. This course is suitable for students who have a little experience in coding. They will learn and understand the Python turtle library and graphics. They will be challenged to animate a clock and to control a spinner enhancing their creativity.`,
+					},
+					{
+						Name:        "B",
+						IconPath:    `Level 3-Introductory B-min.png`,
+						Title:       `Python Game Design`,
+						Description: `Students will step into simple game design using Python. They will learn how to interact with the computer on screen or using keyboard. They are going to apply coding to design racing, word guess game plus other challenges! Sharing amongst friends and further exploration are encouraged.`,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				`Coding Python\Intermediate`,
+				courseTypeDTO.ID,
+				`Coding Python Intermediate`,
+				`Level 2-Intermediate-min.png`,
+				nil,
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: `甚麼是Python? Python 容易被學習嗎?`, ExternalURL: `https://hk.stemex.org/?s=python`},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: `https://www.youtube.com/watch?v=hh3W_tjPGlI`},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    `Level 3-Intermediate A-min.png`,
+						Title:       `Python Simon Says`,
+						Description: `Students are going to have a comprehensive understanding on the data structure in Python. They will advance their skills in using Python editor. Apply their understanding in data structure and engineering design process to create games as challenges.`,
+					},
+					{
+						Name:        "B",
+						IconPath:    `Level 3-Intermediate B-min.png`,
+						Title:       `Python Flappy & Snake Games`,
+						Description: `Students learn how to utilize other python resources. They will concentrate on coding the movement of objects using vectors and control. A lot of logic training will be involved in understanding the conditions in gaming and how to solve them in coding.`,
+					},
+					{
+						Name:        "C",
+						IconPath:    `Level 3-Intermediate C-min.png`,
+						Title:       `Python Ping Pong`,
+						Description: `In this course, students learn complicated interaction in game design. They are going to apply knowledge in python to solve geniune challenges and stunning geometric dancing figures. At the end they simulate the classic game of life revealing special patterns from simple rules.`,
+					},
+					{
+						Name:        "D",
+						IconPath:    `Level 3-Intermediate D-min.png`,
+						Title:       `Python Hangman and Pacman`,
+						Description: `In this course, students learn complicated interaction in game design. They are going to apply knowledge in python to solve geninue challenges and stunning geometric dancing figures. At the end they simulate the classic game of life revealing speical patterns from simple rules.`,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				`Coding Python\Advanced`,
+				courseTypeDTO.ID,
+				`Coding Python Advanced`,
+				`Level 2-Advance-min.png`,
+				nil,
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: `甚麼是Python? Python 容易被學習嗎?`, ExternalURL: `https://hk.stemex.org/?s=python`},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: `https://www.youtube.com/watch?v=hh3W_tjPGlI`},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    `Level 3-Advanced A-min.png`,
+						Title:       `Python Game Concept`,
+						Description: `With their deeper understanding of Python and its various structures, students will take a deep dive into the pygame module and other modules, as well as a deeper understanding into data types, to learn more about how they can be used to create more complex program without having to write everything from scratch.`,
+					},
+					{
+						Name:        "B",
+						IconPath:    `Level 3-Advanced B-min.png`,
+						Title:       `Python Discord Bot`,
+						Description: `Students will learn to creating a discord bot and how to do with language processing. In the course, students will have a chance to do some works related to the concept of neural network.`,
+					},
+					{
+						Name:        "C",
+						IconPath:    `Level 3-Advanced C-min.png`,
+						Title:       `Python Complex Game Design`,
+						Description: `Students will learn the most popular python module pygame. Through designing the classic space invader game, they will consolidate the skills in game design. A lot of revisions of the python coding structure and logic deductions in solving problems involved. Use of different platforms in coding, how to utilize resources in machine learning.`,
+					},
+					{
+						Name:        "D",
+						IconPath:    `Level 3-Advanced D-min.png`,
+						Title:       `Python Machine Learning`,
+						Description: `Students will learn how to use tensflow and the use of the module keraus. They are going to learn how to build up a machine learning module to identify different clothing from thousands of images.`,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				`Coding Python\Master`,
+				courseTypeDTO.ID,
+				`Coding Python Master`,
+				`Level 2-Master-min.png`,
+				nil,
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: `甚麼是Python? Python 容易被學習嗎?`, ExternalURL: `https://hk.stemex.org/?s=python`},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: `https://www.youtube.com/watch?v=hh3W_tjPGlI`},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    `Level 3-Master-min.png`,
+						Title:       `Yolo`,
+						Description: `We will learn how to use the yolov3 model to detect objects present in an image. It will help differentiate different objects.`,
+					},
+					{
+						Name:        "B",
+						IconPath:    `Level 1-min.png`,
+						Title:       `Tic tac toe`,
+						Description: `We will learn about graphical user interface in this project, learn about Tkinter and use it to make a game GUI of tic tac toe and we will learn logic of the game design.`,
+					},
+					{
+						Name:        "C",
+						IconPath:    `Level 1-min.png`,
+						Title:       `Brick Breaker game`,
+						Description: `The kids will learn about game design theory. We will start with a simple Brick breaker game in which there is a ball that bounces off a platform to break a brick wall and the player has to keep the ball going by making sure the paddle is always there to bounce off the ball back.`,
+					},
+					{
+						Name:        "D",
+						IconPath:    `Level 1-min.png`,
+						Title:       `Photo Editing App`,
+						Description: `We will learn about the pillow library which is used for image processing, we will learn about how we can edit images using python.`,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
 		}
 
 		{
@@ -953,6 +1134,66 @@ func main() {
 				return
 			}
 			log.Printf("%s", courseTypeDTO.Description)
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				``,
+				courseTypeDTO.ID,
+				``,
+				``,
+				``,
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: ``, ExternalURL: ``},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: ``},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    ``,
+						Title:       ``,
+						Description: ``,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				``,
+				courseTypeDTO.ID,
+				``,
+				``,
+				``,
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: ``, ExternalURL: ``},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: ``},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    ``,
+						Title:       ``,
+						Description: ``,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
 		}
 
 		{
