@@ -1509,9 +1509,27 @@ func main() {
 				[]dto.CurriculumCourseLevels{
 					{
 						Name:        "A",
-						IconPath:    ``,
-						Title:       ``,
-						Description: ``,
+						IconPath:    `Level 3-Master A.png`,
+						Title:       `CVR Python Gym - Code Robot Pioneer`,
+						Description: `This course suits students who have some experience in CoderZ 102 to pursue coding robot using python. In this course they learn the basic of using python to control their Ruby to explore different terrains. They need to apply some science idea and calculation to solve the problems to accomplish the tasks to be the Robot Pioneer!`,
+					},
+					{
+						Name:        "B",
+						IconPath:    `Level 3-Master B.png`,
+						Title:       `CVR Python Gym - Code Robot Pioneer`,
+						Description: `In Smart Robot, students learn Python to let Ruby to perform amazing art skills. With Ruby's sensitive sensors plus more complex coding skills, they learn how to utilise for cool tricks, make complex movement. Finally, to draw their unique name as the milestone to proceed to the next course.`,
+					},
+					{
+						Name:        "C",
+						IconPath:    `Level 3-Master C.png`,
+						Title:       `CVR Python Gym - Code Action Robot`,
+						Description: `Ruby is going take action and arm up! With the introduction of magnetic arm and other sensors Ruby is going to maneuver objects here and there. To meet the challenges, students need to learn more complex python and do a lot of testing and improvement.`,
+					},
+					{
+						Name:        "D",
+						IconPath:    `Level 3-Master D.png`,
+						Title:       `CVR Python Gym - Code Intelligent Robot`,
+						Description: `Ruby is getting more and more intelligent. In this course, students' will use a number of sensors and other their previous coding skills to code a self driving Ruby without hitting obstacles. They will find it very challenging as the problem will get harder and more complex.`,
 					},
 				},
 			)
@@ -1529,6 +1547,160 @@ func main() {
 				return
 			}
 			log.Printf("%s", courseTypeDTO.Description)
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				`Lego Robotics\Elementary - Wedo`,
+				courseTypeDTO.ID,
+				`Lego Robotics Elementary - Wedo`,
+				`Level 2-Elementary-min.png`,
+				nil,
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: `為甚麼樂高編程積木系列會成為孩子最愛？`, ExternalURL: `https://hk.stemex.org/lego-steam/`},
+					{Title: `Wild Animals Robotics - 機械動物園： 從動物學習Robot`, ExternalURL: `https://hk.stemex.org/wild-animals-robotics-%e6%a9%9f%e6%a2%b0%e5%8b%95%e7%89%a9%e5%9c%92%ef%bc%9a-%e5%be%9e%e5%8b%95%e7%89%a9%e5%ad%b8%e7%bf%92robot/`},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: `https://www.youtube.com/watch?v=f8D1D_KE1cc`},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    `Level 3-Elementary A-min.png`,
+						Title:       `Let's Get Moving`,
+						Description: `Learn about the basics of mechanical engineering all based around the idea of moving, and moving very quickly. In this course, students will build various models, such as ships and race cars, in order to learn about how motors and gears function.`,
+					},
+					{
+						Name:        "B",
+						IconPath:    `Level 3-Elementary B-min.png`,
+						Title:       `Wild Animals`,
+						Description: `Learn about mechanical engineering based on the animal kingdom. In this course, students will build various models, such as lions and birds, in order to learn about how motors and gears function, as well as little facts about the animals themselves.`,
+					},
+					{
+						Name:        "C",
+						IconPath:    `Level 3-Elementary C-min.png`,
+						Title:       `Rescue Heroes`,
+						Description: `Learn about mechanical engineering based on natural disasters. In this course, students will build various models, such as a helicopter, in order to learn about how motors and gears function, as well as how natural disasters can be prevented and how people can be rescued.`,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				`Lego Robotics\Introductory - EV3`,
+				courseTypeDTO.ID,
+				`Lego Robotics Introductory - EV3`,
+				`Level 2-Introductory-min.png`,
+				nil,
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: `Mechatronic Masterminds 機械智慧 - 融合robotics、電子、電腦及電訊`, ExternalURL: `https://hk.stemex.org/mechatronic-masterminds-%e6%a9%9f%e6%a2%b0%e6%99%ba%e6%85%a7-%e8%9e%8d%e5%90%88robotics%e3%80%81%e9%9b%bb%e5%ad%90%e3%80%81%e9%9b%bb%e8%85%a6%e5%8f%8a%e9%9b%bb%e8%a8%8a/`},
+					{Title: `為甚麼樂高編程積木系列會成為孩子最愛?`, ExternalURL: `https://hk.stemex.org/lego-steam/`},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: `https://www.youtube.com/watch?v=YCf19REI2C8`},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    `Level 3-Introductory A-min.png`,
+						Title:       `Robotics 101`,
+						Description: `A robot is a device that is designed and programmed to perform a task either autonomously or with human input. Robots typically come in two forms: those resembling humans or role-specific robots, such as NASA space probes and Mars Rovers. Robots are generally used to perform either dangerous or monotonous tasks. The challenge facing robotics engineers is that the robot knows only what is written into the program. The design of the robot must also be capable of performing the task at hand. In this unit, students will experience both the designing and programming roles of being a robotics engineer. In this course, students will build robots to accomplish a specific task while using their imagination to make their robot better than the basic robot. During the class students will discover the Engineering Design Process in a real world setting as they test their robots multiple times.`,
+					},
+					{
+						Name:        "B",
+						IconPath:    `Level 3-Introductory B-min.png`,
+						Title:       `Olympics`,
+						Description: `The Olympics curriculum is designed to introduce students to the world of not only building, but also programming basic robots. Throughout this course, the students will explore different ways in which a robot could be utilized to engage in various challenges related to the Olympics.`,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				`Lego Robotics\Intermediate - EV3`,
+				courseTypeDTO.ID,
+				`Lego Robotics Intermediate - EV3`,
+				`Level 2-Intermediate-min.png`,
+				nil,
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: `Mechatronic Masterminds 機械智慧 - 融合robotics、電子、電腦及電訊`, ExternalURL: `https://hk.stemex.org/mechatronic-masterminds-%e6%a9%9f%e6%a2%b0%e6%99%ba%e6%85%a7-%e8%9e%8d%e5%90%88robotics%e3%80%81%e9%9b%bb%e5%ad%90%e3%80%81%e9%9b%bb%e8%85%a6%e5%8f%8a%e9%9b%bb%e8%a8%8a/`},
+					{Title: `為甚麼樂高編程積木系列會成為孩子最愛?`, ExternalURL: `https://hk.stemex.org/lego-steam/`},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: `https://www.youtube.com/watch?v=YCf19REI2C8`},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    `Level 3-Intermediate A-min.png`,
+						Title:       `Missions to Mars`,
+						Description: `This course is designed to introduce students to the world of not only building, but also programming basic robots. Throughout this course the students will explore different ways in which a robot could be utilized to explore a distant planet.`,
+					},
+					{
+						Name:        "B",
+						IconPath:    `Level 3-Intermediate B-min.png`,
+						Title:       `Envirobots`,
+						Description: `In Rescue EnviroBots, students will design and programme robots to help accomplish environmentally friendly tasks. By creating robots that can transfer nuclear waste, mine raw minerals, and deliver food and goods more efficiently, they will be sure to contribute to a more sustainable environment.`,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				`Lego Robotics\Advanced - EV3`,
+				courseTypeDTO.ID,
+				`Lego Robotics Advanced - EV3`,
+				`Level 2-Advance-min.png`,
+				nil,
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: `Mechatronic Masterminds 機械智慧 - 融合robotics、電子、電腦及電訊`, ExternalURL: `https://hk.stemex.org/mechatronic-masterminds-%e6%a9%9f%e6%a2%b0%e6%99%ba%e6%85%a7-%e8%9e%8d%e5%90%88robotics%e3%80%81%e9%9b%bb%e5%ad%90%e3%80%81%e9%9b%bb%e8%85%a6%e5%8f%8a%e9%9b%bb%e8%a8%8a/`},
+					{Title: `為甚麼樂高編程積木系列會成為孩子最愛?`, ExternalURL: `https://hk.stemex.org/lego-steam/`},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: `https://www.youtube.com/watch?v=YCf19REI2C8`},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    `Level 3-Advanced A-min.png`,
+						Title:       `Ocean Missions`,
+						Description: `In the Ocean Missions curriculum, students will be introduced to the world of robotics in an interesting and engaging way. The goal is to teach students about the building and programming aspects of robotics as it relates to real-world issues in ocean exploration.`,
+					},
+					{
+						Name:        "B",
+						IconPath:    `Level 3-Advanced B-min.png`,
+						Title:       `Robot Sergeons`,
+						Description: `The Robot Surgeons curriculum is designed to introduce students to the world of not only building, but also programming basic robots. Throughout this course, the students will explore different ways in which a robot could be utilized in the medical field.`,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
 		}
 
 		{
@@ -1538,6 +1710,66 @@ func main() {
 				return
 			}
 			log.Printf("%s", courseTypeDTO.Description)
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				``,
+				courseTypeDTO.ID,
+				``,
+				``,
+				nil,
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: ``, ExternalURL: ``},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: ``},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    ``,
+						Title:       ``,
+						Description: ``,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				``,
+				courseTypeDTO.ID,
+				``,
+				``,
+				nil,
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: ``, ExternalURL: ``},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: ``},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    ``,
+						Title:       ``,
+						Description: ``,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
 		}
 
 		{
@@ -1547,6 +1779,96 @@ func main() {
 				return
 			}
 			log.Printf("%s", courseTypeDTO.Description)
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				``,
+				courseTypeDTO.ID,
+				``,
+				``,
+				nil,
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: ``, ExternalURL: ``},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: ``},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    ``,
+						Title:       ``,
+						Description: ``,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				``,
+				courseTypeDTO.ID,
+				``,
+				``,
+				nil,
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: ``, ExternalURL: ``},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: ``},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    ``,
+						Title:       ``,
+						Description: ``,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				``,
+				courseTypeDTO.ID,
+				``,
+				``,
+				nil,
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: ``, ExternalURL: ``},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: ``},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    ``,
+						Title:       ``,
+						Description: ``,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
 		}
 
 		{
@@ -1556,6 +1878,36 @@ func main() {
 				return
 			}
 			log.Printf("%s", courseTypeDTO.Description)
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				`VEX Robotics\Introductory`,
+				courseTypeDTO.ID,
+				`VEX Robotics Introductory`,
+				`Level 1-min.png`,
+				nil,
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: `從 LEGO到VEX 孩子學到了什麼`, ExternalURL: `https://hk.stemex.org/%e5%be%9e-lego%e5%88%b0vex-%e5%ad%a9%e5%ad%90%e5%ad%b8%e5%88%b0%e4%ba%86%e4%bb%80%e9%ba%bc/`},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: `https://www.youtube.com/watch?v=VEGboBxmKG8`},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    `Level 3-min.png`,
+						Title:       `High Rise Challenges`,
+						Description: `Meet VEX GO. An affordable construction system that teaches the fundamentals of STEM through fun, hands-on activities that help young students perceive coding and engineering in a fun and positive way! Robotics is not only for the future, but it’s also about the present. By familiarizing students with programming, sensors, and automation, they hone critical computational thinking skills needed to succeed in both the 21st centurys workforce and in everyday life. The VEX High Rise Challenge will consist of: Robot Skills Challenge, Programming Skills Challenge and Teamwork Challenge`,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
 		}
 
 		// err = redumpparents.RedumpParents(q)
