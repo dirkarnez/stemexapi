@@ -350,6 +350,8 @@ func CreateOrUpdateCurriculumCourse(form *dto.CurriculumCourseForm, s3 *utils.St
 					return err
 				}
 
+				fmt.Printf("lesson %s is referencing level %s", entityLesson.ID.ToString(), entityCourseLevel.ID.ToString())
+
 				lessonDTO := dto.CurriculumCourseLevelLessons{}
 				lessonDTO.ID = entityLesson.ID.ToString()
 				lessonDTO.LessonNumber = entityLesson.LessonNumber

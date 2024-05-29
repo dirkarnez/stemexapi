@@ -306,6 +306,214 @@ func main() {
 		q := query.Use(dbInstance)
 
 		prefix := fmt.Sprintf(`%s\Downloads\stemex-curriculum`, os.Getenv("USERPROFILE"))
+		{
+			courseTypeDTO, err := migration.AddCourseType(q, s3, prefix, "3D_Design_Printing", `3D Design & Printing`, "Level 1-min.png")
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+			log.Printf("%s", courseTypeDTO.Description)
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				`3D_Design_Printing\Introductory`,
+				courseTypeDTO.ID,
+				`3D Design & Printing Introductory`,
+				"Level 2-Introductory-min.jpg",
+				nil,
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: "Why Take Up STEM?", ExternalURL: "https://hk.stemex.org/why-take-up-stem/"},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: "https://www.youtube.com/watch?v=2JnQIQFUaUw"},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    "Level 3-Introductory-min.png",
+						Title:       `3D Design & Printing Introductory`,
+						Description: `Learn to create your very own 3D structures that can be printed in the future. At the same time, students will be able to learn about how to use TinkerCAD and its various tools, such as alignment tools and hole generation.`,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				`3D_Design_Printing\Intermediate`,
+				courseTypeDTO.ID,
+				"3D Design & Printing Intermediate",
+				"Level 2-Intermediate-min.jpg",
+				nil,
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: "Why Take Up STEM?", ExternalURL: "https://hk.stemex.org/why-take-up-stem/"},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: "https://www.youtube.com/watch?v=2JnQIQFUaUw"},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    `Level 3-Superhero-min.png`,
+						Title:       `Superhero`,
+						Description: `In this topic, student will create their superhero with their designed costume, wings and decoration through learning mirror tool, rotation, wokrplane. Student will also revisiting Boolean addition, duplication, scaling and grouping`,
+					},
+					{
+						Name:        "B",
+						IconPath:    `Level 3-Intermediate B-min.png`,
+						Title:       `Architecture`,
+						Description: `In this topic of 3D printing, students will learn more about the functions of TinkerCAD, such as scaling and aligning objects in architecture design. Through learning different style of famous architectures. student will have an opportunity to create a Japanese style architecture and Roman Dome with columns architecture for their masterpieces.`,
+					},
+					{
+						Name:        "C",
+						IconPath:    `Level 3-Transport-min.png`,
+						Title:       `Transport`,
+						Description: `In this topic, students will consolidate their knowledge gained in Tickercad to create their own car using the balloon connector and to design the best boat by exploring buoyancy designed Sea Craft. Student will unleash their creativities from planning, designing and to the building process.`,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+		}
+
+		{
+			courseTypeDTO, err := migration.AddCourseType(q, s3, prefix, "A.I. & Machine Learning", `A.I. & Machine Learning`, "Level 1-min.png")
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				`A.I. & Machine Learning\Introductory`,
+				courseTypeDTO.ID,
+				`A.I. & Machine Learning Introductory`,
+				`Level 2-Introductory-min.png`,
+				utils.GetStringPointer(`AI Machine Learning Introductory Curriculum Guide.pdf`),
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: `Why Take Up STEM?`, ExternalURL: `https://hk.stemex.org/why-take-up-stem/`},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: `https://www.youtube.com/watch?v=n-IOSJCYJyM`},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    `Level 3-Introductory A-min.png`,
+						Title:       `Chameleon`,
+						Description: `In this project kids will make a chameleon that changes color to match its background using a webcam to take pictures of different colors, then use machine learning with those examples to train the chameleon to recognize colors.`,
+					},
+					{
+						Name:        "B",
+						IconPath:    `Level 3-Introductory B-min.png`,
+						Title:       `Shoot your goal`,
+						Description: `In this project you will train a computer to play a simple arcade game. The game is based on shooting balls at a target. You can't aim at the target directly because there is a wall in the way, so you need to bounce the ball off a wall to do it. You will teach the computer to be able to play this game by collecting examples of shots that hit and miss, so that it can learn to make predictions about the shots it can take.`,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				`A.I. & Machine Learning\Intermediate`,
+				courseTypeDTO.ID,
+				`A.I. & Machine Learning Intermediate`,
+				`Level 2-Intermediate-min.png`,
+				utils.GetStringPointer(`AI Machine Learning Intermediate A Curriculum Guide.pdf`),
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: `Why Take Up STEM?`, ExternalURL: `https://hk.stemex.org/why-take-up-stem/`},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: `https://www.youtube.com/watch?v=n-IOSJCYJyM`},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    `Level 3-Intermediate A-min.png`,
+						Title:       `Chatbots`,
+						Description: `In this project you will make a chatbot that can answer questions about a topic of your choice.`,
+					},
+					{
+						Name:        "B",
+						IconPath:    `Level 3-Intermediate B-min.png`,
+						Title:       `Zombie Escape!`,
+						Description: `You are trapped in a huge hotel that has been overrun by zombies! To help you escape, you have a small remote-controlled robot.There's no point trying to use it to memorize where the zombies are - there are too many rooms and too many zombies, and they're all moving around the hotel too much anyway. You need to make your robot learn.`,
+					},
+					{
+						Name:        "C",
+						IconPath:    `Level 3-Inermediate C-min.png`,
+						Title:       `Secret Code`,
+						Description: `In this project you will train the computer to understand secret code Words. You'll use that to say commands to a spy to guide it around a town.`,
+					},
+					{
+						Name:        "D",
+						IconPath:    `Level 3-Intermediate D-min.png`,
+						Title:       `Laser Eyes`,
+						Description: `In this project you will make voice-powered laser eyes! This is a game where you will see laser beams shoot from your eyes in your computer's webcam. You will use these to shoot at bottles. Your laser eyes will be voice-activated, so you will have to shout “laser eyes” to make them shoot. You will be using two kinds of machine learning model. Speech recognition to activate the lasers and face detection to aim them!`,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				`A.I. & Machine Learning\Advanced`,
+				courseTypeDTO.ID,
+				`A.I. & Machine Learning Advanced`,
+				`Level 2-Advanced-min.png`,
+				nil,
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: `Why Take Up STEM?`, ExternalURL: `https://hk.stemex.org/why-take-up-stem/`},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: `https://www.youtube.com/watch?v=n-IOSJCYJyM`},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    `Level 3-Advanced A-min.png`,
+						Title:       `Top Trumps`,
+						Description: `In this project you will train a computer to play a card game. For some values on the cards, you win by having the highest number. For others, you win by having the lowest. The range of numbers for different values will vary. The aim will be for the computer to learn how to play the game well without you having to give it a list of all the cards or tell it the rules.`,
+					},
+					{
+						Name:        "B",
+						IconPath:    `Level 3-Advanced B-min.png`,
+						Title:       `Phishing`,
+						Description: `People are sent links to these fake phishing websites in emails or instant messages. How can they know if a link is safe to click on? In this project, you will learn about the research that is being done to train machine learning systems to predict if a link is to a phishing website or a legitimate website.`,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+		}
 
 		{
 			courseTypeDTO, err := migration.AddCourseType(q, s3, prefix, `AppInventor`, "AppInventor Mobile Apps", `Level 1-min.png`)
@@ -395,7 +603,7 @@ func main() {
 				`AppInventor\Advanced`,
 				courseTypeDTO.ID,
 				"AppInventor Mobile Apps Development Advanced",
-				"Level 2-Advance-min.png",
+				"Level 2-Advanced-min.png",
 				nil,
 				[]dto.CurriculumCourseBlogEntries{
 					{Title: "從小培養孩子的自控能力 3款提升自控能力的電子應用程式", ExternalURL: "https://hk.stemex.org/self-control-app/"},
@@ -426,6 +634,99 @@ func main() {
 		}
 
 		{
+			courseTypeDTO, err := migration.AddCourseType(q, s3, prefix, "AR_VR", "AR/VR", "Level 1-min.png")
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+			log.Printf("%s", courseTypeDTO.Description)
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				`AR_VR\Introductory`,
+				courseTypeDTO.ID,
+				`AR/VR Introductory`,
+				`Level 2-Introductory-min.png`,
+				nil,
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: `Why Take Up STEM?`, ExternalURL: `https://hk.stemex.org/why-take-up-stem/`},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: `https://www.youtube.com/watch?v=3Umu5vidiGw`},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    `Level 3-Introductory A-min.png`,
+						Title:       `Interesting Zoo`,
+						Description: `Our AR/VR course keeps student abreast of the latest technology in STEM learning. Students will have knowledges about the basic applications of AR/VR technologies. They will engage in creations of three-dimensional scenes and even games with Cospaces, in which they can develop their spatial sense and design thinking skills. Here students will have a basic understanding of VR and AR and make a zoo with a variety kinds of animals that are animated`,
+					},
+					{
+						Name:        "B",
+						IconPath:    `Level 3-Introductory B-min.png`,
+						Title:       `Comfort Home`,
+						Description: `Students consolidate their knowledge in CoSpaces through creating a special meal in special occasion of their own choice. They will be thrilled to have their own AR project and share with their family members or friends. Here students apply their knowledge in manipulating objects to design and create a comfort home on a floor plan like an interior designer`,
+					},
+					{
+						Name:        "C",
+						IconPath:    `Level 3-Introductory C-min.png`,
+						Title:       `Creative Story Remix`,
+						Description: `This course is suitable for kids who have experinece in CoSpaces and would like to challenge themselves. They need to rewrite novel stories with creativity and illustrate in an immersive VR environment.`,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				`AR_VR\Intermediate`,
+				courseTypeDTO.ID,
+				`AR/VR Intermediate`,
+				`Level 2-Intermediate-min.png`,
+				nil,
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: `Why Take Up STEM?`, ExternalURL: `https://hk.stemex.org/why-take-up-stem/`},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: `https://www.youtube.com/watch?v=3Umu5vidiGw`},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    `Level 3-Intermediate A-min.png`,
+						Title:       `Interactive Art (Starry Night)`,
+						Description: `For these course students should have previous experience in working in CoSpaces. They are going to further explore on the potentials of VR/AR in different areas. Introduce some background about Van Gogh and his last drawing Starry Night. Student depict the artworks with creativity in form of interactive Art.`,
+					},
+					{
+						Name:        "B",
+						IconPath:    `Level 3-Intermediate B.png`,
+						Title:       `Interactive Art (Pumpkin)`,
+						Description: ` Introduce some background about Japanese Artist Yayoi Kusama. Her iconic dots in every pieces of her works. She said that " Keep creating artworks make me happy"`,
+					},
+					{
+						Name:        "C",
+						IconPath:    `Level 3-Intermediate C-min.png`,
+						Title:       `Interactive Art (Self Portrait)`,
+						Description: `This is an extension for those who challenge themselves and have great interest in exploring the possibilities of using VR integrating into artworks. They need to review some self portraits of great artists and create a VR of their own.`,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+		}
+
+		{
 			courseTypeDTO, err := migration.AddCourseType(q, s3, prefix, "Coding Minecraft", "Coding Minecraft", "Level 1-min.png")
 			if err != nil {
 				log.Fatalln(err)
@@ -433,14 +734,7 @@ func main() {
 			}
 			log.Printf("%s", courseTypeDTO.Description)
 		}
-		{
-			courseTypeDTO, err := migration.AddCourseType(q, s3, prefix, "Coding Roblox", "Coding Roblox", "Level 1-min.png")
-			if err != nil {
-				log.Fatalln(err)
-				return
-			}
-			log.Printf("%s", courseTypeDTO.Description)
-		}
+
 		{
 			courseTypeDTO, err := migration.AddCourseType(q, s3, prefix, "Coding Python", "Coding Python", "Level 1-min.png")
 			if err != nil {
@@ -449,6 +743,16 @@ func main() {
 			}
 			log.Printf("%s", courseTypeDTO.Description)
 		}
+
+		{
+			courseTypeDTO, err := migration.AddCourseType(q, s3, prefix, "Coding Roblox", "Coding Roblox", "Level 1-min.png")
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+			log.Printf("%s", courseTypeDTO.Description)
+		}
+
 		{
 			courseTypeDTO, err := migration.AddCourseType(q, s3, prefix, "Coding Scratch", "Coding Scratch", "Level 1-min.png")
 			if err != nil {
@@ -457,6 +761,7 @@ func main() {
 			}
 			log.Printf("%s", courseTypeDTO.Description)
 		}
+
 		{
 			courseTypeDTO, err := migration.AddCourseType(q, s3, prefix, "Cyber Virtual Robotics", "Cyber Virtual Robotics", "Level 1.png")
 			if err != nil {
@@ -465,6 +770,7 @@ func main() {
 			}
 			log.Printf("%s", courseTypeDTO.Description)
 		}
+
 		{
 			courseTypeDTO, err := migration.AddCourseType(q, s3, prefix, "Lego Robotics", "Lego Robotics", "Level 1-min.png")
 			if err != nil {
@@ -473,65 +779,7 @@ func main() {
 			}
 			log.Printf("%s", courseTypeDTO.Description)
 		}
-		{
-			courseTypeDTO, err := migration.AddCourseType(q, s3, prefix, "VEX Robotics", "Vex Robotics", "Level 1-min.png")
-			if err != nil {
-				log.Fatalln(err)
-				return
-			}
-			log.Printf("%s", courseTypeDTO.Description)
-		}
-		{
-			_, err := migration.AddCourseType(q, s3, prefix, "A.I. & Machine Learning", `A.I. & Machine Learning`, "Level 1-min.png")
-			if err != nil {
-				log.Fatalln(err)
-				return
-			}
-			//
-			// _, err = migration.AddCourse(
-			// 	q,
-			// 	s3,
-			// 	prefix,
-			// 	`A.I. & Machine Learning\Introductory`,
-			// 	courseTypeDTO.ID,
-			// 	"AppInventor Mobile Apps Development Introductory",
-			// 	"icon.png",
-			// 	"App Inventor Intro Curriculum Guide.pdf",
-			// 	[]dto.CurriculumCourseBlogEntries{
-			// 		{Title: "從小培養孩子的自控能力 3款提升自控能力的電子應用程式", ExternalURL: "https://hk.stemex.org/self-control-app/"},
-			// 	},
-			// 	[]dto.CurriculumCourseYoutubeVideoEntries{
-			// 		{URL: "https://www.youtube.com/watch?v=zbpzr_hYwtg"},
-			// 	},
-			// 	[]dto.CurriculumCourseLevels{
-			// 		{
-			// 			Name:        "A",
-			// 			IconPath:    "level_a_icon.png",
-			// 			Title:       "HelloPurr: Tap the Kitty, Hear Him Meow",
-			// 			Description: `HelloPurr is a simple app that you can build in a very fun way. You will create a button that has a picture of your favorite cat on it, and then program the button so that when it is clicked a "meow" sound plays with some vibrations.`,
-			// 		},
-			// 		{
-			// 			Name:        "B",
-			// 			IconPath:    "level_b_icon.png",
-			// 			Title:       "Piccall",
-			// 			Description: "PicCall shows you how you can use App Inventor to make apps that do actual things, like calling friends. We will learn about how real-life applications work and are programmed.",
-			// 		},
-			// 	},
-			// )
 
-			// if err != nil {
-			// 	log.Fatalln(err)
-			// 	return
-			// }
-		}
-		{
-			courseTypeDTO, err := migration.AddCourseType(q, s3, prefix, "3D_Design_Printing", `3D Design & Printing`, "Level 1-min.png")
-			if err != nil {
-				log.Fatalln(err)
-				return
-			}
-			log.Printf("%s", courseTypeDTO.Description)
-		}
 		{
 			courseTypeDTO, err := migration.AddCourseType(q, s3, prefix, "Micro_bit", "Micro:bits", "Level 1-min.png")
 			if err != nil {
@@ -540,16 +788,18 @@ func main() {
 			}
 			log.Printf("%s", courseTypeDTO.Description)
 		}
+
 		{
-			courseTypeDTO, err := migration.AddCourseType(q, s3, prefix, "AR_VR", "AR/VR", "Level 1-min.png")
+			courseTypeDTO, err := migration.AddCourseType(q, s3, prefix, "Smart City", "Smart City", "Level 1-min.png")
 			if err != nil {
 				log.Fatalln(err)
 				return
 			}
 			log.Printf("%s", courseTypeDTO.Description)
 		}
+
 		{
-			courseTypeDTO, err := migration.AddCourseType(q, s3, prefix, "Smart City", "Smart City", "Level 1-min.png")
+			courseTypeDTO, err := migration.AddCourseType(q, s3, prefix, "VEX Robotics", "Vex Robotics", "Level 1-min.png")
 			if err != nil {
 				log.Fatalln(err)
 				return
@@ -563,27 +813,6 @@ func main() {
 		// 	return
 		// }
 	}
-
-	// if !dbInstance.Migrator().HasTable(&model.Role{}) {
-	// 	// log.Println("has `users table, dropping...`")
-	// 	// db.Migrator().DropTable(&User{})
-	//
-	// 	if err := dbInstance.Debug().Migrator().CreateTable(&model.Role{}); err != nil {
-	// 		log.Fatalln(err)
-	// 		return
-	// 	}
-
-	// 	if !dbInstance.Migrator().HasTable(&model.User{}) {
-	// 		// log.Println("has `users table, dropping...`")
-	// 		// db.Migrator().DropTable(&User{})
-	// 		if err := dbInstance.Debug().Migrator().CreateTable(&model.User{}); err != nil {
-	// 			log.Fatalln(err)
-	// 			return
-	// 		}
-	// 		dbInstance.AutoMigrate()
-	// 	}
-
-	// }
 
 	app.Use(func(ctx iris.Context) {
 		mimeOverrides := loadMIMEOverrides()
