@@ -1730,7 +1730,7 @@ func main() {
 				[]dto.CurriculumCourseLevels{
 					{
 						Name:        "A",
-						IconPath:    ``,
+						IconPath:    `Level 3-Introductory A-min.png`,
 						Title:       `Micro:bit Introductory`,
 						Description: `The micro:bit is a small computer that is well suited for introducing how software and hardware work together to perform tasks. It has an LED light display, buttons, sensors, and many input/output features that can be coded and physically interacted with. Learn about the various components of the micro:bit and their functions, how to use the MakeCode platform and basic coding blocks.`,
 					},
