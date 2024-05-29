@@ -1203,7 +1203,7 @@ func main() {
 						Name:        "D",
 						IconPath:    `Level 3-Intermediate D-min.jpg`,
 						Title:       `Riddle Ruin`,
-						Description: `Crack the codes inside the pyramid to set yourself free! Code a series of puzzles including a secret door, combination lock and blocked corridors to trap players inside a forbidden template! This course shows you how to use code to create and change behaviour in your Roblox map. You’ll also get introduced to some key game design concepts that you can apply to future games.`,
+						Description: `Crack the codes inside the pyramid to set yourself free! Code a series of puzzles including a secret door, combination lock and blocked corridors to trap players inside a forbidden template! This course shows you how to use code to create and change behaviour in your Roblox map. You'll also get introduced to some key game design concepts that you can apply to future games.`,
 					},
 					{
 						Name:        "E",
@@ -1227,6 +1227,154 @@ func main() {
 				return
 			}
 			log.Printf("%s", courseTypeDTO.Description)
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				`Coding Scratch\Jr`,
+				courseTypeDTO.ID,
+				`Coding Scratch Jr`,
+				`Level 2-Scratch Jr-min.png`,
+				nil,
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: `有趣學編程 - Scratch 3.0 初階課程`, ExternalURL: `https://hk.stemex.org/scratch3-0_cantonese/`},
+					{Title: `Scratch Video Sensing - Foundation of Learning Coding`, ExternalURL: `https://hk.stemex.org/efk-scratch-video-sensing/`},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: `https://www.youtube.com/watch?v=8qjpKUmJ9zk`},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    `Level 3-Scratch Jr-min.png`,
+						Title:       `Cartoon & mini-Game Creation`,
+						Description: `Learn by doing and problem solving. Make characters move, jump and sing. Learn to express yourself by organizing your thinking in Scratch and expressing your ideas through Scratch. Encourage kids to be creative, develop kids' foundation skills and boost kids' confidence.`,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				`Coding Scratch\Introductory`,
+				courseTypeDTO.ID,
+				`Coding Scratch Introductory`,
+				`Level 2-Introductory-min.png`,
+				nil,
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: `有趣學編程 - Scratch 3.0 初階課程`, ExternalURL: `https://hk.stemex.org/scratch3-0_cantonese/`},
+					{Title: `Scratch Video Sensing - Foundation of Learning Coding`, ExternalURL: `https://hk.stemex.org/efk-scratch-video-sensing/`},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: `https://www.youtube.com/watch?v=yyRJrItV5ag`},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    `Level 3-Introductory A-min.png`,
+						Title:       `Rock n Roll Animation`,
+						Description: `This course is suitable for first time coders. Enjoy coding with interesting challenges that foster student's creativity and imagination. Animate their favorite names, program a rock and roll band like creating a band using different instruments, with sound effect plus animation. Finally, students will create their own unique story using scratch.`,
+					},
+					{
+						Name:        "B",
+						IconPath:    `Level 3-Introductory B-min.png`,
+						Title:       `Animate an Adventure Game`,
+						Description: `With Scratch, you can program your own interactive stories, games, and animations — and share your creations with others in the online community. Scratch helps young people learn to think creatively, reason systematically, and work collaboratively — essential skills for life in the 21st century.`,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				`Coding Scratch\Intermediate`,
+				courseTypeDTO.ID,
+				`Coding Scratch Intermediate`,
+				`Level 2-Intermediate-min.png`,
+				nil,
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: `有趣學編程 - Scratch 3.0 初階課程`, ExternalURL: `https://hk.stemex.org/scratch3-0_cantonese/`},
+					{Title: `Scratch Video Sensing - Foundation of Learning Coding`, ExternalURL: `https://hk.stemex.org/efk-scratch-video-sensing/`},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: `https://www.youtube.com/watch?v=yyRJrItV5ag`},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    `Level 3-Intermediate A-min.png`,
+						Title:       `Animate the Crab / Maze Starter`,
+						Description: `With Scratch, you can program your own interactive stories, games, and animations — and share your creations with others in the online community. Here you will use coordinates, random number and forever loop to make a crab with different costumes and move around randomly.`,
+					},
+					{
+						Name:        "B",
+						IconPath:    `Level 3-Intermediate B-min.png`,
+						Title:       `The Pico Show / Hide and Seek`,
+						Description: `With Scratch, you can program your own interactive stories, games, and animations — and share your creations with others in the online community. Here you will use function and variables to create a dance party with music and background.`,
+					},
+					{
+						Name:        "C",
+						IconPath:    `Level 3-Intermediate C-min.png`,
+						Title:       `Balloon Pop / Catching Game`,
+						Description: `With Scratch, you can program your own interactive stories, games, and animations — and share your creations with others in the online community. Use video sensing and conditional statement to set up a score system that keeps track of score when balloons move around randomly and being pop with hand touching them.`,
+					},
+					{
+						Name:        "D",
+						IconPath:    `Level 3-Intermediate D-min.png`,
+						Title:       `Dance Party / Pong Starter`,
+						Description: `With Scratch, you can program your own interactive stories, games, and animations — and share your creations with others in the online community. Use wait, loop and conditional statement to create your own sprites with different costumes and music played for sprites to dance.`,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				`Coding Scratch\Advanced`,
+				courseTypeDTO.ID,
+				`Coding Scratch Advanced`,
+				`icon.png`,
+				nil,
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: `有趣學編程 - Scratch 3.0 初階課程`, ExternalURL: `https://hk.stemex.org/scratch3-0_cantonese/`},
+					{Title: `Scratch Video Sensing - Foundation of Learning Coding`, ExternalURL: `https://hk.stemex.org/efk-scratch-video-sensing/`},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: `https://www.youtube.com/watch?v=yyRJrItV5ag`},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "B",
+						IconPath:    `icon.png`,
+						Title:       `Coding Scratch Advanced B`,
+						Description: `Throughout the course, students will embark on engaging projects, including creating the Zombie Game trilogy, Flappy Bird series, and Matching Game sequence. They will gain essential coding skills, logical thinking abilities, and problem-solving techniques while nurturing their creativity. Join us and watch as your child becomes a skilled game developer with Scratch!`,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
 		}
 
 		{
@@ -1236,6 +1384,142 @@ func main() {
 				return
 			}
 			log.Printf("%s", courseTypeDTO.Description)
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				`Cyber Virtual Robotics\Elementary`,
+				courseTypeDTO.ID,
+				`Cyber Virtual Robotics Elementary`,
+				`Level 2-Elementary.png`,
+				nil,
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: `Mechatronic Masterminds 機械智慧 - 融合robotics、電子、電腦及電訊`, ExternalURL: `https://hk.stemex.org/mechatronic-masterminds-%e6%a9%9f%e6%a2%b0%e6%99%ba%e6%85%a7-%e8%9e%8d%e5%90%88robotics%e3%80%81%e9%9b%bb%e5%ad%90%e3%80%81%e9%9b%bb%e8%85%a6%e5%8f%8a%e9%9b%bb%e8%a8%8a/`},
+					{Title: `機構引進虛擬機器人學習平台 辦小學生挑機CEO比賽盼編碼普及化`, ExternalURL: `https://www.hk01.com/18%E5%8D%80%E6%96%B0%E8%81%9E/723596/%E6%A9%9F%E6%A7%8B%E5%BC%95%E9%80%B2%E8%99%9B%E6%93%AC%E6%A9%9F%E5%99%A8%E4%BA%BA%E5%AD%B8%E7%BF%92%E5%B9%B3%E5%8F%B0-%E8%BE%A6%E5%B0%8F%E5%AD%B8%E7%94%9F%E6%8C%91%E6%A9%9Fceo%E6%AF%94%E8%B3%BD%E7%9B%BC%E7%B7%A8%E7%A2%BC%E6%99%AE%E5%8F%8A%E5%8C%96`},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: `https://www.youtube.com/watch?v=HY4eXuKFLts`},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    `Level 3-Elementary.png`,
+						Title:       `CVR Jr Adventure`,
+						Description: `Explore different worlds and terrain with LEGO Education SPIKE Prime. This course is ideal for kids with no experience in coding robots. Through navigating through unique maps, kids will learn how to precisely instruct the robot through specific maneuver and basic coding logic.`,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				`Cyber Virtual Robotics\Introductory`,
+				courseTypeDTO.ID,
+				`Cyber Virtual Robotics Introductory`,
+				`Level 2-Introductory.png`,
+				nil,
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: `Mechatronic Masterminds 機械智慧 - 融合robotics、電子、電腦及電訊`, ExternalURL: `https://hk.stemex.org/mechatronic-masterminds-%e6%a9%9f%e6%a2%b0%e6%99%ba%e6%85%a7-%e8%9e%8d%e5%90%88robotics%e3%80%81%e9%9b%bb%e5%ad%90%e3%80%81%e9%9b%bb%e8%85%a6%e5%8f%8a%e9%9b%bb%e8%a8%8a/`},
+					{Title: `機構引進虛擬機器人學習平台 辦小學生挑機CEO比賽盼編碼普及化`, ExternalURL: `https://www.hk01.com/18%E5%8D%80%E6%96%B0%E8%81%9E/723596/%E6%A9%9F%E6%A7%8B%E5%BC%95%E9%80%B2%E8%99%9B%E6%93%AC%E6%A9%9F%E5%99%A8%E4%BA%BA%E5%AD%B8%E7%BF%92%E5%B9%B3%E5%8F%B0-%E8%BE%A6%E5%B0%8F%E5%AD%B8%E7%94%9F%E6%8C%91%E6%A9%9Fceo%E6%AF%94%E8%B3%BD%E7%9B%BC%E7%B7%A8%E7%A2%BC%E6%99%AE%E5%8F%8A%E5%8C%96`},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: `https://www.youtube.com/watch?v=HY4eXuKFLts`},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    `Level 3-Introductory A.png`,
+						Title:       `Cyber Robotics 101`,
+						Description: `Want to experience virtual robotics but scared it is too difficult? In this course you will learn all the basic topics of robotics to jumpstart your virtual robotic journey.`,
+					},
+					{
+						Name:        "B",
+						IconPath:    `Level 3-Introductory B.png`,
+						Title:       `Physics with Ruby`,
+						Description: `Want to experience virtual robotics but scared it is too difficult? In this course you will learn all the basic topics of robotics to jumpstart your virtual robotic journey.`,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				`Cyber Virtual Robotics\Intermediate`,
+				courseTypeDTO.ID,
+				`Cyber Virtual Robotics Intermediate`,
+				`Level 2-Intermediate.png`,
+				nil,
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: `Mechatronic Masterminds 機械智慧 - 融合robotics、電子、電腦及電訊`, ExternalURL: `https://hk.stemex.org/mechatronic-masterminds-%e6%a9%9f%e6%a2%b0%e6%99%ba%e6%85%a7-%e8%9e%8d%e5%90%88robotics%e3%80%81%e9%9b%bb%e5%ad%90%e3%80%81%e9%9b%bb%e8%85%a6%e5%8f%8a%e9%9b%bb%e8%a8%8a/`},
+					{Title: `機構引進虛擬機器人學習平台 辦小學生挑機CEO比賽盼編碼普及化`, ExternalURL: `https://www.hk01.com/18%E5%8D%80%E6%96%B0%E8%81%9E/723596/%E6%A9%9F%E6%A7%8B%E5%BC%95%E9%80%B2%E8%99%9B%E6%93%AC%E6%A9%9F%E5%99%A8%E4%BA%BA%E5%AD%B8%E7%BF%92%E5%B9%B3%E5%8F%B0-%E8%BE%A6%E5%B0%8F%E5%AD%B8%E7%94%9F%E6%8C%91%E6%A9%9Fceo%E6%AF%94%E8%B3%BD%E7%9B%BC%E7%B7%A8%E7%A2%BC%E6%99%AE%E5%8F%8A%E5%8C%96`},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: `https://www.youtube.com/watch?v=HY4eXuKFLts`},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    `Level 3-Intermediate A.png`,
+						Title:       `Tour with Ruby`,
+						Description: `With ruby's excellent navigation tools, help Ruby explore through thin and dangerous road. This course will encourage students to plan for the most efficient route through using different tools such as color sensors, precision manuevers and more`,
+					},
+					{
+						Name:        "B",
+						IconPath:    `Level 3-Intermediate B.png`,
+						Title:       `Road Safety with Ruby`,
+						Description: `Our roads serve different kinds of vehicles, from buses, trucks and taxis. With all these vehicles on the road, we must ensure the safety of everyone travelling. In this course, Ruby will help you navigate the roads and how we can make the roads safer and vehicles smarter`,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				`Cyber Virtual Robotics\Master`,
+				courseTypeDTO.ID,
+				`Cyber Virtual Robotics Master`,
+				`Level 2-Master.png`,
+				nil,
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: `Mechatronic Masterminds 機械智慧 - 融合robotics、電子、電腦及電訊`, ExternalURL: `https://hk.stemex.org/mechatronic-masterminds-%e6%a9%9f%e6%a2%b0%e6%99%ba%e6%85%a7-%e8%9e%8d%e5%90%88robotics%e3%80%81%e9%9b%bb%e5%ad%90%e3%80%81%e9%9b%bb%e8%85%a6%e5%8f%8a%e9%9b%bb%e8%a8%8a/`},
+					{Title: `機構引進虛擬機器人學習平台 辦小學生挑機CEO比賽盼編碼普及化`, ExternalURL: `https://www.hk01.com/18%E5%8D%80%E6%96%B0%E8%81%9E/723596/%E6%A9%9F%E6%A7%8B%E5%BC%95%E9%80%B2%E8%99%9B%E6%93%AC%E6%A9%9F%E5%99%A8%E4%BA%BA%E5%AD%B8%E7%BF%92%E5%B9%B3%E5%8F%B0-%E8%BE%A6%E5%B0%8F%E5%AD%B8%E7%94%9F%E6%8C%91%E6%A9%9Fceo%E6%AF%94%E8%B3%BD%E7%9B%BC%E7%B7%A8%E7%A2%BC%E6%99%AE%E5%8F%8A%E5%8C%96`},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: `https://www.youtube.com/watch?v=HY4eXuKFLts`},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    ``,
+						Title:       ``,
+						Description: ``,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
 		}
 
 		{
