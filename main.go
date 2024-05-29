@@ -733,6 +733,156 @@ func main() {
 				return
 			}
 			log.Printf("%s", courseTypeDTO.Description)
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				``,
+				courseTypeDTO.ID,
+				``,
+				``,
+				``,
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: ``, ExternalURL: ``},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: ``},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    ``,
+						Title:       ``,
+						Description: ``,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				``,
+				courseTypeDTO.ID,
+				``,
+				``,
+				``,
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: ``, ExternalURL: ``},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: ``},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    ``,
+						Title:       ``,
+						Description: ``,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				``,
+				courseTypeDTO.ID,
+				``,
+				``,
+				``,
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: ``, ExternalURL: ``},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: ``},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    ``,
+						Title:       ``,
+						Description: ``,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				``,
+				courseTypeDTO.ID,
+				``,
+				``,
+				``,
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: ``, ExternalURL: ``},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: ``},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    ``,
+						Title:       ``,
+						Description: ``,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
+
+			_, err = migration.AddCourse(
+				q,
+				s3,
+				prefix,
+				``,
+				courseTypeDTO.ID,
+				``,
+				``,
+				``,
+				[]dto.CurriculumCourseBlogEntries{
+					{Title: ``, ExternalURL: ``},
+				},
+				[]dto.CurriculumCourseYoutubeVideoEntries{
+					{URL: ``},
+				},
+				[]dto.CurriculumCourseLevels{
+					{
+						Name:        "A",
+						IconPath:    ``,
+						Title:       ``,
+						Description: ``,
+					},
+				},
+			)
+
+			if err != nil {
+				log.Fatalln(err)
+				return
+			}
 		}
 
 		{
