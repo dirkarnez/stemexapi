@@ -17,6 +17,7 @@ import (
 	casbinModel "github.com/casbin/casbin/v2/model"
 	gormadapter "github.com/casbin/gorm-adapter/v3"
 	"github.com/dirkarnez/stemexapi/api"
+	"github.com/dirkarnez/stemexapi/cmd/redumpparents/redumpparents"
 	"github.com/dirkarnez/stemexapi/db"
 	"github.com/dirkarnez/stemexapi/dto"
 	"github.com/dirkarnez/stemexapi/migration"
@@ -1949,11 +1950,11 @@ func main() {
 			}
 		}
 
-		// err = redumpparents.RedumpParents(q)
-		// if err != nil {
-		// 	log.Fatalln(err)
-		// 	return
-		// }
+		err := redumpparents.RedumpParents(q)
+		if err != nil {
+			log.Fatalln(err)
+			return
+		}
 	}
 
 	app.Use(func(ctx iris.Context) {
