@@ -77,6 +77,10 @@ func AddCourse(qOrTx *query.Query, s3 *utils.StemexS3Client,
 						log.Fatal(err)
 					}
 
+					filePaths = lo.Filter(filePaths, func(item string, index int) bool {
+						return item != ".gitkeep"
+					})
+
 					return lo.Map(filePaths, func(filePath string, i int) dto.CurriculumCourseLevelLessonResources {
 						file, err := utils.CreateMultipartFileHeader(filePath)
 						if err != nil {
