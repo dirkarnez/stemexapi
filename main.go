@@ -2069,12 +2069,11 @@ func main() {
 				ctx.WriteString("404 Not Found")
 			})
 		})
+		dynamicSubdomains.HandleDir("/", iris.Dir("./public"), iris.DirOptions{
+			IndexName: "index.html",
+			SPA:       true,
+		})
 	}
-
-	app.HandleDir("/", iris.Dir("./public"), iris.DirOptions{
-		IndexName: "index.html",
-		SPA:       true,
-	})
 
 	var port int
 	var runner iris.Runner
