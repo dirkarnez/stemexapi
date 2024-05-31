@@ -1973,101 +1973,103 @@ func main() {
 	})
 
 	app.Use(middlewareAuthorizedSPA)
+	dynamicSubdomains := app.WildcardSubdomain()
+	{
+		app.PartyFunc("/api", func(party iris.Party) {
+			// party.Any("/", middlewareAuthorizedSPA, func(ctx iris.Context) {
+			// 	ctx.WriteString("it works")
+			// })
 
-	app.PartyFunc("/api", func(party iris.Party) {
-		// party.Any("/", middlewareAuthorizedSPA, func(ctx iris.Context) {
-		// 	ctx.WriteString("it works")
-		// })
+			party.Post("/login", api.Login(dbInstance))
+			party.Post("/logout", middlewareAuthorizedAPI, api.Logout)
 
-		party.Post("/login", api.Login(dbInstance))
-		party.Post("/logout", middlewareAuthorizedAPI, api.Logout)
+			party.Post("/register", api.Register(dbInstance))
+			party.Post("/activation", api.Activation(dbInstance))
 
-		party.Post("/register", api.Register(dbInstance))
-		party.Post("/activation", api.Activation(dbInstance))
+			party.Post("/user", middlewareAuthorizedAPI, api.CreateOrUpdateUser(dbInstance))
 
-		party.Post("/user", middlewareAuthorizedAPI, api.CreateOrUpdateUser(dbInstance))
+			party.Get("/users", middlewareAuthorizedAPI, api.GetAllUsers(dbInstance))
+			party.Get("/partners", middlewareAuthorizedAPI, api.GetAllPartners(dbInstance))
 
-		party.Get("/users", middlewareAuthorizedAPI, api.GetAllUsers(dbInstance))
-		party.Get("/partners", middlewareAuthorizedAPI, api.GetAllPartners(dbInstance))
+			//party.Post("/users", middlewareAuthorizedAPI, api.CreateUser(factoryInstance.GetUsersBO()))
 
-		//party.Post("/users", middlewareAuthorizedAPI, api.CreateUser(factoryInstance.GetUsersBO()))
+			party.Get("/roles", middlewareAuthorizedAPI, api.GetAllRoles(dbInstance))
 
-		party.Get("/roles", middlewareAuthorizedAPI, api.GetAllRoles(dbInstance))
+			party.Get("/curriculum-tree", api.GetCurriculumTree(dbInstance))
 
-		party.Get("/curriculum-tree", api.GetCurriculumTree(dbInstance))
+			party.Post("/curriculum-course", middlewareAuthorizedAPI, api.CreateOrUpdateCurriculumCourse(s3, dbInstance))
+			party.Get("/curriculum-course", api.GetCurriculumCourse(s3, dbInstance))
 
-		party.Post("/curriculum-course", middlewareAuthorizedAPI, api.CreateOrUpdateCurriculumCourse(s3, dbInstance))
-		party.Get("/curriculum-course", api.GetCurriculumCourse(s3, dbInstance))
+			party.Post("/curriculum-course-type", middlewareAuthorizedAPI, api.CreateOrUpdateCurriculumCourseType(s3, dbInstance))
+			party.Get("/curriculum-course-type", api.GetCurriculumCourseType(dbInstance))
 
-		party.Post("/curriculum-course-type", middlewareAuthorizedAPI, api.CreateOrUpdateCurriculumCourseType(s3, dbInstance))
-		party.Get("/curriculum-course-type", api.GetCurriculumCourseType(dbInstance))
+			// party.Get("/curriculum-courses", middlewareAuthorizedAPI, api.GetCurriculumCourses(dbInstance))
 
-		// party.Get("/curriculum-courses", middlewareAuthorizedAPI, api.GetCurriculumCourses(dbInstance))
+			party.Get("/prospect-activity", middlewareAuthorizedAPI, api.GetProspectActivities(dbInstance))
+			party.Get("/parent-activity", middlewareAuthorizedAPI, api.GetParentActivities(dbInstance))
+			party.Get("/internal-user-activity", middlewareAuthorizedAPI, api.GetInternalUserActivities(dbInstance))
+			party.Get("/resourse", middlewareAuthorizedAPI, api.GetResourceByID(s3, dbInstance))
 
-		party.Get("/prospect-activity", middlewareAuthorizedAPI, api.GetProspectActivities(dbInstance))
-		party.Get("/parent-activity", middlewareAuthorizedAPI, api.GetParentActivities(dbInstance))
-		party.Get("/internal-user-activity", middlewareAuthorizedAPI, api.GetInternalUserActivities(dbInstance))
-		party.Get("/resourse", middlewareAuthorizedAPI, api.GetResourceByID(s3, dbInstance))
+			party.Get("/resourse-list", middlewareAuthorizedAPI, api.GetFiles(dbInstance))
+			party.Post("/upload", middlewareAuthorizedAPI, api.UploadFile(s3, dbInstance))
 
-		party.Get("/resourse-list", middlewareAuthorizedAPI, api.GetFiles(dbInstance))
-		party.Post("/upload", middlewareAuthorizedAPI, api.UploadFile(s3, dbInstance))
+			party.Get("/deals/getDeal", middlewareAuthorizedAPI, api.GetDeals(httpClient))
 
-		party.Get("/deals/getDeal", middlewareAuthorizedAPI, api.GetDeals(httpClient))
+			party.Get("/students-to-user", middlewareAuthorizedAPI, api.GetStudentsToUser(httpClient, dbInstance))
+			party.Get("/student-deals", middlewareAuthorizedAPI, api.SearchDealIDList(httpClient, dbInstance))
 
-		party.Get("/students-to-user", middlewareAuthorizedAPI, api.GetStudentsToUser(httpClient, dbInstance))
-		party.Get("/student-deals", middlewareAuthorizedAPI, api.SearchDealIDList(httpClient, dbInstance))
+			party.Get("/student-deal-attachments", middlewareAuthorizedAPI, api.GetAttachment(httpClient))
 
-		party.Get("/student-deal-attachments", middlewareAuthorizedAPI, api.GetAttachment(httpClient))
-
-		party.Get("/secret", middlewareAuthorizedAPI, func(ctx iris.Context) {
-			userName := sessions.Get(ctx).GetString("user_name")
-			ctx.WriteString(fmt.Sprintf("Hi %s!", userName))
-		})
-
-		party.Get("/init", middlewareAuthorizedAPI, func(ctx iris.Context) {
-			userName := sessions.Get(ctx).GetString("user_name")
-
-			var user model.User
-			if err := dbInstance.Where(&model.User{UserName: userName, IsActivated: true}).First(&user).Error; err != nil {
+			party.Get("/secret", middlewareAuthorizedAPI, func(ctx iris.Context) {
+				userName := sessions.Get(ctx).GetString("user_name")
 				ctx.WriteString(fmt.Sprintf("Hi %s!", userName))
-				return
-			}
+			})
 
-			var rule model.Role
-			var id = user.RoleID
-			if err := dbInstance.First(&rule, "id = ?", id).Error; err != nil {
-				ctx.JSON(iris.Map{
-					"user_name": userName,
-					"role":      "",
-				})
-				return
-			} else {
-				log.Println(rule.Name)
+			party.Get("/init", middlewareAuthorizedAPI, func(ctx iris.Context) {
+				userName := sessions.Get(ctx).GetString("user_name")
 
-				ctx.JSON(iris.Map{
-					"user_name": user.FullName,
-					"role":      rule.Name,
-				})
-				return
-			}
+				var user model.User
+				if err := dbInstance.Where(&model.User{UserName: userName, IsActivated: true}).First(&user).Error; err != nil {
+					ctx.WriteString(fmt.Sprintf("Hi %s!", userName))
+					return
+				}
 
-			// if err := dbInstance.Debug().Create(&sales).Error; err != nil {
-			// 	log.Fatalln(err)
-			// 	return
-			// }
-			// get user role
-			// get
+				var rule model.Role
+				var id = user.RoleID
+				if err := dbInstance.First(&rule, "id = ?", id).Error; err != nil {
+					ctx.JSON(iris.Map{
+						"user_name": userName,
+						"role":      "",
+					})
+					return
+				} else {
+					log.Println(rule.Name)
 
-			//roles, _ := e.GetRolesForUser("alice")
+					ctx.JSON(iris.Map{
+						"user_name": user.FullName,
+						"role":      rule.Name,
+					})
+					return
+				}
 
-			// e.Enforce("{role}", "USERS_BO", "read")
+				// if err := dbInstance.Debug().Create(&sales).Error; err != nil {
+				// 	log.Fatalln(err)
+				// 	return
+				// }
+				// get user role
+				// get
+
+				//roles, _ := e.GetRolesForUser("alice")
+
+				// e.Enforce("{role}", "USERS_BO", "read")
+			})
+
+			party.Any("/{any:path}", func(ctx iris.Context) {
+				ctx.StatusCode(iris.StatusNotFound)
+				ctx.WriteString("404 Not Found")
+			})
 		})
-
-		party.Any("/{any:path}", func(ctx iris.Context) {
-			ctx.StatusCode(iris.StatusNotFound)
-			ctx.WriteString("404 Not Found")
-		})
-	})
+	}
 
 	app.HandleDir("/", iris.Dir("./public"), iris.DirOptions{
 		IndexName: "index.html",
