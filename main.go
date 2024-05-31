@@ -1975,7 +1975,7 @@ func main() {
 	app.Use(middlewareAuthorizedSPA)
 	dynamicSubdomains := app.WildcardSubdomain()
 	{
-		app.PartyFunc("/api", func(party iris.Party) {
+		dynamicSubdomains.PartyFunc("/api", func(party iris.Party) {
 			// party.Any("/", middlewareAuthorizedSPA, func(ctx iris.Context) {
 			// 	ctx.WriteString("it works")
 			// })
