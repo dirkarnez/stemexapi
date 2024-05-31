@@ -2077,19 +2077,20 @@ func main() {
 	})
 
 	var port int
+	var runner iris.Runner
 
 	if runtime.GOOS == "windows" {
 		port = 4437 // local development
+		runner = iris.TLS(fmt.Sprintf(":%d", port), "server.crt", "server.key")
 	} else {
 		port = 443
+		runner = iris.AutoTLS(fmt.Sprintf(":%d", port), "hub.stemex.org", "info@stemex.org")
 	}
 
 	log.Printf("Listening on %d\n", port)
 
-	//
 	err := app.Run(
-		// AutoTLS
-		iris.TLS(fmt.Sprintf(":%d", port), "server.crt", "server.key"),
+		runner,
 		// skip err server closed when CTRL/CMD+C pressed:
 		iris.WithoutServerError(iris.ErrServerClosed),
 		iris.WithPostMaxMemory(32*iris.MB),
